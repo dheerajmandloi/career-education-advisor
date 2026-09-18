@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Login</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 400px;
+            margin: 70px auto;
+            background-color: white;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0069d9;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Student Login</h2>
+
+        <form id="loginForm">
+
+            <label for="email">Email</label>
+
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+
+            <label for="password">Password</label>
+
+            <input type="password" id="password" placeholder="Enter your password" required>
+
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+
+        <div class="register-link">
+
+            Don't have an account?
+
+            <a href="StudentRegistration.html">
+                Register
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+                const email =
+                    document.getElementById("email").value;
+
+                const password =
+                    document.getElementById("password").value;
+
+
+                const data = {
+                    email: email,
+                    password: password
+                };
+
+
+                try {
+
+                    const response = await fetch(
+                        "http://localhost:8081/api/auth/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify(data)
+                        }
+                    );
+
+
+                    const result = await response.json();
+
+
+                    if (response.ok) {
+
+                        // Save JWT token
+                        localStorage.setItem(
+                            "token",
+                            result.token
+                        );
+
+
+                        // Save user details
+                        localStorage.setItem(
+                            "user",
+                            JSON.stringify(result.user)
+                        );
+
+
+                        alert("Login Successful!");
+
+
+                        // Go to dashboard
+                        window.location.href =
+                            "StudentHome.html";
+
+                    } else {
+
+                        alert(
+                            "Login Failed!\n\n" +
+                            result
+                        );
+
+                    }
+
+                } catch (error) {
+
+                    alert(
+                        "Something went wrong!\n\n" +
+                        error.message
+                    );
+
+                }
+
+            });
+
+    </script>
+
+</body>
+
+</html>
