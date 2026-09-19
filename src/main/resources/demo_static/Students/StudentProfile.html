@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #1f3c88;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            font-size: 21px;
+        }
+
+        .back-btn {
+            background: white;
+            color: #1f3c88;
+            border: none;
+            padding: 9px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 35px auto;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .profile-header {
+            margin-bottom: 25px;
+        }
+
+        .profile-header h1 {
+            color: #222;
+            margin-bottom: 7px;
+        }
+
+        .profile-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .section-title {
+            grid-column: 1 / 3;
+            margin-top: 10px;
+            margin-bottom: -5px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+            color: #1f3c88;
+            font-size: 17px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / 3;
+        }
+
+        label {
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #1f3c88;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .save-btn {
+            background: #1f3c88;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .reset-btn {
+            background: #e9ecef;
+            color: #333;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .status {
+            margin-top: 18px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .profile-card {
+                padding: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: 1;
+            }
+
+            .section-title {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+
+        <h2>Career & Education Advisor</h2>
+
+        <button class="back-btn" onclick="goHome()">
+            Back to Home
+        </button>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="profile-card">
+
+            <div class="profile-header">
+
+                <h1>Student Profile</h1>
+
+                <p>
+                    Complete your profile to get personalized career and education recommendations.
+                </p>
+
+            </div>
+
+
+            <form id="profileForm">
+
+                <div class="form-grid">
+
+
+                    <!-- ================= ACADEMIC DETAILS ================= -->
+
+                    <div class="section-title">
+                        Academic Details
+                    </div>
+
+
+                    <!-- Class -->
+                    <div class="form-group">
+
+                        <label for="className">
+                            Class
+                        </label>
+
+                        <select id="className" required>
+
+                            <option value="">
+                                Select Class
+                            </option>
+
+                            <option value="10th">
+                                10th
+                            </option>
+
+                            <option value="11th">
+                                11th
+                            </option>
+
+                            <option value="12th">
+                                12th
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Stream -->
+                    <div class="form-group">
+
+                        <label for="stream">
+                            Stream
+                        </label>
+
+                        <select id="stream" required>
+
+                            <option value="">
+                                Select Stream
+                            </option>
+
+                            <option value="PCM">
+                                PCM
+                            </option>
+
+                            <option value="PCB">
+                                PCB
+                            </option>
+
+                            <option value="Commerce">
+                                Commerce
+                            </option>
+
+                            <option value="Arts">
+                                Arts
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Percentage -->
+                    <div class="form-group">
+
+                        <label for="percentage">
+                            Percentage
+                        </label>
+
+                        <input type="number" id="percentage" placeholder="Enter percentage" min="0" max="100"
+                            step="0.01" required>
+
+                    </div>
+
+
+                    <!-- Favorite Subjects -->
+                    <div class="form-group">
+
+                        <label for="favoriteSubjects">
+                            Favorite Subjects
+                        </label>
+
+                        <input type="text" id="favoriteSubjects" placeholder="Example: Mathematics, Computer Science">
+
+                    </div>
+
+
+                    <!-- Strong Subjects -->
+                    <div class="form-group">
+
+                        <label for="strongSubjects">
+                            Strong Subjects
+                        </label>
+
+                        <input type="text" id="strongSubjects" placeholder="Example: Mathematics, Physics">
+
+                    </div>
+
+
+                    <!-- Weak Subjects -->
+                    <div class="form-group">
+
+                        <label for="weakSubjects">
+                            Weak Subjects
+                        </label>
+
+                        <input type="text" id="weakSubjects" placeholder="Example: Chemistry, English">
+
+                    </div>
+
+
+                    <!-- ================= INTEREST & CAREER ================= -->
+
+                    <div class="section-title">
+                        Interest & Career Details
+                    </div>
+
+
+                    <!-- Interests -->
+                    <div class="form-group full">
+
+                        <label for="interests">
+                            Interests
+                        </label>
+
+                        <textarea id="interests" placeholder="Example: Coding, Technology, Cricket"></textarea>
+
+                    </div>
+
+
+                    <!-- Skills -->
+                    <div class="form-group full">
+
+                        <label for="skills">
+                            Skills
+                        </label>
+
+                        <textarea id="skills" placeholder="Example: Java, HTML, Communication"></textarea>
+
+                    </div>
+
+
+                    <!-- Career Interest -->
+                    <div class="form-group">
+
+                        <label for="careerInterest">
+                            Career Interest
+                        </label>
+
+                        <input type="text" id="careerInterest" placeholder="Example: Software Development">
+
+                    </div>
+
+
+                    <!-- Target Career -->
+                    <div class="form-group">
+
+                        <label for="targetCareer">
+                            Target Career
+                        </label>
+
+                        <input type="text" id="targetCareer" placeholder="Example: Software Engineer">
+
+                    </div>
+
+
+                    <!-- ================= COURSE & COLLEGE ================= -->
+
+                    <div class="section-title">
+                        Course & College Preferences
+                    </div>
+
+
+                    <!-- Preferred Course -->
+                    <div class="form-group">
+
+                        <label for="preferredCourse">
+                            Preferred Course
+                        </label>
+
+                        <input type="text" id="preferredCourse" placeholder="Example: B.Tech CSE">
+
+                    </div>
+
+
+                    <!-- College Type -->
+                    <div class="form-group">
+
+                        <label for="collegeType">
+                            College Type
+                        </label>
+
+                        <select id="collegeType">
+
+                            <option value="">
+                                Select College Type
+                            </option>
+
+                            <option value="Government">
+                                Government
+                            </option>
+
+                            <option value="Private">
+                                Private
+                            </option>
+
+                            <option value="Any">
+                                Any
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Budget Range -->
+                    <div class="form-group">
+
+                        <label for="budgetRange">
+                            Budget Range
+                        </label>
+
+                        <select id="budgetRange">
+
+                            <option value="">
+                                Select Budget
+                            </option>
+
+                            <option value="Below 1 Lakh">
+                                Below ₹1 Lakh / Year
+                            </option>
+
+                            <option value="1-2 Lakh">
+                                ₹1–2 Lakh / Year
+                            </option>
+
+                            <option value="2-4 Lakh">
+                                ₹2–4 Lakh / Year
+                            </option>
+
+                            <option value="Above 4 Lakh">
+                                Above ₹4 Lakh / Year
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Hostel Required -->
+                    <div class="form-group">
+
+                        <label for="hostelRequired">
+                            Hostel Required
+                        </label>
+
+                        <select id="hostelRequired">
+
+                            <option value="">
+                                Select Option
+                            </option>
+
+                            <option value="Yes">
+                                Yes
+                            </option>
+
+                            <option value="No">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ================= LOCATION ================= -->
+
+                    <div class="section-title">
+                        Location Details
+                    </div>
+
+
+                    <!-- City -->
+                    <div class="form-group">
+
+                        <label for="city">
+                            Current City
+                        </label>
+
+                        <input type="text" id="city" placeholder="Example: Indore">
+
+                    </div>
+
+
+                    <!-- State -->
+                    <div class="form-group">
+
+                        <label for="state">
+                            State
+                        </label>
+
+                        <input type="text" id="state" placeholder="Example: Madhya Pradesh">
+
+                    </div>
+
+
+                    <!-- Preferred Location -->
+                    <div class="form-group full">
+
+                        <label for="preferredLocation">
+                            Preferred Study Location
+                        </label>
+
+                        <input type="text" id="preferredLocation" placeholder="Example: Indore, Delhi, Bangalore">
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- Buttons -->
+
+                <div class="buttons">
+
+                    <button type="submit" class="save-btn">
+                        Save Profile
+                    </button>
+
+                    <button type="button" class="reset-btn" onclick="resetForm()">
+                        Reset
+                    </button>
+
+                </div>
+
+
+                <div id="status" class="status"></div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const API_URL =
+            "http://localhost:8081/api/student/profile";
+
+        const token =
+            localStorage.getItem("token");
+
+        const user =
+            JSON.parse(localStorage.getItem("user"));
+
+
+        // Login check
+
+        if (!token || !user) {
+
+            window.location.href =
+                "StudentsLogin.html";
+
+        }
+
+
+        // ==========================================
+        // LOAD EXISTING PROFILE
+        // ==========================================
+
+        async function loadProfile() {
+
+            try {
+
+                const response =
+                    await fetch(API_URL, {
+
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+
+                    });
+
+
+                if (response.ok) {
+
+                    const profile =
+                        await response.json();
+
+
+                    // Academic Details
+
+                    document.getElementById("className").value =
+                        profile.className || "";
+
+                    document.getElementById("stream").value =
+                        profile.stream || "";
+
+                    document.getElementById("percentage").value =
+                        profile.percentage ?? "";
+
+                    document.getElementById("favoriteSubjects").value =
+                        profile.favoriteSubjects || "";
+
+                    document.getElementById("strongSubjects").value =
+                        profile.strongSubjects || "";
+
+                    document.getElementById("weakSubjects").value =
+                        profile.weakSubjects || "";
+
+
+                    // Interest & Career Details
+
+                    document.getElementById("interests").value =
+                        profile.interests || "";
+
+                    document.getElementById("skills").value =
+                        profile.skills || "";
+
+                    document.getElementById("careerInterest").value =
+                        profile.careerInterest || "";
+
+                    document.getElementById("targetCareer").value =
+                        profile.targetCareer || "";
+
+
+                    // Course & College Preferences
+
+                    document.getElementById("preferredCourse").value =
+                        profile.preferredCourse || "";
+
+                    document.getElementById("collegeType").value =
+                        profile.collegeType || "";
+
+                    document.getElementById("budgetRange").value =
+                        profile.budgetRange || "";
+
+                    document.getElementById("hostelRequired").value =
+                        profile.hostelRequired || "";
+
+
+                    // Location
+
+                    document.getElementById("city").value =
+                        profile.city || "";
+
+                    document.getElementById("state").value =
+                        profile.state || "";
+
+                    document.getElementById("preferredLocation").value =
+                        profile.preferredLocation || "";
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading profile:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // SAVE / UPDATE PROFILE
+        // ==========================================
+
+        document.getElementById("profileForm")
+            .addEventListener(
+                "submit",
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    const profileData = {
+
+                        // Academic Details
+
+                        className:
+                            document.getElementById(
+                                "className"
+                            ).value,
+
+                        stream:
+                            document.getElementById(
+                                "stream"
+                            ).value,
+
+                        percentage:
+                            parseFloat(
+                                document.getElementById(
+                                    "percentage"
+                                ).value
+                            ),
+
+                        favoriteSubjects:
+                            document.getElementById(
+                                "favoriteSubjects"
+                            ).value,
+
+                        strongSubjects:
+                            document.getElementById(
+                                "strongSubjects"
+                            ).value,
+
+                        weakSubjects:
+                            document.getElementById(
+                                "weakSubjects"
+                            ).value,
+
+
+                        // Interest & Career Details
+
+                        interests:
+                            document.getElementById(
+                                "interests"
+                            ).value,
+
+                        skills:
+                            document.getElementById(
+                                "skills"
+                            ).value,
+
+                        careerInterest:
+                            document.getElementById(
+                                "careerInterest"
+                            ).value,
+
+                        targetCareer:
+                            document.getElementById(
+                                "targetCareer"
+                            ).value,
+
+
+                        // Course & College Preferences
+
+                        preferredCourse:
+                            document.getElementById(
+                                "preferredCourse"
+                            ).value,
+
+                        collegeType:
+                            document.getElementById(
+                                "collegeType"
+                            ).value,
+
+                        budgetRange:
+                            document.getElementById(
+                                "budgetRange"
+                            ).value,
+
+                        hostelRequired:
+                            document.getElementById(
+                                "hostelRequired"
+                            ).value,
+
+
+                        // Location
+
+                        city:
+                            document.getElementById(
+                                "city"
+                            ).value,
+
+                        state:
+                            document.getElementById(
+                                "state"
+                            ).value,
+
+                        preferredLocation:
+                            document.getElementById(
+                                "preferredLocation"
+                            ).value
+                    };
+
+
+                    try {
+
+                        const response =
+                            await fetch(API_URL, {
+
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json",
+
+                                    "Authorization":
+                                        "Bearer " + token
+
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        profileData
+                                    )
+
+                            });
+
+
+                        const result =
+                            await response.text();
+
+
+                        if (response.ok) {
+
+                            document.getElementById(
+                                "status"
+                            ).innerText =
+                                "Profile saved successfully!";
+
+                            document.getElementById(
+                                "status"
+                            ).style.color =
+                                "green";
+
+                            alert(
+                                "Profile Saved Successfully!"
+                            );
+
+                        } else {
+
+                            document.getElementById(
+                                "status"
+                            ).innerText =
+                                "Failed to save profile. Status: "
+                                + response.status;
+
+                            document.getElementById(
+                                "status"
+                            ).style.color =
+                                "red";
+
+                            console.log(
+                                "Server response:",
+                                result
+                            );
+
+                        }
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        document.getElementById(
+                            "status"
+                        ).innerText =
+                            "Unable to connect to server.";
+
+                        document.getElementById(
+                            "status"
+                        ).style.color =
+                            "red";
+
+                    }
+
+                }
+            );
+
+
+        // ==========================================
+        // RESET FORM
+        // ==========================================
+
+        function resetForm() {
+
+            document
+                .getElementById("profileForm")
+                .reset();
+
+        }
+
+
+        // ==========================================
+        // GO HOME
+        // ==========================================
+
+        function goHome() {
+
+            window.location.href =
+                "StudentHome.html";
+
+        }
+
+
+        // ==========================================
+        // LOAD PROFILE WHEN PAGE OPENS
+        // ==========================================
+
+        loadProfile();
+
+    </script>
+
+</body>
+
+</html>

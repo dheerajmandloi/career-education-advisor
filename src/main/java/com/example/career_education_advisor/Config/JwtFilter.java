@@ -36,7 +36,16 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        // Public authentication APIs
+        System.out.println("===== JWT DEBUG =====");
+        System.out.println("PATH: " + path);
+
+        // Non-API requests ko JWT filter se skip karo
+        if (!path.startsWith("/api")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        // Login/Register public APIs
         if (path.startsWith("/api/auth")) {
             chain.doFilter(request, response);
             return;
@@ -44,46 +53,76 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        String token = null;
-        String email = null;
+        System.out.println("AUTH HEADER PRESENT: " + (authHeader != null));
 
-        // Extract JWT token
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
-            token = authHeader.substring(7);
+            String token = authHeader.substring(7);
 
             try {
-                email = jwtUtil.extractUserName(token);
+
+                String email = jwtUtil.extractUserName(token);
+
+                System.out.println("EMAIL FROM TOKEN: " + email);
+
+                if (email != null &&
+                        SecurityContextHolder.getContext().getAuthentication() == null) {
+
+                    User user = userRepository.findByEmail(email).orElse(null);
+
+                    if (user != null) {
+
+                        System.out.println("USER FOUND: " + user.getEmail());
+                        System.out.println("USER ROLE: " + user.getRole());
+
+                        if (jwtUtil.validateToken(token)) {
+
+                            String role = user.getRole().name();
+
+                            List<SimpleGrantedAuthority> authorities = List.of(
+                                    new SimpleGrantedAuthority(
+                                            "ROLE_" + role));
+
+                            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                    user,
+                                    null,
+                                    authorities);
+
+                            SecurityContextHolder
+                                    .getContext()
+                                    .setAuthentication(authentication);
+
+                            System.out.println(
+                                    "AUTH SET: " +
+                                            SecurityContextHolder
+                                                    .getContext()
+                                                    .getAuthentication());
+
+                        } else {
+
+                            System.out.println("TOKEN INVALID OR EXPIRED");
+
+                        }
+
+                    } else {
+
+                        System.out.println("USER NOT FOUND: " + email);
+
+                    }
+                }
+
             } catch (Exception e) {
-                chain.doFilter(request, response);
-                return;
+
+                System.out.println("JWT ERROR: " + e.getMessage());
+                e.printStackTrace();
             }
         }
 
-        // Validate user and token
-        if (email != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            User user = userRepository.findByEmail(email)
-                    .orElse(null);
-
-            if (user != null && jwtUtil.validateToken(token)) {
-
-                String role = user.getRole().name();
-
-                List<SimpleGrantedAuthority> authorities = List.of(
-                        new SimpleGrantedAuthority("ROLE_" + role));
-
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        user,
-                        null,
-                        authorities);
-
-                SecurityContextHolder
-                        .getContext()
-                        .setAuthentication(authToken);
-            }
-        }
+        System.out.println(
+                "FINAL AUTH: " +
+                        SecurityContextHolder
+                                .getContext()
+                                .getAuthentication());
 
         chain.doFilter(request, response);
     }
