@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Student profile for One-Stop Career & Education Advisor">
+    <title>My Profile | Career Advisor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #070914;
+            --bg-2: #0b0d1b;
+            --surface: #101323;
+            --surface-2: #13172a;
+            --surface-3: #171c32;
+            --primary: #7c4dff;
+            --primary-2: #4f7cff;
+            --cyan: #19bfff;
+            --text: #f5f6ff;
+            --muted: #9ba4c0;
+            --muted-2: #707994;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(124, 77, 255, 0.30);
+            --success: #31d88b;
+            --danger: #ff6b82;
+            --warning: #ffc857;
+            --shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+            --shadow-soft: 0 16px 45px rgba(0, 0, 0, 0.22);
+            --radius: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: "Inter", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 5%, rgba(124, 77, 255, 0.17), transparent 27%),
+                radial-gradient(circle at 92% 8%, rgba(25, 191, 255, 0.13), transparent 25%),
+                radial-gradient(circle at 70% 95%, rgba(79, 124, 255, 0.10), transparent 28%),
+                linear-gradient(135deg, #070914 0%, #0b0d1b 55%, #070914 100%);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            opacity: 0.22;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 42px 42px;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 420px;
+            height: 420px;
+            right: -180px;
+            top: 130px;
+            border-radius: 50%;
+            background: rgba(124, 77, 255, 0.09);
+            filter: blur(80px);
+            z-index: -1;
+            animation: ambientMove 9s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .page-shell {
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            z-index: 80;
+            width: 270px;
+            padding: 22px 15px;
+            overflow-y: auto;
+            background: rgba(8, 10, 22, 0.93);
+            border-right: 1px solid var(--border);
+            box-shadow: 14px 0 55px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(22px);
+
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 10px 25px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-2));
+            box-shadow: 0 12px 32px rgba(124, 77, 255, 0.34);
+            animation: brandFloat 4s ease-in-out infinite;
+        }
+
+        .brand-title {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            color: #f7f7ff;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+        }
+
+        .brand-subtitle {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .nav-label {
+            margin: 12px 10px 7px;
+            color: #69728c;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .nav {
+            display: grid;
+            gap: 4px;
+        }
+
+        .nav-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 43px;
+            padding: 10px 12px;
+            color: #939bb5;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: 0.25s ease;
+        }
+
+        .nav-link i {
+            width: 19px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .nav-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.045);
+            transform: translateX(3px);
+        }
+
+        .nav-link.active {
+            color: #fff;
+            border-color: rgba(124, 77, 255, 0.34);
+            background: linear-gradient(90deg, rgba(124, 77, 255, 0.18), rgba(79, 124, 255, 0.06));
+            box-shadow: inset 3px 0 var(--primary);
+        }
+
+        .sidebar-footer {
+            margin-top: 18px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .logout-link {
+            color: #ff7188 !important;
+        }
+
+        .main {
+            width: calc(100% - 270px);
+            min-height: 100vh;
+            margin-left: 270px;
+            padding: 22px 34px 50px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 56px;
+            margin-bottom: 20px;
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #fff;
+            background: rgba(16, 19, 35, 0.9);
+        }
+
+        .breadcrumb {
+            color: #7d86a0;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .breadcrumb span {
+            color: #626b84;
+            margin: 0 4px;
+        }
+
+        .breadcrumb strong {
+            color: #f4f5ff;
+        }
+
+        .account {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .account-avatar {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--cyan));
+            font-size: 12px;
+            font-weight: 800;
+            box-shadow: 0 8px 28px rgba(79, 124, 255, 0.28);
+        }
+
+        .account-name {
+            color: #f4f5ff;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .account-role {
+            margin-top: 2px;
+            color: #77819c;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 22px;
+            padding: 30px;
+            border: 1px solid rgba(124, 77, 255, 0.22);
+            border-radius: 26px;
+            background:
+                radial-gradient(circle at 92% 16%, rgba(25, 191, 255, 0.12), transparent 28%),
+                radial-gradient(circle at 72% 100%, rgba(124, 77, 255, 0.17), transparent 34%),
+                linear-gradient(135deg, rgba(18, 21, 40, 0.98), rgba(13, 16, 31, 0.98));
+            box-shadow: var(--shadow);
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            right: -120px;
+            top: -160px;
+            border: 1px solid rgba(124, 77, 255, 0.10);
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 34px rgba(124, 77, 255, 0.025),
+                0 0 0 70px rgba(124, 77, 255, 0.018);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            left: 45%;
+            bottom: -110px;
+            border-radius: 50%;
+            background: rgba(79, 124, 255, 0.12);
+            filter: blur(45px);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 310px;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 11px;
+            color: #c8bbff;
+            border: 1px solid rgba(124, 77, 255, 0.30);
+            border-radius: 999px;
+            background: rgba(124, 77, 255, 0.09);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            margin: 13px 0 8px;
+            color: #f7f7ff;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: clamp(25px, 3vw, 38px);
+            line-height: 1.14;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            max-width: 690px;
+            color: #9da6c0;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .completion-card {
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            background: rgba(7, 9, 20, 0.40);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.20);
+            backdrop-filter: blur(15px);
+        }
+
+        .completion-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #d8dced;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .completion-head strong {
+            color: #8f76ff;
+            font-size: 24px;
+        }
+
+        .progress-track {
+            height: 9px;
+            overflow: hidden;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--primary), var(--primary-2), var(--cyan));
+            box-shadow: 0 0 18px rgba(79, 124, 255, 0.40);
+            transition: width 0.8s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .completion-note {
+            margin-top: 9px;
+            color: #77819b;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .profile-form {
+            display: grid;
+            gap: 18px;
+        }
+
+        .section-card {
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: rgba(16, 19, 35, 0.88);
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(16px);
+            animation: fadeUp 0.65s ease both;
+        }
+
+        .section-card:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+
+        .section-card:nth-child(3) {
+            animation-delay: 0.16s;
+        }
+
+        .section-card:nth-child(4) {
+            animation-delay: 0.24s;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 21px;
+        }
+
+        .section-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 42px;
+            color: #a993ff;
+            border: 1px solid rgba(124, 77, 255, 0.22);
+            border-radius: 13px;
+            background: rgba(124, 77, 255, 0.10);
+            box-shadow: 0 8px 25px rgba(124, 77, 255, 0.08);
+        }
+
+        .section-header h2 {
+            color: #f0f1fa;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 16px;
+            letter-spacing: -0.2px;
+        }
+
+        .section-header p {
+            margin-top: 3px;
+            color: #78829c;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 0 7px 2px;
+            color: #cbd0df;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .field label span {
+            color: #69738d;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .control {
+            position: relative;
+        }
+
+        .control>i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            z-index: 1;
+            color: #65708b;
+            transform: translateY(-50%);
+            pointer-events: none;
+            transition: 0.2s;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            outline: none;
+            color: #f4f5ff;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 13px;
+            background: rgba(7, 9, 20, 0.68);
+            transition: 0.22s ease;
+            font-size: 12px;
+        }
+
+        input,
+        select {
+            height: 48px;
+            padding: 0 14px 0 41px;
+        }
+
+        textarea {
+            min-height: 112px;
+            resize: vertical;
+            padding: 14px 15px 14px 41px;
+            line-height: 1.55;
+        }
+
+        select {
+            appearance: none;
+            padding-right: 38px;
+        }
+
+        select option {
+            color: #fff;
+            background: #111527;
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            color: #69738d;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #5e6881;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: rgba(124, 77, 255, 0.70);
+            background: rgba(10, 13, 27, 0.90);
+            box-shadow:
+                0 0 0 4px rgba(124, 77, 255, 0.10),
+                0 0 25px rgba(124, 77, 255, 0.05);
+        }
+
+        .control:focus-within>i {
+            color: #9a82ff;
+        }
+
+        .field.invalid input,
+        .field.invalid select,
+        .field.invalid textarea {
+            border-color: rgba(255, 107, 130, 0.75);
+            box-shadow: 0 0 0 4px rgba(255, 107, 130, 0.07);
+        }
+
+        .field-error {
+            display: none;
+            margin: 6px 2px 0;
+            color: var(--danger);
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .field.invalid .field-error {
+            display: block;
+        }
+
+        .char-count {
+            margin-top: 6px;
+            color: #5e6880;
+            font-size: 9px;
+            text-align: right;
+        }
+
+        .action-bar {
+            position: sticky;
+            bottom: 14px;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 13px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 17px;
+            background: rgba(12, 15, 29, 0.88);
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.30);
+            backdrop-filter: blur(18px);
+        }
+
+        .save-state {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8791aa;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .state-dot {
+            width: 8px;
+            height: 8px;
+            flex: 0 0 8px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 13px rgba(49, 216, 139, 0.65);
+        }
+
+        .state-dot.saving {
+            background: var(--warning);
+            box-shadow: 0 0 13px rgba(255, 200, 87, 0.55);
+        }
+
+        .state-dot.error {
+            background: var(--danger);
+            box-shadow: 0 0 13px rgba(255, 107, 130, 0.55);
+        }
+
+        .actions {
+            display: flex;
+            gap: 9px;
+        }
+
+        .btn {
+            min-height: 43px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 17px;
+            border: 0;
+            border-radius: 11px;
+            font-size: 11px;
+            font-weight: 800;
+            transition: 0.22s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            color: #bfc5d7;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            background: rgba(255, 255, 255, 0.045);
+        }
+
+        .btn-primary {
+            color: #fff;
+            background: linear-gradient(135deg, #7c4dff, #4f7cff);
+            box-shadow: 0 10px 30px rgba(91, 91, 235, 0.30);
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 70;
+            display: none;
+            background: rgba(2, 4, 12, 0.68);
+            backdrop-filter: blur(4px);
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        .toast {
+            position: fixed;
+            right: 22px;
+            top: 20px;
+            z-index: 120;
+            width: min(370px, calc(100vw - 30px));
+            display: flex;
+            gap: 11px;
+            padding: 14px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 15px;
+            background: #111527;
+            box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+            transform: translateX(130%);
+            opacity: 0;
+            transition: 0.35s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 32px;
+            border-radius: 10px;
+            background: rgba(124, 77, 255, 0.12);
+            color: #a38eff;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--success);
+            background: rgba(49, 216, 139, 0.10);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--danger);
+            background: rgba(255, 107, 130, 0.10);
+        }
+
+        .toast strong {
+            display: block;
+            margin-bottom: 3px;
+            color: #f2f3fa;
+            font-size: 12px;
+        }
+
+        .toast p {
+            color: #858fa8;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .loading {
+            position: fixed;
+            inset: 0;
+            z-index: 150;
+            display: none;
+            place-items: center;
+            background: rgba(3, 5, 13, 0.62);
+            backdrop-filter: blur(7px);
+        }
+
+        .loading.show {
+            display: grid;
+        }
+
+        .loading-card {
+            min-width: 220px;
+            padding: 22px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 17px;
+            background: #111527;
+            box-shadow: var(--shadow);
+        }
+
+        .spinner {
+            width: 34px;
+            height: 34px;
+            margin: 0 auto 11px;
+            border: 3px solid rgba(255, 255, 255, 0.08);
+            border-top-color: #7c4dff;
+            border-right-color: #1fbfff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .loading-card p {
+            color: #c2c7d8;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes brandFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        @keyframes ambientMove {
+            from {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            to {
+                transform: translate3d(-35px, 25px, 0) scale(1.08);
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .sidebar {
+                width: 235px;
+            }
+
+            .main {
+                width: calc(100% - 235px);
+                margin-left: 235px;
+                padding: 20px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr 260px;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .sidebar {
+                width: 270px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                width: 100%;
+                margin-left: 0;
+                padding: 16px;
+            }
+
+            .mobile-menu {
+                display: grid;
+                place-items: center;
+            }
+
+            .hero {
+                padding: 23px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .main {
+                padding: 12px;
+            }
+
+            .topbar {
+                margin-bottom: 13px;
+            }
+
+            .breadcrumb {
+                display: none;
+            }
+
+            .account-name,
+            .account-role {
+                display: none;
+            }
+
+            .hero {
+                padding: 19px;
+                border-radius: 20px;
+            }
+
+            .hero h1 {
+                font-size: 25px;
+            }
+
+            .section-card {
+                padding: 18px;
+                border-radius: 18px;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+                bottom: 9px;
+            }
+
+            .actions {
+                width: 100%;
+            }
+
+            .actions .btn {
+                flex: 1;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-shell">
+        <div class="overlay" id="overlay"></div>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+                <div>
+                    <div class="brand-title">Career Advisor</div>
+                    <div class="brand-subtitle">Student Portal</div>
+                </div>
+            </div>
+
+            <div class="nav-label">Main</div>
+            <nav class="nav">
+                <a class="nav-link" href="student-dashboard.html">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a class="nav-link active" href="student-profile.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>My Profile</span>
+                </a>
+                <a class="nav-link" href="assessment.html">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <span>Assessment</span>
+                </a>
+                <a class="nav-link" href="recommendations.html">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Recommendations</span>
+                </a>
+            </nav>
+
+            <div class="nav-label">Explore</div>
+            <nav class="nav">
+                <a class="nav-link" href="careers.html">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>Careers</span>
+                </a>
+                <a class="nav-link" href="courses.html">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Courses</span>
+                </a>
+                <a class="nav-link" href="colleges.html">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <span>Colleges</span>
+                </a>
+                <a class="nav-link" href="skill-gap.html">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>Skill Gap</span>
+                </a>
+                <a class="nav-link" href="career-roadmap.html">
+                    <i class="fa-solid fa-route"></i>
+                    <span>Career Roadmap</span>
+                </a>
+            </nav>
+
+            <div class="nav-label">Resources</div>
+            <nav class="nav">
+                <a class="nav-link" href="scholarships.html">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Scholarships</span>
+                </a>
+                <a class="nav-link" href="entrance-exams.html">
+                    <i class="fa-solid fa-file-pen"></i>
+                    <span>Entrance Exams</span>
+                </a>
+                <a class="nav-link" href="learning-resources.html">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>Learning Resources</span>
+                </a>
+                <a class="nav-link" href="application-tracker.html">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Application Tracker</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <nav class="nav">
+                    <a class="nav-link logout-link" href="#" id="logoutBtn">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <button class="mobile-menu" id="menuBtn" type="button" aria-label="Open navigation">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        Student Portal <span>/</span> <strong>My Profile</strong>
+                    </div>
+                </div>
+
+                <div class="account">
+                    <div class="account-avatar" id="topAvatar">S</div>
+                    <div>
+                        <div class="account-name" id="topName">Student</div>
+                        <div class="account-role">STUDENT ACCOUNT</div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="hero">
+                <div class="hero-content">
+                    <div>
+                        <div class="eyebrow">
+                            <i class="fa-solid fa-sparkles"></i>
+                            Personalized Student Profile
+                        </div>
+                        <h1>Build a profile that understands your goals.</h1>
+                        <p>
+                            Add your academic background, interests, skills, career goals and study preferences.
+                            This information is used by the Career Advisor to create more relevant course,
+                            career and college recommendations.
+                        </p>
+                    </div>
+
+                    <div class="completion-card">
+                        <div class="completion-head">
+                            <span>Profile completion</span>
+                            <strong id="progressValue">0%</strong>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <div class="completion-note" id="progressNote">
+                            Complete your profile to improve recommendation accuracy.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <form class="profile-form" id="profileForm" novalidate>
+                <section class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <h2>Academic Details</h2>
+                            <p>Tell us about your current academic background.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="className">Class / Qualification</label>
+                            <div class="control">
+                                <i class="fa-solid fa-school"></i>
+                                <select id="className">
+                                    <option value="">Select class</option>
+                                    <option value="10th">10th</option>
+                                    <option value="11th">11th</option>
+                                    <option value="12th">12th</option>
+                                    <option value="Diploma">Diploma</option>
+                                    <option value="Undergraduate">Undergraduate</option>
+                                    <option value="Postgraduate">Postgraduate</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+                            </div>
+                            <div class="field-error">Please select your class or qualification.</div>
+                        </div>
+
+                        <div class="field">
+                            <label for="stream">Stream</label>
+                            <div class="control">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <select id="stream">
+                                    <option value="">Select stream</option>
+                                    <option value="Science">Science</option>
+                                    <option value="Commerce">Commerce</option>
+                                    <option value="Arts">Arts</option>
+                                    <option value="Vocational">Vocational</option>
+                                    <option value="Diploma">Diploma</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+                            </div>
+                            <div class="field-error">Please select your stream.</div>
+                        </div>
+
+                        <div class="field">
+                            <label for="percentage">Percentage <span>0–100</span></label>
+                            <div class="control">
+                                <i class="fa-solid fa-percent"></i>
+                                <input id="percentage" type="number" min="0" max="100" step="0.01"
+                                    placeholder="e.g. 85.50">
+                            </div>
+                            <div class="field-error">Percentage must be between 0 and 100.</div>
+                        </div>
+
+                        <div class="field">
+                            <label for="favoriteSubjects">Favorite Subjects</label>
+                            <div class="control">
+                                <i class="fa-solid fa-heart"></i>
+                                <input id="favoriteSubjects" maxlength="250"
+                                    placeholder="e.g. Mathematics, Computer Science">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="strongSubjects">Strong Subjects</label>
+                            <div class="control">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                                <input id="strongSubjects" maxlength="250" placeholder="e.g. Mathematics, Physics">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="weakSubjects">Weak Subjects</label>
+                            <div class="control">
+                                <i class="fa-solid fa-arrow-trend-down"></i>
+                                <input id="weakSubjects" maxlength="250" placeholder="e.g. Chemistry, English">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <div>
+                            <h2>Interests & Career</h2>
+                            <p>Share what you enjoy and the direction you want to explore.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="field full">
+                            <label for="interests">Interests</label>
+                            <div class="control">
+                                <i class="fa-solid fa-palette"></i>
+                                <textarea id="interests" maxlength="500"
+                                    placeholder="e.g. AI, coding, design, business, sports"></textarea>
+                            </div>
+                            <div class="char-count"><span id="interestsCount">0</span>/500</div>
+                        </div>
+
+                        <div class="field full">
+                            <label for="skills">Skills</label>
+                            <div class="control">
+                                <i class="fa-solid fa-bolt"></i>
+                                <textarea id="skills" maxlength="500"
+                                    placeholder="e.g. Java, communication, problem solving, HTML"></textarea>
+                            </div>
+                            <div class="char-count"><span id="skillsCount">0</span>/500</div>
+                        </div>
+
+                        <div class="field">
+                            <label for="careerInterest">Career Interest</label>
+                            <div class="control">
+                                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                                <input id="careerInterest" maxlength="250" placeholder="e.g. Software Development">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="targetCareer">Target Career</label>
+                            <div class="control">
+                                <i class="fa-solid fa-bullseye"></i>
+                                <input id="targetCareer" maxlength="250" placeholder="e.g. Software Engineer">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <div>
+                            <h2>Course & College Preferences</h2>
+                            <p>Set the preferences that matter when finding suitable options.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="preferredCourse">Preferred Course</label>
+                            <div class="control">
+                                <i class="fa-solid fa-book-open"></i>
+                                <input id="preferredCourse" maxlength="250" placeholder="e.g. B.Tech Computer Science">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="collegeType">College Type</label>
+                            <div class="control">
+                                <i class="fa-solid fa-landmark"></i>
+                                <select id="collegeType">
+                                    <option value="">Select college type</option>
+                                    <option value="Government">Government</option>
+                                    <option value="Private">Private</option>
+                                    <option value="Government-Aided">Government-Aided</option>
+                                    <option value="Any">Any</option>
+                                </select>
+                                <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="budgetRange">Budget Range</label>
+                            <div class="control">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <select id="budgetRange">
+                                    <option value="">Select budget</option>
+                                    <option value="Below ₹50,000">Below ₹50,000</option>
+                                    <option value="₹50,000 - ₹1 Lakh">₹50,000 - ₹1 Lakh</option>
+                                    <option value="₹1 Lakh - ₹2 Lakh">₹1 Lakh - ₹2 Lakh</option>
+                                    <option value="₹2 Lakh - ₹5 Lakh">₹2 Lakh - ₹5 Lakh</option>
+                                    <option value="Above ₹5 Lakh">Above ₹5 Lakh</option>
+                                </select>
+                                <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="hostelRequired">Hostel Required</label>
+                            <div class="control">
+                                <i class="fa-solid fa-bed"></i>
+                                <select id="hostelRequired">
+                                    <option value="">Select option</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h2>Location Details</h2>
+                            <p>Use location preferences to improve college and course matching.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="city">Current City</label>
+                            <div class="control">
+                                <i class="fa-solid fa-city"></i>
+                                <input id="city" maxlength="150" placeholder="e.g. Indore">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="state">State</label>
+                            <div class="control">
+                                <i class="fa-solid fa-map"></i>
+                                <input id="state" maxlength="150" placeholder="e.g. Madhya Pradesh">
+                            </div>
+                        </div>
+
+                        <div class="field full">
+                            <label for="preferredLocation">Preferred Study Location</label>
+                            <div class="control">
+                                <i class="fa-solid fa-location-crosshairs"></i>
+                                <input id="preferredLocation" maxlength="250"
+                                    placeholder="e.g. Indore, Bhopal, Pune or Any">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="action-bar">
+                    <div class="save-state">
+                        <span class="state-dot" id="stateDot"></span>
+                        <span id="saveStatus">Your profile is ready to update.</span>
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn btn-secondary" id="resetBtn" type="button">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            Reset
+                        </button>
+                        <button class="btn btn-primary" id="saveBtn" type="submit">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Save Profile</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <div class="toast-icon" id="toastIcon"></div>
+        <div>
+            <strong id="toastTitle"></strong>
+            <p id="toastText"></p>
+        </div>
+    </div>
+
+    <div class="loading" id="loading" aria-hidden="true">
+        <div class="loading-card">
+            <div class="spinner"></div>
+            <p id="loadingText">Loading profile...</p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = "http://localhost:8081";
+        const PROFILE_API = `${API_BASE_URL}/api/student/profile`;
+
+        const FIELD_IDS = [
+            "className",
+            "stream",
+            "percentage",
+            "favoriteSubjects",
+            "strongSubjects",
+            "weakSubjects",
+            "interests",
+            "skills",
+            "careerInterest",
+            "targetCareer",
+            "preferredCourse",
+            "collegeType",
+            "budgetRange",
+            "hostelRequired",
+            "city",
+            "state",
+            "preferredLocation"
+        ];
+
+        const form = document.getElementById("profileForm");
+        const saveBtn = document.getElementById("saveBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const loading = document.getElementById("loading");
+        const loadingText = document.getElementById("loadingText");
+        const toast = document.getElementById("toast");
+        const toastIcon = document.getElementById("toastIcon");
+        const toastTitle = document.getElementById("toastTitle");
+        const toastText = document.getElementById("toastText");
+        const progressBar = document.getElementById("progressBar");
+        const progressValue = document.getElementById("progressValue");
+        const progressNote = document.getElementById("progressNote");
+        const saveStatus = document.getElementById("saveStatus");
+        const stateDot = document.getElementById("stateDot");
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+        const menuBtn = document.getElementById("menuBtn");
+
+        let originalProfile = {};
+        let profileLoaded = false;
+        let toastTimer;
+
+        function getToken() {
+            return localStorage.getItem("token");
+        }
+
+        function getStoredUser() {
+            try {
+                return JSON.parse(localStorage.getItem("user") || "null");
+            } catch {
+                return null;
+            }
+        }
+
+        function getAuthHeaders() {
+            const token = getToken();
+
+            if (!token) {
+                return {
+                    Accept: "application/json"
+                };
+            }
+
+            return {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`
+            };
+        }
+
+        function redirectToLogin() {
+            window.location.href = "../login.html";
+        }
+
+        function requireLogin() {
+            if (!getToken()) {
+                redirectToLogin();
+                return false;
+            }
+
+            return true;
+        }
+
+        function setLoading(isLoading, message = "Please wait...") {
+            loadingText.textContent = message;
+            loading.classList.toggle("show", isLoading);
+            loading.setAttribute("aria-hidden", String(!isLoading));
+            saveBtn.disabled = isLoading;
+            resetBtn.disabled = isLoading;
+        }
+
+        function showToast(type, title, message) {
+            clearTimeout(toastTimer);
+
+            toast.className = `toast ${type} show`;
+            toastIcon.className = type === "success"
+                ? "toast-icon fa-solid fa-circle-check"
+                : "toast-icon fa-solid fa-circle-exclamation";
+
+            toastTitle.textContent = title;
+            toastText.textContent = message;
+
+            toastTimer = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 4200);
+        }
+
+        function setSaveState(type, message) {
+            stateDot.className = "state-dot";
+
+            if (type === "saving") {
+                stateDot.classList.add("saving");
+            }
+
+            if (type === "error") {
+                stateDot.classList.add("error");
+            }
+
+            saveStatus.textContent = message;
+        }
+
+        function getValue(id) {
+            const element = document.getElementById(id);
+            return element ? element.value.trim() : "";
+        }
+
+        function setValue(id, value) {
+            const element = document.getElementById(id);
+
+            if (element) {
+                element.value = value ?? "";
+            }
+        }
+
+        function updateProgress() {
+            let completed = 0;
+
+            FIELD_IDS.forEach(id => {
+                if (getValue(id) !== "") {
+                    completed++;
+                }
+            });
+
+            const percentage = Math.round((completed / FIELD_IDS.length) * 100);
+
+            progressBar.style.width = `${percentage}%`;
+            progressValue.textContent = `${percentage}%`;
+
+            if (percentage === 100) {
+                progressNote.textContent = "Your profile is complete and ready for personalized recommendations.";
+            } else if (percentage >= 70) {
+                progressNote.textContent = "Great progress. Complete the remaining fields for a stronger profile.";
+            } else if (percentage >= 40) {
+                progressNote.textContent = "Good start. Add more information to improve recommendation accuracy.";
+            } else {
+                progressNote.textContent = "Complete more fields to improve recommendation accuracy.";
+            }
+
+            return percentage;
+        }
+
+        function updateCharacterCount(id, counterId) {
+            const value = getValue(id);
+            document.getElementById(counterId).textContent = value.length;
+        }
+
+        function updateUserHeader() {
+            const user = getStoredUser();
+            const name = user?.name || user?.fullName || "Student";
+            const initials = name
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part.charAt(0))
+                .join("")
+                .toUpperCase();
+
+            document.getElementById("topName").textContent = name;
+            document.getElementById("topAvatar").textContent = initials || "S";
+        }
+
+        function buildPayload() {
+            const percentage = getValue("percentage");
+
+            return {
+                className: getValue("className"),
+                stream: getValue("stream"),
+                percentage: percentage === "" ? null : Number(percentage),
+                favoriteSubjects: getValue("favoriteSubjects"),
+                strongSubjects: getValue("strongSubjects"),
+                weakSubjects: getValue("weakSubjects"),
+                interests: getValue("interests"),
+                skills: getValue("skills"),
+                careerInterest: getValue("careerInterest"),
+                targetCareer: getValue("targetCareer"),
+                preferredCourse: getValue("preferredCourse"),
+                collegeType: getValue("collegeType"),
+                budgetRange: getValue("budgetRange"),
+                hostelRequired: getValue("hostelRequired"),
+                city: getValue("city"),
+                state: getValue("state"),
+                preferredLocation: getValue("preferredLocation")
+            };
+        }
+
+        function populateProfile(profile) {
+            FIELD_IDS.forEach(id => {
+                setValue(id, profile?.[id]);
+            });
+
+            updateCharacterCount("interests", "interestsCount");
+            updateCharacterCount("skills", "skillsCount");
+
+            originalProfile = {};
+
+            FIELD_IDS.forEach(id => {
+                originalProfile[id] = getValue(id);
+            });
+
+            profileLoaded = true;
+            updateProgress();
+        }
+
+        function clearValidation() {
+            document.querySelectorAll(".field.invalid").forEach(field => {
+                field.classList.remove("invalid");
+            });
+        }
+
+        function markInvalid(id) {
+            const element = document.getElementById(id);
+            const field = element?.closest(".field");
+
+            if (field) {
+                field.classList.add("invalid");
+            }
+        }
+
+        function validateForm() {
+            clearValidation();
+
+            const percentage = getValue("percentage");
+
+            if (percentage !== "") {
+                const value = Number(percentage);
+
+                if (!Number.isFinite(value) || value < 0 || value > 100) {
+                    markInvalid("percentage");
+                    showToast("error", "Check your details", "Percentage must be between 0 and 100.");
+                    document.getElementById("percentage").focus();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function getResponseMessage(data, status) {
+            if (data?.message) {
+                return data.message;
+            }
+
+            if (data?.error) {
+                return data.error;
+            }
+
+            if (status === 401) {
+                return "Your login session is no longer valid. Please login again.";
+            }
+
+            if (status === 403) {
+                return "You are not authorized to access the student profile.";
+            }
+
+            if (status === 404) {
+                return "Student profile was not found.";
+            }
+
+            return "Something went wrong. Please try again.";
+        }
+
+        async function parseResponse(response) {
+            const contentType = response.headers.get("content-type") || "";
+
+            if (contentType.includes("application/json")) {
+                return await response.json();
+            }
+
+            const text = await response.text();
+
+            return text ? { message: text } : null;
+        }
+
+        async function loadProfile() {
+            if (!requireLogin()) {
+                return;
+            }
+
+            updateUserHeader();
+            setLoading(true, "Loading your profile...");
+            setSaveState("saving", "Loading profile from server...");
+
+            try {
+                const response = await fetch(PROFILE_API, {
+                    method: "GET",
+                    headers: getAuthHeaders(),
+                    cache: "no-store"
+                });
+
+                const data = await parseResponse(response);
+
+                if (response.ok) {
+                    populateProfile(data || {});
+                    setSaveState("success", "Profile loaded successfully.");
+                    return;
+                }
+
+                if (response.status === 404) {
+                    populateProfile({});
+                    setSaveState("success", "No profile found. Complete your profile and save it.");
+                    return;
+                }
+
+                if (response.status === 401) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    showToast("error", "Session expired", "Please login again.");
+                    setSaveState("error", "Login session expired.");
+                    setTimeout(redirectToLogin, 900);
+                    return;
+                }
+
+                if (response.status === 403) {
+                    showToast("error", "Access denied", "Your account is not authorized for the student profile.");
+                    setSaveState("error", "Student profile access is not authorized.");
+                    return;
+                }
+
+                showToast("error", "Unable to load profile", getResponseMessage(data, response.status));
+                setSaveState("error", "Could not load profile from server.");
+            } catch (error) {
+                showToast("error", "Backend connection failed", "Make sure Spring Boot is running on port 8081.");
+                setSaveState("error", "Backend is currently unavailable.");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function saveProfile(event) {
+            event.preventDefault();
+
+            if (!requireLogin() || !validateForm()) {
+                return;
+            }
+
+            setLoading(true, "Saving your profile...");
+            setSaveState("saving", "Saving profile to database...");
+
+            try {
+                const response = await fetch(PROFILE_API, {
+                    method: "POST",
+                    headers: {
+                        ...getAuthHeaders(),
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(buildPayload())
+                });
+
+                const data = await parseResponse(response);
+
+                if (response.ok) {
+                    populateProfile(data || buildPayload());
+                    setSaveState("success", "Profile saved successfully.");
+                    showToast("success", "Profile saved", "Your student profile has been updated successfully.");
+                    return;
+                }
+
+                if (response.status === 401) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    showToast("error", "Session expired", "Please login again.");
+                    setSaveState("error", "Login session expired.");
+                    setTimeout(redirectToLogin, 900);
+                    return;
+                }
+
+                if (response.status === 403) {
+                    showToast("error", "Access denied", "Your account is not authorized to update the student profile.");
+                    setSaveState("error", "Profile update is not authorized.");
+                    return;
+                }
+
+                showToast("error", "Unable to save profile", getResponseMessage(data, response.status));
+                setSaveState("error", "Save failed. Please check the details and try again.");
+            } catch (error) {
+                showToast("error", "Backend connection failed", "Make sure Spring Boot is running on port 8081.");
+                setSaveState("error", "Backend is currently unavailable.");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function resetForm() {
+            FIELD_IDS.forEach(id => {
+                setValue(id, profileLoaded ? originalProfile[id] : "");
+            });
+
+            clearValidation();
+            updateCharacterCount("interests", "interestsCount");
+            updateCharacterCount("skills", "skillsCount");
+            updateProgress();
+            setSaveState("success", "Changes have been reset.");
+        }
+
+        function setupCharacterCounters() {
+            document.getElementById("interests").addEventListener("input", () => {
+                updateCharacterCount("interests", "interestsCount");
+            });
+
+            document.getElementById("skills").addEventListener("input", () => {
+                updateCharacterCount("skills", "skillsCount");
+            });
+        }
+
+        function setupNavigation() {
+            menuBtn.addEventListener("click", () => {
+                sidebar.classList.add("open");
+                overlay.classList.add("show");
+            });
+
+            overlay.addEventListener("click", () => {
+                sidebar.classList.remove("open");
+                overlay.classList.remove("show");
+            });
+
+            document.querySelectorAll(".nav-link").forEach(link => {
+                link.addEventListener("click", () => {
+                    sidebar.classList.remove("open");
+                    overlay.classList.remove("show");
+                });
+            });
+
+            document.getElementById("logoutBtn").addEventListener("click", event => {
+                event.preventDefault();
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+
+                redirectToLogin();
+            });
+        }
+
+        FIELD_IDS.forEach(id => {
+            const element = document.getElementById(id);
+
+            if (element) {
+                element.addEventListener("input", updateProgress);
+                element.addEventListener("change", updateProgress);
+            }
+        });
+
+        form.addEventListener("submit", saveProfile);
+        resetBtn.addEventListener("click", resetForm);
+
+        setupCharacterCounters();
+        setupNavigation();
+        loadProfile();
+    </script>
+</body>
+
+</html>

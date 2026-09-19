@@ -55,6 +55,13 @@
             background: var(--bg);
             color: var(--text);
             overflow-x: hidden;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         button,
@@ -137,6 +144,13 @@
             border-right: 1px solid var(--border);
             backdrop-filter: blur(20px);
             transition: transform .3s ease;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none;
         }
 
         .brand {

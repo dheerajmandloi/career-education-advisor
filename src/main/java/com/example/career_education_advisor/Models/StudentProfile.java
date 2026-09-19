@@ -51,7 +51,6 @@ public class StudentProfile {
     }
 
     // Getters and Setters
-
     public Long getId() {
         return id;
     }
