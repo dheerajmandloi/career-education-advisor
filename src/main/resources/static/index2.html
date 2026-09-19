@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Advisor | Personalized Career & Education Platform</title>
+    <meta name="description"
+        content="Discover careers, courses, and colleges personalized to your academic performance, skills, and goals.">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome for Professional Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind CSS (via CDN for single-file requirement) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',    /* Deep Navy */
+                        secondary: '#4f46e5',  /* Indigo */
+                        accent: '#0d9488',     /* Teal */
+                        accentLight: '#14b8a6', /* Lighter Teal */
+                        background: '#f8fafc', /* Light Blue-Gray */
+                        surface: '#ffffff',    /* White */
+                        textmain: '#0f172a',   /* Dark Charcoal */
+                        textmuted: '#475569',  /* Muted Gray */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'card': '0 10px 25px -5px rgba(0, 0, 0, 0.04)',
+                        'float': '0 20px 40px -10px rgba(0, 0, 0, 0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Overrides */
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #4f46e5;
+            --accent: #0d9488;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #0f172a;
+            background-color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Scroll State */
+        .navbar-scrolled {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        /* Connecting Lines */
+        .process-line::after {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #e2e8f0;
+            z-index: -1;
+        }
+
+        @media (max-width: 1024px) {
+            .process-line::after {
+                display: none;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Dashboard Mockup Animations */
+        .float-subtle {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Progress Bar Animation */
+        .progress-fill {
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-accent selection:text-white">
+
+    <!-- NAVIGATION -->
+    <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 py-5 bg-transparent">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <div
+                        class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center font-bold text-xl transition-transform group-hover:scale-105">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-primary">Career Advisor</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex items-center gap-8 font-medium text-textmuted">
+                    <a href="#" class="text-primary font-semibold transition-colors">Home</a>
+                    <a href="#careers" class="hover:text-primary transition-colors">Explore Careers</a>
+                    <a href="#courses" class="hover:text-primary transition-colors">Courses</a>
+                    <a href="#colleges" class="hover:text-primary transition-colors">Colleges</a>
+                    <a href="#resources" class="hover:text-primary transition-colors">Resources</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="#" class="font-medium text-textmain hover:text-primary transition-colors">Login</a>
+                    <a href="#"
+                        class="bg-primary hover:bg-secondary text-white px-6 py-2.5 rounded-lg font-medium transition-colors shadow-sm">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-textmain text-2xl focus:outline-none"
+                    aria-label="Toggle Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu"
+            class="hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-100 py-4 px-6 flex flex-col gap-4">
+            <a href="#" class="font-medium text-primary">Home</a>
+            <a href="#careers" class="font-medium text-textmuted hover:text-primary">Explore Careers</a>
+            <a href="#courses" class="font-medium text-textmuted hover:text-primary">Courses</a>
+            <a href="#colleges" class="font-medium text-textmuted hover:text-primary">Colleges</a>
+            <a href="#resources" class="font-medium text-textmuted hover:text-primary">Resources</a>
+            <hr class="border-gray-100 my-2">
+            <a href="#" class="font-medium text-textmain">Login</a>
+            <a href="#" class="bg-primary text-white text-center px-6 py-3 rounded-lg font-medium w-full">Get
+                Started</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section
+            class="pt-32 lg:pt-40 pb-20 lg:pb-32 bg-gradient-to-b from-blue-50/50 to-background overflow-hidden relative">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+                    <!-- Left: Content -->
+                    <div data-aos="fade-right" data-aos-duration="800">
+                        <div
+                            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent font-semibold text-sm mb-6">
+                            <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                            PERSONALIZED CAREER GUIDANCE
+                        </div>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary leading-tight mb-6">
+                            Find the Right Career.<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-accent">Build
+                                the Right Future.</span>
+                        </h1>
+                        <p class="text-lg text-textmuted mb-8 max-w-lg leading-relaxed">
+                            Discover careers, courses and colleges personalized to your interests, skills, academic
+                            performance and goals.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                            <a href="#assessment"
+                                class="bg-primary hover:bg-secondary text-white px-8 py-3.5 rounded-xl font-semibold text-center transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group">
+                                Start Career Assessment
+                                <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                            </a>
+                            <a href="#careers"
+                                class="bg-white border border-gray-200 hover:border-gray-300 text-textmain px-8 py-3.5 rounded-xl font-semibold text-center transition-all shadow-sm flex items-center justify-center">
+                                Explore Careers
+                            </a>
+                        </div>
+                        <p class="text-sm text-textmuted flex items-center gap-2">
+                            <i class="fa-solid fa-shield-check text-accent"></i> Make informed decisions. Build your
+                            future with confidence.
+                        </p>
+                    </div>
+
+                    <!-- Right: Dashboard Mockup -->
+                    <div class="relative w-full max-w-lg mx-auto lg:ml-auto" data-aos="fade-left"
+                        data-aos-duration="1000" data-aos-delay="200">
+                        <!-- Decorative background blob -->
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-secondary/10 rounded-full blur-3xl -z-10">
+                        </div>
+
+                        <!-- Main Dashboard Card -->
+                        <div
+                            class="bg-white rounded-2xl shadow-float border border-gray-100 overflow-hidden float-subtle">
+                            <!-- Dashboard Header -->
+                            <div
+                                class="bg-slate-50 border-b border-gray-100 px-6 py-4 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-secondary font-bold">
+                                        JD</div>
+                                    <div>
+                                        <p class="text-xs text-textmuted font-medium">Assessment Complete</p>
+                                        <p class="text-sm font-bold text-primary">Your Results Ready</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="px-2.5 py-1 rounded-md bg-green-50 text-green-700 text-xs font-bold border border-green-100">
+                                    <i class="fa-solid fa-check mr-1"></i> Verified
+                                </div>
+                            </div>
+
+                            <!-- Dashboard Body -->
+                            <div class="p-6">
+                                <p class="text-xs text-textmuted font-semibold uppercase tracking-wider mb-3">Top
+                                    Recommended Career</p>
+
+                                <div class="flex items-end justify-between mb-6">
+                                    <div>
+                                        <h3 class="text-2xl font-bold text-textmain">Software Developer</h3>
+                                        <p class="text-sm text-accent mt-1 font-medium"><i
+                                                class="fa-solid fa-sparkles mr-1"></i> Excellent Match</p>
+                                    </div>
+                                    <div class="text-right relative">
+                                        <svg class="w-16 h-16 transform -rotate-90">
+                                            <circle cx="32" cy="32" r="28" stroke="#f1f5f9" stroke-width="6"
+                                                fill="none" />
+                                            <circle cx="32" cy="32" r="28" stroke="#0d9488" stroke-width="6" fill="none"
+                                                stroke-dasharray="175.9" stroke-dashoffset="14"
+                                                class="transition-all duration-1000" />
+                                        </svg>
+                                        <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                            <span class="text-lg font-bold text-textmain score-counter"
+                                                data-target="92">0</span><span
+                                                class="text-[10px] text-textmuted -mt-1">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Progress Bars -->
+                                <div class="space-y-4 mb-6">
+                                    <div>
+                                        <div class="flex justify-between text-xs font-medium mb-1">
+                                            <span class="text-textmuted">Interest Match</span>
+                                            <span class="text-textmain font-bold">94%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5">
+                                            <div class="bg-secondary h-1.5 rounded-full progress-fill"
+                                                style="width: 94%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-xs font-medium mb-1">
+                                            <span class="text-textmuted">Skill Match</span>
+                                            <span class="text-textmain font-bold">88%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5">
+                                            <div class="bg-accent h-1.5 rounded-full progress-fill" style="width: 88%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Recommendation Card -->
+                                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                                    <p class="text-xs text-textmuted font-medium mb-2">Recommended Course Path</p>
+                                    <div class="flex items-start gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded bg-blue-100 text-primary flex items-center justify-center shrink-0 mt-0.5">
+                                            <i class="fa-solid fa-laptop-code text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-bold text-textmain">Bachelor of Computer Applications
+                                            </p>
+                                            <p class="text-xs text-textmuted mt-1">Eligibility: <span
+                                                    class="text-green-600 font-medium">Qualified based on 12th
+                                                    Marks</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VALUE / TRUST SECTION -->
+        <section class="bg-white border-y border-gray-100 relative z-10 shadow-sm" data-aos="fade-up">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 py-8 divide-x divide-gray-100">
+                    <div class="flex flex-col items-center text-center px-4">
+                        <i class="fa-solid fa-bullseye text-2xl text-secondary mb-3"></i>
+                        <h4 class="font-semibold text-textmain text-sm">Personalized Recommendations</h4>
+                    </div>
+                    <div class="flex flex-col items-center text-center px-4">
+                        <i class="fa-solid fa-brain text-2xl text-accent mb-3"></i>
+                        <h4 class="font-semibold text-textmain text-sm">Career Assessment</h4>
+                    </div>
+                    <div class="flex flex-col items-center text-center px-4">
+                        <i class="fa-solid fa-university text-2xl text-secondary mb-3"></i>
+                        <h4 class="font-semibold text-textmain text-sm">Course & College Guidance</h4>
+                    </div>
+                    <div class="flex flex-col items-center text-center px-4">
+                        <i class="fa-solid fa-route text-2xl text-accent mb-3"></i>
+                        <h4 class="font-semibold text-textmain text-sm">Skill-Based Roadmaps</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS SECTION -->
+        <section class="py-20 bg-background">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-primary mb-4">Your Career Journey, Simplified</h2>
+                    <p class="text-textmuted text-lg">From understanding yourself to building a clear career path.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 relative">
+                    <!-- Step 1 -->
+                    <div class="relative process-line text-center z-10 bg-background" data-aos="fade-up"
+                        data-aos-delay="100">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white border-2 border-primary text-primary flex items-center justify-center text-lg font-bold mx-auto mb-6 shadow-sm">
+                            01</div>
+                        <h3 class="text-lg font-bold text-textmain mb-3">Build Your Profile</h3>
+                        <p class="text-sm text-textmuted">Tell us about your academics, interests, skills and goals.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="relative process-line text-center z-10 bg-background" data-aos="fade-up"
+                        data-aos-delay="200">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white border-2 border-primary text-primary flex items-center justify-center text-lg font-bold mx-auto mb-6 shadow-sm">
+                            02</div>
+                        <h3 class="text-lg font-bold text-textmain mb-3">Take Assessment</h3>
+                        <p class="text-sm text-textmuted">Understand your interests, aptitude and career preferences.
+                        </p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="relative process-line text-center z-10 bg-background" data-aos="fade-up"
+                        data-aos-delay="300">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white border-2 border-accent text-accent flex items-center justify-center text-lg font-bold mx-auto mb-6 shadow-sm">
+                            03</div>
+                        <h3 class="text-lg font-bold text-textmain mb-3">Get Recommendations</h3>
+                        <p class="text-sm text-textmuted">Discover careers, courses and colleges that match your
+                            profile.</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="relative text-center z-10 bg-background" data-aos="fade-up" data-aos-delay="400">
+                        <div
+                            class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-lg font-bold mx-auto mb-6 shadow-md shadow-primary/30">
+                            04</div>
+                        <h3 class="text-lg font-bold text-textmain mb-3">Build Your Roadmap</h3>
+                        <p class="text-sm text-textmuted">Identify skill gaps and follow a step-by-step career plan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PERSONALIZATION ENGINE SECTION -->
+        <section class="py-20 bg-white border-t border-slate-100 overflow-hidden">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-primary mb-4">Recommendations Built Around You</h2>
+                    <p class="text-textmuted text-lg">Your career should not be decided by marks alone.</p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+
+                    <!-- Left: Inputs -->
+                    <div class="w-full lg:w-1/3 space-y-4" data-aos="fade-right">
+                        <div
+                            class="p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-4 hover:shadow-md transition-shadow">
+                            <div
+                                class="w-10 h-10 rounded-full bg-indigo-100 text-secondary flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-graduation-cap"></i></div>
+                            <span class="font-semibold text-textmain">Academic Performance</span>
+                        </div>
+                        <div
+                            class="p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-4 hover:shadow-md transition-shadow">
+                            <div
+                                class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-heart"></i></div>
+                            <span class="font-semibold text-textmain">Interests & Passions</span>
+                        </div>
+                        <div
+                            class="p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-4 hover:shadow-md transition-shadow">
+                            <div
+                                class="w-10 h-10 rounded-full bg-teal-100 text-accent flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-bolt"></i></div>
+                            <span class="font-semibold text-textmain">Existing Skills</span>
+                        </div>
+                        <div
+                            class="p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-4 hover:shadow-md transition-shadow">
+                            <div
+                                class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-compass"></i></div>
+                            <span class="font-semibold text-textmain">Aptitude & Goals</span>
+                        </div>
+                        <div
+                            class="p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-4 hover:shadow-md transition-shadow">
+                            <div
+                                class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-map-marker-alt"></i></div>
+                            <span class="font-semibold text-textmain">Location & Budget</span>
+                        </div>
+                    </div>
+
+                    <!-- Middle: Engine -->
+                    <div class="w-full lg:w-1/3 flex justify-center relative" data-aos="zoom-in">
+                        <div class="hidden lg:block absolute top-1/2 -left-12 w-24 h-0.5 bg-gray-200 -translate-y-1/2">
+                        </div>
+                        <div class="hidden lg:block absolute top-1/2 -right-12 w-24 h-0.5 bg-gray-200 -translate-y-1/2">
+                        </div>
+
+                        <div
+                            class="relative w-48 h-48 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-float">
+                            <!-- Animated rings -->
+                            <div
+                                class="absolute inset-0 rounded-full border-2 border-white/20 animate-[ping_3s_ease-in-out_infinite]">
+                            </div>
+                            <div
+                                class="absolute inset-[-20px] rounded-full border border-primary/20 animate-[spin_10s_linear_infinite]">
+                            </div>
+
+                            <div class="text-center text-white p-4">
+                                <i class="fa-solid fa-microchip text-4xl mb-2"></i>
+                                <p class="text-sm font-bold uppercase tracking-wide">Personalized<br>Engine</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Outputs -->
+                    <div class="w-full lg:w-1/3 space-y-4" data-aos="fade-left">
+                        <div
+                            class="p-4 bg-primary/5 border border-primary/10 rounded-xl flex items-center justify-between group hover:bg-primary hover:text-white transition-colors cursor-default">
+                            <span class="font-bold text-primary group-hover:text-white">Career Choice</span>
+                            <i class="fa-solid fa-briefcase text-secondary group-hover:text-white/80"></i>
+                        </div>
+                        <div
+                            class="p-4 bg-primary/5 border border-primary/10 rounded-xl flex items-center justify-between group hover:bg-primary hover:text-white transition-colors cursor-default">
+                            <span class="font-bold text-primary group-hover:text-white">Right Course</span>
+                            <i class="fa-solid fa-book-open text-secondary group-hover:text-white/80"></i>
+                        </div>
+                        <div
+                            class="p-4 bg-primary/5 border border-primary/10 rounded-xl flex items-center justify-between group hover:bg-primary hover:text-white transition-colors cursor-default">
+                            <span class="font-bold text-primary group-hover:text-white">Best College</span>
+                            <i class="fa-solid fa-building-columns text-secondary group-hover:text-white/80"></i>
+                        </div>
+                        <div
+                            class="p-4 bg-primary/5 border border-primary/10 rounded-xl flex items-center justify-between group hover:bg-primary hover:text-white transition-colors cursor-default">
+                            <span class="font-bold text-primary group-hover:text-white">Skill Gap Analysis</span>
+                            <i class="fa-solid fa-chart-pie text-secondary group-hover:text-white/80"></i>
+                        </div>
+                        <div
+                            class="p-4 bg-primary/5 border border-primary/10 rounded-xl flex items-center justify-between group hover:bg-primary hover:text-white transition-colors cursor-default">
+                            <span class="font-bold text-primary group-hover:text-white">Career Roadmap</span>
+                            <i class="fa-solid fa-map text-secondary group-hover:text-white/80"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CAREER RECOMMENDATION PREVIEW (Interactive) -->
+        <section id="careers" class="py-20 bg-slate-50 border-t border-slate-200">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12" data-aos="fade-up">
+                    <div class="max-w-2xl">
+                        <h2 class="text-3xl font-bold text-primary mb-4">Discover Careers That Match You</h2>
+                        <p class="text-textmuted text-lg">Top recommendations based on your unique profile combination.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-card hover:-translate-y-1 transition-all flex flex-col h-full"
+                        data-aos="fade-up" data-aos-delay="100">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 text-xl">
+                                <i class="fa-solid fa-laptop-code"></i></div>
+                            <span class="px-3 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full">92%
+                                Match</span>
+                        </div>
+                        <h3 class="font-bold text-xl text-textmain mb-2">Software Developer</h3>
+                        <p class="text-sm text-textmuted mb-4 line-clamp-2">Design, develop, and maintain software
+                            applications and systems.</p>
+                        <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">Programming</span>
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">Logic</span>
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">Maths</span>
+                        </div>
+                        <button onclick="openModal('Software Developer', 92)"
+                            class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-white rounded-lg font-medium text-sm transition-colors">
+                            Why this match?
+                        </button>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-card hover:-translate-y-1 transition-all flex flex-col h-full"
+                        data-aos="fade-up" data-aos-delay="200">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-indigo-50 flex items-center justify-center text-secondary text-xl">
+                                <i class="fa-solid fa-chart-line"></i></div>
+                            <span class="px-3 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full">87%
+                                Match</span>
+                        </div>
+                        <h3 class="font-bold text-xl text-textmain mb-2">Data Analyst</h3>
+                        <p class="text-sm text-textmuted mb-4 line-clamp-2">Analyze complex data sets to help
+                            organizations make decisions.</p>
+                        <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">Statistics</span>
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">Excel</span>
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">SQL</span>
+                        </div>
+                        <button onclick="openModal('Data Analyst', 87)"
+                            class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-white rounded-lg font-medium text-sm transition-colors">
+                            Why this match?
+                        </button>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-card hover:-translate-y-1 transition-all flex flex-col h-full"
+                        data-aos="fade-up" data-aos-delay="300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-teal-50 flex items-center justify-center text-accent text-xl">
+                                <i class="fa-solid fa-pen-nib"></i></div>
+                            <span class="px-3 py-1 bg-yellow-50 text-yellow-700 text-xs font-bold rounded-full">81%
+                                Match</span>
+                        </div>
+                        <h3 class="font-bold text-xl text-textmain mb-2">UI/UX Designer</h3>
+                        <p class="text-sm text-textmuted mb-4 line-clamp-2">Create user-friendly interfaces and
+                            experiences for digital products.</p>
+                        <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">Creativity</span>
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">Empathy</span>
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">Figma</span>
+                        </div>
+                        <button onclick="openModal('UI/UX Designer', 81)"
+                            class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-white rounded-lg font-medium text-sm transition-colors">
+                            Why this match?
+                        </button>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-card hover:-translate-y-1 transition-all flex flex-col h-full"
+                        data-aos="fade-up" data-aos-delay="400">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500 text-xl">
+                                <i class="fa-solid fa-bullhorn"></i></div>
+                            <span class="px-3 py-1 bg-yellow-50 text-yellow-700 text-xs font-bold rounded-full">76%
+                                Match</span>
+                        </div>
+                        <h3 class="font-bold text-xl text-textmain mb-2">Digital Marketer</h3>
+                        <p class="text-sm text-textmuted mb-4 line-clamp-2">Plan and execute online marketing campaigns
+                            and strategies.</p>
+                        <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">Communication</span>
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">Analytics</span>
+                            <span
+                                class="text-[11px] font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">SEO</span>
+                        </div>
+                        <button onclick="openModal('Digital Marketer', 76)"
+                            class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-white rounded-lg font-medium text-sm transition-colors">
+                            Why this match?
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPLAINABLE RECOMMENDATION HIGHLIGHT -->
+        <section class="py-20 bg-primary text-white">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div data-aos="fade-right">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">Don't Just Get a Recommendation.<br><span
+                                class="text-accentLight">Understand Why.</span></h2>
+                        <p class="text-blue-100 text-lg mb-8">Our platform isn't a black box. We provide transparent
+                            scoring so you know exactly why a career is suited for you based on individual factors.</p>
+
+                        <div class="bg-blue-900/50 p-6 rounded-xl border border-blue-800 backdrop-blur-sm">
+                            <p class="text-sm italic text-blue-100">
+                                <i class="fa-solid fa-quote-left text-accentLight mr-2"></i>
+                                Your strong interest in technology combined with your high aptitude in logical reasoning
+                                makes this career a highly viable path, though some technical skills need development.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div data-aos="fade-left" class="bg-white text-textmain p-8 rounded-2xl shadow-float relative">
+                        <div
+                            class="absolute -top-4 -right-4 bg-accent text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg font-bold">
+                            92%
+                        </div>
+                        <h3 class="text-2xl font-bold text-primary mb-6">Software Developer Match</h3>
+
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between text-sm font-semibold mb-2">
+                                    <span>Interest Match</span>
+                                    <span class="text-green-600">24 / 25</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 96%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm font-semibold mb-2">
+                                    <span>Career Goal Match</span>
+                                    <span class="text-secondary">19 / 20</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-2">
+                                    <div class="bg-secondary h-2 rounded-full" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm font-semibold mb-2">
+                                    <span>Academic Performance</span>
+                                    <span class="text-blue-500">18 / 20</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm font-semibold mb-2">
+                                    <span>Skill Match</span>
+                                    <span class="text-orange-500">17 / 20</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-2">
+                                    <div class="bg-orange-500 h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-5 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-sm font-semibold text-textmuted">Eligibility Status</span>
+                            <span class="px-3 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full"><i
+                                    class="fa-solid fa-check-circle mr-1"></i> Qualified</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COURSE & COLLEGE PREVIEW -->
+        <section id="courses" class="py-20 bg-background">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-primary mb-4">From Career Choice to Education Choice</h2>
+                    <p class="text-textmuted text-lg">We connect your career goal directly to the courses and colleges
+                        that will get you there.</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-card overflow-hidden flex flex-col md:flex-row border border-slate-200"
+                    data-aos="zoom-in">
+                    <!-- Course Panel -->
+                    <div class="w-full md:w-1/2 p-8 border-b md:border-b-0 md:border-r border-slate-200 bg-slate-50/50">
+                        <div class="text-xs font-bold text-secondary uppercase tracking-wider mb-2">Recommended Course
+                        </div>
+                        <h3 class="text-2xl font-bold text-textmain mb-4">Bachelor of Computer Applications</h3>
+
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check-circle text-accent mt-1"></i>
+                                <div>
+                                    <span class="block text-sm font-bold text-textmain">Eligibility</span>
+                                    <span class="block text-sm text-textmuted">12th Grade with Maths/Computer
+                                        Science</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-clock text-accent mt-1"></i>
+                                <div>
+                                    <span class="block text-sm font-bold text-textmain">Duration</span>
+                                    <span class="block text-sm text-textmuted">3 Years (6 Semesters)</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <a href="#"
+                            class="inline-flex items-center text-primary font-semibold hover:text-secondary transition-colors text-sm">
+                            View Course Details <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+
+                    <!-- College Panel -->
+                    <div class="w-full md:w-1/2 p-8">
+                        <div class="text-xs font-bold text-accent uppercase tracking-wider mb-2">Top Matching College
+                        </div>
+                        <h3 class="text-2xl font-bold text-textmain mb-4">Govt. Science & Commerce College</h3>
+
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-location-dot text-textmuted mt-1"></i>
+                                <div>
+                                    <span class="block text-sm font-bold text-textmain">Location</span>
+                                    <span class="block text-sm text-textmuted">Bhopal, Madhya Pradesh</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-indian-rupee-sign text-textmuted mt-1"></i>
+                                <div>
+                                    <span class="block text-sm font-bold text-textmain">Estimated Fees</span>
+                                    <span class="block text-sm text-textmuted">₹15,000 / Year (Govt. Subsidized)</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <a href="#"
+                            class="inline-block w-full text-center bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white py-2.5 rounded-lg font-semibold transition-colors">
+                            View All Matching Colleges
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILL GAP SECTION -->
+        <section class="py-20 bg-white border-t border-slate-100">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div data-aos="fade-right">
+                        <h2 class="text-3xl font-bold text-primary mb-4">Know What Skills You Need Next</h2>
+                        <p class="text-textmuted text-lg mb-8">Identify the exact gap between your current abilities and
+                            the requirements of your target career, with resources to bridge it.</p>
+
+                        <!-- Flow -->
+                        <div class="flex flex-col space-y-4 relative pl-8 border-l-2 border-indigo-100">
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[41px] top-1 bg-white border-2 border-primary w-5 h-5 rounded-full">
+                                </div>
+                                <h4 class="font-bold text-textmain">Current Skills</h4>
+                                <p class="text-sm text-textmuted">What you already know.</p>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[41px] top-1 bg-white border-2 border-accent w-5 h-5 rounded-full">
+                                </div>
+                                <h4 class="font-bold text-textmain">Skill Gap Identified</h4>
+                                <p class="text-sm text-textmuted">What the industry requires.</p>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[41px] top-1 bg-white border-2 border-secondary w-5 h-5 rounded-full">
+                                </div>
+                                <h4 class="font-bold text-textmain">Learning Resources</h4>
+                                <p class="text-sm text-textmuted">Curated courses to bridge the gap.</p>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[41px] top-1 bg-primary border-2 border-primary w-5 h-5 rounded-full">
+                                </div>
+                                <h4 class="font-bold text-primary">Career Readiness</h4>
+                                <p class="text-sm text-textmuted">Fully prepared for the job.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-aos="fade-left" class="bg-slate-50 p-6 md:p-8 rounded-2xl border border-slate-200">
+                        <div class="mb-6 pb-4 border-b border-slate-200">
+                            <span class="text-sm text-textmuted font-medium">Target Career:</span>
+                            <span class="ml-2 font-bold text-primary text-lg">Data Analyst</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Current Skills -->
+                            <div>
+                                <h4 class="text-sm font-bold text-textmain mb-4 uppercase tracking-wide">Your Skills
+                                </h4>
+                                <ul class="space-y-3">
+                                    <li
+                                        class="flex items-center gap-2 text-sm text-slate-700 bg-white px-3 py-2 rounded-md shadow-sm border border-slate-100">
+                                        <i class="fa-solid fa-check text-green-500"></i> MS Excel
+                                    </li>
+                                    <li
+                                        class="flex items-center gap-2 text-sm text-slate-700 bg-white px-3 py-2 rounded-md shadow-sm border border-slate-100">
+                                        <i class="fa-solid fa-check text-green-500"></i> Basic Python
+                                    </li>
+                                    <li
+                                        class="flex items-center gap-2 text-sm text-slate-700 bg-white px-3 py-2 rounded-md shadow-sm border border-slate-100">
+                                        <i class="fa-solid fa-check text-green-500"></i> Communication
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Skills to Develop -->
+                            <div>
+                                <h4 class="text-sm font-bold text-textmain mb-4 uppercase tracking-wide">Skills to
+                                    Develop</h4>
+                                <ul class="space-y-3">
+                                    <li
+                                        class="flex items-center gap-2 text-sm text-slate-600 bg-orange-50 px-3 py-2 rounded-md border border-orange-100">
+                                        <i class="fa-regular fa-circle text-orange-400"></i> SQL Database
+                                    </li>
+                                    <li
+                                        class="flex items-center gap-2 text-sm text-slate-600 bg-orange-50 px-3 py-2 rounded-md border border-orange-100">
+                                        <i class="fa-regular fa-circle text-orange-400"></i> Advanced Statistics
+                                    </li>
+                                    <li
+                                        class="flex items-center gap-2 text-sm text-slate-600 bg-orange-50 px-3 py-2 rounded-md border border-orange-100">
+                                        <i class="fa-regular fa-circle text-orange-400"></i> Power BI / Tableau
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CAREER ROADMAP -->
+        <section class="py-20 bg-background overflow-hidden">
+            <div class="container mx-auto px-6 max-w-4xl text-center">
+                <div data-aos="fade-up" class="mb-16">
+                    <h2 class="text-3xl font-bold text-primary mb-4">Step-by-Step Career Roadmap</h2>
+                    <p class="text-textmuted text-lg">A clear visual path from your current education level to your
+                        dream job.</p>
+                </div>
+
+                <!-- Vertical Timeline -->
+                <div
+                    class="relative border-l-2 border-indigo-200 ml-4 md:ml-0 md:mx-auto md:w-0 text-left md:text-center space-y-12">
+
+                    <!-- Item 1 -->
+                    <div class="relative pl-8 md:pl-0" data-aos="fade-up" data-aos-offset="100">
+                        <div
+                            class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 top-0 bg-white border-4 border-primary w-4 h-4 rounded-full">
+                        </div>
+                        <div class="md:w-1/2 md:pr-12 md:mr-auto text-left">
+                            <span class="text-xs font-bold text-accent bg-accent/10 px-2 py-1 rounded">Current
+                                Stage</span>
+                            <h3 class="text-xl font-bold text-textmain mt-2">12th Grade Completion</h3>
+                            <p class="text-sm text-textmuted mt-1">Focus on core subjects to meet eligibility criteria.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="relative pl-8 md:pl-0" data-aos="fade-up" data-aos-offset="100">
+                        <div
+                            class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 top-0 bg-white border-4 border-secondary w-4 h-4 rounded-full">
+                        </div>
+                        <div class="md:w-1/2 md:pl-12 md:ml-auto text-left">
+                            <h3 class="text-xl font-bold text-textmain mt-2">Choose Degree</h3>
+                            <p class="text-sm text-textmuted mt-1">Enroll in BCA or B.Sc IT at a recognized Govt.
+                                College.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="relative pl-8 md:pl-0" data-aos="fade-up" data-aos-offset="100">
+                        <div
+                            class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 top-0 bg-white border-4 border-secondary w-4 h-4 rounded-full">
+                        </div>
+                        <div class="md:w-1/2 md:pr-12 md:mr-auto text-left">
+                            <h3 class="text-xl font-bold text-textmain mt-2">Build Core Skills & Certifications</h3>
+                            <p class="text-sm text-textmuted mt-1">Complete foundational courses in programming and
+                                databases.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="relative pl-8 md:pl-0" data-aos="fade-up" data-aos-offset="100">
+                        <div
+                            class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 top-0 bg-white border-4 border-secondary w-4 h-4 rounded-full">
+                        </div>
+                        <div class="md:w-1/2 md:pl-12 md:ml-auto text-left">
+                            <h3 class="text-xl font-bold text-textmain mt-2">Projects & Internship</h3>
+                            <p class="text-sm text-textmuted mt-1">Build a portfolio and gain 3-6 months of real-world
+                                experience.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="relative pl-8 md:pl-0" data-aos="fade-up" data-aos-offset="100">
+                        <div
+                            class="absolute left-[-11px] md:left-1/2 md:-translate-x-1/2 top-0 bg-accent w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] shadow-lg shadow-accent/40">
+                            <i class="fa-solid fa-flag-checkered"></i></div>
+                        <div class="md:w-1/2 md:pr-12 md:mr-auto text-left">
+                            <span
+                                class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded border border-green-100">Goal</span>
+                            <h3 class="text-xl font-bold text-textmain mt-2">Job Placement / Higher Studies</h3>
+                            <p class="text-sm text-textmuted mt-1">Enter the workforce as a Junior Developer or pursue
+                                MCA.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOLARSHIPS & ENTRANCE EXAMS -->
+        <section id="resources" class="py-20 bg-white border-t border-slate-100">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+                    <!-- Scholarships -->
+                    <div data-aos="fade-right">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-bold text-primary flex items-center gap-2">
+                                <i class="fa-solid fa-award text-accent"></i> Scholarships
+                            </h3>
+                            <a href="#" class="text-sm text-secondary font-semibold hover:underline">View All</a>
+                        </div>
+                        <div class="space-y-4">
+                            <!-- Item -->
+                            <div
+                                class="bg-slate-50 border border-slate-200 p-4 rounded-xl hover:shadow-md transition-shadow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-textmain text-sm">Post Matric Scholarship Scheme</h4>
+                                    <span
+                                        class="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Open</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                                    <div><span class="text-textmuted">Eligibility:</span> <span
+                                            class="font-medium text-slate-700">SC/ST/OBC Students</span></div>
+                                    <div><span class="text-textmuted">Amount:</span> <span
+                                            class="font-medium text-slate-700">Up to ₹20,000</span></div>
+                                </div>
+                                <div class="text-xs text-secondary font-semibold"><i
+                                        class="fa-regular fa-calendar mr-1"></i> Deadline: 30 Oct 2026</div>
+                            </div>
+                            <!-- Item -->
+                            <div
+                                class="bg-slate-50 border border-slate-200 p-4 rounded-xl hover:shadow-md transition-shadow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-textmain text-sm">Central Sector Scheme of Scholarships
+                                    </h4>
+                                    <span
+                                        class="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-[10px] font-bold rounded uppercase">Closing
+                                        Soon</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                                    <div><span class="text-textmuted">Eligibility:</span> <span
+                                            class="font-medium text-slate-700">Above 80th Percentile</span></div>
+                                    <div><span class="text-textmuted">Amount:</span> <span
+                                            class="font-medium text-slate-700">₹12,000/year</span></div>
+                                </div>
+                                <div class="text-xs text-red-500 font-semibold"><i
+                                        class="fa-regular fa-calendar mr-1"></i> Deadline: 15 Sep 2026</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Entrance Exams -->
+                    <div data-aos="fade-left">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-bold text-primary flex items-center gap-2">
+                                <i class="fa-solid fa-file-signature text-secondary"></i> Entrance Exams
+                            </h3>
+                            <a href="#" class="text-sm text-secondary font-semibold hover:underline">View All</a>
+                        </div>
+                        <div class="space-y-4">
+                            <!-- Item -->
+                            <div
+                                class="bg-slate-50 border border-slate-200 p-4 rounded-xl hover:shadow-md transition-shadow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-textmain text-sm">CUET (UG) - 2027</h4>
+                                    <span
+                                        class="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded uppercase">Upcoming</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                                    <div><span class="text-textmuted">Eligibility:</span> <span
+                                            class="font-medium text-slate-700">12th Pass/Appearing</span></div>
+                                    <div><span class="text-textmuted">Target:</span> <span
+                                            class="font-medium text-slate-700">Central Universities</span></div>
+                                </div>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-600 font-medium">Reg: Feb 2027</span>
+                                    <span class="text-primary font-bold">Exam: May 2027</span>
+                                </div>
+                            </div>
+                            <!-- Item -->
+                            <div
+                                class="bg-slate-50 border border-slate-200 p-4 rounded-xl hover:shadow-md transition-shadow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-textmain text-sm">State Level BCA Entrance</h4>
+                                    <span
+                                        class="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Open</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                                    <div><span class="text-textmuted">Eligibility:</span> <span
+                                            class="font-medium text-slate-700">12th with Maths (50%)</span></div>
+                                    <div><span class="text-textmuted">Target:</span> <span
+                                            class="font-medium text-slate-700">State Govt Colleges</span></div>
+                                </div>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-600 font-medium">Reg: Ends Oct 2026</span>
+                                    <span class="text-primary font-bold">Exam: Dec 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA -->
+        <section class="py-24 bg-primary relative overflow-hidden">
+            <!-- Decorative elements -->
+            <div
+                class="absolute top-0 right-0 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform translate-x-1/2 -translate-y-1/2">
+            </div>
+            <div
+                class="absolute bottom-0 left-0 w-64 h-64 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform -translate-x-1/2 translate-y-1/2">
+            </div>
+
+            <div class="container mx-auto px-6 max-w-4xl text-center relative z-10" data-aos="zoom-in">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Your Career Journey Starts With the Right
+                    Decision.</h2>
+                <p class="text-blue-100 text-lg mb-10 max-w-2xl mx-auto">
+                    Understand your strengths, explore your options and build a roadmap designed around your future.
+                </p>
+                <a href="#assessment"
+                    class="inline-block bg-white text-primary px-10 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 hover:shadow-lg hover:-translate-y-1 transition-all">
+                    Start Career Assessment Now
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-300 py-16 border-t border-slate-800">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                <!-- Branding -->
+                <div class="lg:col-span-1">
+                    <a href="#" class="flex items-center gap-2 mb-4">
+                        <div
+                            class="w-8 h-8 bg-accent text-white rounded flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <span class="font-bold text-xl text-white tracking-tight">Career Advisor</span>
+                    </a>
+                    <p class="text-sm text-slate-400 mb-6">
+                        Helping students make informed education and career decisions through personalized, data-driven
+                        guidance.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Links 1 -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-accent transition-colors">Explore Careers</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Course Finder</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">College Directory</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Take Assessment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links 2 -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-accent transition-colors">Scholarship Portal</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Entrance Exams</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Skill Development</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Career Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links 3 -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-accent transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Contact Support</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-8 text-sm text-center text-slate-500">
+                <p>&copy; 2026 Career Advisor. All rights reserved. A College Major Project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- EXPLAINABLE RECOMMENDATION MODAL -->
+    <div id="explainModal"
+        class="fixed inset-0 z-[100] modal-overlay hidden flex-col items-center justify-center p-4 transition-opacity"
+        aria-modal="true" role="dialog">
+        <!-- Click outside to close area -->
+        <div class="absolute inset-0 z-0" onclick="closeModal()"></div>
+
+        <!-- Modal Content -->
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl relative z-10 overflow-hidden transform scale-95 transition-transform"
+            id="modalContent">
+            <!-- Header -->
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+                <div>
+                    <p class="text-xs font-bold text-secondary uppercase tracking-wider mb-1">Match Breakdown</p>
+                    <h3 id="modalCareerTitle" class="text-xl font-bold text-textmain">Career Title</h3>
+                </div>
+                <button onclick="closeModal()"
+                    class="text-slate-400 hover:text-slate-700 bg-white hover:bg-slate-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-6">
+                <div class="flex items-center gap-4 mb-6">
+                    <div
+                        class="w-16 h-16 rounded-full bg-green-50 border-4 border-green-100 flex items-center justify-center">
+                        <span id="modalScore" class="text-xl font-bold text-green-600">0%</span>
+                    </div>
+                    <div>
+                        <p class="font-bold text-textmain">Overall Compatibility</p>
+                        <p class="text-xs text-textmuted">Based on your assessed profile vectors.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Academic -->
+                    <div>
+                        <div class="flex justify-between text-sm font-semibold mb-1">
+                            <span class="text-slate-700">Academic Match</span>
+                            <span class="text-blue-600">18 / 20</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            <div class="bg-blue-500 h-1.5 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <!-- Interest -->
+                    <div>
+                        <div class="flex justify-between text-sm font-semibold mb-1">
+                            <span class="text-slate-700">Interest Match</span>
+                            <span class="text-accent">24 / 25</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            <div class="bg-accent h-1.5 rounded-full" style="width: 96%"></div>
+                        </div>
+                    </div>
+                    <!-- Skills -->
+                    <div>
+                        <div class="flex justify-between text-sm font-semibold mb-1">
+                            <span class="text-slate-700">Skill Match</span>
+                            <span class="text-orange-500">17 / 20</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            <div class="bg-orange-500 h-1.5 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <!-- Goals -->
+                    <div>
+                        <div class="flex justify-between text-sm font-semibold mb-1">
+                            <span class="text-slate-700">Career Goal Match</span>
+                            <span class="text-secondary">19 / 20</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            <div class="bg-secondary h-1.5 rounded-full" style="width: 95%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <i class="fa-solid fa-circle-info mr-1"></i> Your strong interest and skill alignment makes this
+                        a primary recommendation. Focus on bridging minor skill gaps for full readiness.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex justify-end">
+                <button onclick="closeModal()"
+                    class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-100 transition-colors mr-3 text-sm">
+                    Close
+                </button>
+                <a href="#"
+                    class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-secondary transition-colors text-sm">
+                    View Full Roadmap
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animations
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            // Change icon
+            const icon = mobileBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        });
+
+        // Number Counter Animation for Dashboard Mockup
+        document.addEventListener('DOMContentLoaded', () => {
+            const counter = document.querySelector('.score-counter');
+            const target = parseInt(counter.getAttribute('data-target'));
+            let count = 0;
+
+            // Delay to allow entrance animation to finish
+            setTimeout(() => {
+                const interval = setInterval(() => {
+                    if (count < target) {
+                        count++;
+                        counter.innerText = count;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 20); // Speed of counting
+            }, 1000);
+        });
+
+        // Modal Functionality
+        const modal = document.getElementById('explainModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalCareerTitle = document.getElementById('modalCareerTitle');
+        const modalScore = document.getElementById('modalScore');
+
+        function openModal(title, score) {
+            modalCareerTitle.innerText = title;
+            modalScore.innerText = score + '%';
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            // Slight delay for animation effect
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }, 200);
+        }
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+
+</html>
