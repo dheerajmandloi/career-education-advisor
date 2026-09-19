@@ -1397,135 +1397,6 @@
             color: var(--pur);
         }
 
-        /* OFFCANVAS LOGIN */
-        #lofc {
-            width: 420px;
-            background: var(--bg2);
-            border-left: 1px solid var(--bd2);
-        }
-
-        .lm #lofc {
-            background: #f5f5ff;
-        }
-
-        .offcanvas-header {
-            border-bottom: 1px solid var(--bd);
-            padding: 20px 24px;
-        }
-
-        .offcanvas-title {
-            font-family: "Space Grotesk", sans-serif;
-            font-weight: 700;
-            color: var(--tx);
-        }
-
-        .olbl {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--tx2);
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        .oinp {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 12px;
-            border: 1px solid var(--bd2);
-            background: var(--sf);
-            color: var(--tx);
-            font-size: 0.9rem;
-            font-family: "Space Grotesk", sans-serif;
-            outline: none;
-            transition: 0.2s;
-            margin-bottom: 14px;
-        }
-
-        .oinp:focus {
-            border-color: var(--pur);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
-        }
-
-        .odiv {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--tx3);
-            font-size: 0.8rem;
-            margin: 16px 0;
-        }
-
-        .odiv::before,
-        .odiv::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: var(--bd);
-        }
-
-        .oauth {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 10px;
-            border-radius: 12px;
-            border: 1px solid var(--bd2);
-            background: var(--sf);
-            color: var(--tx2);
-            font-family: "Space Grotesk", sans-serif;
-            font-size: 0.88rem;
-            font-weight: 500;
-            transition: 0.2s;
-            cursor: pointer;
-            margin-bottom: 8px;
-        }
-
-        .oauth:hover {
-            border-color: var(--pur);
-            color: var(--tx);
-        }
-
-        .tab-switch {
-            display: flex;
-            background: var(--sf);
-            border: 1px solid var(--bd);
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 22px;
-        }
-
-        .tab-sw-btn {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 9px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            font-family: "Space Grotesk", sans-serif;
-            cursor: pointer;
-            transition: 0.2s;
-            background: transparent;
-            color: var(--tx3);
-        }
-
-        .tab-sw-btn.on {
-            background: var(--grad);
-            color: #fff;
-        }
-
-        .err-msg {
-            background: rgba(248, 113, 113, 0.1);
-            border: 1px solid rgba(248, 113, 113, 0.25);
-            color: #f87171;
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 0.82rem;
-            margin-bottom: 12px;
-            display: none;
-        }
-
         /* MAGNIFIC */
         .mfp-bg {
             background: #000;
@@ -2465,14 +2336,15 @@
                             <i class="fa-solid fa-sun" id="suni" style="display:none"></i>
                             <i class="fa-solid fa-moon" id="mooni"></i>
                         </button>
-                        <button class="boc px-3 py-2 d-none d-sm-flex align-items-center gap-1" data-bs-toggle="modal"
-                            data-bs-target="#authModal" onclick="switchAuth('login')">
+
+                        <a href="login.html" class="boc px-3 py-2 d-none d-sm-flex align-items-center gap-1">
                             <i class="fa-regular fa-user fa-sm"></i> Login
-                        </button>
-                        <button class="bgrd btn px-3 py-2 d-none d-sm-flex align-items-center gap-1"
-                            data-bs-toggle="modal" data-bs-target="#authModal" onclick="switchAuth('signup')">
+                        </a>
+
+                        <a href="register.html" class="bgrd btn px-3 py-2 d-none d-sm-flex align-items-center gap-1">
                             Get Started <i class="fa-solid fa-arrow-right fa-sm"></i>
-                        </button>
+                        </a>
+
                         <button class="boc d-lg-none px-2 py-2" id="mbtog" style="border-radius:10px">
                             <i class="fa-solid fa-bars" id="barIcon"></i><i class="fa-solid fa-xmark" id="xIcon"
                                 style="display:none"></i>
@@ -2492,11 +2364,15 @@
             <a href="#roadmap" class="nav-link d-block py-3 border-bottom"
                 style="border-color:var(--bd)!important">Roadmap</a>
             <a href="#resources" class="nav-link d-block py-3">Resources</a>
+
             <div class="d-flex gap-2 mt-3">
-                <button class="boc flex-fill py-2 btn" data-bs-toggle="modal" data-bs-target="#authModal"
-                    onclick="switchAuth('login')">Login</button>
-                <button class="bgrd flex-fill py-2 btn" data-bs-toggle="modal" data-bs-target="#authModal"
-                    onclick="switchAuth('signup')">Get Started</button>
+                <a href="login.html" class="boc flex-fill py-2 btn text-center">
+                    Login
+                </a>
+
+                <a href="register.html" class="bgrd flex-fill py-2 btn text-center">
+                    Get Started
+                </a>
             </div>
         </div>
 
@@ -3269,39 +3145,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div>
-                        <div class="slbl mb-1">CareerAdvisor</div>
-                        <h5 class="modal-title" id="authTitle">Login</h5>
-                    </div><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <div class="d-flex gap-2 mb-4"><button class="boc btn flex-fill auth-tab active" id="loginTab"
-                            onclick="switchAuth('login')">Login</button><button class="boc btn flex-fill auth-tab"
-                            id="signupTab" onclick="switchAuth('signup')">Create account</button></div>
-                    <div id="loginForm"><label class="form-label">Email</label><input id="loginEmail"
-                            class="form-control mb-3" type="email" placeholder="you@example.com"><label
-                            class="form-label">Password</label><input id="loginPassword" class="form-control mb-3"
-                            type="password" placeholder="••••••••"><button class="bgrd btn w-100"
-                            onclick="demoAuth('login')">Login <i class="fa-solid fa-arrow-right ms-1"></i></button>
-                    </div>
-                    <div id="signupForm" class="d-none"><label class="form-label">Full name</label><input
-                            id="signupName" class="form-control mb-3" placeholder="Your name"><label
-                            class="form-label">Email</label><input id="signupEmail" class="form-control mb-3"
-                            type="email" placeholder="you@example.com"><label class="form-label">Password</label><input
-                            id="signupPassword" class="form-control mb-3" type="password"
-                            placeholder="Create a password"><button class="bgrd btn w-100"
-                            onclick="demoAuth('signup')">Create account <i
-                                class="fa-solid fa-arrow-right ms-1"></i></button></div>
-                    <div id="authMessage" class="small mt-3 text-center d-none"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
@@ -3354,35 +3197,6 @@
             document.getElementById('careerModalScore').textContent = score;
             document.getElementById('careerModalSkills').innerHTML = skills.split(',').map(skill => `<span class="badge skill-chip">${skill.trim()}</span>`).join('');
             bootstrap.Modal.getOrCreateInstance(document.getElementById('careerModal')).show();
-        }
-
-        function switchAuth(type) {
-            const login = type === 'login';
-            document.getElementById('loginForm').classList.toggle('d-none', !login);
-            document.getElementById('signupForm').classList.toggle('d-none', login);
-            document.getElementById('loginTab').classList.toggle('active', login);
-            document.getElementById('signupTab').classList.toggle('active', !login);
-            document.getElementById('authTitle').textContent = login ? 'Login' : 'Create your account';
-            document.getElementById('authMessage').classList.add('d-none');
-        }
-
-        function demoAuth(type) {
-            const message = document.getElementById('authMessage');
-            const valid = type === 'login'
-                ? document.getElementById('loginEmail').value.trim() && document.getElementById('loginPassword').value.trim()
-                : document.getElementById('signupName').value.trim() && document.getElementById('signupEmail').value.trim() && document.getElementById('signupPassword').value.trim();
-
-            message.classList.remove('d-none');
-            if (!valid) {
-                message.textContent = type === 'login' ? 'Please enter your email and password.' : 'Please complete all fields.';
-                message.className = 'small mt-3 text-center text-warning';
-                return;
-            }
-
-            message.textContent = type === 'login'
-                ? 'Demo login successful. Your personalized dashboard will connect here.'
-                : 'Account created in demo mode. Your profile setup will start here.';
-            message.className = 'small mt-3 text-center text-success';
         }
 
         function runAssessment() {

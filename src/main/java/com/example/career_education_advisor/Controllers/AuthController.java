@@ -30,7 +30,6 @@ public class AuthController {
     private Jwtutils jwtutils;
 
     // ================= REGISTER =================
-
     @PostMapping("/register")
     public ResponseEntity<?> register(
             @RequestBody RegisterDTO request) {
@@ -57,7 +56,6 @@ public class AuthController {
     }
 
     // ================= LOGIN =================
-
     @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody LoginDTO request) {
