@@ -992,34 +992,18 @@
         async function redirectAfterLogin(user) {
             const role = String(user?.role || "STUDENT").toUpperCase();
 
-            /*
-             * Future role-specific pages can use these routes.
-             * Until those pages are created, login falls back to the
-             * existing home page instead of sending the user to a 404 page.
-             */
             const dashboardByRole = {
-                STUDENT: "student-dashboard.html",
-                COUNSELOR: "counselor-dashboard.html",
-                ADMIN: "admin-dashboard.html"
+                STUDENT: "Student/student-dashboard.html"
             };
 
-            const target = dashboardByRole[role] || "student-dashboard.html";
+            const target = dashboardByRole[role];
 
-            try {
-                const pageCheck = await fetch(target, {
-                    method: "HEAD",
-                    cache: "no-store"
-                });
-
-                if (pageCheck.ok) {
-                    window.location.href = target;
-                    return;
-                }
-            } catch (error) {
-                console.warn("Dashboard page check failed:", error);
+            if (!target) {
+                showMessage("error", "Invalid user role.");
+                return;
             }
 
-            window.location.href = "index.html";
+            window.location.href = target;
         }
 
         /* ---------- Login request ---------- */
