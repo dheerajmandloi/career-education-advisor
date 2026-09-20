@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>College Recommendation</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 70px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .back-btn {
+            border: none;
+            background: #eef2ff;
+            color: #2563eb;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #e0e7ff;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        /* Recommendation Card */
+        .recommendation-card {
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            color: white;
+            border-radius: 18px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.20);
+        }
+
+        .college-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            margin: 0 auto 20px;
+        }
+
+        .recommendation-card h2 {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .recommendation-card p {
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #ede9fe;
+        }
+
+        .coming-soon {
+            display: inline-block;
+            margin-top: 22px;
+            background: white;
+            color: #4f46e5;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Preferences Section */
+        .preferences-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .preferences-section h2 {
+            font-size: 22px;
+            margin-bottom: 22px;
+            color: #111827;
+        }
+
+        .preferences-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .preference-item {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .preference-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 7px;
+        }
+
+        .preference-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* Information Box */
+        .info-box {
+            margin-top: 25px;
+            background: #f5f3ff;
+            border-left: 4px solid #7c3aed;
+            padding: 18px;
+            border-radius: 8px;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        /* Future Features */
+        .future-section {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .future-card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .future-card .icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .future-card h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .future-card p {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .recommendation-card {
+                padding: 30px 20px;
+            }
+
+            .preferences-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .future-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Career & Education Advisor
+        </div>
+
+        <button class="back-btn" onclick="goBack()">
+            ← Back to Dashboard
+        </button>
+
+    </nav>
+
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Header -->
+        <div class="page-header">
+
+            <h1>College Recommendation</h1>
+
+            <p>
+                Find colleges that match your course, budget, location and preferences.
+            </p>
+
+        </div>
+
+
+        <!-- Recommendation Section -->
+        <section class="recommendation-card">
+
+            <div class="college-icon">
+                🏫
+            </div>
+
+            <h2>Personalized College Recommendations</h2>
+
+            <p>
+                Our future recommendation system will analyze your preferred
+                course, college type, budget, hostel requirement and location
+                preferences to suggest suitable colleges for you.
+            </p>
+
+            <span class="coming-soon">
+                Coming Soon
+            </span>
+
+        </section>
+
+
+        <!-- College Preferences -->
+        <section class="preferences-section">
+
+            <h2>Your College Preferences</h2>
+
+            <div class="preferences-grid">
+
+                <div class="preference-item">
+
+                    <div class="preference-label">
+                        Preferred Course
+                    </div>
+
+                    <div class="preference-value" id="preferredCourse">
+                        Not Available
+                    </div>
+
+                </div>
+
+
+                <div class="preference-item">
+
+                    <div class="preference-label">
+                        College Type
+                    </div>
+
+                    <div class="preference-value" id="collegeType">
+                        Not Available
+                    </div>
+
+                </div>
+
+
+                <div class="preference-item">
+
+                    <div class="preference-label">
+                        Budget Range
+                    </div>
+
+                    <div class="preference-value" id="budgetRange">
+                        Not Available
+                    </div>
+
+                </div>
+
+
+                <div class="preference-item">
+
+                    <div class="preference-label">
+                        Hostel Required
+                    </div>
+
+                    <div class="preference-value" id="hostelRequired">
+                        Not Available
+                    </div>
+
+                </div>
+
+
+                <div class="preference-item">
+
+                    <div class="preference-label">
+                        Preferred Location
+                    </div>
+
+                    <div class="preference-value" id="preferredLocation">
+                        Not Available
+                    </div>
+
+                </div>
+
+
+                <div class="preference-item">
+
+                    <div class="preference-label">
+                        City
+                    </div>
+
+                    <div class="preference-value" id="city">
+                        Not Available
+                    </div>
+
+                </div>
+
+
+                <div class="preference-item">
+
+                    <div class="preference-label">
+                        State
+                    </div>
+
+                    <div class="preference-value" id="state">
+                        Not Available
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Information -->
+            <div class="info-box">
+
+                <strong>How will this work?</strong>
+
+                <br>
+
+                The future recommendation system will use your academic
+                profile and college preferences to identify colleges that
+                match your requirements. It can later consider factors such
+                as course availability, budget, location, college type and
+                hostel requirements.
+
+            </div>
+
+        </section>
+
+
+        <!-- Future Features -->
+        <section class="future-section">
+
+            <div class="future-card">
+
+                <div class="icon">
+                    📍
+                </div>
+
+                <h3>Location Matching</h3>
+
+                <p>
+                    Find colleges based on your preferred city or state.
+                </p>
+
+            </div>
+
+
+            <div class="future-card">
+
+                <div class="icon">
+                    💰
+                </div>
+
+                <h3>Budget Matching</h3>
+
+                <p>
+                    Compare colleges according to your preferred budget.
+                </p>
+
+            </div>
+
+
+            <div class="future-card">
+
+                <div class="icon">
+                    🎓
+                </div>
+
+                <h3>Course Matching</h3>
+
+                <p>
+                    Find colleges offering your preferred course.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        function goBack() {
+            window.location.href = "StudentDashboard.html";
+        }
+
+        /*
+         * College recommendation engine is not connected yet.
+         *
+         * Future flow:
+         *
+         * Student Profile
+         *       ↓
+         * Course Recommendation
+         *       ↓
+         * College Preferences
+         *       ↓
+         * ML / Recommendation Engine
+         *       ↓
+         * Recommended Colleges
+         */
+
+    </script>
+
+</body>
+
+</html>

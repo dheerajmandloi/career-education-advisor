@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Course Recommendation</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 70px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .back-btn {
+            border: none;
+            background: #eef2ff;
+            color: #2563eb;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #e0e7ff;
+        }
+
+        /* Main */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        /* Recommendation Card */
+        .recommendation-card {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: white;
+            border-radius: 18px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.20);
+        }
+
+        .ai-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            margin: 0 auto 20px;
+        }
+
+        .recommendation-card h2 {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .recommendation-card p {
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #e5e7eb;
+        }
+
+        .coming-soon {
+            display: inline-block;
+            margin-top: 22px;
+            background: white;
+            color: #2563eb;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Profile */
+        .profile-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .profile-section h2 {
+            font-size: 22px;
+            margin-bottom: 22px;
+            color: #111827;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .profile-item {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .profile-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 7px;
+        }
+
+        .profile-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* Info */
+        .info-box {
+            margin-top: 25px;
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 18px;
+            border-radius: 8px;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .recommendation-card {
+                padding: 30px 20px;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Career & Education Advisor
+        </div>
+
+        <button class="back-btn" onclick="goBack()">
+            ← Back to Dashboard
+        </button>
+
+    </nav>
+
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+
+            <h1>Course Recommendation</h1>
+
+            <p>
+                Discover courses that match your interests, skills and career goals.
+            </p>
+
+        </div>
+
+
+        <!-- Recommendation Section -->
+        <section class="recommendation-card">
+
+            <div class="ai-icon">
+                🤖
+            </div>
+
+            <h2>AI-Powered Course Recommendations</h2>
+
+            <p>
+                Our recommendation system will analyze your academic profile,
+                interests, skills and career goals to suggest courses that
+                are suitable for you.
+            </p>
+
+            <span class="coming-soon">
+                Coming Soon
+            </span>
+
+        </section>
+
+
+        <!-- Student Profile Section -->
+        <section class="profile-section">
+
+            <h2>Your Profile</h2>
+
+            <div class="profile-grid">
+
+                <div class="profile-item">
+
+                    <div class="profile-label">
+                        Stream
+                    </div>
+
+                    <div class="profile-value" id="stream">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <div class="profile-label">
+                        Percentage
+                    </div>
+
+                    <div class="profile-value" id="percentage">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <div class="profile-label">
+                        Favorite Subjects
+                    </div>
+
+                    <div class="profile-value" id="favoriteSubjects">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <div class="profile-label">
+                        Strong Subjects
+                    </div>
+
+                    <div class="profile-value" id="strongSubjects">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <div class="profile-label">
+                        Interests
+                    </div>
+
+                    <div class="profile-value" id="interests">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <div class="profile-label">
+                        Skills
+                    </div>
+
+                    <div class="profile-value" id="skills">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <div class="profile-label">
+                        Career Interest
+                    </div>
+
+                    <div class="profile-value" id="careerInterest">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <div class="profile-label">
+                        Target Career
+                    </div>
+
+                    <div class="profile-value" id="targetCareer">
+                        Loading...
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <strong>How will this work?</strong>
+
+                <br>
+
+                Your profile information will be analyzed by the
+                recommendation engine. The future AI/ML module will
+                calculate suitable courses and provide personalized
+                recommendations based on your profile.
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        function goBack() {
+            window.location.href = "StudentDashboard.html";
+        }
+
+
+        /*
+         * Recommendation engine is not connected yet.
+         *
+         * Later:
+         *
+         * Student Profile
+         *       ↓
+         * Spring Boot
+         *       ↓
+         * FastAPI + ML
+         *       ↓
+         * Recommended Courses
+         *
+         * For now, profile data is displayed only when the
+         * existing Student Profile API is connected.
+         */
+
+    </script>
+
+</body>
+
+</html>
