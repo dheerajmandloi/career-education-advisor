@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Student Login</title>
+    <title>Login</title>
 
     <style>
         body {
@@ -69,7 +69,7 @@
 
     <div class="container">
 
-        <h2>Student Login</h2>
+        <h2>Login</h2>
 
         <form id="loginForm">
 
@@ -77,18 +77,15 @@
 
             <input type="email" id="email" placeholder="Enter your email" required>
 
-
             <label for="password">Password</label>
 
             <input type="password" id="password" placeholder="Enter your password" required>
-
 
             <button type="submit">
                 Login
             </button>
 
         </form>
-
 
         <div class="register-link">
 
@@ -145,56 +142,123 @@
 
                     if (response.ok) {
 
-                        // Save JWT token
+                        // ================= SAVE JWT =================
+
                         localStorage.setItem(
                             "token",
                             result.token
                         );
 
 
-                        // Save user details
+                        // ================= SAVE USER =================
+
                         localStorage.setItem(
                             "user",
                             JSON.stringify(result.user)
                         );
 
 
+                        // ================= SAVE USER ID =================
+
+                        localStorage.setItem(
+                            "userId",
+                            result.user.id
+                        );
+
+
                         alert("Login Successful!");
 
 
-                        // Get user role
+                        // ================= GET ROLE =================
+
                         const role = String(
                             result.user?.role || ""
                         ).toUpperCase();
 
 
-                        // Redirect according to role
+                        // ================= GET STATUS =================
+
+                        const status = String(
+                            result.user?.status || ""
+                        ).toUpperCase();
+
+
+                        // ================= ADMIN =================
+
                         if (role === "ADMIN") {
 
                             window.location.href =
                                 "Admin/AdminDashboard.html";
+                        }
 
-                        } else if (role === "STUDENT") {
+
+                        // ================= STUDENT =================
+
+                        else if (role === "STUDENT") {
 
                             window.location.href =
                                 "Students/StudentHome.html";
+                        }
 
-                        } else {
+
+                        // ================= COUNSELOR =================
+
+                        else if (role === "COUNSELOR") {
+
+                            if (status === "PENDING_PROFILE") {
+
+                                window.location.href =
+                                    "Counselor/CounselorProfile.html";
+
+                            } else if (status === "PENDING_REVIEW") {
+
+                                alert(
+                                    "Your profile has been submitted and is waiting for admin approval."
+                                );
+
+                            } else if (status === "APPROVED") {
+
+                                window.location.href =
+                                    "Counselor/CounselorDashboard.html";
+
+                            } else if (status === "REJECTED") {
+
+                                alert(
+                                    "Your counselor profile was rejected. Please update and resubmit your profile."
+                                );
+
+                                window.location.href =
+                                    "Counselor/CounselorProfile.html";
+
+                            } else {
+
+                                alert(
+                                    "Unknown counselor account status."
+                                );
+                            }
+                        }
+
+
+                        // ================= INVALID ROLE =================
+
+                        else {
 
                             alert("Invalid user role.");
-
                         }
+
 
                     } else {
 
                         alert(
                             "Login Failed!\n\n" +
-                            (typeof result === "string"
-                                ? result
-                                : JSON.stringify(result))
+                            (
+                                typeof result === "string"
+                                    ? result
+                                    : JSON.stringify(result)
+                            )
                         );
-
                     }
+
 
                 } catch (error) {
 
@@ -202,7 +266,6 @@
                         "Something went wrong!\n\n" +
                         error.message
                     );
-
                 }
 
             });

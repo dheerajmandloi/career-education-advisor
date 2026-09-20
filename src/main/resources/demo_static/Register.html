@@ -17,9 +17,9 @@
 
         .container {
             width: 500px;
-            margin: 80px auto;
+            margin: 100px auto;
             background-color: white;
-            padding: 30px;
+            padding: 35px;
             border: 1px solid #ddd;
             border-radius: 8px;
             text-align: center;
@@ -33,39 +33,32 @@
             color: #555;
         }
 
-        .login-btn {
-            display: inline-block;
-            margin: 20px 0;
-            padding: 10px 25px;
-            background-color: #333;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
         .register-title {
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .role-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             margin-top: 20px;
         }
 
         .role-card {
-            width: 120px;
-            padding: 20px 10px;
+            width: 150px;
+            padding: 25px 10px;
             border: 1px solid #ccc;
-            border-radius: 6px;
+            border-radius: 8px;
             text-decoration: none;
             color: #222;
             background-color: #fafafa;
+            transition: 0.2s;
         }
 
         .role-card:hover {
             background-color: #eeeeee;
+            border-color: #999;
+            transform: translateY(-2px);
         }
 
         .role-card h3 {
@@ -74,9 +67,10 @@
 
         .role-card p {
             margin: 0;
-            font-size: 14px;
+            font-size: 13px;
         }
     </style>
+
 </head>
 
 <body>
@@ -85,47 +79,30 @@
 
         <h1>Career & Education Advisor</h1>
 
-        <p>Welcome to Career & Education Advisor</p>
+        <p>Choose your role to continue registration.</p>
 
-        <p>Choose an option to continue.</p>
-
-
-        <!-- Login -->
-
-        <a href="login.html" class="login-btn">
-            Login
-        </a>
-
-
-        <!-- Registration -->
-
-        <h3 class="register-title">Register as</h3>
+        <h3 class="register-title">Register As</h3>
 
         <div class="role-container">
+
+            <!-- Student Registration -->
 
             <a href="Students/StudentRegistration.html" class="role-card">
 
                 <h3>Student</h3>
 
-                <p>Student Registration</p>
+                <p>Register as Student</p>
 
             </a>
 
 
-            <a href="counselor-registration.html" class="role-card">
+            <!-- Counselor Registration -->
+
+            <a href="Counselor/CounselorRegistration.html" class="role-card">
 
                 <h3>Counselor</h3>
 
-                <p>Counselor Registration</p>
-
-            </a>
-
-
-            <a href="admin-registration.html" class="role-card">
-
-                <h3>Admin</h3>
-
-                <p>Admin Registration</p>
+                <p>Register as Counselor</p>
 
             </a>
 

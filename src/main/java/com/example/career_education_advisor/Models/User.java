@@ -17,7 +17,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Basic Information
     @Column(nullable = false)
     private String name;
 
@@ -30,16 +29,17 @@ public class User {
     @Column(nullable = false, unique = true)
     private String phone;
 
-    // User Role
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
-    // Default Constructor
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AccountStatus status;
+
     public User() {
     }
 
-    // Getters
     public Long getId() {
         return id;
     }
@@ -64,7 +64,10 @@ public class User {
         return role;
     }
 
-    // Setters
+    public AccountStatus getStatus() {
+        return status;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -83,5 +86,9 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void setStatus(AccountStatus status) {
+        this.status = status;
     }
 }
