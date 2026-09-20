@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Profile | Admin</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 65px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .back-btn {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 9px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            padding: 30px 35px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* ================= PROFILE HEADER ================= */
+
+        .profile-header {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .profile-header h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .profile-header p {
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 10px;
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        /* ================= SECTION ================= */
+
+        .section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 19px;
+            margin-bottom: 20px;
+            color: #1f2937;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 12px;
+        }
+
+        /* ================= GRID ================= */
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px 25px;
+        }
+
+        .field {
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            padding: 13px;
+            background: #fafafa;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .field-value {
+            font-size: 14px;
+            color: #111827;
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        .message {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 35px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .container {
+                padding: 25px 18px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Career Advisor - Admin
+        </div>
+
+        <button class="back-btn" onclick="goBack()">
+            Back to Students
+        </button>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <h1 class="page-title">
+            Student Profile
+        </h1>
+
+        <p class="subtitle">
+            View complete student profile information.
+        </p>
+
+
+        <!-- ================= PROFILE HEADER ================= -->
+
+        <div class="profile-header">
+
+            <h2 id="studentName">
+                Loading...
+            </h2>
+
+            <p id="studentEmail">
+                -
+            </p>
+
+            <p id="studentPhone">
+                -
+            </p>
+
+            <span class="status">
+                Active
+            </span>
+
+        </div>
+
+
+        <!-- ================= BASIC INFORMATION ================= -->
+
+        <div class="section">
+
+            <h2 class="section-title">
+                Basic Information
+            </h2>
+
+            <div class="profile-grid">
+
+                <div class="field">
+                    <span class="field-label">Student ID</span>
+                    <span class="field-value" id="studentId">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Class</span>
+                    <span class="field-value" id="className">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Stream</span>
+                    <span class="field-value" id="stream">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Percentage</span>
+                    <span class="field-value" id="percentage">-</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ACADEMIC INFORMATION ================= -->
+
+        <div class="section">
+
+            <h2 class="section-title">
+                Academic Information
+            </h2>
+
+            <div class="profile-grid">
+
+                <div class="field">
+                    <span class="field-label">Favorite Subjects</span>
+                    <span class="field-value" id="favoriteSubjects">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Strong Subjects</span>
+                    <span class="field-value" id="strongSubjects">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Weak Subjects</span>
+                    <span class="field-value" id="weakSubjects">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Skills</span>
+                    <span class="field-value" id="skills">-</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= INTEREST & CAREER ================= -->
+
+        <div class="section">
+
+            <h2 class="section-title">
+                Interest & Career Preferences
+            </h2>
+
+            <div class="profile-grid">
+
+                <div class="field">
+                    <span class="field-label">Interests</span>
+                    <span class="field-value" id="interests">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Career Interest</span>
+                    <span class="field-value" id="careerInterest">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Target Career</span>
+                    <span class="field-value" id="targetCareer">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Preferred Course</span>
+                    <span class="field-value" id="preferredCourse">-</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= COLLEGE PREFERENCES ================= -->
+
+        <div class="section">
+
+            <h2 class="section-title">
+                College Preferences
+            </h2>
+
+            <div class="profile-grid">
+
+                <div class="field">
+                    <span class="field-label">College Type</span>
+                    <span class="field-value" id="collegeType">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Budget Range</span>
+                    <span class="field-value" id="budgetRange">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Hostel Required</span>
+                    <span class="field-value" id="hostelRequired">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">Preferred Location</span>
+                    <span class="field-value" id="preferredLocation">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">City</span>
+                    <span class="field-value" id="city">-</span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">State</span>
+                    <span class="field-value" id="state">-</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= LOADING / ERROR ================= -->
+
+        <div id="messageBox" class="message" style="display: none;">
+            Loading student profile...
+        </div>
+
+    </main>
+
+
+    <script>
+
+        // ================= GET STUDENT ID =================
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const studentId = urlParams.get("id");
+
+
+        // ================= LOAD PROFILE =================
+
+        async function loadStudentProfile() {
+
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+
+                alert("Login token not found. Please login again.");
+
+                window.location.href = "../StudentsLogin.html";
+
+                return;
+            }
+
+
+            if (!studentId) {
+
+                showError("Student ID not found.");
+
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8081/api/admin/students/" + studentId,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+
+                if (response.status === 401 ||
+                    response.status === 403) {
+
+                    showError(
+                        "You are not authorized to view this student profile."
+                    );
+
+                    return;
+                }
+
+
+                if (response.status === 404) {
+
+                    showError(
+                        "Student profile not found."
+                    );
+
+                    return;
+                }
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Server returned status: " +
+                        response.status
+                    );
+                }
+
+
+                const student = await response.json();
+
+                console.log(
+                    "Student profile loaded:",
+                    student
+                );
+
+                displayProfile(student);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Student Profile Error:",
+                    error
+                );
+
+                showError(
+                    "Unable to load student profile."
+                );
+            }
+        }
+
+
+        // ================= DISPLAY PROFILE =================
+
+        function displayProfile(student) {
+
+            document.getElementById("studentName").textContent =
+                student.name || "-";
+
+            document.getElementById("studentEmail").textContent =
+                student.email || "-";
+
+            document.getElementById("studentPhone").textContent =
+                student.phone || "-";
+
+
+            document.getElementById("studentId").textContent =
+                student.id || "-";
+
+            document.getElementById("className").textContent =
+                student.className || "-";
+
+            document.getElementById("stream").textContent =
+                student.stream || "-";
+
+            document.getElementById("percentage").textContent =
+                student.percentage != null
+                    ? student.percentage + "%"
+                    : "-";
+
+
+            document.getElementById("favoriteSubjects").textContent =
+                student.favoriteSubjects || "-";
+
+            document.getElementById("strongSubjects").textContent =
+                student.strongSubjects || "-";
+
+            document.getElementById("weakSubjects").textContent =
+                student.weakSubjects || "-";
+
+            document.getElementById("skills").textContent =
+                student.skills || "-";
+
+
+            document.getElementById("interests").textContent =
+                student.interests || "-";
+
+            document.getElementById("careerInterest").textContent =
+                student.careerInterest || "-";
+
+            document.getElementById("targetCareer").textContent =
+                student.targetCareer || "-";
+
+            document.getElementById("preferredCourse").textContent =
+                student.preferredCourse || "-";
+
+
+            document.getElementById("collegeType").textContent =
+                student.collegeType || "-";
+
+            document.getElementById("budgetRange").textContent =
+                student.budgetRange || "-";
+
+            document.getElementById("hostelRequired").textContent =
+                student.hostelRequired || "-";
+
+            document.getElementById("preferredLocation").textContent =
+                student.preferredLocation || "-";
+
+            document.getElementById("city").textContent =
+                student.city || "-";
+
+            document.getElementById("state").textContent =
+                student.state || "-";
+        }
+
+
+        // ================= ERROR =================
+
+        function showError(message) {
+
+            const messageBox =
+                document.getElementById("messageBox");
+
+            messageBox.textContent = message;
+
+            messageBox.classList.add("error");
+
+            messageBox.style.display = "block";
+        }
+
+
+        // ================= BACK =================
+
+        function goBack() {
+
+            window.location.href =
+                "AdminStudentManagement.html";
+        }
+
+
+        // ================= START =================
+
+        loadStudentProfile();
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Management | Admin</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 65px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .back-btn {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 9px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Main */
+        .container {
+            padding: 30px 35px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* Search */
+        .search-box {
+            background: white;
+            padding: 18px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #2563eb;
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #f9fafb;
+            text-align: left;
+            padding: 15px;
+            font-size: 14px;
+            color: #4b5563;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 15px;
+            font-size: 14px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status {
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        /* View Profile Button */
+        .view-btn {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 8px 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .view-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .message {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .container {
+                padding: 25px 18px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Career Advisor - Admin
+        </div>
+
+        <button class="back-btn" onclick="goBack()">
+            Back to Dashboard
+        </button>
+
+    </nav>
+
+
+    <!-- Main -->
+    <main class="container">
+
+        <h1 class="page-title">
+            Student Management
+        </h1>
+
+        <p class="subtitle">
+            View and manage registered students.
+        </p>
+
+
+        <!-- Search -->
+        <div class="search-box">
+
+            <input type="text" id="searchInput" placeholder="Search by student name or email..."
+                oninput="searchStudents()">
+
+        </div>
+
+
+        <!-- Student Table -->
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="studentTableBody">
+
+                    <tr>
+                        <td colspan="6" class="message">
+                            Loading students...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        let allStudents = [];
+
+
+        // ================= LOAD STUDENTS =================
+
+        async function loadStudents() {
+
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+
+                alert("Login token not found. Please login again.");
+
+                window.location.href = "../StudentsLogin.html";
+
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8081/api/admin/students",
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+
+                if (response.status === 401 ||
+                    response.status === 403) {
+
+                    console.error(
+                        "Student API access denied:",
+                        response.status
+                    );
+
+                    alert(
+                        "You are not authorized to access Student Management."
+                    );
+
+                    return;
+                }
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Server returned status: " +
+                        response.status
+                    );
+                }
+
+
+                allStudents = await response.json();
+
+                displayStudents(allStudents);
+
+
+                console.log(
+                    "Students loaded successfully:",
+                    allStudents
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Student Management Error:",
+                    error
+                );
+
+                document.getElementById(
+                    "studentTableBody"
+                ).innerHTML = `
+                    <tr>
+                        <td colspan="6" class="message error">
+                            Unable to load students.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+
+        // ================= DISPLAY STUDENTS =================
+
+        function displayStudents(students) {
+
+            const tableBody =
+                document.getElementById("studentTableBody");
+
+
+            /*
+             * Safety filter:
+             * Only STUDENT role will be displayed.
+             */
+            const studentList = (students || []).filter(
+                student =>
+                    String(student.role || "").toUpperCase() === "STUDENT"
+            );
+
+
+            if (studentList.length === 0) {
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="message">
+                            No students found.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+
+            tableBody.innerHTML = studentList.map(student => `
+
+                <tr>
+
+                    <td>
+                        ${student.id}
+                    </td>
+
+                    <td>
+                        ${student.name || "-"}
+                    </td>
+
+                    <td>
+                        ${student.email || "-"}
+                    </td>
+
+                    <td>
+                        ${student.phone || "-"}
+                    </td>
+
+                    <td class="status">
+                        Active
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="view-btn"
+                            onclick="viewStudent(${student.id})"
+                        >
+                            View Profile
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `).join("");
+        }
+
+
+        // ================= SEARCH =================
+
+        function searchStudents() {
+
+            const searchText =
+                document.getElementById(
+                    "searchInput"
+                ).value
+                    .toLowerCase()
+                    .trim();
+
+
+            if (!searchText) {
+
+                displayStudents(allStudents);
+
+                return;
+            }
+
+
+            const filteredStudents =
+                allStudents.filter(student => {
+
+                    const name =
+                        String(student.name || "").toLowerCase();
+
+                    const email =
+                        String(student.email || "").toLowerCase();
+
+                    return (
+                        name.includes(searchText) ||
+                        email.includes(searchText)
+                    );
+
+                });
+
+
+            displayStudents(filteredStudents);
+        }
+
+
+        // ================= VIEW STUDENT PROFILE =================
+
+        function viewStudent(studentId) {
+
+            window.location.href =
+                "AdminStudentProfile.html?id=" + studentId;
+        }
+
+
+        // ================= BACK =================
+
+        function goBack() {
+
+            window.location.href =
+                "AdminDashboard.html";
+        }
+
+
+        // ================= START =================
+
+        loadStudents();
+
+    </script>
+
+</body>
+
+</html>

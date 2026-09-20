@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Career Advisor</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 65px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-name {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #ef4444;
+            color: white;
+            padding: 9px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Main */
+        .container {
+            padding: 30px 35px;
+        }
+
+        .page-title {
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        /* Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-card h3 {
+            font-size: 15px;
+            color: #6b7280;
+            font-weight: normal;
+            margin-bottom: 12px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        /* Modules */
+        .section-title {
+            font-size: 21px;
+            margin-bottom: 18px;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .module-card {
+            background: white;
+            padding: 22px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .module-card h3 {
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+
+        .module-card p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Loading */
+        .loading {
+            color: #6b7280;
+        }
+
+        /* Mobile */
+        @media (max-width: 800px) {
+
+            .stats-grid,
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .container {
+                padding: 25px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Career Advisor - Admin
+        </div>
+
+        <div class="admin-info">
+
+            <span class="admin-name" id="adminName">
+                Admin
+            </span>
+
+            <button class="logout-btn" onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <h1 class="page-title">
+            Admin Dashboard
+        </h1>
+
+        <p class="subtitle">
+            Manage and monitor the Career & Education Advisor system.
+        </p>
+
+
+        <!-- Statistics -->
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h3>Total Students</h3>
+
+                <div class="stat-number" id="totalStudents">
+                    <span class="loading">...</span>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <h3>Total Counselors</h3>
+
+                <div class="stat-number" id="totalCounselors">
+                    <span class="loading">...</span>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <h3>Total Admins</h3>
+
+                <div class="stat-number" id="totalAdmins">
+                    <span class="loading">...</span>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Management Modules -->
+        <h2 class="section-title">
+            Management
+        </h2>
+
+        <div class="modules-grid">
+
+            <!-- Student Management -->
+            <div class="module-card" onclick="window.location.href='AdminStudentManagement.html'">
+
+                <h3>Student Management</h3>
+
+                <p>
+                    View and manage registered students and their profiles.
+                </p>
+
+            </div>
+
+
+            <!-- Counselor Management -->
+            <div class="module-card" onclick="window.location.href='AdminCounselorManagement.html'">
+
+                <h3>Counselor Management</h3>
+
+                <p>
+                    Manage counselors and counseling requests.
+                </p>
+
+            </div>
+
+
+            <!-- Course Management -->
+            <div class="module-card" onclick="window.location.href='AdminCourseManagement.html'">
+
+                <h3>Course Management</h3>
+
+                <p>
+                    Add, update and manage available courses.
+                </p>
+
+            </div>
+
+
+            <!-- College Management -->
+            <div class="module-card" onclick="window.location.href='AdminCollegeManagement.html'">
+
+                <h3>College Management</h3>
+
+                <p>
+                    Manage college information and course availability.
+                </p>
+
+            </div>
+
+
+            <!-- Assessment Management -->
+            <div class="module-card" onclick="window.location.href='AdminAssessmentManagement.html'">
+
+                <h3>Assessment Management</h3>
+
+                <p>
+                    Manage assessment questions used for recommendations.
+                </p>
+
+            </div>
+
+
+            <!-- System Overview -->
+            <div class="module-card" onclick="window.location.href='AdminSystemOverview.html'">
+
+                <h3>System Overview</h3>
+
+                <p>
+                    Monitor the overall Career & Education Advisor system.
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        async function loadDashboard() {
+
+            const token = localStorage.getItem("token");
+
+            // Token check
+            if (!token) {
+
+                alert("Login token not found. Please login again.");
+
+                window.location.href = "../StudentsLogin.html";
+
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8081/api/admin/dashboard",
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+
+                // Unauthorized / Forbidden
+                if (response.status === 401 || response.status === 403) {
+
+                    console.log("Admin Dashboard API Status:", response.status);
+                    console.log("Token Present:", !!token);
+                    console.log("Token:", token);
+
+                    alert(
+                        "Admin Dashboard Access Denied.\n\n" +
+                        "HTTP Status: " + response.status +
+                        "\n\nToken is present: " + (!!token)
+                    );
+
+                    // IMPORTANT:
+                    // Token ko abhi delete nahi karenge.
+                    // Taaki debugging kar sakein.
+                    return;
+                }
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Server returned status: " + response.status
+                    );
+                }
+
+
+                const data = await response.json();
+
+
+                // Dashboard statistics
+                document.getElementById("totalStudents").textContent =
+                    data.totalStudents;
+
+                document.getElementById("totalCounselors").textContent =
+                    data.totalCounselors;
+
+                document.getElementById("totalAdmins").textContent =
+                    data.totalAdmins;
+
+
+                // Admin name
+                const userData = localStorage.getItem("user");
+
+                if (userData) {
+
+                    const user = JSON.parse(userData);
+
+                    if (user && user.name) {
+
+                        document.getElementById("adminName").textContent =
+                            user.name;
+                    }
+                }
+
+
+                console.log("Admin Dashboard loaded successfully.");
+                console.log("Dashboard Data:", data);
+
+            } catch (error) {
+
+                console.error("Dashboard Error:", error);
+
+                document.getElementById("totalStudents").textContent = "-";
+                document.getElementById("totalCounselors").textContent = "-";
+                document.getElementById("totalAdmins").textContent = "-";
+
+                alert(
+                    "Unable to load Admin Dashboard.\n\n" +
+                    error.message
+                );
+            }
+        }
+
+
+        // Logout
+        function logout() {
+
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+
+            window.location.href = "../Login.html";
+        }
+
+
+        // Load dashboard
+        loadDashboard();
+
+    </script>
+
+</body>
+
+</html>
