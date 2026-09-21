@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counselor Management | CareerAdvisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --purple: #8B5CF6;
+            --purple-dark: #7C3AED;
+            --blue: #3B82F6;
+            --cyan: #06B6D4;
+            --green: #22C55E;
+            --amber: #F59E0B;
+            --red: #EF4444;
+            --bg: #FAFAFE;
+            --surface: #FFFFFF;
+            --surface-soft: #F0F0FF;
+            --text: #172033;
+            --muted: #6B7280;
+            --border: #E8E6F4;
+            --shadow: 0 14px 38px rgba(79, 70, 229, .08);
+            --sidebar: 260px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: "Space Grotesk", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden
+        }
+
+        body::-webkit-scrollbar {
+            width: 0
+        }
+
+        body {
+            scrollbar-width: none
+        }
+
+        button,
+        input {
+            font: inherit
+        }
+
+        button {
+            border: 0
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        .app {
+            min-height: 100vh;
+            display: flex
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--sidebar);
+            padding: 22px 15px;
+            background: rgba(255, 255, 255, .94);
+            border-right: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            z-index: 40;
+            display: flex;
+            flex-direction: column
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 0 10px;
+            margin-bottom: 30px
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            box-shadow: 0 10px 24px rgba(99, 102, 241, .2)
+        }
+
+        .brand-mark i {
+            font-size: 17px
+        }
+
+        .brand-name {
+            font-size: 19px;
+            font-weight: 700;
+            letter-spacing: -.5px
+        }
+
+        .brand-sub {
+            font-size: 9px;
+            color: #9298A9;
+            margin-top: 2px;
+            letter-spacing: .6px
+        }
+
+        .nav-label {
+            padding: 0 11px;
+            margin: 0 0 9px;
+            color: #9A9EAD;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        .nav {
+            display: grid;
+            gap: 5px
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 12px;
+            border-radius: 13px;
+            color: #62697A;
+            font-size: 12px;
+            font-weight: 600;
+            transition: .25s ease;
+            cursor: pointer
+        }
+
+        .nav-link i {
+            width: 19px;
+            text-align: center;
+            font-size: 14px
+        }
+
+        .nav-link:hover {
+            background: #F7F5FF;
+            color: var(--purple-dark);
+            transform: translateX(2px)
+        }
+
+        .nav-link.active {
+            color: var(--purple-dark);
+            background: linear-gradient(135deg, rgba(139, 92, 246, .11), rgba(59, 130, 246, .07));
+            box-shadow: inset 3px 0 0 var(--purple)
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 18px;
+            border-top: 1px solid var(--border)
+        }
+
+        .profile-mini {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 14px;
+            background: #FAFAFE;
+            border: 1px solid #EEEAF8
+        }
+
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 11px;
+            display: grid;
+            place-items: center;
+            color: var(--purple-dark);
+            background: linear-gradient(135deg, #EFE9FF, #E7F0FF);
+            font-weight: 700;
+            font-size: 12px
+        }
+
+        .profile-mini strong {
+            display: block;
+            font-size: 11px
+        }
+
+        .profile-mini span {
+            display: block;
+            font-size: 9px;
+            color: var(--muted);
+            margin-top: 2px
+        }
+
+        .logout {
+            width: 100%;
+            margin-top: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 11px;
+            background: #fff;
+            border: 1px solid var(--border);
+            color: #6B7280;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .logout:hover {
+            color: var(--red);
+            border-color: rgba(239, 68, 68, .2);
+            background: #FFF8F8
+        }
+
+        .main {
+            width: calc(100% - var(--sidebar));
+            margin-left: var(--sidebar);
+            min-height: 100vh
+        }
+
+        .topbar {
+            height: 74px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 0 32px;
+            background: rgba(250, 250, 254, .84);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            position: sticky;
+            top: 0;
+            z-index: 25
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 11px;
+            color: #9499A8
+        }
+
+        .breadcrumb strong {
+            color: var(--text);
+            font-weight: 700
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .icon-btn {
+            width: 37px;
+            height: 37px;
+            border-radius: 11px;
+            background: #fff;
+            border: 1px solid var(--border);
+            color: #6D7485;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: .22s;
+            position: relative
+        }
+
+        .icon-btn:hover {
+            color: var(--purple-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 7px 16px rgba(99, 102, 241, .08)
+        }
+
+        .notification-dot {
+            position: absolute;
+            right: 7px;
+            top: 7px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--blue);
+            box-shadow: 0 0 0 3px #fff
+        }
+
+        .menu-btn {
+            display: none
+        }
+
+        .content {
+            padding: 30px 32px 40px
+        }
+
+        .hero {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 22px;
+            margin-bottom: 26px
+        }
+
+        .hero-left {
+            max-width: 680px
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, .1), rgba(59, 130, 246, .08));
+            border: 1px solid #E8E2FD;
+            color: var(--purple-dark);
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .75px
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            line-height: 1.1;
+            letter-spacing: -1.1px;
+            margin-top: 12px
+        }
+
+        .hero p {
+            font-size: 12px;
+            line-height: 1.7;
+            color: var(--muted);
+            margin-top: 8px;
+            max-width: 680px
+        }
+
+        .refresh-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 15px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 22px rgba(99, 102, 241, .18);
+            transition: .24s;
+            white-space: nowrap
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 27px rgba(99, 102, 241, .24)
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 21px
+        }
+
+        .stat {
+            padding: 17px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .93);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            animation: rise .55s ease both
+        }
+
+        .stat:nth-child(2) {
+            animation-delay: .05s
+        }
+
+        .stat:nth-child(3) {
+            animation-delay: .1s
+        }
+
+        .stat:nth-child(4) {
+            animation-delay: .15s
+        }
+
+        .stat:after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            right: -38px;
+            top: -52px;
+            background: radial-gradient(circle, rgba(139, 92, 246, .12), transparent 70%);
+            pointer-events: none
+        }
+
+        .stat-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        .stat-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 11px;
+            display: grid;
+            place-items: center;
+            background: #F4F0FF;
+            color: var(--purple-dark)
+        }
+
+        .stat-title {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600
+        }
+
+        .stat-value {
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: -.6px;
+            margin-top: 10px
+        }
+
+        .stat-note {
+            font-size: 9px;
+            color: #9399A8;
+            margin-top: 4px
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, .94);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 18px 19px;
+            border-bottom: 1px solid #EFEDF7
+        }
+
+        .toolbar-title {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .toolbar-title .title-icon {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: #F3F0FF;
+            color: var(--purple-dark)
+        }
+
+        .toolbar-title strong {
+            display: block;
+            font-size: 14px
+        }
+
+        .toolbar-title span {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 2px
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 9px
+        }
+
+        .search {
+            position: relative;
+            width: min(280px, 40vw)
+        }
+
+        .search i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #9BA0AF
+        }
+
+        .search input {
+            width: 100%;
+            height: 38px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: #FCFCFF;
+            padding: 0 12px 0 34px;
+            outline: none;
+            color: var(--text);
+            font-size: 11px;
+            transition: .2s
+        }
+
+        .search input:focus {
+            border-color: rgba(139, 92, 246, .55);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, .08)
+        }
+
+        .review-badge {
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: #FFF8E8;
+            color: #9A6A00;
+            border: 1px solid #F8E6B5;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        .table-wrap {
+            overflow: auto
+        }
+
+        .table-wrap::-webkit-scrollbar {
+            height: 6px
+        }
+
+        .table-wrap::-webkit-scrollbar-thumb {
+            background: #DDD9ED;
+            border-radius: 50px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 980px
+        }
+
+        thead {
+            background: #FBFAFE
+        }
+
+        th {
+            padding: 12px 15px;
+            text-align: left;
+            color: #8A8F9F;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            border-bottom: 1px solid #EFEDF7
+        }
+
+        td {
+            padding: 13px 15px;
+            border-bottom: 1px solid #F1EFF7;
+            font-size: 11px;
+            vertical-align: middle
+        }
+
+        tbody tr {
+            transition: .2s
+        }
+
+        tbody tr:hover {
+            background: #FCFBFF
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 0
+        }
+
+        .id-cell {
+            font-weight: 700;
+            color: #777D8E
+        }
+
+        .person {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 170px
+        }
+
+        .person-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 11px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #EDE6FF, #E5F0FF);
+            color: var(--purple-dark);
+            font-size: 11px;
+            font-weight: 700;
+            flex: none
+        }
+
+        .person strong {
+            display: block;
+            font-size: 11px
+        }
+
+        .person span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 3px
+        }
+
+        .contact span {
+            display: block
+        }
+
+        .contact small {
+            display: block;
+            color: #9A9FAD;
+            font-size: 9px;
+            margin-top: 3px
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 9px;
+            border-radius: 999px;
+            font-size: 9px;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        .pill.pending {
+            background: #FFF7E5;
+            color: #9A6900;
+            border: 1px solid #F5E4B5
+        }
+
+        .pill.complete {
+            background: #EFFBF3;
+            color: #16803D;
+            border: 1px solid #CFEED9
+        }
+
+        .pill.incomplete {
+            background: #FFF4F3;
+            color: #B42318;
+            border: 1px solid #F4D4D1
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 10px;
+            border-radius: 9px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .view-btn {
+            background: #F2F0FF;
+            color: var(--purple-dark);
+            border: 1px solid #E7E0FF
+        }
+
+        .view-btn:hover {
+            background: #EAE5FF;
+            transform: translateY(-1px)
+        }
+
+        .approve-btn {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            color: #fff;
+            box-shadow: 0 6px 13px rgba(34, 197, 94, .13)
+        }
+
+        .approve-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 9px 16px rgba(34, 197, 94, .2)
+        }
+
+        .action-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+            transform: none
+        }
+
+        .empty {
+            padding: 52px 20px !important;
+            text-align: center !important
+        }
+
+        .empty-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .empty-icon {
+            width: 54px;
+            height: 54px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: #F4F1FF;
+            color: var(--purple);
+            font-size: 19px;
+            margin-bottom: 12px
+        }
+
+        .empty strong {
+            font-size: 13px
+        }
+
+        .empty span {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 5px
+        }
+
+        .loading-row {
+            text-align: center;
+            padding: 42px !important;
+            color: var(--muted)
+        }
+
+        .loading-row i {
+            color: var(--purple);
+            font-size: 18px
+        }
+
+        .loading-row div {
+            margin-top: 8px;
+            font-size: 10px
+        }
+
+        .error-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 14px 16px;
+            margin-top: 14px;
+            border: 1px solid #F1D8D5;
+            background: #FFF8F7;
+            border-radius: 14px;
+            color: #A23A30;
+            font-size: 10px
+        }
+
+        .retry-btn {
+            padding: 8px 11px;
+            border-radius: 9px;
+            background: #fff;
+            border: 1px solid #EDCCCA;
+            color: #A23A30;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(22, 28, 45, .28);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 80;
+            padding: 18px
+        }
+
+        .overlay.show {
+            display: flex
+        }
+
+        .modal {
+            width: min(430px, 100%);
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 21px;
+            box-shadow: 0 28px 70px rgba(15, 23, 42, .2);
+            padding: 24px;
+            animation: modalIn .25s ease
+        }
+
+        .modal-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: rgba(34, 197, 94, .1);
+            color: var(--green);
+            margin-bottom: 14px
+        }
+
+        .modal h3 {
+            font-size: 18px
+        }
+
+        .modal p {
+            font-size: 11px;
+            line-height: 1.6;
+            color: var(--muted);
+            margin-top: 7px
+        }
+
+        .modal-name {
+            font-weight: 700;
+            color: var(--text)
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 20px
+        }
+
+        .modal-btn {
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .cancel-btn {
+            background: #F7F6FB;
+            color: #6B7280;
+            border: 1px solid var(--border)
+        }
+
+        .confirm-btn {
+            background: linear-gradient(135deg, var(--green), #16A34A);
+            color: #fff;
+            box-shadow: 0 7px 15px rgba(34, 197, 94, .18)
+        }
+
+        .toast {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            width: min(360px, calc(100vw - 44px));
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 13px;
+            border-radius: 15px;
+            background: #fff;
+            border: 1px solid var(--border);
+            box-shadow: 0 18px 45px rgba(15, 23, 42, .15);
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(110px);
+            pointer-events: none;
+            transition: .35s
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .toast-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+            background: rgba(34, 197, 94, .1);
+            color: var(--green);
+            flex: none
+        }
+
+        .toast strong {
+            display: block;
+            font-size: 11px
+        }
+
+        .toast p {
+            font-size: 10px;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-top: 3px
+        }
+
+        .mobile-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, .23);
+            backdrop-filter: blur(2px);
+            display: none;
+            z-index: 35
+        }
+
+        .mobile-backdrop.show {
+            display: block
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(14px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(.98)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @media(max-width:1100px) {
+            :root {
+                --sidebar: 235px
+            }
+
+            .content {
+                padding: 25px 22px 35px
+            }
+
+            .topbar {
+                padding: 0 22px
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:780px) {
+            .sidebar {
+                transform: translateX(-105%);
+                transition: .3s ease;
+                box-shadow: 15px 0 45px rgba(15, 23, 42, .08)
+            }
+
+            .sidebar.open {
+                transform: translateX(0)
+            }
+
+            .main {
+                width: 100%;
+                margin-left: 0
+            }
+
+            .menu-btn {
+                display: grid
+            }
+
+            .hero {
+                align-items: flex-start;
+                flex-direction: column
+            }
+
+            .topbar {
+                height: 66px
+            }
+
+            .search {
+                width: 100%
+            }
+
+            .toolbar {
+                align-items: flex-start;
+                flex-direction: column
+            }
+
+            .toolbar-right {
+                width: 100%
+            }
+
+            .search {
+                flex: 1;
+                max-width: none
+            }
+
+            .content {
+                padding: 22px 17px 30px
+            }
+        }
+
+        @media(max-width:520px) {
+            .stats {
+                grid-template-columns: 1fr
+            }
+
+            .hero h1 {
+                font-size: 27px
+            }
+
+            .top-actions .icon-btn:nth-child(2) {
+                display: none
+            }
+
+            .review-badge {
+                font-size: 9px
+            }
+
+            .error-box {
+                align-items: flex-start;
+                flex-direction: column
+            }
+
+            .modal-actions {
+                width: 100%
+            }
+
+            .modal-btn {
+                flex: 1
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-mark"><i class="fa-solid fa-compass"></i></div>
+                <div>
+                    <div class="brand-name">CareerAdvisor</div>
+                    <div class="brand-sub">ADMIN CONSOLE</div>
+                </div>
+            </div>
+            <div class="nav-label">Workspace</div>
+            <nav class="nav">
+                <a class="nav-link" href="admin-dashboard.html"><i
+                        class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="admin-student-management.html"><i
+                        class="fa-solid fa-user-graduate"></i><span>Student Management</span></a>
+                <a class="nav-link active" href="admin-counselor-management.html"><i
+                        class="fa-solid fa-user-tie"></i><span>Counselor Management</span></a>
+                <a class="nav-link" href="admin-course-management.html"><i
+                        class="fa-solid fa-book-open"></i><span>Course Management</span></a>
+                <a class="nav-link" href="admin-college-management.html"><i
+                        class="fa-solid fa-building-columns"></i><span>College Management</span></a>
+                <a class="nav-link" href="admin-assessment-management.html"><i
+                        class="fa-solid fa-clipboard-question"></i><span>Assessment Management</span></a>
+                <a class="nav-link" href="admin-system-overview.html"><i class="fa-solid fa-gears"></i><span>System
+                        Overview</span></a>
+            </nav>
+            <div class="sidebar-bottom">
+                <div class="profile-mini">
+                    <div class="avatar" id="adminAvatar">A</div>
+                    <div><strong id="adminName">Administrator</strong><span>System Administrator</span></div>
+                </div>
+                <button class="logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
+        </aside>
+        <div class="mobile-backdrop" id="mobileBackdrop"></div>
+        <main class="main">
+            <header class="topbar">
+                <div class="breadcrumb"><button class="icon-btn menu-btn" id="menuBtn"><i
+                            class="fa-solid fa-bars"></i></button><span>Admin</span><i class="fa-solid fa-chevron-right"
+                        style="font-size:8px"></i><strong>Counselor Management</strong></div>
+                <div class="top-actions">
+                    <button class="icon-btn" id="refreshTop" title="Refresh"><i class="fa-solid fa-rotate"></i></button>
+                    <button class="icon-btn" id="notificationBtn" title="Notifications"><i
+                            class="fa-regular fa-bell"></i><span class="notification-dot"></span></button>
+                </div>
+            </header>
+            <section class="content">
+                <div class="hero">
+                    <div class="hero-left">
+                        <div class="eyebrow"><i class="fa-solid fa-shield-check"></i> Verification Workspace</div>
+                        <h1>Counselor Management</h1>
+                        <p>Review counselor profiles submitted for verification, inspect their professional information,
+                            and approve eligible counselors for platform access.</p>
+                    </div>
+                    <button class="refresh-btn" id="refreshBtn"><i class="fa-solid fa-rotate"></i><span>Refresh
+                            Requests</span></button>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-head"><span class="stat-title">Pending Requests</span>
+                            <div class="stat-icon"><i class="fa-solid fa-user-clock"></i></div>
+                        </div>
+                        <div class="stat-value" id="pendingCount">0</div>
+                        <div class="stat-note">Counselors waiting for review</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-head"><span class="stat-title">Profiles Complete</span>
+                            <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        </div>
+                        <div class="stat-value" id="completeCount">0</div>
+                        <div class="stat-note">Profiles with core professional data</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-head"><span class="stat-title">Needs Attention</span>
+                            <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        </div>
+                        <div class="stat-value" id="attentionCount">0</div>
+                        <div class="stat-note">Profiles missing qualification or experience</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-head"><span class="stat-title">Queue Status</span>
+                            <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        </div>
+                        <div class="stat-value" id="queueStatus">Ready</div>
+                        <div class="stat-note" id="lastUpdated">Waiting for first sync</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="toolbar">
+                        <div class="toolbar-title">
+                            <div class="title-icon"><i class="fa-solid fa-users-gear"></i></div>
+                            <div><strong>Counselor Verification Queue</strong><span>Pending counselor requests from the
+                                    backend</span></div>
+                        </div>
+                        <div class="toolbar-right">
+                            <div class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="searchInput"
+                                    type="search" placeholder="Search name, email or phone"></div>
+                            <div class="review-badge"><i class="fa-solid fa-hourglass-half"></i> Pending Review</div>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Counselor</th>
+                                    <th>Contact</th>
+                                    <th>Qualification</th>
+                                    <th>Experience</th>
+                                    <th>Status</th>
+                                    <th>Profile</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="counselorTableBody">
+                                <tr>
+                                    <td colspan="8" class="loading-row"><i class="fa-solid fa-spinner fa-spin"></i>
+                                        <div>Loading counselor requests...</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="error-box" id="errorBox" style="display:none">
+                    <span id="errorText"></span>
+                    <button class="retry-btn" id="retryBtn"><i class="fa-solid fa-rotate"></i> Retry</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div class="overlay" id="approveOverlay">
+        <div class="modal">
+            <div class="modal-icon"><i class="fa-solid fa-user-check"></i></div>
+            <h3>Approve counselor?</h3>
+            <p>You are about to approve <span class="modal-name" id="modalCounselorName">this counselor</span>. This
+                will move the account into the approved state according to the admin verification workflow.</p>
+            <div class="modal-actions">
+                <button class="modal-btn cancel-btn" id="cancelApprove">Cancel</button>
+                <button class="modal-btn confirm-btn" id="confirmApprove"><i class="fa-solid fa-check"></i>
+                    Approve</button>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast">
+        <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-circle-check"></i></div>
+        <div><strong id="toastTitle">Success</strong>
+            <p id="toastText"></p>
+        </div>
+    </div>
+    <script>
+        const API_BASE = "http://localhost:8081";
+        const token = localStorage.getItem("token");
+        const userData = localStorage.getItem("user");
+        let currentCounselors = [];
+        let approveId = null;
+        const tableBody = document.getElementById("counselorTableBody");
+        const searchInput = document.getElementById("searchInput");
+        const approveOverlay = document.getElementById("approveOverlay");
+        const mobileBackdrop = document.getElementById("mobileBackdrop");
+        const sidebar = document.getElementById("sidebar");
+
+        function getStoredUser() {
+            try { return userData ? JSON.parse(userData) : null } catch { return null }
+        }
+
+        const currentUser = getStoredUser();
+        const currentRole = String(currentUser?.role || "").toUpperCase();
+        if (!token || !currentUser) {
+            window.location.href = "../login.html";
+        }
+        if (currentRole && currentRole !== "ADMIN") {
+            window.location.href = "../login.html";
+        }
+
+        const adminName = currentUser?.name || "Administrator";
+        document.getElementById("adminName").textContent = adminName;
+        document.getElementById("adminAvatar").textContent = adminName.trim().charAt(0).toUpperCase() || "A";
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
+        }
+
+        function getInitials(name) {
+            const parts = String(name || "Counselor").trim().split(/\s+/).filter(Boolean);
+            return (parts[0]?.[0] || "C") + (parts.length > 1 ? (parts[parts.length - 1]?.[0] || "") : "");
+        }
+
+        function getProfileComplete(counselor) {
+            const qualification = String(counselor.highestQualification || "").trim();
+            const experience = counselor.experienceYears !== null && counselor.experienceYears !== undefined && String(counselor.experienceYears).trim() !== "";
+            return Boolean(qualification && experience);
+        }
+
+        function showToast(title, message, type = "success") {
+            const toast = document.getElementById("toast");
+            const icon = document.getElementById("toastIcon");
+            document.getElementById("toastTitle").textContent = title;
+            document.getElementById("toastText").textContent = message;
+            icon.innerHTML = `<i class="fa-solid ${type === "success" ? "fa-circle-check" : "fa-circle-exclamation"}"></i>`;
+            icon.style.color = type === "success" ? "var(--green)" : "var(--red)";
+            icon.style.background = type === "success" ? "rgba(34,197,94,.1)" : "rgba(239,68,68,.08)";
+            toast.classList.add("show");
+            clearTimeout(showToast.timer);
+            showToast.timer = setTimeout(() => toast.classList.remove("show"), 4200);
+        }
+
+        function setLoading() {
+            tableBody.innerHTML = '<tr><td colspan="8" class="loading-row"><i class="fa-solid fa-spinner fa-spin"></i><div>Loading counselor requests...</div></td></tr>';
+        }
+
+        function showError(message) {
+            document.getElementById("errorBox").style.display = "flex";
+            document.getElementById("errorText").textContent = message;
+        }
+
+        function hideError() {
+            document.getElementById("errorBox").style.display = "none";
+        }
+
+        function parseResponse(text) {
+            if (!text) return null;
+            try { return JSON.parse(text) } catch { return text }
+        }
+
+        async function loadCounselors() {
+            if (!token) return;
+            hideError();
+            setLoading();
+            document.getElementById("queueStatus").textContent = "Syncing";
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/counselors/pending`, {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const text = await response.text();
+                const result = parseResponse(text);
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    window.location.href = "../login.html";
+                    return;
+                }
+                if (!response.ok) {
+                    const message = typeof result === "string" ? result : (result?.message || result?.error || "Failed to load counselor requests.");
+                    throw new Error(message);
+                }
+                currentCounselors = Array.isArray(result) ? result : [];
+                renderCounselors();
+                updateStats();
+                document.getElementById("queueStatus").textContent = "Ready";
+                document.getElementById("lastUpdated").textContent = `Updated ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+            } catch (error) {
+                currentCounselors = [];
+                renderCounselors();
+                updateStats();
+                document.getElementById("queueStatus").textContent = "Error";
+                showError(error instanceof TypeError ? "Cannot connect to Spring Boot on port 8081. Make sure the backend is running." : error.message);
+            }
+        }
+
+        function getFilteredCounselors() {
+            const query = searchInput.value.trim().toLowerCase();
+            if (!query) return currentCounselors;
+            return currentCounselors.filter(c => {
+                return [c.id, c.name, c.email, c.phone, c.highestQualification, c.status].some(value => String(value ?? "").toLowerCase().includes(query));
+            });
+        }
+
+        function renderCounselors() {
+            const counselors = getFilteredCounselors();
+            if (counselors.length === 0) {
+                const hasSearch = Boolean(searchInput.value.trim());
+                tableBody.innerHTML = `<tr><td colspan="8" class="empty"><div class="empty-box"><div class="empty-icon"><i class="fa-solid ${hasSearch ? "fa-magnifying-glass" : "fa-user-clock"}"></i></div><strong>${hasSearch ? "No matching counselors" : "No pending counselor requests"}</strong><span>${hasSearch ? "Try a different name, email or phone number." : "New counselor verification requests will appear here."}</span></div></td></tr>`;
+                return;
+            }
+            tableBody.innerHTML = counselors.map(counselor => {
+                const complete = getProfileComplete(counselor);
+                const experience = (counselor.experienceYears === null || counselor.experienceYears === undefined || counselor.experienceYears === "") ? "-" : `${escapeHtml(counselor.experienceYears)} years`;
+                const status = escapeHtml(counselor.status || "PENDING_REVIEW");
+                return `<tr>
+<td class="id-cell">#${escapeHtml(counselor.id)}</td>
+<td><div class="person"><div class="person-avatar">${escapeHtml(getInitials(counselor.name))}</div><div><strong>${escapeHtml(counselor.name || "Unnamed Counselor")}</strong><span>Counselor</span></div></div></td>
+<td><div class="contact"><span>${escapeHtml(counselor.email || "-")}</span><small>${escapeHtml(counselor.phone || "No phone")}</small></div></td>
+<td>${escapeHtml(counselor.highestQualification || "-")}</td>
+<td>${experience}</td>
+<td><span class="pill pending"><i class="fa-solid fa-clock"></i>${status}</span></td>
+<td><span class="pill ${complete ? "complete" : "incomplete"}"><i class="fa-solid ${complete ? "fa-check" : "fa-exclamation"}"></i>${complete ? "Complete" : "Needs Attention"}</span></td>
+<td><div class="actions">
+<button class="action-btn view-btn" data-action="view" data-id="${escapeHtml(counselor.id)}"><i class="fa-regular fa-eye"></i> View</button>
+<button class="action-btn approve-btn" data-action="approve" data-id="${escapeHtml(counselor.id)}" data-name="${escapeHtml(counselor.name || "this counselor")}"><i class="fa-solid fa-check"></i> Approve</button>
+</div></td>
+</tr>`;
+            }).join("");
+        }
+
+        function updateStats() {
+            const complete = currentCounselors.filter(getProfileComplete).length;
+            const attention = currentCounselors.length - complete;
+            document.getElementById("pendingCount").textContent = currentCounselors.length;
+            document.getElementById("completeCount").textContent = complete;
+            document.getElementById("attentionCount").textContent = attention;
+        }
+
+        function viewCounselor(id) {
+            window.location.href = `admin-counselor-profile.html?id=${encodeURIComponent(id)}`;
+        }
+
+        function openApprove(id, name) {
+            approveId = id;
+            document.getElementById("modalCounselorName").textContent = name || "this counselor";
+            approveOverlay.classList.add("show");
+        }
+
+        function closeApprove() {
+            approveId = null;
+            approveOverlay.classList.remove("show");
+        }
+
+        async function approveCounselor() {
+            if (!approveId) return;
+            const id = approveId;
+            const counselor = currentCounselors.find(item => String(item.id) === String(id));
+            const button = document.getElementById("confirmApprove");
+            button.disabled = true;
+            button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Approving...';
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/counselors/${encodeURIComponent(id)}/approve`, {
+                    method: "PUT",
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const text = await response.text();
+                const result = parseResponse(text);
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    window.location.href = "../login.html";
+                    return;
+                }
+                if (!response.ok) {
+                    throw new Error(typeof result === "string" ? result : (result?.message || result?.error || "Failed to approve counselor."));
+                }
+                closeApprove();
+                showToast("Counselor approved", `${counselor?.name || "The counselor"} has been approved successfully.`);
+                await loadCounselors();
+            } catch (error) {
+                showToast("Approval failed", error instanceof TypeError ? "Cannot connect to the backend." : error.message, "error");
+            } finally {
+                button.disabled = false;
+                button.innerHTML = '<i class="fa-solid fa-check"></i> Approve';
+            }
+        }
+
+        tableBody.addEventListener("click", event => {
+            const button = event.target.closest("[data-action]");
+            if (!button) return;
+            const id = button.dataset.id;
+            if (button.dataset.action === "view") viewCounselor(id);
+            if (button.dataset.action === "approve") openApprove(id, button.dataset.name);
+        });
+
+        searchInput.addEventListener("input", renderCounselors);
+        document.getElementById("refreshBtn").addEventListener("click", loadCounselors);
+        document.getElementById("refreshTop").addEventListener("click", loadCounselors);
+        document.getElementById("retryBtn").addEventListener("click", loadCounselors);
+        document.getElementById("cancelApprove").addEventListener("click", closeApprove);
+        document.getElementById("confirmApprove").addEventListener("click", approveCounselor);
+        approveOverlay.addEventListener("click", event => { if (event.target === approveOverlay) closeApprove() });
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "../login.html";
+        });
+        document.getElementById("notificationBtn").addEventListener("click", () => {
+            showToast("Counselor queue", `${currentCounselors.length} pending counselor request${currentCounselors.length === 1 ? "" : "s"} currently loaded.`);
+        });
+        document.getElementById("menuBtn").addEventListener("click", () => {
+            sidebar.classList.add("open");
+            mobileBackdrop.classList.add("show");
+        });
+        mobileBackdrop.addEventListener("click", () => {
+            sidebar.classList.remove("open");
+            mobileBackdrop.classList.remove("show");
+        });
+        document.querySelectorAll(".nav-link").forEach(link => link.addEventListener("click", () => {
+            sidebar.classList.remove("open");
+            mobileBackdrop.classList.remove("show");
+        }));
+        loadCounselors();
+    </script>
+</body>
+
+</html>
