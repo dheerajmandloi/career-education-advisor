@@ -1,4 +1,3 @@
-\
 <!DOCTYPE html>
 <html lang="en">
 
@@ -993,7 +992,9 @@
             const role = String(user?.role || "STUDENT").toUpperCase();
 
             const dashboardByRole = {
-                STUDENT: "Student/student-dashboard.html"
+                STUDENT: "Student/student-dashboard.html",
+                ADMIN: "Admin/admin-dashboard.html",
+                COUNSELOR: "Counselor/counselor-dashboard.html"
             };
 
             const target = dashboardByRole[role];
