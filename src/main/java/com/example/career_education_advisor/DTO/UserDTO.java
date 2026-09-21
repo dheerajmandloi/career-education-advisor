@@ -1,5 +1,6 @@
 package com.example.career_education_advisor.DTO;
 
+import com.example.career_education_advisor.Models.AccountStatus;
 import com.example.career_education_advisor.Models.Role;
 
 public class UserDTO {
@@ -9,23 +10,27 @@ public class UserDTO {
     private String email;
     private String phone;
     private Role role;
+    private AccountStatus status;
 
-    // Default Constructor
     public UserDTO() {
     }
 
-    // Parameterized Constructor
-    public UserDTO(Long id, String name, String email,
-            String phone, Role role) {
+    public UserDTO(
+            Long id,
+            String name,
+            String email,
+            String phone,
+            Role role,
+            AccountStatus status) {
 
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.role = role;
+        this.status = status;
     }
 
-    // Getters
     public Long getId() {
         return id;
     }
@@ -46,7 +51,10 @@ public class UserDTO {
         return role;
     }
 
-    // Setters
+    public AccountStatus getStatus() {
+        return status;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -65,5 +73,9 @@ public class UserDTO {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void setStatus(AccountStatus status) {
+        this.status = status;
     }
 }

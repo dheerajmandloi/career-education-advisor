@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Counselor Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fb;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 9px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .container {
+            width: 1100px;
+            max-width: 92%;
+            margin: 40px auto;
+        }
+
+        .welcome {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .welcome p {
+            color: #666;
+            margin-bottom: 0;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .card button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .card button:hover {
+            background-color: #0069d9;
+        }
+
+        .status-card {
+            margin-top: 25px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            background-color: #d4edda;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        @media (max-width: 800px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <div class="navbar">
+
+        <h2>Counselor Dashboard</h2>
+
+        <button class="logout-btn" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <div class="container">
+
+        <!-- Welcome Section -->
+
+        <div class="welcome">
+
+            <h1>
+                Welcome, <span id="counselorName">Counselor</span>
+            </h1>
+
+            <p>
+                Manage your counselor profile and help students
+                with their career and education journey.
+            </p>
+
+        </div>
+
+
+        <!-- Dashboard Cards -->
+
+        <div class="cards">
+
+            <!-- Profile -->
+
+            <div class="card">
+
+                <h3>
+                    My Profile
+                </h3>
+
+                <p>
+                    View and manage your professional
+                    counselor profile.
+                </p>
+
+                <button onclick="openProfile()">
+                    View Profile
+                </button>
+
+            </div>
+
+
+            <!-- Students -->
+
+            <div class="card">
+
+                <h3>
+                    Students
+                </h3>
+
+                <p>
+                    View students who need career and
+                    education guidance.
+                </p>
+
+                <button onclick="studentsComingSoon()">
+                    View Students
+                </button>
+
+            </div>
+
+
+            <!-- Consultations -->
+
+            <div class="card">
+
+                <h3>
+                    Consultations
+                </h3>
+
+                <p>
+                    Manage your upcoming and previous
+                    student consultations.
+                </p>
+
+                <button onclick="consultationsComingSoon()">
+                    View Consultations
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Account Status -->
+
+        <div class="status-card">
+
+            <h3>
+                Account Status
+            </h3>
+
+            <p>
+                Your counselor account is currently:
+            </p>
+
+            <span class="status" id="accountStatus">
+                APPROVED
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const token =
+            localStorage.getItem("token");
+
+        const userData =
+            localStorage.getItem("user");
+
+
+        // Check login
+
+        if (!token || !userData) {
+
+            alert(
+                "Session expired. Please login again."
+            );
+
+            window.location.href =
+                "../Login.html";
+        }
+
+
+        // Load counselor data
+
+        try {
+
+            const user =
+                JSON.parse(userData);
+
+            document.getElementById(
+                "counselorName"
+            ).innerText =
+                user.name || "Counselor";
+
+
+            document.getElementById(
+                "accountStatus"
+            ).innerText =
+                user.status || "APPROVED";
+
+        } catch (error) {
+
+            console.log(
+                "Unable to load counselor data."
+            );
+
+        }
+
+
+        // Open Profile
+
+        function openProfile() {
+
+            const user =
+                JSON.parse(userData);
+
+            window.location.href =
+                "CounselorProfile.html";
+
+        }
+
+
+        // Students
+
+        function studentsComingSoon() {
+
+            alert(
+                "Student management feature is coming soon."
+            );
+
+        }
+
+
+        // Consultations
+
+        function consultationsComingSoon() {
+
+            alert(
+                "Consultation management feature is coming soon."
+            );
+
+        }
+
+
+        // Logout
+
+        function logout() {
+
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            localStorage.removeItem("userId");
+
+            window.location.href =
+                "../Login.html";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

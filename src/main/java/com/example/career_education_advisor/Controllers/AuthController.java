@@ -29,7 +29,8 @@ public class AuthController {
     @Autowired
     private Jwtutils jwtutils;
 
-    // ================= REGISTER =================
+    // ================= STUDENT REGISTER =================
+
     @PostMapping("/register")
     public ResponseEntity<?> register(
             @RequestBody RegisterDTO request) {
@@ -43,7 +44,36 @@ public class AuthController {
                     user.getName(),
                     user.getEmail(),
                     user.getPhone(),
-                    user.getRole());
+                    user.getRole(),
+                    user.getStatus());
+
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
+    }
+
+    // ================= COUNSELOR REGISTER =================
+
+    @PostMapping("/register-counselor")
+    public ResponseEntity<?> registerCounselor(
+            @RequestBody RegisterDTO request) {
+
+        try {
+
+            User counselor = userService.registerCounselor(request);
+
+            UserDTO response = new UserDTO(
+                    counselor.getId(),
+                    counselor.getName(),
+                    counselor.getEmail(),
+                    counselor.getPhone(),
+                    counselor.getRole(),
+                    counselor.getStatus());
 
             return ResponseEntity.ok(response);
 
@@ -56,6 +86,7 @@ public class AuthController {
     }
 
     // ================= LOGIN =================
+
     @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody LoginDTO request) {
@@ -73,7 +104,8 @@ public class AuthController {
                     user.getName(),
                     user.getEmail(),
                     user.getPhone(),
-                    user.getRole());
+                    user.getRole(),
+                    user.getStatus());
 
             Map<String, Object> response = new HashMap<>();
 

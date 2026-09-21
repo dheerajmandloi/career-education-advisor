@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Counselor Management</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 1100px;
+            max-width: 95%;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        h2 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f1f1;
+        }
+
+        tr:hover {
+            background-color: #fafafa;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: bold;
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        button {
+            padding: 7px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .view-btn {
+            background-color: #007bff;
+        }
+
+        .view-btn:hover {
+            background-color: #0069d9;
+        }
+
+        .approve-btn {
+            background-color: #28a745;
+        }
+
+        .approve-btn:hover {
+            background-color: #218838;
+        }
+
+        .back-btn {
+            background-color: #333;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #222;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <button class="back-btn" onclick="goBack()">
+            ← Back to Dashboard
+        </button>
+
+        <h2>Counselor Management</h2>
+
+        <p class="subtitle">
+            Review counselor verification requests.
+        </p>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Qualification</th>
+                        <th>Experience</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="counselorTableBody">
+
+                    <tr>
+                        <td colspan="8" class="empty">
+                            Loading counselors...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <p id="message"></p>
+
+    </div>
+
+
+    <script>
+
+        // ================= GET TOKEN =================
+
+        const token = localStorage.getItem("token");
+
+
+        // ================= CHECK ADMIN LOGIN =================
+
+        const userData = localStorage.getItem("user");
+
+        if (!token || !userData) {
+
+            alert("Session expired. Please login again.");
+
+            window.location.href = "../Login.html";
+        }
+
+
+        // ================= LOAD PENDING COUNSELORS =================
+
+        async function loadCounselors() {
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8081/api/admin/counselors/pending",
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+                const result = await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        typeof result === "string"
+                            ? result
+                            : "Failed to load counselors."
+                    );
+                }
+
+
+                const tableBody =
+                    document.getElementById(
+                        "counselorTableBody"
+                    );
+
+
+                tableBody.innerHTML = "";
+
+
+                if (result.length === 0) {
+
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="8" class="empty">
+                                No pending counselor requests.
+                            </td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+
+                result.forEach(function (counselor) {
+
+                    const row =
+                        document.createElement("tr");
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${counselor.id}
+                        </td>
+
+                        <td>
+                            ${counselor.name}
+                        </td>
+
+                        <td>
+                            ${counselor.email}
+                        </td>
+
+                        <td>
+                            ${counselor.phone}
+                        </td>
+
+                        <td>
+                            ${counselor.highestQualification || "-"}
+                        </td>
+
+                        <td>
+                            ${counselor.experienceYears ?? "-"} years
+                        </td>
+
+                        <td>
+                            <span class="status">
+                                ${counselor.status}
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewCounselor(${counselor.id})">
+                                View
+                            </button>
+
+                            <button
+                                class="approve-btn"
+                                onclick="approveCounselor(${counselor.id})">
+                                Approve
+                            </button>
+
+                        </td>
+                    `;
+
+
+                    tableBody.appendChild(row);
+
+                });
+
+
+            } catch (error) {
+
+                document.getElementById(
+                    "counselorTableBody"
+                ).innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty">
+                            ${error.message}
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+
+        // ================= VIEW COUNSELOR =================
+
+        function viewCounselor(counselorId) {
+
+            window.location.href =
+                "AdminCounselorProfile.html?id="
+                + counselorId;
+        }
+
+
+        // ================= APPROVE COUNSELOR =================
+
+        async function approveCounselor(counselorId) {
+
+            const confirmApprove = confirm(
+                "Are you sure you want to approve this counselor?"
+            );
+
+
+            if (!confirmApprove) {
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8081/api/admin/counselors/"
+                    + counselorId
+                    + "/approve",
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+                const result =
+                    await response.json();
+
+
+                if (response.ok) {
+
+                    alert(
+                        "Counselor approved successfully!"
+                    );
+
+                    loadCounselors();
+
+                } else {
+
+                    alert(
+                        typeof result === "string"
+                            ? result
+                            : "Failed to approve counselor."
+                    );
+                }
+
+
+            } catch (error) {
+
+                alert(
+                    "Something went wrong!\n\n"
+                    + error.message
+                );
+            }
+        }
+
+
+        // ================= BACK =================
+
+        function goBack() {
+
+            window.location.href =
+                "AdminDashboard.html";
+        }
+
+
+        // ================= INITIAL LOAD =================
+
+        loadCounselors();
+
+    </script>
+
+</body>
+
+</html>

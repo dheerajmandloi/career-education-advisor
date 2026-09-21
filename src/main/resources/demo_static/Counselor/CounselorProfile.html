@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Counselor Profile</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 700px;
+            max-width: 90%;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            margin-top: 25px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .save-btn {
+            background-color: #007bff;
+        }
+
+        .save-btn:hover {
+            background-color: #0069d9;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .required {
+            color: red;
+        }
+
+        .note {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 14px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Counselor Profile</h2>
+
+        <p class="subtitle">
+            Complete your professional profile for verification.
+        </p>
+
+        <div class="note">
+            Please provide accurate professional and qualification details.
+            Your profile will be reviewed by the administrator.
+        </div>
+
+        <form id="profileForm">
+
+            <!-- ================= QUALIFICATION ================= -->
+
+            <h3 class="section-title">
+                Qualification Details
+            </h3>
+
+            <label for="highestQualification">
+                Highest Qualification <span class="required">*</span>
+            </label>
+
+            <input type="text" id="highestQualification" placeholder="Example: M.Tech Computer Science" required>
+
+            <label for="universityInstitute">
+                University / Institute <span class="required">*</span>
+            </label>
+
+            <input type="text" id="universityInstitute" placeholder="Enter university or institute name" required>
+
+            <label for="specialization">
+                Specialization <span class="required">*</span>
+            </label>
+
+            <input type="text" id="specialization" placeholder="Example: Computer Science, Career Counseling" required>
+
+
+            <!-- ================= EXPERIENCE ================= -->
+
+            <h3 class="section-title">
+                Professional Experience
+            </h3>
+
+            <label for="experienceYears">
+                Experience (Years) <span class="required">*</span>
+            </label>
+
+            <input type="number" id="experienceYears" placeholder="Example: 5" min="0" required>
+
+            <label for="areasOfExpertise">
+                Areas of Expertise <span class="required">*</span>
+            </label>
+
+            <textarea id="areasOfExpertise"
+                placeholder="Example: Career Guidance, Higher Education, Engineering Careers" required></textarea>
+
+            <label for="professionalExperienceDetails">
+                Professional Experience Details
+            </label>
+
+            <textarea id="professionalExperienceDetails"
+                placeholder="Describe your professional experience..."></textarea>
+
+
+            <!-- ================= DOCUMENTS ================= -->
+
+            <h3 class="section-title">
+                Verification Details
+            </h3>
+
+            <label for="qualificationProof">
+                Qualification Proof
+            </label>
+
+            <input type="text" id="qualificationProof" placeholder="Enter document URL / reference">
+
+            <label for="resume">
+                Resume / CV
+            </label>
+
+            <input type="text" id="resume" placeholder="Enter resume URL / reference">
+
+
+            <!-- ================= BUTTONS ================= -->
+
+            <div class="button-container">
+
+                <button type="button" class="save-btn" onclick="saveProfile()">
+                    Save Profile
+                </button>
+
+                <button type="button" class="submit-btn" onclick="submitProfile()">
+                    Submit for Review
+                </button>
+
+            </div>
+
+        </form>
+
+        <p id="message"></p>
+
+    </div>
+
+    <script>
+
+        // ================= GET USER DATA =================
+
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
+        const userData = localStorage.getItem("user");
+
+
+        // ================= CHECK LOGIN =================
+
+        if (!userId || !token || !userData) {
+
+            alert("Session expired. Please login again.");
+
+            window.location.href = "../Login.html";
+        }
+
+
+        // ================= GET ACCOUNT STATUS =================
+
+        let user;
+
+        try {
+
+            user = JSON.parse(userData);
+
+        } catch (error) {
+
+            alert("Invalid session. Please login again.");
+
+            localStorage.clear();
+
+            window.location.href = "../Login.html";
+        }
+
+
+        // ================= APPROVED COUNSELOR =================
+
+        const isApproved =
+            user.status === "APPROVED";
+
+
+        // If counselor is already approved,
+        // hide Submit for Review button.
+
+        if (isApproved) {
+
+            const submitButton =
+                document.querySelector(".submit-btn");
+
+            if (submitButton) {
+
+                submitButton.style.display = "none";
+
+            }
+
+
+            // Change subtitle
+
+            const subtitle =
+                document.querySelector(".subtitle");
+
+            if (subtitle) {
+
+                subtitle.innerText =
+                    "View and manage your professional counselor profile.";
+
+            }
+
+
+            // Change note
+
+            const note =
+                document.querySelector(".note");
+
+            if (note) {
+
+                note.innerText =
+                    "Your counselor profile has been approved. You can update your professional details whenever required.";
+
+            }
+
+        }
+
+
+        // ================= SAVE PROFILE =================
+
+        async function saveProfile() {
+
+            const data = {
+
+                highestQualification:
+                    document.getElementById(
+                        "highestQualification"
+                    ).value,
+
+                universityInstitute:
+                    document.getElementById(
+                        "universityInstitute"
+                    ).value,
+
+                specialization:
+                    document.getElementById(
+                        "specialization"
+                    ).value,
+
+                experienceYears:
+                    parseInt(
+                        document.getElementById(
+                            "experienceYears"
+                        ).value
+                    ),
+
+                areasOfExpertise:
+                    document.getElementById(
+                        "areasOfExpertise"
+                    ).value,
+
+                professionalExperienceDetails:
+                    document.getElementById(
+                        "professionalExperienceDetails"
+                    ).value,
+
+                qualificationProof:
+                    document.getElementById(
+                        "qualificationProof"
+                    ).value,
+
+                resume:
+                    document.getElementById(
+                        "resume"
+                    ).value
+            };
+
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8081/api/counselor/profile/"
+                    + userId,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " + token
+                        },
+
+                        body: JSON.stringify(data)
+                    }
+                );
+
+
+                const result =
+                    await response.text();
+
+
+                if (response.ok) {
+
+                    document.getElementById(
+                        "message"
+                    ).style.color = "green";
+
+                    document.getElementById(
+                        "message"
+                    ).innerText =
+                        "Profile saved successfully.";
+
+                } else {
+
+                    document.getElementById(
+                        "message"
+                    ).style.color = "red";
+
+                    document.getElementById(
+                        "message"
+                    ).innerText =
+                        result ||
+                        "Failed to save profile.";
+                }
+
+
+            } catch (error) {
+
+                document.getElementById(
+                    "message"
+                ).style.color = "red";
+
+                document.getElementById(
+                    "message"
+                ).innerText =
+                    "Something went wrong: "
+                    + error.message;
+            }
+        }
+
+
+        // ================= SUBMIT FOR REVIEW =================
+
+        async function submitProfile() {
+
+            // Extra protection:
+            // Approved counselor cannot submit again.
+
+            if (user.status === "APPROVED") {
+
+                alert(
+                    "Your counselor profile is already approved."
+                );
+
+                return;
+            }
+
+
+            const confirmSubmit = confirm(
+                "Are you sure you want to submit your profile for admin review?"
+            );
+
+
+            if (!confirmSubmit) {
+
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8081/api/counselor/profile/"
+                    + userId
+                    + "/submit",
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+                const result =
+                    await response.text();
+
+
+                if (response.ok) {
+
+                    alert(
+                        "Profile submitted successfully!\n\n"
+                        + "Your profile is now pending admin review."
+                    );
+
+
+                    document.getElementById(
+                        "message"
+                    ).style.color = "green";
+
+                    document.getElementById(
+                        "message"
+                    ).innerText =
+                        "Profile submitted for admin review.";
+
+                } else {
+
+                    document.getElementById(
+                        "message"
+                    ).style.color = "red";
+
+                    document.getElementById(
+                        "message"
+                    ).innerText =
+                        result ||
+                        "Failed to submit profile.";
+                }
+
+
+            } catch (error) {
+
+                document.getElementById(
+                    "message"
+                ).style.color = "red";
+
+                document.getElementById(
+                    "message"
+                ).innerText =
+                    "Something went wrong: "
+                    + error.message;
+            }
+        }
+
+
+        // ================= LOAD EXISTING PROFILE =================
+
+        async function loadProfile() {
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8081/api/counselor/profile/"
+                    + userId,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+                if (!response.ok) {
+
+                    console.log(
+                        "Profile not found yet."
+                    );
+
+                    return;
+                }
+
+
+                const profile =
+                    await response.json();
+
+
+                document.getElementById(
+                    "highestQualification"
+                ).value =
+                    profile.highestQualification || "";
+
+
+                document.getElementById(
+                    "universityInstitute"
+                ).value =
+                    profile.universityInstitute || "";
+
+
+                document.getElementById(
+                    "specialization"
+                ).value =
+                    profile.specialization || "";
+
+
+                document.getElementById(
+                    "experienceYears"
+                ).value =
+                    profile.experienceYears ?? "";
+
+
+                document.getElementById(
+                    "areasOfExpertise"
+                ).value =
+                    profile.areasOfExpertise || "";
+
+
+                document.getElementById(
+                    "professionalExperienceDetails"
+                ).value =
+                    profile.professionalExperienceDetails || "";
+
+
+                document.getElementById(
+                    "qualificationProof"
+                ).value =
+                    profile.qualificationProof || "";
+
+
+                document.getElementById(
+                    "resume"
+                ).value =
+                    profile.resume || "";
+
+            }
+
+
+            catch (error) {
+
+                console.log(
+                    "Profile loading error:",
+                    error.message
+                );
+            }
+        }
+
+
+        // ================= LOAD PROFILE =================
+
+        loadProfile();
+
+    </script>
+</body>
+
+</html>
