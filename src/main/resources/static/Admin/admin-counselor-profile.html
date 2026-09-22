@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CareerAdvisor admin counselor profile review">
+    <title>Counselor Profile | CareerAdvisor Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        :root {
+            --purple: #8B5CF6;
+            --purple-dark: #7C3AED;
+            --blue: #3B82F6;
+            --cyan: #06B6D4;
+            --green: #22C55E;
+            --amber: #F59E0B;
+            --red: #EF4444;
+            --bg: #FAFAFE;
+            --surface: #FFFFFF;
+            --surface-soft: #F5F3FF;
+            --text: #172033;
+            --text-soft: #4E5668;
+            --muted: #7B8190;
+            --border: #E7E4F4;
+            --border-strong: #D9D3EE;
+            --gradient: linear-gradient(135deg, #8B5CF6, #3B82F6);
+            --shadow: 0 18px 44px rgba(76, 57, 145, .09);
+            --sidebar-width: 258px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            font-family: "Space Grotesk", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden
+        }
+
+        body::-webkit-scrollbar {
+            width: 0
+        }
+
+        body {
+            scrollbar-width: none
+        }
+
+        button,
+        input {
+            font: inherit
+        }
+
+        button {
+            border: 0
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        .app {
+            min-height: 100vh
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            padding: 22px 14px;
+            background: rgba(255, 255, 255, .95);
+            border-right: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            z-index: 40;
+            display: flex;
+            flex-direction: column
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 0 10px;
+            margin-bottom: 30px
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: var(--gradient);
+            color: #fff;
+            box-shadow: 0 10px 24px rgba(99, 102, 241, .20)
+        }
+
+        .brand-mark i {
+            font-size: 17px
+        }
+
+        .brand-name {
+            font-size: 19px;
+            font-weight: 700;
+            letter-spacing: -.5px
+        }
+
+        .brand-sub {
+            font-size: 9px;
+            color: #9A9EAD;
+            margin-top: 2px;
+            letter-spacing: .7px
+        }
+
+        .nav-label {
+            padding: 0 10px;
+            margin-bottom: 9px;
+            color: #9A9EAD;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase
+        }
+
+        .nav {
+            display: grid;
+            gap: 5px
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 13px;
+            color: #62697A;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .22s
+        }
+
+        .nav-link i {
+            width: 19px;
+            text-align: center;
+            font-size: 14px
+        }
+
+        .nav-link:hover {
+            background: #F7F5FF;
+            color: var(--purple-dark);
+            transform: translateX(2px)
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, rgba(139, 92, 246, .11), rgba(59, 130, 246, .07));
+            color: var(--purple-dark);
+            box-shadow: inset 3px 0 0 var(--purple)
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 17px;
+            border-top: 1px solid var(--border)
+        }
+
+        .admin-mini {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 14px;
+            background: #FAFAFE;
+            border: 1px solid #EEEAF8
+        }
+
+        .avatar-mini {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #EEE7FF, #E6F0FF);
+            color: var(--purple-dark);
+            font-size: 12px;
+            font-weight: 700
+        }
+
+        .admin-mini strong {
+            display: block;
+            font-size: 11px
+        }
+
+        .admin-mini span {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 9px
+        }
+
+        .logout {
+            width: 100%;
+            margin-top: 9px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: #fff;
+            color: #6B7280;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .logout:hover {
+            color: var(--red);
+            border-color: #F1D2CF;
+            background: #FFF8F7
+        }
+
+        .main {
+            width: calc(100% - var(--sidebar-width));
+            margin-left: var(--sidebar-width);
+            min-height: 100vh
+        }
+
+        .topbar {
+            height: 74px;
+            position: sticky;
+            top: 0;
+            z-index: 25;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 0 32px;
+            background: rgba(250, 250, 254, .86);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(18px)
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #969CAA;
+            font-size: 11px
+        }
+
+        .breadcrumb strong {
+            color: var(--text)
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .icon-btn {
+            width: 37px;
+            height: 37px;
+            display: grid;
+            place-items: center;
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: #fff;
+            color: #6D7485;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .icon-btn:hover {
+            color: var(--purple-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(99, 102, 241, .08)
+        }
+
+        .menu-btn {
+            display: none
+        }
+
+        .content {
+            width: min(1180px, calc(100% - 64px));
+            margin: 0 auto;
+            padding: 30px 0 42px
+        }
+
+        .page-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 20px;
+            animation: fadeUp .6s ease both
+        }
+
+        .page-head-left {
+            min-width: 0
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 10px;
+            border: 1px solid #E7E0FA;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, .08), rgba(59, 130, 246, .06));
+            color: var(--purple-dark);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .7px;
+            text-transform: uppercase
+        }
+
+        .page-head h1 {
+            margin-top: 11px;
+            font-size: 31px;
+            letter-spacing: -1.1px;
+            line-height: 1.1
+        }
+
+        .page-head p {
+            max-width: 690px;
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 11.5px;
+            line-height: 1.65
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: #fff;
+            color: #62697A;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+            white-space: nowrap
+        }
+
+        .back-btn:hover {
+            color: var(--purple-dark);
+            border-color: var(--border-strong);
+            transform: translateY(-1px)
+        }
+
+        .profile-hero {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 23px;
+            border: 1px solid var(--border);
+            border-radius: 21px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(247, 244, 255, .94));
+            box-shadow: var(--shadow);
+            animation: fadeUp .65s .05s ease both
+        }
+
+        .profile-hero:after {
+            content: "";
+            position: absolute;
+            width: 210px;
+            height: 210px;
+            right: -85px;
+            top: -105px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, .10);
+            filter: blur(8px)
+        }
+
+        .profile-main {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+            position: relative;
+            z-index: 1
+        }
+
+        .profile-avatar {
+            width: 62px;
+            height: 62px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #EDE6FF, #E5F0FF);
+            color: var(--purple-dark);
+            font-size: 18px;
+            font-weight: 800;
+            box-shadow: 0 9px 22px rgba(99, 102, 241, .10)
+        }
+
+        .profile-copy {
+            min-width: 0
+        }
+
+        .profile-copy h2 {
+            font-size: 21px;
+            letter-spacing: -.55px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .profile-copy p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .profile-meta {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin-top: 8px
+        }
+
+        .role-pill,
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 9px;
+            border-radius: 999px;
+            font-size: 9px;
+            font-weight: 700
+        }
+
+        .role-pill {
+            background: #F1ECFF;
+            color: var(--purple-dark);
+            border: 1px solid #E4DAFA
+        }
+
+        .status-pill.pending {
+            background: #FFF7E4;
+            color: #996500;
+            border: 1px solid #F1DEAC
+        }
+
+        .status-pill.review {
+            background: #FFF4E0;
+            color: #976100;
+            border: 1px solid #F0D8A3
+        }
+
+        .status-pill.approved {
+            background: #EEF9F1;
+            color: #18783D;
+            border: 1px solid #CBE8D3
+        }
+
+        .status-pill.rejected {
+            background: #FFF2F1;
+            color: #B42318;
+            border: 1px solid #F0CFCC
+        }
+
+        .status-pill.default {
+            background: #F5F5F8;
+            color: #686E7C;
+            border: 1px solid #E8E7EE
+        }
+
+        .hero-actions {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-width: 110px;
+            padding: 10px 13px;
+            border-radius: 11px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .22s
+        }
+
+        .approve-btn {
+            background: linear-gradient(135deg, var(--green), #16A34A);
+            color: #fff;
+            box-shadow: 0 9px 19px rgba(34, 197, 94, .16)
+        }
+
+        .approve-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 13px 24px rgba(34, 197, 94, .21)
+        }
+
+        .approve-btn:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none
+        }
+
+        .reject-btn {
+            background: #FFF4F3;
+            color: #B42318;
+            border: 1px solid #F0D0CC
+        }
+
+        .reject-btn:hover {
+            background: #FFE9E6;
+            border-color: #E8B9B3;
+            transform: translateY(-2px)
+        }
+
+        .reject-btn:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none
+        }
+
+        .disabled-btn {
+            background: #F6F5F9;
+            color: #A0A4B0;
+            border: 1px solid var(--border);
+            cursor: not-allowed
+        }
+
+        .sections {
+            display: grid;
+            gap: 17px;
+            margin-top: 18px
+        }
+
+        .section-card {
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            background: rgba(255, 255, 255, .95);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: fadeUp .65s ease both
+        }
+
+        .section-card:nth-child(2) {
+            animation-delay: .06s
+        }
+
+        .section-card:nth-child(3) {
+            animation-delay: .11s
+        }
+
+        .section-card:nth-child(4) {
+            animation-delay: .16s
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 18px 20px;
+            border-bottom: 1px solid #F0EEF7
+        }
+
+        .section-icon {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: #F0ECFF;
+            color: var(--purple-dark)
+        }
+
+        .section-card:nth-child(2) .section-icon {
+            background: #EAF3FF;
+            color: var(--blue)
+        }
+
+        .section-card:nth-child(3) .section-icon {
+            background: #EAFBF2;
+            color: #16A66A
+        }
+
+        .section-card:nth-child(4) .section-icon {
+            background: #FFF5E7;
+            color: #D47B00
+        }
+
+        .section-head strong {
+            display: block;
+            font-size: 13px
+        }
+
+        .section-head span {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 9px
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            padding: 18px 20px
+        }
+
+        .field {
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid #EEEBF6;
+            border-radius: 13px;
+            background: #FCFBFF
+        }
+
+        .field.full {
+            grid-column: 1 / -1
+        }
+
+        .field-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #8B90A0;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .25px;
+            text-transform: uppercase
+        }
+
+        .field-label i {
+            color: var(--purple);
+            font-size: 9px
+        }
+
+        .field-value {
+            margin-top: 7px;
+            color: var(--text);
+            font-size: 11px;
+            line-height: 1.55;
+            word-break: break-word;
+            white-space: pre-wrap
+        }
+
+        .field-value.muted {
+            color: #9A9FAD
+        }
+
+        .document-value {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        .doc-main {
+            min-width: 0
+        }
+
+        .doc-main strong {
+            display: block;
+            font-size: 11px
+        }
+
+        .doc-main span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 9px
+        }
+
+        .copy-btn {
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 8px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+            color: #6B7280;
+            font-size: 9px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .copy-btn:hover {
+            color: var(--purple-dark);
+            border-color: #DCD4F3;
+            background: #FAF8FF
+        }
+
+        .loading-card {
+            padding: 42px;
+            text-align: center
+        }
+
+        .loader-small {
+            width: 31px;
+            height: 31px;
+            margin: 0 auto 11px;
+            border: 3px solid #ECE9F8;
+            border-top-color: var(--purple);
+            border-right-color: var(--blue);
+            border-radius: 50%;
+            animation: spin .8s linear infinite
+        }
+
+        .loading-card strong {
+            display: block;
+            font-size: 13px
+        }
+
+        .loading-card span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10px
+        }
+
+        .error-card {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 14px 16px;
+            margin-top: 16px;
+            border: 1px solid #F0D5D2;
+            border-radius: 13px;
+            background: #FFF8F7;
+            color: #A23A30;
+            font-size: 10px
+        }
+
+        .error-card.show {
+            display: flex
+        }
+
+        .retry-btn {
+            padding: 8px 11px;
+            border: 1px solid #EBC9C5;
+            border-radius: 9px;
+            background: #fff;
+            color: #A23A30;
+            font-size: 9px;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(20, 22, 38, .25);
+            backdrop-filter: blur(6px)
+        }
+
+        .modal-overlay.show {
+            display: flex
+        }
+
+        .modal {
+            width: min(420px, 100%);
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: 0 28px 80px rgba(15, 23, 42, .20);
+            animation: modalIn .24s ease
+        }
+
+        .modal-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: rgba(34, 197, 94, .1);
+            color: var(--green);
+            margin-bottom: 12px
+        }
+
+        .modal h3 {
+            font-size: 17px
+        }
+
+        .modal p {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6
+        }
+
+        .modal-name {
+            color: var(--text);
+            font-weight: 700
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 18px
+        }
+
+        .modal-btn {
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .cancel-btn {
+            background: #F7F6FA;
+            color: #6B7280;
+            border: 1px solid var(--border)
+        }
+
+        .confirm-btn {
+            background: linear-gradient(135deg, var(--green), #16A34A);
+            color: #fff
+        }
+
+        .confirm-btn:disabled {
+            opacity: .65;
+            cursor: not-allowed
+        }
+
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            width: min(355px, calc(100vw - 40px));
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 18px 44px rgba(15, 23, 42, .14);
+            transform: translateY(110px);
+            opacity: 0;
+            pointer-events: none;
+            transition: .3s
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1
+        }
+
+        .toast-icon {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border-radius: 9px;
+            background: rgba(34, 197, 94, .09);
+            color: var(--green)
+        }
+
+        .toast strong {
+            display: block;
+            font-size: 11px
+        }
+
+        .toast p {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.45
+        }
+
+        .mobile-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 35;
+            background: rgba(15, 23, 42, .20);
+            backdrop-filter: blur(2px)
+        }
+
+        .mobile-backdrop.show {
+            display: block
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(.985)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @media(max-width:1000px) {
+            .content {
+                width: min(100% - 42px, 980px)
+            }
+
+            .field-grid {
+                grid-template-columns: 1fr
+            }
+
+            .field.full {
+                grid-column: auto
+            }
+        }
+
+        @media(max-width:820px) {
+            :root {
+                --sidebar-width: 250px
+            }
+
+            .sidebar {
+                transform: translateX(-105%);
+                transition: .3s ease;
+                box-shadow: 18px 0 45px rgba(15, 23, 42, .10)
+            }
+
+            .sidebar.open {
+                transform: translateX(0)
+            }
+
+            .main {
+                width: 100%;
+                margin-left: 0
+            }
+
+            .menu-btn {
+                display: grid
+            }
+
+            .topbar {
+                padding: 0 18px
+            }
+
+            .content {
+                width: min(100% - 30px, 760px);
+                padding-top: 22px
+            }
+
+            .page-head {
+                align-items: flex-start;
+                flex-direction: column
+            }
+
+            .hero-actions {
+                justify-content: flex-start
+            }
+
+            .profile-hero {
+                align-items: flex-start;
+                flex-direction: column
+            }
+        }
+
+        @media(max-width:560px) {
+            .content {
+                width: calc(100% - 20px)
+            }
+
+            .topbar {
+                height: 66px;
+                padding: 0 12px
+            }
+
+            .breadcrumb {
+                font-size: 10px
+            }
+
+            .top-actions .icon-btn:last-child {
+                display: none
+            }
+
+            .page-head h1 {
+                font-size: 27px
+            }
+
+            .profile-hero {
+                padding: 17px
+            }
+
+            .profile-main {
+                width: 100%
+            }
+
+            .profile-avatar {
+                width: 54px;
+                height: 54px
+            }
+
+            .profile-copy h2 {
+                font-size: 18px
+            }
+
+            .hero-actions {
+                width: 100%
+            }
+
+            .action-btn {
+                flex: 1
+            }
+
+            .field-grid {
+                padding: 15px
+            }
+
+            .section-head {
+                padding: 15px
+            }
+
+            .section-head strong {
+                font-size: 12px
+            }
+
+            .error-card {
+                align-items: flex-start;
+                flex-direction: column
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-mark"><i class="fa-solid fa-compass"></i></div>
+                <div>
+                    <div class="brand-name">CareerAdvisor</div>
+                    <div class="brand-sub">ADMIN CONSOLE</div>
+                </div>
+            </div>
+            <div class="nav-label">Workspace</div>
+            <nav class="nav">
+                <a class="nav-link" href="admin-dashboard.html"><i
+                        class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="admin-student-management.html"><i
+                        class="fa-solid fa-user-graduate"></i><span>Student Management</span></a>
+                <a class="nav-link active" href="admin-counselor-management.html"><i
+                        class="fa-solid fa-user-tie"></i><span>Counselor Management</span></a>
+                <a class="nav-link" href="admin-course-management.html"><i
+                        class="fa-solid fa-book-open"></i><span>Course Management</span></a>
+                <a class="nav-link" href="admin-college-management.html"><i
+                        class="fa-solid fa-building-columns"></i><span>College Management</span></a>
+                <a class="nav-link" href="admin-assessment-management.html"><i
+                        class="fa-solid fa-clipboard-question"></i><span>Assessment Management</span></a>
+                <a class="nav-link" href="admin-system-overview.html"><i class="fa-solid fa-gears"></i><span>System
+                        Overview</span></a>
+            </nav>
+            <div class="sidebar-bottom">
+                <div class="admin-mini">
+                    <div class="avatar-mini" id="adminAvatar">A</div>
+                    <div><strong id="adminName">Administrator</strong><span>System Administrator</span></div>
+                </div>
+                <button class="logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
+        </aside>
+        <div class="mobile-backdrop" id="mobileBackdrop"></div>
+        <main class="main">
+            <header class="topbar">
+                <div class="breadcrumb">
+                    <button class="icon-btn menu-btn" id="menuBtn" title="Menu"><i
+                            class="fa-solid fa-bars"></i></button>
+                    <span>Admin</span>
+                    <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+                    <span>Counselor Management</span>
+                    <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+                    <strong>Profile</strong>
+                </div>
+                <div class="top-actions">
+                    <button class="icon-btn" id="refreshBtn" title="Refresh"><i class="fa-solid fa-rotate"></i></button>
+                    <button class="icon-btn" id="notificationBtn" title="Notifications"><i
+                            class="fa-regular fa-bell"></i></button>
+                </div>
+            </header>
+            <section class="content">
+                <div class="page-head">
+                    <div class="page-head-left">
+                        <div class="eyebrow"><i class="fa-solid fa-user-check"></i> Verification Profile</div>
+                        <h1>Counselor Profile</h1>
+                        <p>Review the counselor's account, qualification, professional experience and submitted
+                            verification information before approval.</p>
+                    </div>
+                    <button class="back-btn" id="backBtn"><i class="fa-solid fa-arrow-left"></i> Back to
+                        Counselors</button>
+                </div>
+                <div class="profile-hero" id="profileHero" style="display:none">
+                    <div class="profile-main">
+                        <div class="profile-avatar" id="profileAvatar">C</div>
+                        <div class="profile-copy">
+                            <h2 id="profileName">Counselor</h2>
+                            <p id="profileEmail">-</p>
+                            <div class="profile-meta">
+                                <span class="role-pill"><i class="fa-solid fa-user-tie"></i> Counselor</span>
+                                <span class="status-pill default" id="statusPill"><i
+                                        class="fa-solid fa-circle-info"></i> Loading</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="action-btn approve-btn" id="approveBtn"><i class="fa-solid fa-user-check"></i>
+                            Approve Counselor</button>
+                        <button class="action-btn reject-btn" id="rejectBtn"><i class="fa-solid fa-user-xmark"></i>
+                            Reject Counselor</button>
+                    </div>
+                </div>
+                <div class="section-card" id="loadingCard">
+                    <div class="loading-card">
+                        <div class="loader-small"></div><strong>Loading counselor profile</strong><span>Fetching
+                            verification details from CareerAdvisor.</span>
+                    </div>
+                </div>
+                <div id="profileSections" class="sections" style="display:none">
+                    <section class="section-card">
+                        <div class="section-head">
+                            <div class="section-icon"><i class="fa-solid fa-user"></i></div>
+                            <div><strong>Basic Information</strong><span>Account and contact details</span></div>
+                        </div>
+                        <div class="field-grid">
+                            <div class="field">
+                                <div class="field-label"><i class="fa-solid fa-hashtag"></i> Counselor ID</div>
+                                <div class="field-value" id="idValue">-</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label"><i class="fa-solid fa-circle-check"></i> Account Status</div>
+                                <div class="field-value" id="statusValue">-</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label"><i class="fa-regular fa-user"></i> Full Name</div>
+                                <div class="field-value" id="nameValue">-</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label"><i class="fa-regular fa-envelope"></i> Email Address</div>
+                                <div class="field-value" id="emailValue">-</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label"><i class="fa-solid fa-phone"></i> Phone Number</div>
+                                <div class="field-value" id="phoneValue">-</div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section-card">
+                        <div class="section-head">
+                            <div class="section-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                            <div><strong>Qualification Details</strong><span>Academic and specialization
+                                    information</span></div>
+                        </div>
+                        <div class="field-grid">
+                            <div class="field">
+                                <div class="field-label"><i class="fa-solid fa-award"></i> Highest Qualification</div>
+                                <div class="field-value" id="qualificationValue">-</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label"><i class="fa-solid fa-building-columns"></i> University /
+                                    Institute</div>
+                                <div class="field-value" id="universityValue">-</div>
+                            </div>
+                            <div class="field full">
+                                <div class="field-label"><i class="fa-solid fa-book"></i> Specialization</div>
+                                <div class="field-value" id="specializationValue">-</div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section-card">
+                        <div class="section-head">
+                            <div class="section-icon"><i class="fa-solid fa-briefcase"></i></div>
+                            <div><strong>Professional Experience</strong><span>Experience and areas of expertise</span>
+                            </div>
+                        </div>
+                        <div class="field-grid">
+                            <div class="field">
+                                <div class="field-label"><i class="fa-solid fa-clock"></i> Experience</div>
+                                <div class="field-value" id="experienceValue">-</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label"><i class="fa-solid fa-lightbulb"></i> Areas of Expertise</div>
+                                <div class="field-value" id="expertiseValue">-</div>
+                            </div>
+                            <div class="field full">
+                                <div class="field-label"><i class="fa-solid fa-file-lines"></i> Professional Experience
+                                    Details</div>
+                                <div class="field-value" id="professionalDetailsValue">-</div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section-card">
+                        <div class="section-head">
+                            <div class="section-icon"><i class="fa-solid fa-file-shield"></i></div>
+                            <div><strong>Verification Documents</strong><span>Documents submitted with the counselor
+                                    profile</span></div>
+                        </div>
+                        <div class="field-grid">
+                            <div class="field">
+                                <div class="field-label"><i class="fa-solid fa-certificate"></i> Qualification Proof
+                                </div>
+                                <div class="document-value">
+                                    <div class="doc-main"><strong id="qualificationProofValue">-</strong><span
+                                            id="qualificationProofSub">Submitted information</span></div>
+                                    <button class="copy-btn" data-copy-target="qualificationProofValue"><i
+                                            class="fa-regular fa-copy"></i> Copy</button>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label"><i class="fa-solid fa-file-pdf"></i> Resume / CV</div>
+                                <div class="document-value">
+                                    <div class="doc-main"><strong id="resumeValue">-</strong><span
+                                            id="resumeSub">Submitted information</span></div>
+                                    <button class="copy-btn" data-copy-target="resumeValue"><i
+                                            class="fa-regular fa-copy"></i> Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="error-card" id="errorCard">
+                    <span id="errorText">Unable to load counselor profile.</span>
+                    <button class="retry-btn" id="retryBtn"><i class="fa-solid fa-rotate"></i> Retry</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div class="modal-overlay" id="approveModal">
+        <div class="modal">
+            <div class="modal-icon"><i class="fa-solid fa-user-check"></i></div>
+            <h3>Approve counselor?</h3>
+            <p>You are about to approve <span class="modal-name" id="modalName">this counselor</span>. The account will
+                move to the approved state according to the current verification workflow.</p>
+            <div class="modal-actions">
+                <button class="modal-btn cancel-btn" id="cancelApprove">Cancel</button>
+                <button class="modal-btn confirm-btn" id="confirmApprove"><i class="fa-solid fa-check"></i>
+                    Approve</button>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast">
+        <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-circle-check"></i></div>
+        <div><strong id="toastTitle">Success</strong>
+            <p id="toastText"></p>
+        </div>
+    </div>
+    <script>
+        const API_BASE = "http://localhost:8081";
+        const token = localStorage.getItem("token");
+        const params = new URLSearchParams(window.location.search);
+        const counselorId = params.get("id");
+        let counselorData = null;
+        const currentUser = (() => {
+            try { return JSON.parse(localStorage.getItem("user") || "null") } catch { return null }
+        })();
+        const sidebar = document.getElementById("sidebar");
+        const mobileBackdrop = document.getElementById("mobileBackdrop");
+        const profileHero = document.getElementById("profileHero");
+        const loadingCard = document.getElementById("loadingCard");
+        const profileSections = document.getElementById("profileSections");
+        const errorCard = document.getElementById("errorCard");
+        const errorText = document.getElementById("errorText");
+        const statusPill = document.getElementById("statusPill");
+        const approveBtn = document.getElementById("approveBtn");
+        const rejectBtn = document.getElementById("rejectBtn");
+        const approveModal = document.getElementById("approveModal");
+        const modalName = document.getElementById("modalName");
+        const confirmApprove = document.getElementById("confirmApprove");
+
+        if (!token || !currentUser) {
+            window.location.href = "../login.html";
+        }
+        if (currentUser && String(currentUser.role || "").toUpperCase() !== "ADMIN") {
+            window.location.href = "../login.html";
+        }
+        if (!counselorId) {
+            window.location.href = "admin-counselor-management.html";
+        }
+
+        document.getElementById("adminName").textContent = currentUser?.name || "Administrator";
+        document.getElementById("adminAvatar").textContent = (currentUser?.name || "Administrator").trim().charAt(0).toUpperCase() || "A";
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
+        }
+        function initials(name) {
+            const words = String(name || "Counselor").trim().split(/\s+/).filter(Boolean);
+            return ((words[0]?.[0] || "C") + (words.length > 1 ? (words.at(-1)?.[0] || "") : "")).toUpperCase();
+        }
+        function statusClass(status) {
+            const value = String(status || "").toUpperCase();
+            if (value === "APPROVED") return "approved";
+            if (value === "PENDING_REVIEW") return "review";
+            if (value === "PENDING_PROFILE") return "pending";
+            if (value === "REJECTED") return "rejected";
+            return "default";
+        }
+        function setStatus(status) {
+            const value = String(status || "-").toUpperCase();
+            const label = value.replaceAll("_", " ");
+            statusPill.className = `status-pill ${statusClass(value)}`;
+            statusPill.innerHTML = `<i class="fa-solid ${value === "APPROVED" ? "fa-circle-check" : value === "REJECTED" ? "fa-circle-xmark" : "fa-clock"}"></i> ${escapeHtml(label)}`;
+            document.getElementById("statusValue").textContent = label;
+            const approved = value === "APPROVED";
+            approveBtn.style.display = approved ? "none" : "inline-flex";
+            rejectBtn.style.display = approved || value === "REJECTED" ? "none" : "inline-flex";
+        }
+        function valueOrDash(value) {
+            if (value === null || value === undefined || String(value).trim() === "") return "—";
+            return String(value);
+        }
+        function showToast(title, message, type = "success") {
+            document.getElementById("toastTitle").textContent = title;
+            document.getElementById("toastText").textContent = message;
+            const icon = document.getElementById("toastIcon");
+            icon.innerHTML = `<i class="fa-solid ${type === "success" ? "fa-circle-check" : "fa-circle-exclamation"}"></i>`;
+            icon.style.color = type === "success" ? "var(--green)" : "var(--red)";
+            icon.style.background = type === "success" ? "rgba(34,197,94,.09)" : "rgba(239,68,68,.08)";
+            const toast = document.getElementById("toast");
+            toast.classList.add("show");
+            clearTimeout(showToast.timer);
+            showToast.timer = setTimeout(() => toast.classList.remove("show"), 4000);
+        }
+        function showError(message) {
+            errorText.textContent = message;
+            errorCard.classList.add("show");
+        }
+        function hideError() {
+            errorCard.classList.remove("show");
+        }
+        function parseResponse(text) {
+            if (!text) return null;
+            try { return JSON.parse(text) } catch { return text }
+        }
+        function setText(id, value) {
+            document.getElementById(id).textContent = valueOrDash(value);
+        }
+        function renderProfile(data) {
+            counselorData = data;
+            const name = valueOrDash(data.name);
+            document.getElementById("profileAvatar").textContent = initials(data.name);
+            document.getElementById("profileName").textContent = name;
+            document.getElementById("profileEmail").textContent = valueOrDash(data.email);
+            document.getElementById("modalName").textContent = name;
+            setText("idValue", data.id);
+            setText("nameValue", data.name);
+            setText("emailValue", data.email);
+            setText("phoneValue", data.phone);
+            setText("qualificationValue", data.highestQualification);
+            setText("universityValue", data.universityInstitute);
+            setText("specializationValue", data.specialization);
+            setText("experienceValue", data.experienceYears === null || data.experienceYears === undefined || data.experienceYears === "" ? "-" : `${data.experienceYears} years`);
+            setText("expertiseValue", data.areasOfExpertise);
+            setText("professionalDetailsValue", data.professionalExperienceDetails);
+            setText("qualificationProofValue", data.qualificationProof);
+            setText("resumeValue", data.resume);
+            document.getElementById("qualificationProofSub").textContent = data.qualificationProof ? "Submitted qualification information" : "No qualification proof information";
+            document.getElementById("resumeSub").textContent = data.resume ? "Submitted resume information" : "No resume information";
+            setStatus(data.status);
+            profileHero.style.display = "flex";
+            loadingCard.style.display = "none";
+            profileSections.style.display = "grid";
+        }
+        async function loadCounselor() {
+            hideError();
+            profileHero.style.display = "none";
+            profileSections.style.display = "none";
+            loadingCard.style.display = "block";
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/counselors/${encodeURIComponent(counselorId)}`, {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const text = await response.text();
+                const result = parseResponse(text);
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    window.location.href = "../login.html";
+                    return;
+                }
+                if (!response.ok) {
+                    const message = typeof result === "string" ? result : (result?.message || result?.error || "Failed to load counselor profile.");
+                    throw new Error(message);
+                }
+                renderProfile(result);
+            } catch (error) {
+                loadingCard.style.display = "none";
+                showError(error instanceof TypeError ? "Unable to connect Server. Make sure Spring Boot is running on port 8081." : error.message);
+            }
+        }
+        function openApprove() {
+            if (!counselorData) return;
+            modalName.textContent = counselorData.name || "this counselor";
+            approveModal.classList.add("show");
+        }
+        function rejectCounselor() {
+            if (!counselorData) return;
+            showToast("Reject option", "Reject API is not available in the current backend yet. No account status was changed.", "error");
+        }
+        function closeApprove() {
+            approveModal.classList.remove("show");
+        }
+        async function approveCounselor() {
+            if (!counselorData) return;
+            confirmApprove.disabled = true;
+            confirmApprove.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Approving...';
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/counselors/${encodeURIComponent(counselorId)}/approve`, {
+                    method: "PUT",
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const text = await response.text();
+                const result = parseResponse(text);
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    window.location.href = "../login.html";
+                    return;
+                }
+                if (!response.ok) {
+                    const message = typeof result === "string" ? result : (result?.message || result?.error || "Failed to approve counselor.");
+                    throw new Error(message);
+                }
+                closeApprove();
+                showToast("Counselor approved", "The counselor has been approved successfully.");
+                await loadCounselor();
+            } catch (error) {
+                showToast("Approval failed", error instanceof TypeError ? "Unable to connect Server." : error.message, "error");
+            } finally {
+                confirmApprove.disabled = false;
+                confirmApprove.innerHTML = '<i class="fa-solid fa-check"></i> Approve';
+            }
+        }
+        function copyValue(id) {
+            const value = document.getElementById(id).textContent.trim();
+            if (!value || value === "—") return;
+            navigator.clipboard?.writeText(value).then(() => {
+                showToast("Copied", "The document information was copied.");
+            }).catch(() => {
+                showToast("Copy failed", "The browser did not allow copying.", "error");
+            });
+        }
+        document.getElementById("backBtn").addEventListener("click", () => window.location.href = "admin-counselor-management.html");
+        document.getElementById("refreshBtn").addEventListener("click", loadCounselor);
+        document.getElementById("retryBtn").addEventListener("click", loadCounselor);
+        approveBtn.addEventListener("click", openApprove);
+        rejectBtn.addEventListener("click", rejectCounselor);
+        document.getElementById("cancelApprove").addEventListener("click", closeApprove);
+        confirmApprove.addEventListener("click", approveCounselor);
+        approveModal.addEventListener("click", event => { if (event.target === approveModal) closeApprove() });
+        document.querySelectorAll(".copy-btn").forEach(btn => {
+            btn.addEventListener("click", () => copyValue(btn.dataset.copyTarget));
+        });
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "../login.html";
+        });
+        document.getElementById("notificationBtn").addEventListener("click", () => {
+            showToast("Counselor review", counselorData ? `Viewing ${counselorData.name || "the counselor"}'s verification profile.` : "Loading counselor information.");
+        });
+        document.getElementById("menuBtn").addEventListener("click", () => {
+            sidebar.classList.add("open");
+            mobileBackdrop.classList.add("show");
+        });
+        mobileBackdrop.addEventListener("click", () => {
+            sidebar.classList.remove("open");
+            mobileBackdrop.classList.remove("show");
+        });
+        document.querySelectorAll(".nav-link").forEach(link => link.addEventListener("click", () => {
+            sidebar.classList.remove("open");
+            mobileBackdrop.classList.remove("show");
+        }));
+        loadCounselor();
+    </script>
+</body>
+
+</html>
