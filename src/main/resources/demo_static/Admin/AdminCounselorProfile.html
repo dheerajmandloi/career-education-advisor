@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -60,15 +61,29 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             min-height: 18px;
+            white-space: pre-wrap;
         }
 
         .status {
             display: inline-block;
             padding: 6px 12px;
             border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .pending {
             background-color: #fff3cd;
             color: #856404;
-            font-weight: bold;
+        }
+
+        .approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .rejected {
+            background-color: #f8d7da;
+            color: #721c24;
         }
 
         .button-container {
@@ -123,27 +138,37 @@
 
 </head>
 
+
 <body>
 
     <div class="container">
 
+        <!-- ================= BACK BUTTON ================= -->
+
         <button class="back-btn" onclick="goBack()">
+
             ← Back
+
         </button>
 
 
-        <h2>Counselor Profile</h2>
+        <h2>
+            Counselor Profile
+        </h2>
 
         <p class="subtitle">
             Review counselor details before making a decision.
         </p>
 
 
-        <!-- ================= BASIC DETAILS ================= -->
+        <!-- ================= BASIC INFORMATION ================= -->
 
         <div class="section">
 
-            <h3>Basic Information</h3>
+            <h3>
+                Basic Information
+            </h3>
+
 
             <div class="field">
 
@@ -152,7 +177,9 @@
                 </div>
 
                 <div class="value" id="id">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -165,7 +192,9 @@
                 </div>
 
                 <div class="value" id="name">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -178,7 +207,9 @@
                 </div>
 
                 <div class="value" id="email">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -191,7 +222,9 @@
                 </div>
 
                 <div class="value" id="phone">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -206,7 +239,9 @@
                 <div class="value">
 
                     <span class="status" id="status">
+
                         Loading...
+
                     </span>
 
                 </div>
@@ -220,7 +255,10 @@
 
         <div class="section">
 
-            <h3>Qualification Details</h3>
+            <h3>
+                Qualification Details
+            </h3>
+
 
             <div class="field">
 
@@ -229,7 +267,9 @@
                 </div>
 
                 <div class="value" id="highestQualification">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -242,7 +282,9 @@
                 </div>
 
                 <div class="value" id="universityInstitute">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -255,7 +297,9 @@
                 </div>
 
                 <div class="value" id="specialization">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -267,7 +311,10 @@
 
         <div class="section">
 
-            <h3>Professional Experience</h3>
+            <h3>
+                Professional Experience
+            </h3>
+
 
             <div class="field">
 
@@ -276,7 +323,9 @@
                 </div>
 
                 <div class="value" id="experienceYears">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -289,7 +338,9 @@
                 </div>
 
                 <div class="value" id="areasOfExpertise">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -302,7 +353,9 @@
                 </div>
 
                 <div class="value" id="professionalExperienceDetails">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -314,7 +367,10 @@
 
         <div class="section">
 
-            <h3>Verification Documents</h3>
+            <h3>
+                Verification Documents
+            </h3>
+
 
             <div class="field">
 
@@ -323,7 +379,9 @@
                 </div>
 
                 <div class="value" id="qualificationProof">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -336,7 +394,9 @@
                 </div>
 
                 <div class="value" id="resume">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -344,16 +404,21 @@
         </div>
 
 
-        <!-- ================= ACTIONS ================= -->
+        <!-- ================= ACTION BUTTONS ================= -->
 
-        <div class="button-container">
+        <div class="button-container" id="actionButtons">
 
             <button class="approve-btn" onclick="approveCounselor()">
+
                 Approve Counselor
+
             </button>
 
+
             <button class="reject-btn" onclick="rejectCounselor()">
+
                 Reject Counselor
+
             </button>
 
         </div>
@@ -366,13 +431,17 @@
 
     <script>
 
-        // ================= GET TOKEN =================
+        // =====================================================
+        // GET TOKEN
+        // =====================================================
 
         const token =
             localStorage.getItem("token");
 
 
-        // ================= GET COUNSELOR ID =================
+        // =====================================================
+        // GET COUNSELOR ID FROM URL
+        // =====================================================
 
         const urlParams =
             new URLSearchParams(
@@ -383,7 +452,9 @@
             urlParams.get("id");
 
 
-        // ================= CHECK SESSION =================
+        // =====================================================
+        // CHECK LOGIN
+        // =====================================================
 
         if (!token) {
 
@@ -396,7 +467,9 @@
         }
 
 
-        // ================= CHECK ID =================
+        // =====================================================
+        // CHECK COUNSELOR ID
+        // =====================================================
 
         if (!counselorId) {
 
@@ -409,96 +482,205 @@
         }
 
 
-        // ================= LOAD COUNSELOR =================
+        // =====================================================
+        // LOAD COUNSELOR PROFILE
+        // =====================================================
 
         async function loadCounselor() {
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:8081/api/admin/counselors/"
-                    + counselorId,
-                    {
-                        method: "GET",
+                const response =
+                    await fetch(
+                        "http://localhost:8081/api/admin/counselors/"
+                        + counselorId,
+                        {
+                            method: "GET",
 
-                        headers: {
-                            "Authorization":
-                                "Bearer " + token
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
                         }
-                    }
-                );
+                    );
 
 
                 const result =
-                    await response.json();
+                    await response.text();
+
+
+                let data;
+
+                try {
+
+                    data =
+                        result
+                            ? JSON.parse(result)
+                            : null;
+
+                } catch (error) {
+
+                    throw new Error(
+                        "Invalid response from server."
+                    );
+                }
 
 
                 if (!response.ok) {
 
                     throw new Error(
-                        typeof result === "string"
-                            ? result
+                        typeof data === "string"
+                            ? data
                             : "Failed to load counselor."
                     );
                 }
 
 
+                // =================================================
+                // BASIC INFORMATION
+                // =================================================
+
                 document.getElementById("id").innerText =
-                    result.id ?? "-";
+                    data.id ?? "-";
+
 
                 document.getElementById("name").innerText =
-                    result.name ?? "-";
+                    data.name ?? "-";
+
 
                 document.getElementById("email").innerText =
-                    result.email ?? "-";
+                    data.email ?? "-";
+
 
                 document.getElementById("phone").innerText =
-                    result.phone ?? "-";
+                    data.phone ?? "-";
 
-                document.getElementById("status").innerText =
-                    result.status ?? "-";
+
+                // =================================================
+                // STATUS
+                // =================================================
+
+                const statusElement =
+                    document.getElementById("status");
+
+
+                statusElement.innerText =
+                    data.status ?? "-";
+
+
+                statusElement.className =
+                    "status";
+
+
+                if (
+                    data.status ===
+                    "PENDING_REVIEW"
+                ) {
+
+                    statusElement.classList.add(
+                        "pending"
+                    );
+
+                } else if (
+                    data.status ===
+                    "APPROVED"
+                ) {
+
+                    statusElement.classList.add(
+                        "approved"
+                    );
+
+                } else if (
+                    data.status ===
+                    "REJECTED"
+                ) {
+
+                    statusElement.classList.add(
+                        "rejected"
+                    );
+                }
+
+
+                // =================================================
+                // QUALIFICATION
+                // =================================================
 
                 document.getElementById(
                     "highestQualification"
                 ).innerText =
-                    result.highestQualification ?? "-";
+                    data.highestQualification ?? "-";
+
 
                 document.getElementById(
                     "universityInstitute"
                 ).innerText =
-                    result.universityInstitute ?? "-";
+                    data.universityInstitute ?? "-";
+
 
                 document.getElementById(
                     "specialization"
                 ).innerText =
-                    result.specialization ?? "-";
+                    data.specialization ?? "-";
+
+
+                // =================================================
+                // EXPERIENCE
+                // =================================================
 
                 document.getElementById(
                     "experienceYears"
                 ).innerText =
-                    result.experienceYears != null
-                        ? result.experienceYears + " years"
+                    data.experienceYears != null
+                        ? data.experienceYears + " years"
                         : "-";
+
 
                 document.getElementById(
                     "areasOfExpertise"
                 ).innerText =
-                    result.areasOfExpertise ?? "-";
+                    data.areasOfExpertise ?? "-";
+
 
                 document.getElementById(
                     "professionalExperienceDetails"
                 ).innerText =
-                    result.professionalExperienceDetails ?? "-";
+                    data.professionalExperienceDetails ?? "-";
+
+
+                // =================================================
+                // DOCUMENTS
+                // =================================================
 
                 document.getElementById(
                     "qualificationProof"
                 ).innerText =
-                    result.qualificationProof ?? "-";
+                    data.qualificationProof ?? "-";
+
 
                 document.getElementById(
                     "resume"
                 ).innerText =
-                    result.resume ?? "-";
+                    data.resume ?? "";
+
+
+                // =================================================
+                // SHOW/HIDE ACTION BUTTONS
+                // =================================================
+
+                const actionButtons =
+                    document.getElementById(
+                        "actionButtons"
+                    );
+
+
+                if (
+                    data.status !==
+                    "PENDING_REVIEW"
+                ) {
+
+                    actionButtons.style.display =
+                        "none";
+                }
 
 
             } catch (error) {
@@ -507,47 +689,69 @@
                     "message"
                 ).style.color = "red";
 
+
                 document.getElementById(
                     "message"
                 ).innerText =
                     error.message;
             }
+
         }
 
 
-        // ================= APPROVE =================
+        // =====================================================
+        // APPROVE COUNSELOR
+        // =====================================================
 
         async function approveCounselor() {
 
-            const confirmApprove = confirm(
-                "Are you sure you want to approve this counselor?"
-            );
+            const confirmApprove =
+                confirm(
+                    "Are you sure you want to approve this counselor?"
+                );
 
 
             if (!confirmApprove) {
+
                 return;
             }
 
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:8081/api/admin/counselors/"
-                    + counselorId
-                    + "/approve",
-                    {
-                        method: "PUT",
+                const response =
+                    await fetch(
+                        "http://localhost:8081/api/admin/counselors/"
+                        + counselorId
+                        + "/approve",
+                        {
+                            method: "PUT",
 
-                        headers: {
-                            "Authorization":
-                                "Bearer " + token
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
                         }
-                    }
-                );
+                    );
 
 
                 const result =
-                    await response.json();
+                    await response.text();
+
+
+                let data;
+
+                try {
+
+                    data =
+                        result
+                            ? JSON.parse(result)
+                            : null;
+
+                } catch (error) {
+
+                    data = result;
+                }
 
 
                 if (response.ok) {
@@ -556,14 +760,16 @@
                         "Counselor approved successfully!"
                     );
 
+
                     window.location.href =
                         "AdminCounselorManagement.html";
+
 
                 } else {
 
                     alert(
-                        typeof result === "string"
-                            ? result
+                        typeof data === "string"
+                            ? data
                             : "Failed to approve counselor."
                     );
                 }
@@ -576,20 +782,100 @@
                     + error.message
                 );
             }
+
         }
 
 
-        // ================= REJECT =================
+        // =====================================================
+        // REJECT COUNSELOR
+        // =====================================================
 
-        function rejectCounselor() {
+        async function rejectCounselor() {
 
-            alert(
-                "Reject functionality will be added next."
-            );
+            const confirmReject =
+                confirm(
+                    "Are you sure you want to reject this counselor?"
+                );
+
+
+            if (!confirmReject) {
+
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:8081/api/admin/counselors/"
+                        + counselorId
+                        + "/reject",
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+
+                const result =
+                    await response.text();
+
+
+                let data;
+
+                try {
+
+                    data =
+                        result
+                            ? JSON.parse(result)
+                            : null;
+
+                } catch (error) {
+
+                    data = result;
+                }
+
+
+                if (response.ok) {
+
+                    alert(
+                        "Counselor rejected successfully!"
+                    );
+
+
+                    window.location.href =
+                        "AdminCounselorManagement.html";
+
+
+                } else {
+
+                    alert(
+                        typeof data === "string"
+                            ? data
+                            : "Failed to reject counselor."
+                    );
+                }
+
+
+            } catch (error) {
+
+                alert(
+                    "Something went wrong!\n\n"
+                    + error.message
+                );
+            }
+
         }
 
 
-        // ================= BACK =================
+        // =====================================================
+        // BACK
+        // =====================================================
 
         function goBack() {
 
@@ -598,7 +884,9 @@
         }
 
 
-        // ================= INITIAL LOAD =================
+        // =====================================================
+        // INITIAL LOAD
+        // =====================================================
 
         loadCounselor();
 

@@ -63,6 +63,41 @@ public class AdminCounselorController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAllCounselors() {
+
+        try {
+
+            List<AdminCounselorDTO> counselors = adminCounselorService.getAllCounselors();
+
+            return ResponseEntity.ok(counselors);
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{counselorId}/reject")
+    public ResponseEntity<?> rejectCounselor(
+            @PathVariable Long counselorId) {
+
+        try {
+
+            AdminCounselorDTO counselor = adminCounselorService
+                    .rejectCounselor(counselorId);
+
+            return ResponseEntity.ok(counselor);
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
+    }
     // ================= APPROVE COUNSELOR =================
 
     @PutMapping("/{counselorId}/approve")

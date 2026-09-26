@@ -20,59 +20,80 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private JwtFilter jwtFilter;
+        @Autowired
+        private JwtFilter jwtFilter;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-                .csrf(csrf -> csrf.disable())
+                http
+                                .csrf(csrf -> csrf.disable())
 
-                .cors(cors -> cors
-                        .configurationSource(corsConfigurationSource()))
+                                .cors(cors -> cors.configurationSource(
+                                                corsConfigurationSource()))
 
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .anyRequest().authenticated())
+                                .authorizeHttpRequests(auth -> auth
 
-                .addFilterBefore(
-                        jwtFilter,
-                        UsernamePasswordAuthenticationFilter.class);
+                                                // Login and Registration
+                                                .requestMatchers("/api/auth/**")
+                                                .permitAll()
 
-        return http.build();
-    }
+                                                // Course / College / Career Recommendation
+                                                .requestMatchers("/api/recommendation/**")
+                                                .permitAll()
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+                                                // CORS Preflight Requests
+                                                .requestMatchers(
+                                                                HttpMethod.OPTIONS,
+                                                                "/**")
+                                                .permitAll()
 
-        CorsConfiguration configuration = new CorsConfiguration();
+                                                // All other APIs require authentication
+                                                .anyRequest()
+                                                .authenticated())
 
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://127.0.0.1:5500",
-                "http://localhost:5500"));
+                                .addFilterBefore(
+                                                jwtFilter,
+                                                UsernamePasswordAuthenticationFilter.class);
 
-        configuration.setAllowedMethods(Arrays.asList(
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "OPTIONS"));
+                return http.build();
+        }
 
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        @Bean
+        public CorsConfigurationSource corsConfigurationSource() {
 
-        configuration.setAllowCredentials(false);
+                CorsConfiguration configuration = new CorsConfiguration();
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                configuration.setAllowedOrigins(
+                                Arrays.asList(
+                                                "http://127.0.0.1:5500",
+                                                "http://localhost:5500"));
 
-        source.registerCorsConfiguration("/**", configuration);
+                configuration.setAllowedMethods(
+                                Arrays.asList(
+                                                "GET",
+                                                "POST",
+                                                "PUT",
+                                                "DELETE",
+                                                "OPTIONS"));
 
-        return source;
-    }
+                configuration.setAllowedHeaders(
+                                Arrays.asList("*"));
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+                configuration.setAllowCredentials(false);
+
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+                source.registerCorsConfiguration(
+                                "/**",
+                                configuration);
+
+                return source;
+        }
+
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+
+                return new BCryptPasswordEncoder();
+        }
 }

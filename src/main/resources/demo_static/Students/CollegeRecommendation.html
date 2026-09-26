@@ -20,7 +20,10 @@
             color: #1f2937;
         }
 
-        /* Navbar */
+        /* =========================
+           NAVBAR
+        ========================= */
+
         .navbar {
             height: 70px;
             background: #ffffff;
@@ -52,14 +55,16 @@
             background: #e0e7ff;
         }
 
-        /* Main Container */
+        /* =========================
+           MAIN
+        ========================= */
+
         .container {
             max-width: 1100px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        /* Header */
         .page-header {
             margin-bottom: 30px;
         }
@@ -75,15 +80,18 @@
             font-size: 16px;
         }
 
-        /* Recommendation Card */
-        .recommendation-card {
-            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+        /* =========================
+           HERO
+        ========================= */
+
+        .college-card {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
             color: white;
             border-radius: 18px;
             padding: 40px;
             text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.20);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.20);
         }
 
         .college-icon {
@@ -98,113 +106,273 @@
             margin: 0 auto 20px;
         }
 
-        .recommendation-card h2 {
+        .college-card h2 {
             font-size: 25px;
             margin-bottom: 12px;
         }
 
-        .recommendation-card p {
-            max-width: 700px;
+        .college-card p {
+            max-width: 720px;
             margin: 0 auto;
             line-height: 1.6;
-            color: #ede9fe;
+            color: #dbeafe;
         }
 
-        .coming-soon {
-            display: inline-block;
+        .recommend-btn {
             margin-top: 22px;
             background: white;
-            color: #4f46e5;
-            padding: 10px 22px;
+            color: #1d4ed8;
+            border: none;
+            padding: 12px 25px;
             border-radius: 25px;
             font-weight: bold;
             font-size: 14px;
+            cursor: pointer;
         }
 
-        /* Preferences Section */
+        .recommend-btn:hover {
+            background: #eff6ff;
+        }
+
+        /* =========================
+           SUCCESS / ERROR
+        ========================= */
+
+        .message-box {
+            display: none;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .success-box {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #047857;
+        }
+
+        .error-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+        }
+
+        /* =========================
+           PREFERENCES
+        ========================= */
+
         .preferences-section {
             background: white;
             border-radius: 16px;
             padding: 30px;
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            margin-bottom: 30px;
         }
 
         .preferences-section h2 {
             font-size: 22px;
-            margin-bottom: 22px;
+            margin-bottom: 8px;
             color: #111827;
         }
 
-        .preferences-grid {
+        .temporary-note {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            color: #374151;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .preference-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        .form-help {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* =========================
+           RECOMMENDATIONS
+        ========================= */
+
+        .recommendation-section {
+            margin-top: 30px;
+        }
+
+        .recommendation-section h2 {
+            font-size: 22px;
+            margin-bottom: 18px;
+            color: #111827;
+        }
+
+        .loading {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            text-align: center;
+            color: #6b7280;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .college-result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+        }
+
+        .college-result-card:hover {
+            transform: translateY(-2px);
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .rank {
+            display: inline-block;
+            background: #eef2ff;
+            color: #2563eb;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .college-result-card h3 {
+            font-size: 20px;
+            color: #111827;
+            margin-bottom: 18px;
+        }
+
+        .college-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .info-item {
+            background: #f9fafb;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .score {
+            display: inline-block;
+            margin-top: 18px;
+            background: #ecfdf5;
+            color: #047857;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           PROFILE INFO
+        ========================= */
+
+        .profile-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            margin-top: 30px;
+        }
+
+        .profile-section h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #111827;
+        }
+
+        .profile-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 18px;
         }
 
-        .preference-item {
+        .profile-item {
             background: #f9fafb;
             border: 1px solid #e5e7eb;
             border-radius: 10px;
             padding: 18px;
         }
 
-        .preference-label {
+        .profile-label {
             font-size: 13px;
             color: #6b7280;
             margin-bottom: 7px;
         }
 
-        .preference-value {
+        .profile-value {
             font-size: 16px;
             font-weight: 600;
             color: #111827;
         }
 
-        /* Information Box */
-        .info-box {
-            margin-top: 25px;
-            background: #f5f3ff;
-            border-left: 4px solid #7c3aed;
-            padding: 18px;
-            border-radius: 8px;
-            color: #374151;
-            line-height: 1.6;
-        }
+        /* =========================
+           RESPONSIVE
+        ========================= */
 
-        /* Future Features */
-        .future-section {
-            margin-top: 30px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .future-card {
-            background: white;
-            padding: 25px;
-            border-radius: 14px;
-            text-align: center;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
-        }
-
-        .future-card .icon {
-            font-size: 30px;
-            margin-bottom: 12px;
-        }
-
-        .future-card h3 {
-            font-size: 17px;
-            margin-bottom: 8px;
-            color: #111827;
-        }
-
-        .future-card p {
-            font-size: 13px;
-            color: #6b7280;
-            line-height: 1.5;
-        }
-
-        /* Responsive */
         @media (max-width: 700px) {
 
             .navbar {
@@ -219,24 +387,38 @@
                 font-size: 26px;
             }
 
-            .recommendation-card {
+            .college-card {
                 padding: 30px 20px;
             }
 
-            .preferences-grid {
+            .preference-grid {
                 grid-template-columns: 1fr;
             }
 
-            .future-section {
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+            .recommendation-grid {
                 grid-template-columns: 1fr;
             }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
         }
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- Navbar -->
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
     <nav class="navbar">
 
         <div class="logo">
@@ -250,234 +432,973 @@
     </nav>
 
 
-    <!-- Main Content -->
+    <!-- =========================
+         MAIN
+    ========================= -->
+
     <main class="container">
 
-        <!-- Header -->
+
+        <!-- PAGE HEADER -->
+
         <div class="page-header">
 
-            <h1>College Recommendation</h1>
+            <h1>
+                College Recommendation
+            </h1>
 
             <p>
-                Find colleges that match your course, budget, location and preferences.
+                Find colleges that match your course,
+                budget, location and preferences.
             </p>
 
         </div>
 
 
-        <!-- Recommendation Section -->
-        <section class="recommendation-card">
+        <!-- =========================
+             HERO
+        ========================= -->
+
+        <section class="college-card">
 
             <div class="college-icon">
                 🏫
             </div>
 
-            <h2>Personalized College Recommendations</h2>
+            <h2>
+                Personalized College Recommendations
+            </h2>
 
             <p>
-                Our future recommendation system will analyze your preferred
-                course, college type, budget, hostel requirement and location
-                preferences to suggest suitable colleges for you.
+                Our recommendation system analyzes your
+                preferred course, college type, budget,
+                and location preferences
+                to suggest suitable colleges.
             </p>
 
-            <span class="coming-soon">
-                Coming Soon
-            </span>
+            <button class="recommend-btn" onclick="getCollegeRecommendations()">
+
+                Get My College Recommendations
+
+            </button>
 
         </section>
 
 
-        <!-- College Preferences -->
+        <!-- SUCCESS -->
+
+        <div id="successBox" class="message-box success-box">
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div id="errorBox" class="message-box error-box">
+        </div>
+
+
+        <!-- =========================
+             TEMPORARY PREFERENCES
+        ========================= -->
+
         <section class="preferences-section">
 
-            <h2>Your College Preferences</h2>
+            <h2>
+                College Preferences
+            </h2>
 
-            <div class="preferences-grid">
+            <div class="temporary-note">
 
-                <div class="preference-item">
+                <strong>Temporary Preferences:</strong>
 
-                    <div class="preference-label">
+                You can change these values here just for
+                this recommendation search. Your saved
+                student profile will not be changed.
+
+            </div>
+
+
+            <div class="preference-grid">
+
+
+                <!-- COURSE -->
+
+                <div class="form-group">
+
+                    <label for="preferredCourse">
+                        Preferred Course
+                    </label>
+
+                    <input type="text" id="preferredCourse" placeholder="Example: B.Tech CSE">
+
+                    <div class="form-help">
+                        You can temporarily change the course.
+                    </div>
+
+                </div>
+
+
+                <!-- COLLEGE TYPE -->
+
+                <div class="form-group">
+
+                    <label for="collegeType">
+                        College Type
+                    </label>
+
+                    <select id="collegeType">
+
+                        <option value="">
+                            Any
+                        </option>
+
+                        <option value="Government">
+                            Government
+                        </option>
+
+                        <option value="Private">
+                            Private
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- BUDGET -->
+
+                <div class="form-group">
+
+                    <label for="budgetRange">
+                        Budget Range
+                    </label>
+
+                    <select id="budgetRange">
+
+                        <option value="">
+                            Any Budget
+                        </option>
+
+                        <option value="Below 1 Lakh">
+                            Below 1 Lakh
+                        </option>
+
+                        <option value="₹1 - ₹2 Lakh">
+                            ₹1 - ₹2 Lakh
+                        </option>
+
+                        <option value="₹2 - ₹4 Lakh">
+                            ₹2 - ₹4 Lakh
+                        </option>
+
+                        <option value="Above ₹4 Lakh">
+                            Above ₹4 Lakh
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- LOCATIONS -->
+
+                <div class="form-group full-width">
+
+                    <label for="preferredLocation">
+                        Preferred Locations
+                    </label>
+
+                    <input type="text" id="preferredLocation" placeholder="Example: Indore, Bhopal, Ujjain">
+
+                    <div class="form-help">
+
+                        Enter multiple locations separated by commas.
+
+                        Example:
+                        <strong>Indore, Bhopal, Ujjain</strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RECOMMENDATIONS
+        ========================= -->
+
+        <section class="recommendation-section">
+
+            <h2>
+                Recommended Colleges
+            </h2>
+
+            <div id="recommendations">
+
+                <div class="loading">
+
+                    Click "Get My College Recommendations"
+                    to find suitable colleges.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SAVED PROFILE
+        ========================= -->
+
+        <section class="profile-section">
+
+            <h2>
+                Saved Profile Information
+            </h2>
+
+            <div class="profile-grid">
+
+
+                <!-- COURSE -->
+
+                <div class="profile-item">
+
+                    <div class="profile-label">
                         Preferred Course
                     </div>
 
-                    <div class="preference-value" id="preferredCourse">
-                        Not Available
+                    <div class="profile-value" id="savedCourse">
+
+                        Loading...
+
                     </div>
 
                 </div>
 
 
-                <div class="preference-item">
+                <!-- COLLEGE TYPE -->
 
-                    <div class="preference-label">
+                <div class="profile-item">
+
+                    <div class="profile-label">
                         College Type
                     </div>
 
-                    <div class="preference-value" id="collegeType">
-                        Not Available
+                    <div class="profile-value" id="savedCollegeType">
+
+                        Loading...
+
                     </div>
 
                 </div>
 
 
-                <div class="preference-item">
+                <!-- BUDGET -->
 
-                    <div class="preference-label">
+                <div class="profile-item">
+
+                    <div class="profile-label">
                         Budget Range
                     </div>
 
-                    <div class="preference-value" id="budgetRange">
-                        Not Available
+                    <div class="profile-value" id="savedBudget">
+
+                        Loading...
+
                     </div>
 
                 </div>
 
 
-                <div class="preference-item">
+                <!-- LOCATION -->
 
-                    <div class="preference-label">
-                        Hostel Required
-                    </div>
+                <div class="profile-item">
 
-                    <div class="preference-value" id="hostelRequired">
-                        Not Available
-                    </div>
-
-                </div>
-
-
-                <div class="preference-item">
-
-                    <div class="preference-label">
+                    <div class="profile-label">
                         Preferred Location
                     </div>
 
-                    <div class="preference-value" id="preferredLocation">
-                        Not Available
+                    <div class="profile-value" id="savedLocation">
+
+                        Loading...
+
                     </div>
 
                 </div>
 
 
-                <div class="preference-item">
+                <!-- CITY -->
 
-                    <div class="preference-label">
+                <div class="profile-item">
+
+                    <div class="profile-label">
                         City
                     </div>
 
-                    <div class="preference-value" id="city">
-                        Not Available
+                    <div class="profile-value" id="savedCity">
+
+                        Loading...
+
                     </div>
 
                 </div>
 
 
-                <div class="preference-item">
+                <!-- STATE -->
 
-                    <div class="preference-label">
+                <div class="profile-item">
+
+                    <div class="profile-label">
                         State
                     </div>
 
-                    <div class="preference-value" id="state">
-                        Not Available
+                    <div class="profile-value" id="savedState">
+
+                        Loading...
+
                     </div>
 
                 </div>
 
+
             </div>
 
 
-            <!-- Information -->
-            <div class="info-box">
+            <div class="temporary-note" style="margin-top: 20px;">
 
-                <strong>How will this work?</strong>
-
-                <br>
-
-                The future recommendation system will use your academic
-                profile and college preferences to identify colleges that
-                match your requirements. It can later consider factors such
-                as course availability, budget, location, college type and
-                hostel requirements.
+                The values above are your saved profile values.
+                Changing the temporary preferences above will
+                <strong>not update your profile</strong>.
 
             </div>
 
         </section>
 
-
-        <!-- Future Features -->
-        <section class="future-section">
-
-            <div class="future-card">
-
-                <div class="icon">
-                    📍
-                </div>
-
-                <h3>Location Matching</h3>
-
-                <p>
-                    Find colleges based on your preferred city or state.
-                </p>
-
-            </div>
-
-
-            <div class="future-card">
-
-                <div class="icon">
-                    💰
-                </div>
-
-                <h3>Budget Matching</h3>
-
-                <p>
-                    Compare colleges according to your preferred budget.
-                </p>
-
-            </div>
-
-
-            <div class="future-card">
-
-                <div class="icon">
-                    🎓
-                </div>
-
-                <h3>Course Matching</h3>
-
-                <p>
-                    Find colleges offering your preferred course.
-                </p>
-
-            </div>
-
-        </section>
 
     </main>
 
 
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
     <script>
 
-        function goBack() {
-            window.location.href = "StudentDashboard.html";
+
+        // =========================================
+        // API
+        // =========================================
+
+        const PROFILE_API =
+            "http://localhost:8081/api/student/profile";
+
+        const COLLEGE_API =
+            "http://localhost:8081/api/recommendation/colleges";
+
+
+        let studentProfile = null;
+
+
+        // =========================================
+        // TOKEN
+        // =========================================
+
+        function getToken() {
+
+            return localStorage.getItem("token");
+
         }
 
-        /*
-         * College recommendation engine is not connected yet.
-         *
-         * Future flow:
-         *
-         * Student Profile
-         *       ↓
-         * Course Recommendation
-         *       ↓
-         * College Preferences
-         *       ↓
-         * ML / Recommendation Engine
-         *       ↓
-         * Recommended Colleges
-         */
+
+        // =========================================
+        // BACK
+        // =========================================
+
+        function goBack() {
+
+            window.location.href =
+                "StudentHome.html";
+
+        }
+
+
+        // =========================================
+        // LOAD PROFILE
+        // =========================================
+
+        async function loadStudentProfile() {
+
+            try {
+
+                const token =
+                    getToken();
+
+
+                if (!token) {
+
+                    throw new Error(
+                        "JWT token not found. Please login again."
+                    );
+
+                }
+
+
+                const response =
+                    await fetch(
+                        PROFILE_API,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Profile API failed. Status: "
+                        + response.status
+                    );
+
+                }
+
+
+                studentProfile =
+                    await response.json();
+
+
+                console.log(
+                    "===== SAVED STUDENT PROFILE ====="
+                );
+
+                console.log(
+                    studentProfile
+                );
+
+
+                // =================================
+                // SAVE PROFILE VALUES
+                // =================================
+
+                document.getElementById(
+                    "savedCourse"
+                ).textContent =
+                    studentProfile.preferredCourse
+                    || "Not provided";
+
+
+                document.getElementById(
+                    "savedCollegeType"
+                ).textContent =
+                    studentProfile.collegeType
+                    || "Not provided";
+
+
+                document.getElementById(
+                    "savedBudget"
+                ).textContent =
+                    studentProfile.budgetRange
+                    || "Not provided";
+
+
+                document.getElementById(
+                    "savedLocation"
+                ).textContent =
+                    studentProfile.preferredLocation
+                    || "Not provided";
+
+
+                document.getElementById(
+                    "savedCity"
+                ).textContent =
+                    studentProfile.city
+                    || "Not provided";
+
+
+                document.getElementById(
+                    "savedState"
+                ).textContent =
+                    studentProfile.state
+                    || "Not provided";
+
+
+                // =================================
+                // TEMPORARY FORM DEFAULT VALUES
+                // =================================
+
+                document.getElementById(
+                    "preferredCourse"
+                ).value =
+                    studentProfile.preferredCourse
+                    || "";
+
+
+                document.getElementById(
+                    "collegeType"
+                ).value =
+                    studentProfile.collegeType
+                    || "";
+
+
+                document.getElementById(
+                    "budgetRange"
+                ).value =
+                    studentProfile.budgetRange
+                    || "";
+
+
+                document.getElementById(
+                    "preferredLocation"
+                ).value =
+                    studentProfile.preferredLocation
+                    || "";
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "PROFILE ERROR:",
+                    error
+                );
+
+
+                showError(
+                    error.message
+                );
+
+            }
+
+        }
+
+
+        // =========================================
+        // GET RECOMMENDATIONS
+        // =========================================
+
+        async function getCollegeRecommendations() {
+
+            const container =
+                document.getElementById(
+                    "recommendations"
+                );
+
+
+            hideMessages();
+
+
+            container.innerHTML = `
+
+                <div class="loading">
+
+                    🤖 Analyzing your temporary preferences...
+
+                </div>
+
+            `;
+
+
+            try {
+
+                if (!studentProfile) {
+
+                    await loadStudentProfile();
+
+                }
+
+
+                if (!studentProfile) {
+
+                    throw new Error(
+                        "Student profile could not be loaded."
+                    );
+
+                }
+
+
+                // =================================
+                // TEMPORARY VALUES
+                // =================================
+
+                const temporaryProfile = {
+
+                    ...studentProfile,
+
+                    preferredCourse:
+                        document.getElementById(
+                            "preferredCourse"
+                        ).value.trim(),
+
+                    collegeType:
+                        document.getElementById(
+                            "collegeType"
+                        ).value,
+
+                    budgetRange:
+                        document.getElementById(
+                            "budgetRange"
+                        ).value,
+
+                    preferredLocation:
+                        document.getElementById(
+                            "preferredLocation"
+                        ).value.trim()
+
+                };
+
+
+                console.log(
+                    "===== TEMPORARY COLLEGE REQUEST ====="
+                );
+
+                console.log(
+                    temporaryProfile
+                );
+
+
+                // =================================
+                // API REQUEST
+                // =================================
+
+                const response =
+                    await fetch(
+                        COLLEGE_API,
+                        {
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    temporaryProfile
+                                )
+
+                        }
+                    );
+
+
+                console.log(
+                    "COLLEGE API STATUS:",
+                    response.status
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "College API failed. Status: "
+                        + response.status
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "===== COLLEGE RESPONSE ====="
+                );
+
+                console.log(
+                    data
+                );
+
+
+                displayRecommendations(
+                    data.recommendations
+                );
+
+
+                showSuccess(
+                    "College recommendations generated successfully!"
+                );
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "COLLEGE RECOMMENDATION ERROR:",
+                    error
+                );
+
+
+                container.innerHTML = "";
+
+
+                showError(
+                    "Unable to generate college recommendations. "
+                    + error.message
+                );
+
+            }
+
+        }
+
+
+        // =========================================
+        // DISPLAY RECOMMENDATIONS
+        // =========================================
+
+        function displayRecommendations(
+            recommendations
+        ) {
+
+            const container =
+                document.getElementById(
+                    "recommendations"
+                );
+
+
+            if (
+                !recommendations ||
+                recommendations.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="loading">
+
+                        No colleges found for your
+                        selected preferences.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+                `<div class="recommendation-grid"></div>`;
+
+
+            const grid =
+                container.querySelector(
+                    ".recommendation-grid"
+                );
+
+
+            recommendations.forEach(
+                (college, index) => {
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "college-result-card";
+
+
+                    card.innerHTML = `
+
+                        <span class="rank">
+                            #${index + 1}
+                        </span>
+
+
+                        <h3>
+                            ${college.college_name
+                        || "College"}
+                        </h3>
+
+
+                        <div class="college-info">
+
+
+                            <div class="info-item">
+
+                                <div class="info-label">
+                                    City
+                                </div>
+
+                                <div class="info-value">
+                                    ${college.city
+                        || "Not Available"}
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <div class="info-label">
+                                    State
+                                </div>
+
+                                <div class="info-value">
+                                    ${college.state
+                        || "Not Available"}
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <div class="info-label">
+                                    Course
+                                </div>
+
+                                <div class="info-value">
+                                    ${college.course
+                        || "Not Available"}
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <div class="info-label">
+                                    College Type
+                                </div>
+
+                                <div class="info-value">
+                                    ${college.college_type
+                        || "Not Available"}
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <div class="info-label">
+                                    Budget
+                                </div>
+
+                                <div class="info-value">
+                                    ${college.budget_range
+                        || "Not Available"}
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <span class="score">
+
+                            Match Score:
+                            ${college.score ?? 0}
+
+                        </span>
+
+                    `;
+
+
+                    grid.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+        // =========================================
+        // SUCCESS
+        // =========================================
+
+        function showSuccess(message) {
+
+            const box =
+                document.getElementById(
+                    "successBox"
+                );
+
+
+            box.textContent =
+                message;
+
+
+            box.style.display =
+                "block";
+
+        }
+
+
+        // =========================================
+        // ERROR
+        // =========================================
+
+        function showError(message) {
+
+            const box =
+                document.getElementById(
+                    "errorBox"
+                );
+
+
+            box.textContent =
+                message;
+
+
+            box.style.display =
+                "block";
+
+        }
+
+
+        // =========================================
+        // HIDE MESSAGES
+        // =========================================
+
+        function hideMessages() {
+
+            document.getElementById(
+                "successBox"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "errorBox"
+            ).style.display =
+                "none";
+
+        }
+
+
+        // =========================================
+        // PAGE LOAD
+        // =========================================
+
+        window.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadStudentProfile();
+
+            }
+        );
+
 
     </script>
 

@@ -139,4 +139,47 @@ public class AdminCounselorService {
                 profile.getQualificationProof(),
                 profile.getResume());
     }
+
+    public List<AdminCounselorDTO> getAllCounselors() {
+
+        List<User> counselors = userRepository.findByRole(Role.COUNSELOR);
+
+        List<AdminCounselorDTO> result = new ArrayList<>();
+
+        for (User user : counselors) {
+
+            CounselorProfile profile = counselorProfileRepository
+                    .findByUserId(user.getId())
+                    .orElse(null);
+
+            result.add(
+                    convertToDTO(user, profile));
+        }
+
+        return result;
+    }
+
+    public AdminCounselorDTO rejectCounselor(Long counselorId) {
+
+        User user = userRepository.findById(counselorId)
+                .orElseThrow(() -> new RuntimeException("Counselor not found"));
+
+        if (user.getRole() != Role.COUNSELOR) {
+            throw new RuntimeException("User is not a counselor");
+        }
+
+        if (user.getStatus() != AccountStatus.PENDING_REVIEW) {
+            throw new RuntimeException("Counselor is not pending review");
+        }
+
+        user.setStatus(AccountStatus.REJECTED);
+
+        User savedUser = userRepository.save(user);
+
+        CounselorProfile profile = counselorProfileRepository
+                .findByUserId(counselorId)
+                .orElse(null);
+
+        return convertToDTO(savedUser, profile);
+    }
 }

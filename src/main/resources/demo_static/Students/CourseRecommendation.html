@@ -2,10 +2,14 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Course Recommendation</title>
+    <title>
+        Course Recommendation - Career & Education Advisor
+    </title>
 
     <style>
         * {
@@ -17,13 +21,16 @@
 
         body {
             background: #f5f7fb;
-            color: #1f2937;
+            color: #222;
         }
 
-        /* Navbar */
+        /* =========================
+           NAVBAR
+        ========================= */
+
         .navbar {
             height: 70px;
-            background: #ffffff;
+            background: white;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -38,100 +45,148 @@
         }
 
         .back-btn {
-            border: none;
-            background: #eef2ff;
+            text-decoration: none;
             color: #2563eb;
+            font-weight: bold;
+            border: 1px solid #2563eb;
             padding: 10px 18px;
             border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
+            transition: 0.2s;
         }
 
         .back-btn:hover {
-            background: #e0e7ff;
+            background: #2563eb;
+            color: white;
         }
 
-        /* Main */
+        /* =========================
+           CONTAINER
+        ========================= */
+
         .container {
+            width: 90%;
             max-width: 1100px;
             margin: 40px auto;
-            padding: 0 20px;
         }
 
-        .page-header {
-            margin-bottom: 30px;
-        }
-
-        .page-header h1 {
-            font-size: 32px;
+        .page-title {
+            text-align: center;
             margin-bottom: 10px;
-            color: #111827;
+            font-size: 32px;
         }
 
-        .page-header p {
-            color: #6b7280;
-            font-size: 16px;
+        .page-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 35px;
         }
 
-        /* Recommendation Card */
-        .recommendation-card {
-            background: linear-gradient(135deg, #2563eb, #4f46e5);
-            color: white;
-            border-radius: 18px;
-            padding: 40px;
+        /* =========================
+           RECOMMENDATION BOX
+        ========================= */
+
+        .recommendation-box {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.20);
         }
 
-        .ai-icon {
-            width: 70px;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.18);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 34px;
-            margin: 0 auto 20px;
+        .robot {
+            font-size: 50px;
+            margin-bottom: 15px;
         }
 
-        .recommendation-card h2 {
-            font-size: 25px;
+        .recommendation-box h2 {
             margin-bottom: 12px;
         }
 
-        .recommendation-card p {
+        .recommendation-box p {
+            color: #666;
             max-width: 700px;
-            margin: 0 auto;
+            margin: auto;
             line-height: 1.6;
-            color: #e5e7eb;
         }
 
-        .coming-soon {
-            display: inline-block;
-            margin-top: 22px;
-            background: white;
-            color: #2563eb;
-            padding: 10px 22px;
-            border-radius: 25px;
+        .recommend-btn {
+            margin-top: 25px;
+            background: #2563eb;
+            border: none;
+            color: white;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-size: 16px;
             font-weight: bold;
+            cursor: pointer;
+        }
+
+        .recommend-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .recommend-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            padding: 15px;
+            background: #f8fafc;
+            border-left: 4px solid #2563eb;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .explanation-title {
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #222;
+        }
+
+        .explanation p {
+            color: #555;
             font-size: 14px;
         }
 
-        /* Profile */
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .success {
+            color: #16a34a;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        .loading {
+            color: #2563eb;
+        }
+
+        /* =========================
+           PROFILE
+        ========================= */
+
         .profile-section {
             background: white;
             border-radius: 16px;
             padding: 30px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
         }
 
         .profile-section h2 {
-            font-size: 22px;
-            margin-bottom: 22px;
-            color: #111827;
+            margin-bottom: 25px;
         }
 
         .profile-grid {
@@ -141,120 +196,248 @@
         }
 
         .profile-item {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
+            background: #f8fafc;
+            padding: 16px;
             border-radius: 10px;
-            padding: 18px;
+            border: 1px solid #e5e7eb;
         }
 
         .profile-label {
             font-size: 13px;
-            color: #6b7280;
-            margin-bottom: 7px;
+            color: #666;
+            margin-bottom: 6px;
         }
 
         .profile-value {
-            font-size: 16px;
-            font-weight: 600;
-            color: #111827;
+            font-weight: bold;
+            color: #222;
+            word-break: break-word;
         }
 
-        /* Info */
-        .info-box {
-            margin-top: 25px;
+        /* =========================
+           RESULTS
+        ========================= */
+
+        .results-section {
+            display: none;
+            margin-bottom: 40px;
+        }
+
+        .results-section h2 {
+            margin-bottom: 20px;
+        }
+
+        .recommendations {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #2563eb;
+        }
+
+        .rank {
+            display: inline-block;
             background: #eff6ff;
-            border-left: 4px solid #2563eb;
-            padding: 18px;
-            border-radius: 8px;
-            color: #374151;
-            line-height: 1.6;
+            color: #2563eb;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
         }
 
-        /* Responsive */
-        @media (max-width: 700px) {
+        .course-card h3 {
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .score {
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .score strong {
+            color: #2563eb;
+        }
+
+        .career-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .career-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .career-tag {
+            background: #f1f5f9;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #444;
+        }
+
+        /* =========================
+           INFO
+        ========================= */
+
+        .info-box {
+            background: #eef6ff;
+            border-radius: 14px;
+            padding: 25px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        .info-box h3 {
+            margin-bottom: 10px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
 
             .navbar {
-                padding: 0 20px;
+                padding: 0 18px;
+            }
+
+            .logo {
+                font-size: 18px;
             }
 
             .container {
-                margin-top: 25px;
+                width: 94%;
             }
 
-            .page-header h1 {
+            .profile-grid,
+            .recommendations {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
                 font-size: 26px;
             }
 
-            .recommendation-card {
-                padding: 30px 20px;
+            .recommendation-box {
+                padding: 25px 18px;
             }
 
-            .profile-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
+
+    <!-- =========================
+     NAVBAR
+========================= -->
+
+    <div class="navbar">
 
         <div class="logo">
             Career & Education Advisor
         </div>
 
-        <button class="back-btn" onclick="goBack()">
+        <a href="StudentDashboard.html" class="back-btn">
+
             ← Back to Dashboard
-        </button>
 
-    </nav>
+        </a>
+
+    </div>
 
 
-    <!-- Main Content -->
-    <main class="container">
+    <!-- =========================
+     MAIN CONTAINER
+========================= -->
 
-        <!-- Page Header -->
-        <div class="page-header">
+    <div class="container">
 
-            <h1>Course Recommendation</h1>
+
+        <!-- PAGE TITLE -->
+
+        <h1 class="page-title">
+
+            Course Recommendation
+
+        </h1>
+
+
+        <p class="page-subtitle">
+
+            Discover courses that match your
+            interests, skills and career goals.
+
+        </p>
+
+
+        <!-- =========================
+         AI RECOMMENDATION
+    ========================= -->
+
+        <div class="recommendation-box">
+
+            <div class="robot">
+                🤖
+            </div>
+
+
+            <h2>
+                AI-Powered Course Recommendations
+            </h2>
+
 
             <p>
-                Discover courses that match your interests, skills and career goals.
+
+                Our recommendation system analyzes
+                your academic profile, interests,
+                skills and career goals to suggest
+                suitable courses.
+
             </p>
+
+
+            <button id="recommendBtn" class="recommend-btn" onclick="getRecommendations()">
+
+                Get My Recommendations
+
+            </button>
+
+
+            <div id="status" class="status">
+
+            </div>
 
         </div>
 
 
-        <!-- Recommendation Section -->
-        <section class="recommendation-card">
+        <!-- =========================
+         STUDENT PROFILE
+    ========================= -->
 
-            <div class="ai-icon">
-                🤖
-            </div>
+        <div class="profile-section">
 
-            <h2>AI-Powered Course Recommendations</h2>
+            <h2>
+                Your Profile
+            </h2>
 
-            <p>
-                Our recommendation system will analyze your academic profile,
-                interests, skills and career goals to suggest courses that
-                are suitable for you.
-            </p>
-
-            <span class="coming-soon">
-                Coming Soon
-            </span>
-
-        </section>
-
-
-        <!-- Student Profile Section -->
-        <section class="profile-section">
-
-            <h2>Your Profile</h2>
 
             <div class="profile-grid">
+
 
                 <div class="profile-item">
 
@@ -263,7 +446,9 @@
                     </div>
 
                     <div class="profile-value" id="stream">
+
                         Loading...
+
                     </div>
 
                 </div>
@@ -276,7 +461,9 @@
                     </div>
 
                     <div class="profile-value" id="percentage">
+
                         Loading...
+
                     </div>
 
                 </div>
@@ -289,7 +476,9 @@
                     </div>
 
                     <div class="profile-value" id="favoriteSubjects">
+
                         Loading...
+
                     </div>
 
                 </div>
@@ -302,7 +491,9 @@
                     </div>
 
                     <div class="profile-value" id="strongSubjects">
+
                         Loading...
+
                     </div>
 
                 </div>
@@ -315,7 +506,9 @@
                     </div>
 
                     <div class="profile-value" id="interests">
+
                         Loading...
+
                     </div>
 
                 </div>
@@ -328,7 +521,9 @@
                     </div>
 
                     <div class="profile-value" id="skills">
+
                         Loading...
+
                     </div>
 
                 </div>
@@ -341,7 +536,9 @@
                     </div>
 
                     <div class="profile-value" id="careerInterest">
+
                         Loading...
+
                     </div>
 
                 </div>
@@ -354,57 +551,857 @@
                     </div>
 
                     <div class="profile-value" id="targetCareer">
+
                         Loading...
+
                     </div>
 
                 </div>
 
-            </div>
-
-
-            <div class="info-box">
-
-                <strong>How will this work?</strong>
-
-                <br>
-
-                Your profile information will be analyzed by the
-                recommendation engine. The future AI/ML module will
-                calculate suitable courses and provide personalized
-                recommendations based on your profile.
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
 
+        <!-- =========================
+         RECOMMENDATION RESULTS
+    ========================= -->
+
+        <div class="results-section" id="resultsSection">
+
+
+            <h2>
+                Recommended Courses
+            </h2>
+
+
+            <div class="recommendations" id="recommendationsContainer">
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+         HOW IT WORKS
+    ========================= -->
+
+        <div class="info-box">
+
+            <h3>
+                How does this work?
+            </h3>
+
+
+            <p>
+
+                Your saved profile is sent to the
+                recommendation engine. The engine
+                analyzes your academic background,
+                interests and skills and returns
+                the most suitable courses.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+     JAVASCRIPT
+========================= -->
 
     <script>
 
-        function goBack() {
-            window.location.href = "StudentDashboard.html";
+
+        /* =========================================
+           API URLS
+        ========================================= */
+
+        const PROFILE_API =
+            "http://localhost:8081/api/student/profile";
+
+
+        const RECOMMENDATION_API =
+            "http://localhost:8081/api/recommendation/courses";
+
+
+        /* =========================================
+           GLOBAL PROFILE
+        ========================================= */
+
+        let studentProfile = null;
+
+
+        /* =========================================
+           PAGE LOAD
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                console.log(
+                    "================================"
+                );
+
+                console.log(
+                    "Course Recommendation Page Loaded"
+                );
+
+                console.log(
+                    "================================"
+                );
+
+
+                const token =
+                    localStorage.getItem("token");
+
+
+                console.log(
+                    "Token exists:",
+                    !!token
+                );
+
+
+                loadProfile();
+
+            }
+        );
+
+
+        /* =========================================
+           LOAD PROFILE
+        ========================================= */
+
+        async function loadProfile() {
+
+            const token =
+                localStorage.getItem("token");
+
+
+            console.log(
+                "Loading profile..."
+            );
+
+
+            if (!token) {
+
+                showStatus(
+                    "Login required. JWT token not found.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        PROFILE_API,
+                        {
+                            method: "GET",
+
+                            headers: {
+
+                                "Authorization":
+                                    "Bearer " + token,
+
+                                "Content-Type":
+                                    "application/json"
+
+                            }
+                        }
+                    );
+
+
+                console.log(
+                    "Profile API Status:",
+                    response.status
+                );
+
+
+                if (!response.ok) {
+
+                    const errorText =
+                        await response.text();
+
+
+                    console.error(
+                        "Profile API Error:",
+                        errorText
+                    );
+
+
+                    throw new Error(
+                        "Profile API returned " +
+                        response.status
+                    );
+
+                }
+
+
+                studentProfile =
+                    await response.json();
+
+
+                console.log(
+                    "Student Profile:",
+                    studentProfile
+                );
+
+
+                displayProfile(
+                    studentProfile
+                );
+
+
+                showStatus(
+                    "Profile loaded successfully.",
+                    "success"
+                );
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Profile loading failed:",
+                    error
+                );
+
+
+                showStatus(
+                    "Unable to load profile. Check console.",
+                    "error"
+                );
+
+            }
+
         }
 
 
-        /*
-         * Recommendation engine is not connected yet.
-         *
-         * Later:
-         *
-         * Student Profile
-         *       ↓
-         * Spring Boot
-         *       ↓
-         * FastAPI + ML
-         *       ↓
-         * Recommended Courses
-         *
-         * For now, profile data is displayed only when the
-         * existing Student Profile API is connected.
-         */
+        /* =========================================
+           DISPLAY PROFILE
+        ========================================= */
+
+        function displayProfile(profile) {
+
+
+            document.getElementById(
+                "stream"
+            ).textContent =
+                profile.stream ||
+                "Not provided";
+
+
+            document.getElementById(
+                "percentage"
+            ).textContent =
+                profile.percentage != null
+                    ? profile.percentage + "%"
+                    : "Not provided";
+
+
+            document.getElementById(
+                "favoriteSubjects"
+            ).textContent =
+                profile.favoriteSubjects ||
+                "Not provided";
+
+
+            document.getElementById(
+                "strongSubjects"
+            ).textContent =
+                profile.strongSubjects ||
+                "Not provided";
+
+
+            document.getElementById(
+                "interests"
+            ).textContent =
+                profile.interests ||
+                "Not provided";
+
+
+            document.getElementById(
+                "skills"
+            ).textContent =
+                profile.skills ||
+                "Not provided";
+
+
+            document.getElementById(
+                "careerInterest"
+            ).textContent =
+                profile.careerInterest ||
+                "Not provided";
+
+
+            document.getElementById(
+                "targetCareer"
+            ).textContent =
+                profile.targetCareer ||
+                "Not provided";
+
+        }
+
+
+        /* =========================================
+           GET RECOMMENDATIONS
+        ========================================= */
+
+        async function getRecommendations() {
+
+
+            console.log(
+                "================================"
+            );
+
+
+            console.log(
+                "GET RECOMMENDATIONS CLICKED"
+            );
+
+
+            console.log(
+                "================================"
+            );
+
+
+            const token =
+                localStorage.getItem("token");
+
+
+            /* -----------------------------------------
+               CHECK TOKEN
+            ----------------------------------------- */
+
+            if (!token) {
+
+                showStatus(
+                    "Login required.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /* -----------------------------------------
+               CHECK PROFILE
+            ----------------------------------------- */
+
+            if (!studentProfile) {
+
+                showStatus(
+                    "Student profile is not loaded yet.",
+                    "error"
+                );
+
+                console.error(
+                    "studentProfile is null"
+                );
+
+                return;
+            }
+
+
+            const button =
+                document.getElementById(
+                    "recommendBtn"
+                );
+
+
+            button.disabled = true;
+
+
+            button.textContent =
+                "Analyzing Profile...";
+
+
+            showStatus(
+                "AI recommendation engine is analyzing your profile...",
+                "loading"
+            );
+
+
+            /* =========================================
+               SEND COMPLETE STUDENT PROFILE
+               
+               IMPORTANT:
+               
+               We are NOT sending:
+               
+               stream
+               subjects
+               interests
+               skills
+               
+               directly from frontend.
+               
+               We send StudentProfileDTO.
+               
+               Spring Boot RecommendationService
+               converts it into Python format.
+            ========================================= */
+
+
+            console.log(
+                "Student Profile being sent:"
+            );
+
+
+            console.log(
+                studentProfile
+            );
+
+
+            try {
+
+
+                const response =
+                    await fetch(
+                        RECOMMENDATION_API,
+                        {
+
+                            method: "POST",
+
+
+                            headers: {
+
+                                "Authorization":
+                                    "Bearer " + token,
+
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+
+                            body:
+                                JSON.stringify(
+                                    studentProfile
+                                )
+
+                        }
+                    );
+
+
+                console.log(
+                    "Recommendation API Status:",
+                    response.status
+                );
+
+
+                /* =====================================
+                   CHECK RESPONSE
+                ===================================== */
+
+                if (!response.ok) {
+
+
+                    const errorText =
+                        await response.text();
+
+
+                    console.error(
+                        "Recommendation API Error:"
+                    );
+
+
+                    console.error(
+                        errorText
+                    );
+
+
+                    throw new Error(
+                        "Recommendation API returned " +
+                        response.status
+                    );
+
+                }
+
+
+                /* =====================================
+                   READ RESPONSE
+                ===================================== */
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "================================"
+                );
+
+
+                console.log(
+                    "Recommendation Response:"
+                );
+
+
+                console.log(
+                    data
+                );
+
+
+                console.log(
+                    "================================"
+                );
+
+
+                /* =====================================
+                   DISPLAY RESULTS
+                ===================================== */
+
+                displayRecommendations(
+                    data.recommendations || []
+                );
+
+
+                showStatus(
+                    "Recommendations generated successfully!",
+                    "success"
+                );
+
+            }
+
+
+            catch (error) {
+
+
+                console.error(
+                    "Recommendation failed:",
+                    error
+                );
+
+
+                showStatus(
+                    "Unable to generate recommendations. Check console.",
+                    "error"
+                );
+
+            }
+
+
+            finally {
+
+
+                button.disabled = false;
+
+
+                button.textContent =
+                    "Get My Recommendations";
+
+            }
+
+        }
+
+
+        /* =========================================
+           DISPLAY RECOMMENDATIONS
+        ========================================= */
+
+        function displayRecommendations(
+            recommendations
+        ) {
+
+
+            const section =
+                document.getElementById(
+                    "resultsSection"
+                );
+
+
+            const container =
+                document.getElementById(
+                    "recommendationsContainer"
+                );
+
+
+            container.innerHTML = "";
+
+
+            /* =====================================
+               NO RESULTS
+            ===================================== */
+
+            if (
+                !recommendations ||
+                recommendations.length === 0
+            ) {
+
+
+                container.innerHTML = `
+
+                <div class="course-card">
+
+                    <h3>
+                        No recommendations found
+                    </h3>
+
+                    <p>
+                        Try updating your profile
+                        with more subjects,
+                        interests and skills.
+                    </p>
+
+                </div>
+
+            `;
+
+
+                section.style.display =
+                    "block";
+
+
+                return;
+            }
+
+
+            /* =====================================
+               CREATE COURSE CARDS
+            ===================================== */
+
+            recommendations.forEach(
+                function (course, index) {
+
+
+                    const careerOptions =
+                        String(
+                            course.career_options || ""
+                        )
+                            .split(";")
+                            .map(
+                                item =>
+                                    item.trim()
+                            )
+                            .filter(
+                                item =>
+                                    item.length > 0
+                            );
+
+
+                    let careerHTML = "";
+
+
+                    if (
+                        careerOptions.length > 0
+                    ) {
+
+
+                        careerHTML =
+                            careerOptions
+                                .map(
+                                    function (career) {
+
+                                        return `
+
+                                        <span
+                                            class="career-tag">
+
+                                            ${escapeHTML(
+                                            career
+                                        )}
+
+                                        </span>
+
+                                    `;
+
+                                    }
+                                )
+                                .join("");
+
+                    }
+
+
+                    else {
+
+
+                        careerHTML = `
+
+                        <span
+                            class="career-tag">
+
+                            Not available
+
+                        </span>
+
+                    `;
+
+                    }
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "course-card";
+
+
+                    card.innerHTML = `
+
+                    <span class="rank">
+
+                        #${index + 1}
+
+                    </span>
+
+
+                    <h3>
+
+                        ${escapeHTML(
+                        course.course_name ||
+                        "Unknown Course"
+                    )}
+
+                    </h3>
+
+
+                    <div class="score">
+
+                        Match Score:
+
+                        <strong>
+
+                            ${course.score || 0}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="career-title">
+
+                        Possible Career Options
+
+                    </div>
+
+
+                    <div class="career-list">
+
+                        ${careerHTML}
+
+                    </div>
+
+                    <div class="explanation">
+
+    <div class="explanation-title">
+        Why this course?
+    </div>
+
+    <p>
+        ${escapeHTML(
+                        course.explanation ||
+                        "No explanation available."
+                    )}
+    </p>
+
+</div>
+
+                `;
+
+
+                    container.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+
+            /* =====================================
+               SHOW RESULTS
+            ===================================== */
+
+            section.style.display =
+                "block";
+
+
+            section.scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+
+        /* =========================================
+           STATUS MESSAGE
+        ========================================= */
+
+        function showStatus(
+            message,
+            type
+        ) {
+
+
+            const status =
+                document.getElementById(
+                    "status"
+                );
+
+
+            status.textContent =
+                message;
+
+
+            status.className =
+                "status " + type;
+
+        }
+
+
+        /* =========================================
+           HTML ESCAPE
+        ========================================= */
+
+        function escapeHTML(value) {
+
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
 
     </script>
+
 
 </body>
 

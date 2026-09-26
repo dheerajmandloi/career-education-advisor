@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -21,6 +22,7 @@
         }
 
         /* Navbar */
+
         .navbar {
             height: 70px;
             background: #ffffff;
@@ -53,6 +55,7 @@
         }
 
         /* Main */
+
         .container {
             max-width: 1100px;
             margin: 40px auto;
@@ -75,6 +78,7 @@
         }
 
         /* Hero */
+
         .career-card {
             background: linear-gradient(135deg, #059669, #0f766e);
             color: white;
@@ -109,23 +113,113 @@
             color: #d1fae5;
         }
 
-        .coming-soon {
-            display: inline-block;
+        .recommend-btn {
             margin-top: 22px;
             background: white;
             color: #047857;
-            padding: 10px 22px;
+            border: none;
+            padding: 12px 25px;
             border-radius: 25px;
             font-weight: bold;
             font-size: 14px;
+            cursor: pointer;
+        }
+
+        .recommend-btn:hover {
+            background: #ecfdf5;
+        }
+
+        /* Error */
+
+        .error-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        /* Recommendations */
+
+        .recommendation-section {
+            margin-bottom: 30px;
+        }
+
+        .recommendation-section h2 {
+            font-size: 22px;
+            margin-bottom: 18px;
+            color: #111827;
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .career-result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+        }
+
+        .career-result-card:hover {
+            transform: translateY(-2px);
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .career-result-card h3 {
+            font-size: 20px;
+            color: #111827;
+            margin-bottom: 15px;
+        }
+
+        .career-info {
+            margin-bottom: 10px;
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .career-info strong {
+            color: #374151;
+        }
+
+        .score {
+            display: inline-block;
+            margin-top: 12px;
+            background: #ecfdf5;
+            color: #047857;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* Loading */
+
+        .loading {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            text-align: center;
+            color: #6b7280;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
         }
 
         /* Profile */
+
         .profile-section {
             background: white;
             border-radius: 16px;
             padding: 30px;
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            margin-top: 30px;
         }
 
         .profile-section h2 {
@@ -159,7 +253,20 @@
             color: #111827;
         }
 
-        /* Future Guidance */
+        /* Info */
+
+        .info-box {
+            margin-top: 25px;
+            background: #ecfdf5;
+            border-left: 4px solid #059669;
+            padding: 18px;
+            border-radius: 8px;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        /* Guidance */
+
         .guidance-section {
             margin-top: 30px;
         }
@@ -199,18 +306,8 @@
             line-height: 1.5;
         }
 
-        /* Info */
-        .info-box {
-            margin-top: 25px;
-            background: #ecfdf5;
-            border-left: 4px solid #059669;
-            padding: 18px;
-            border-radius: 8px;
-            color: #374151;
-            line-height: 1.6;
-        }
-
         /* Responsive */
+
         @media (max-width: 700px) {
 
             .navbar {
@@ -233,16 +330,25 @@
                 grid-template-columns: 1fr;
             }
 
+            .recommendation-grid {
+                grid-template-columns: 1fr;
+            }
+
             .guidance-grid {
                 grid-template-columns: 1fr;
             }
+
         }
     </style>
+
 </head>
+
 
 <body>
 
+
     <!-- Navbar -->
+
     <nav class="navbar">
 
         <div class="logo">
@@ -256,10 +362,13 @@
     </nav>
 
 
-    <!-- Main Content -->
+    <!-- Main -->
+
     <main class="container">
 
+
         <!-- Header -->
+
         <div class="page-header">
 
             <h1>Career Guidance</h1>
@@ -271,7 +380,8 @@
         </div>
 
 
-        <!-- Career Recommendation -->
+        <!-- Hero -->
+
         <section class="career-card">
 
             <div class="career-icon">
@@ -281,24 +391,58 @@
             <h2>Personalized Career Guidance</h2>
 
             <p>
-                Our future career guidance system will analyze your academic
-                background, interests, skills, career preferences and goals
-                to help you explore suitable career paths.
+                Our recommendation system analyzes your academic background,
+                interests, skills and career goals to suggest suitable career paths.
             </p>
 
-            <span class="coming-soon">
-                Coming Soon
-            </span>
+            <button class="recommend-btn" onclick="loadCareerRecommendations()">
+
+                Get My Career Recommendations
+
+            </button>
+
+        </section>
+
+
+        <!-- Error -->
+
+        <div class="error-box" id="errorBox">
+        </div>
+
+
+        <!-- Recommendations -->
+
+        <section class="recommendation-section">
+
+            <h2>
+                Recommended Career Paths
+            </h2>
+
+            <div id="recommendations">
+
+                <div class="loading">
+
+                    Click "Get My Career Recommendations"
+                    to find suitable careers.
+
+                </div>
+
+            </div>
 
         </section>
 
 
         <!-- Student Profile -->
+
         <section class="profile-section">
 
-            <h2>Your Career Profile</h2>
+            <h2>
+                Your Career Profile
+            </h2>
+
 
             <div class="profile-grid">
+
 
                 <div class="profile-item">
 
@@ -307,7 +451,9 @@
                     </div>
 
                     <div class="profile-value" id="careerInterest">
-                        Not Available
+
+                        Loading...
+
                     </div>
 
                 </div>
@@ -320,7 +466,9 @@
                     </div>
 
                     <div class="profile-value" id="targetCareer">
-                        Not Available
+
+                        Loading...
+
                     </div>
 
                 </div>
@@ -333,7 +481,9 @@
                     </div>
 
                     <div class="profile-value" id="interests">
-                        Not Available
+
+                        Loading...
+
                     </div>
 
                 </div>
@@ -346,7 +496,9 @@
                     </div>
 
                     <div class="profile-value" id="skills">
-                        Not Available
+
+                        Loading...
+
                     </div>
 
                 </div>
@@ -359,7 +511,9 @@
                     </div>
 
                     <div class="profile-value" id="strongSubjects">
-                        Not Available
+
+                        Loading...
+
                     </div>
 
                 </div>
@@ -372,36 +526,47 @@
                     </div>
 
                     <div class="profile-value" id="preferredCourse">
-                        Not Available
+
+                        Loading...
+
                     </div>
 
                 </div>
+
 
             </div>
 
 
             <div class="info-box">
 
-                <strong>How will this work?</strong>
+                <strong>
+                    How does this work?
+                </strong>
 
                 <br>
 
-                The future career guidance module will analyze your profile
-                and help identify suitable career paths. It can also provide
-                information about required skills, suitable courses,
-                career opportunities and possible next steps.
+                Your profile is analyzed using your stream,
+                subjects, interests and skills. The recommendation
+                engine then matches your profile with suitable
+                career options.
 
             </div>
+
 
         </section>
 
 
-        <!-- Future Features -->
+        <!-- Guidance Features -->
+
         <section class="guidance-section">
 
-            <h2>Future Career Guidance</h2>
+            <h2>
+                Career Guidance Features
+            </h2>
+
 
             <div class="guidance-grid">
+
 
                 <div class="guidance-card">
 
@@ -409,7 +574,9 @@
                         🧭
                     </div>
 
-                    <h3>Career Paths</h3>
+                    <h3>
+                        Career Paths
+                    </h3>
 
                     <p>
                         Explore career paths related to your interests,
@@ -425,11 +592,13 @@
                         🛠️
                     </div>
 
-                    <h3>Required Skills</h3>
+                    <h3>
+                        Required Skills
+                    </h3>
 
                     <p>
                         Understand the skills and technologies required
-                        for your selected career.
+                        for different career options.
                     </p>
 
                 </div>
@@ -441,45 +610,519 @@
                         📚
                     </div>
 
-                    <h3>Learning Roadmap</h3>
+                    <h3>
+                        Learning Roadmap
+                    </h3>
 
                     <p>
-                        Get guidance about courses, certifications and
-                        learning paths for your career goal.
+                        Get guidance about courses, certifications
+                        and learning paths for your career goal.
                     </p>
 
                 </div>
 
+
             </div>
 
         </section>
+
 
     </main>
 
 
     <script>
 
-        function goBack() {
-            window.location.href = "StudentHome.html";
+
+        // =========================================
+        // API URLs
+        // =========================================
+
+        const PROFILE_API =
+            "http://localhost:8081/api/student/profile";
+
+        const CAREER_API =
+            "http://localhost:8081/api/recommendation/careers";
+
+
+        let studentProfile = null;
+
+
+        // =========================================
+        // GET JWT TOKEN
+        // =========================================
+
+        function getToken() {
+
+            const token =
+                localStorage.getItem("token");
+
+            console.log(
+                "JWT TOKEN PRESENT:",
+                token !== null
+            );
+
+            return token;
+
         }
 
-        /*
-         * Career recommendation/guidance is not connected yet.
-         *
-         * Future flow:
-         *
-         * Student Profile
-         *       ↓
-         * Career Interest + Skills
-         *       ↓
-         * AI / ML / Gemini
-         *       ↓
-         * Career Path
-         *       ↓
-         * Skills + Courses + Roadmap
-         */
+
+        // =========================================
+        // BACK TO DASHBOARD
+        // =========================================
+
+        function goBack() {
+
+            window.location.href =
+                "StudentHome.html";
+
+        }
+
+
+        // =========================================
+        // LOAD STUDENT PROFILE
+        // =========================================
+
+        async function loadStudentProfile() {
+
+            try {
+
+                const token =
+                    getToken();
+
+
+                if (!token) {
+
+                    throw new Error(
+                        "JWT token not found. Please login again."
+                    );
+
+                }
+
+
+                console.log(
+                    "===== PROFILE API ====="
+                );
+
+
+                const response =
+                    await fetch(
+                        PROFILE_API,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+
+                console.log(
+                    "PROFILE STATUS:",
+                    response.status
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Profile API failed. Status: "
+                        + response.status
+                    );
+
+                }
+
+
+                studentProfile =
+                    await response.json();
+
+
+                console.log(
+                    "===== STUDENT PROFILE ====="
+                );
+
+                console.log(
+                    studentProfile
+                );
+
+
+                // Display Profile
+
+                document.getElementById(
+                    "careerInterest"
+                ).textContent =
+                    studentProfile.careerInterest
+                    || "Not Available";
+
+
+                document.getElementById(
+                    "targetCareer"
+                ).textContent =
+                    studentProfile.targetCareer
+                    || "Not Available";
+
+
+                document.getElementById(
+                    "interests"
+                ).textContent =
+                    studentProfile.interests
+                    || "Not Available";
+
+
+                document.getElementById(
+                    "skills"
+                ).textContent =
+                    studentProfile.skills
+                    || "Not Available";
+
+
+                document.getElementById(
+                    "strongSubjects"
+                ).textContent =
+                    studentProfile.strongSubjects
+                    || "Not Available";
+
+
+                document.getElementById(
+                    "preferredCourse"
+                ).textContent =
+                    studentProfile.preferredCourse
+                    || "Not Available";
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "PROFILE ERROR:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "careerInterest"
+                ).textContent =
+                    "Unable to load";
+
+
+                document.getElementById(
+                    "targetCareer"
+                ).textContent =
+                    "Unable to load";
+
+
+                document.getElementById(
+                    "interests"
+                ).textContent =
+                    "Unable to load";
+
+
+                document.getElementById(
+                    "skills"
+                ).textContent =
+                    "Unable to load";
+
+
+                document.getElementById(
+                    "strongSubjects"
+                ).textContent =
+                    "Unable to load";
+
+
+                document.getElementById(
+                    "preferredCourse"
+                ).textContent =
+                    "Unable to load";
+
+
+                showError(
+                    error.message
+                );
+
+            }
+
+        }
+
+
+        // =========================================
+        // CAREER RECOMMENDATIONS
+        // =========================================
+
+        async function loadCareerRecommendations() {
+
+            const container =
+                document.getElementById(
+                    "recommendations"
+                );
+
+
+            const errorBox =
+                document.getElementById(
+                    "errorBox"
+                );
+
+
+            errorBox.style.display =
+                "none";
+
+
+            container.innerHTML = `
+
+                <div class="loading">
+
+                    🤖 Analyzing your profile...
+
+                </div>
+
+            `;
+
+
+            try {
+
+                // Make sure profile is available
+
+                if (!studentProfile) {
+
+                    await loadStudentProfile();
+
+                }
+
+
+                if (!studentProfile) {
+
+                    throw new Error(
+                        "Student profile could not be loaded."
+                    );
+
+                }
+
+
+                console.log(
+                    "===== CAREER REQUEST ====="
+                );
+
+                console.log(
+                    studentProfile
+                );
+
+
+                const response =
+                    await fetch(
+                        CAREER_API,
+                        {
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    studentProfile
+                                )
+
+                        }
+                    );
+
+
+                console.log(
+                    "CAREER API STATUS:",
+                    response.status
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Career API failed. Status: "
+                        + response.status
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "===== CAREER RESPONSE ====="
+                );
+
+                console.log(
+                    data
+                );
+
+
+                displayRecommendations(
+                    data.recommendations
+                );
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "CAREER ERROR:",
+                    error
+                );
+
+
+                container.innerHTML = "";
+
+
+                showError(
+                    "Unable to generate career recommendations. "
+                    + error.message
+                );
+
+            }
+
+        }
+
+
+        // =========================================
+        // DISPLAY RECOMMENDATIONS
+        // =========================================
+
+        function displayRecommendations(
+            recommendations
+        ) {
+
+            const container =
+                document.getElementById(
+                    "recommendations"
+                );
+
+
+            if (
+                !recommendations ||
+                recommendations.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="loading">
+
+                        No career recommendations found.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+                `<div class="recommendation-grid"></div>`;
+
+
+            const grid =
+                container.querySelector(
+                    ".recommendation-grid"
+                );
+
+
+            recommendations.forEach(
+                (career, index) => {
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "career-result-card";
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            ${index + 1}.
+                            ${career.career_name
+                        || "Career"}
+                        </h3>
+
+
+                        <div class="career-info">
+
+                            <strong>
+                                Related Courses:
+                            </strong>
+
+                            ${career.related_courses
+                        || "Not Available"}
+
+                        </div>
+
+
+                        <span class="score">
+
+                            Match Score:
+                            ${career.score ?? 0}
+
+                        </span>
+
+                    `;
+
+
+                    grid.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+        // =========================================
+        // SHOW ERROR
+        // =========================================
+
+        function showError(message) {
+
+            const errorBox =
+                document.getElementById(
+                    "errorBox"
+                );
+
+
+            errorBox.style.display =
+                "block";
+
+
+            errorBox.textContent =
+                message;
+
+        }
+
+
+        // =========================================
+        // PAGE LOAD
+        // =========================================
+
+        window.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadStudentProfile();
+
+            }
+        );
+
 
     </script>
+
 
 </body>
 

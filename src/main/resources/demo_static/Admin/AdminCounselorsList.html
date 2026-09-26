@@ -2,21 +2,25 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Counselor Management</title>
+    <title>Admin - Counselors List</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
         }
 
         .container {
-            width: 1100px;
+            width: 1200px;
             max-width: 95%;
             margin: 40px auto;
             background-color: white;
@@ -25,8 +29,29 @@
             border-radius: 8px;
         }
 
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
         h2 {
-            margin-bottom: 5px;
+            margin: 0;
+            color: #333;
+        }
+
+        .back-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background-color: #222;
         }
 
         .subtitle {
@@ -59,46 +84,44 @@
         }
 
         .status {
+            display: inline-block;
             padding: 5px 10px;
             border-radius: 15px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
+        }
+
+        .pending-profile {
             background-color: #fff3cd;
             color: #856404;
         }
 
-        button {
-            padding: 7px 12px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: white;
-            margin-right: 5px;
+        .pending-review {
+            background-color: #cfe2ff;
+            color: #084298;
+        }
+
+        .approved {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .rejected {
+            background-color: #f8d7da;
+            color: #842029;
         }
 
         .view-btn {
             background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         .view-btn:hover {
             background-color: #0069d9;
-        }
-
-        .approve-btn {
-            background-color: #28a745;
-        }
-
-        .approve-btn:hover {
-            background-color: #218838;
-        }
-
-        .back-btn {
-            background-color: #333;
-            margin-bottom: 20px;
-        }
-
-        .back-btn:hover {
-            background-color: #222;
         }
 
         #message {
@@ -116,22 +139,36 @@
 
 </head>
 
+
 <body>
 
     <div class="container">
 
-        <button class="back-btn" onclick="goBack()">
-            ← Back to Dashboard
-        </button>
+        <!-- ================= TOP BAR ================= -->
 
-        <a href="AdminCounselorsList.html"> View Counselors </a>
+        <div class="top-bar">
 
-        <h2>Counselor Management</h2>
+            <h2>
+                Counselors List
+            </h2>
+
+            <button class="back-btn" onclick="goBack()">
+
+                ← Back to Dashboard
+
+            </button>
+
+        </div>
+
 
         <p class="subtitle">
-            Review counselor verification requests.
+
+            View and manage all registered counselors.
+
         </p>
 
+
+        <!-- ================= TABLE ================= -->
 
         <div class="table-container">
 
@@ -140,24 +177,54 @@
                 <thead>
 
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Qualification</th>
-                        <th>Experience</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Qualification
+                        </th>
+
+                        <th>
+                            Experience
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
                     </tr>
 
                 </thead>
 
+
                 <tbody id="counselorTableBody">
 
                     <tr>
+
                         <td colspan="8" class="empty">
+
                             Loading counselors...
+
                         </td>
+
                     </tr>
 
                 </tbody>
@@ -166,6 +233,7 @@
 
         </div>
 
+
         <p id="message"></p>
 
     </div>
@@ -173,31 +241,38 @@
 
     <script>
 
-        // ================= GET TOKEN =================
+        // ================= TOKEN =================
 
-        const token = localStorage.getItem("token");
+        const token =
+            localStorage.getItem("token");
 
 
-        // ================= CHECK ADMIN LOGIN =================
+        // ================= SESSION CHECK =================
 
-        const userData = localStorage.getItem("user");
+        if (!token) {
 
-        if (!token || !userData) {
+            alert(
+                "Session expired. Please login again."
+            );
 
-            alert("Session expired. Please login again.");
-
-            window.location.href = "../Login.html";
+            window.location.href =
+                "../Login.html";
         }
 
 
-        // ================= LOAD PENDING COUNSELORS =================
+        // ================= LOAD COUNSELORS =================
 
         async function loadCounselors() {
 
             try {
 
+                /*
+                 * This endpoint will return
+                 * all counselors.
+                 */
+
                 const response = await fetch(
-                    "http://localhost:8081/api/admin/counselors/pending",
+                    "http://localhost:8081/api/admin/counselors",
                     {
                         method: "GET",
 
@@ -209,7 +284,8 @@
                 );
 
 
-                const result = await response.json();
+                const result =
+                    await response.json();
 
 
                 if (!response.ok) {
@@ -231,12 +307,18 @@
                 tableBody.innerHTML = "";
 
 
-                if (result.length === 0) {
+                // No counselors
+
+                if (!result || result.length === 0) {
 
                     tableBody.innerHTML = `
                         <tr>
-                            <td colspan="8" class="empty">
-                                No pending counselor requests.
+                            <td
+                                colspan="8"
+                                class="empty">
+
+                                No counselors found.
+
                             </td>
                         </tr>
                     `;
@@ -245,10 +327,42 @@
                 }
 
 
+                // ================= CREATE ROWS =================
+
                 result.forEach(function (counselor) {
 
                     const row =
                         document.createElement("tr");
+
+
+                    let statusClass =
+                        "pending-profile";
+
+
+                    if (
+                        counselor.status ===
+                        "PENDING_REVIEW"
+                    ) {
+
+                        statusClass =
+                            "pending-review";
+
+                    } else if (
+                        counselor.status ===
+                        "APPROVED"
+                    ) {
+
+                        statusClass =
+                            "approved";
+
+                    } else if (
+                        counselor.status ===
+                        "REJECTED"
+                    ) {
+
+                        statusClass =
+                            "rejected";
+                    }
 
 
                     row.innerHTML = `
@@ -258,15 +372,15 @@
                         </td>
 
                         <td>
-                            ${counselor.name}
+                            ${counselor.name || "-"}
                         </td>
 
                         <td>
-                            ${counselor.email}
+                            ${counselor.email || "-"}
                         </td>
 
                         <td>
-                            ${counselor.phone}
+                            ${counselor.phone || "-"}
                         </td>
 
                         <td>
@@ -274,13 +388,21 @@
                         </td>
 
                         <td>
-                            ${counselor.experienceYears ?? "-"} years
+                            ${counselor.experienceYears != null
+                            ? counselor.experienceYears + " years"
+                            : "-"
+                        }
                         </td>
 
                         <td>
-                            <span class="status">
-                                ${counselor.status}
+
+                            <span
+                                class="status ${statusClass}">
+
+                                ${counselor.status || "-"}
+
                             </span>
+
                         </td>
 
                         <td>
@@ -288,16 +410,13 @@
                             <button
                                 class="view-btn"
                                 onclick="viewCounselor(${counselor.id})">
-                                View
-                            </button>
 
-                            <button
-                                class="approve-btn"
-                                onclick="approveCounselor(${counselor.id})">
-                                Approve
+                                View
+
                             </button>
 
                         </td>
+
                     `;
 
 
@@ -311,13 +430,22 @@
                 document.getElementById(
                     "counselorTableBody"
                 ).innerHTML = `
+
                     <tr>
-                        <td colspan="8" class="empty">
+
+                        <td
+                            colspan="8"
+                            class="empty">
+
                             ${error.message}
+
                         </td>
+
                     </tr>
+
                 `;
             }
+
         }
 
 
@@ -328,69 +456,7 @@
             window.location.href =
                 "AdminCounselorProfile.html?id="
                 + counselorId;
-        }
 
-
-        // ================= APPROVE COUNSELOR =================
-
-        async function approveCounselor(counselorId) {
-
-            const confirmApprove = confirm(
-                "Are you sure you want to approve this counselor?"
-            );
-
-
-            if (!confirmApprove) {
-                return;
-            }
-
-
-            try {
-
-                const response = await fetch(
-                    "http://localhost:8081/api/admin/counselors/"
-                    + counselorId
-                    + "/approve",
-                    {
-                        method: "PUT",
-
-                        headers: {
-                            "Authorization":
-                                "Bearer " + token
-                        }
-                    }
-                );
-
-
-                const result =
-                    await response.json();
-
-
-                if (response.ok) {
-
-                    alert(
-                        "Counselor approved successfully!"
-                    );
-
-                    loadCounselors();
-
-                } else {
-
-                    alert(
-                        typeof result === "string"
-                            ? result
-                            : "Failed to approve counselor."
-                    );
-                }
-
-
-            } catch (error) {
-
-                alert(
-                    "Something went wrong!\n\n"
-                    + error.message
-                );
-            }
         }
 
 
@@ -400,10 +466,11 @@
 
             window.location.href =
                 "AdminDashboard.html";
+
         }
 
 
-        // ================= INITIAL LOAD =================
+        // ================= LOAD =================
 
         loadCounselors();
 

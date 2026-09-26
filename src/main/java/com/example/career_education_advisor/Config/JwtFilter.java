@@ -51,11 +51,23 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
+        // Recommendation APIs public hain
+        // Inhe JWT authentication ki zarurat nahi hai
+        if (path.startsWith("/api/recommendation")) {
+            System.out.println("RECOMMENDATION API - JWT FILTER SKIPPED");
+
+            chain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
 
-        System.out.println("AUTH HEADER PRESENT: " + (authHeader != null));
+        System.out.println(
+                "AUTH HEADER PRESENT: "
+                        + (authHeader != null));
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+        if (authHeader != null
+                && authHeader.startsWith("Bearer ")) {
 
             String token = authHeader.substring(7);
 
@@ -63,17 +75,27 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 String email = jwtUtil.extractUserName(token);
 
-                System.out.println("EMAIL FROM TOKEN: " + email);
+                System.out.println(
+                        "EMAIL FROM TOKEN: " + email);
 
-                if (email != null &&
-                        SecurityContextHolder.getContext().getAuthentication() == null) {
+                if (email != null
+                        && SecurityContextHolder
+                                .getContext()
+                                .getAuthentication() == null) {
 
-                    User user = userRepository.findByEmail(email).orElse(null);
+                    User user = userRepository
+                            .findByEmail(email)
+                            .orElse(null);
 
                     if (user != null) {
 
-                        System.out.println("USER FOUND: " + user.getEmail());
-                        System.out.println("USER ROLE: " + user.getRole());
+                        System.out.println(
+                                "USER FOUND: "
+                                        + user.getEmail());
+
+                        System.out.println(
+                                "USER ROLE: "
+                                        + user.getRole());
 
                         if (jwtUtil.validateToken(token)) {
 
@@ -90,37 +112,42 @@ public class JwtFilter extends OncePerRequestFilter {
 
                             SecurityContextHolder
                                     .getContext()
-                                    .setAuthentication(authentication);
+                                    .setAuthentication(
+                                            authentication);
 
                             System.out.println(
-                                    "AUTH SET: " +
-                                            SecurityContextHolder
+                                    "AUTH SET: "
+                                            + SecurityContextHolder
                                                     .getContext()
                                                     .getAuthentication());
 
                         } else {
 
-                            System.out.println("TOKEN INVALID OR EXPIRED");
-
+                            System.out.println(
+                                    "TOKEN INVALID OR EXPIRED");
                         }
 
                     } else {
 
-                        System.out.println("USER NOT FOUND: " + email);
-
+                        System.out.println(
+                                "USER NOT FOUND: "
+                                        + email);
                     }
                 }
 
             } catch (Exception e) {
 
-                System.out.println("JWT ERROR: " + e.getMessage());
+                System.out.println(
+                        "JWT ERROR: "
+                                + e.getMessage());
+
                 e.printStackTrace();
             }
         }
 
         System.out.println(
-                "FINAL AUTH: " +
-                        SecurityContextHolder
+                "FINAL AUTH: "
+                        + SecurityContextHolder
                                 .getContext()
                                 .getAuthentication());
 
