@@ -8,34 +8,33 @@
     <title>Student Dashboard | CareerAdvisor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
+        /* =========================================================
+   CareerAdvisor Student Dashboard
+   Visual System
+   ========================================================= */
         :root {
-            --bg: #070811;
-            --bg2: #0c0e1a;
-            --panel: #101321;
-            --panel2: #141728;
-            --panel3: #191d31;
-            --border: rgba(255, 255, 255, .075);
-            --border2: rgba(255, 255, 255, .13);
-            --text: #f4f5ff;
-            --soft: #aeb3ce;
-            --muted: #727995;
-            --purple: #8b5cf6;
-            --purple2: #a78bfa;
-            --blue: #3b82f6;
-            --cyan: #06b6d4;
-            --green: #22c55e;
-            --yellow: #f59e0b;
-            --red: #f87171;
-            --gradient: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
-            --gradient2: linear-gradient(135deg, rgba(139, 92, 246, .24), rgba(59, 130, 246, .12));
-            --shadow: 0 24px 70px rgba(0, 0, 0, .34);
-            --sidebar: 260px;
-            --topbar: 78px;
+            --purple: #8B5CF6;
+            --purple-dark: #7C3AED;
+            --blue: #3B82F6;
+            --cyan: #06B6D4;
+            --green: #22C55E;
+            --red: #EF4444;
+            --amber: #F59E0B;
+            --bg: #FAFAFE;
+            --surface: #FFFFFF;
+            --surface-soft: #F5F3FF;
+            --text: #172033;
+            --text-soft: #525B6D;
+            --muted: #7B8190;
+            --border: #E7E4F4;
+            --border-strong: #D9D3EE;
+            --gradient: linear-gradient(135deg, #8B5CF6, #3B82F6);
+            --shadow: 0 18px 44px rgba(76, 57, 145, .09);
+            --shadow-soft: 0 12px 32px rgba(76, 57, 145, .07)
         }
 
         * {
@@ -51,21 +50,24 @@
         body {
             min-width: 320px;
             min-height: 100vh;
-            font-family: Inter, sans-serif;
-            background: var(--bg);
+            font-family: "Space Grotesk", sans-serif;
             color: var(--text);
-            overflow-x: hidden;
-            overflow-y: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            background: var(--bg);
+            overflow-x: hidden
         }
 
         body::-webkit-scrollbar {
-            display: none;
+            width: 0
+        }
+
+        body {
+            scrollbar-width: none
         }
 
         button,
-        input {
+        input,
+        select,
+        textarea {
             font: inherit
         }
 
@@ -78,243 +80,382 @@
             color: inherit
         }
 
-        body::before {
+        .page-shell {
+            min-height: 100vh;
+            position: relative
+        }
+
+        .page-shell:before {
             content: "";
             position: fixed;
             inset: 0;
-            z-index: -5;
-            background-image:
-                linear-gradient(rgba(139, 92, 246, .035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(59, 130, 246, .035) 1px, transparent 1px);
-            background-size: 42px 42px;
-            mask-image: linear-gradient(to bottom, #000, transparent 92%);
-            pointer-events: none;
+            z-index: -3;
+            background-image: linear-gradient(rgba(139, 92, 246, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, .04) 1px, transparent 1px);
+            background-size: 38px 38px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .72), transparent 94%);
+            pointer-events: none
         }
 
-        .orb {
+        .ambient {
             position: fixed;
-            z-index: -4;
-            border-radius: 50%;
-            filter: blur(90px);
+            inset: 0;
+            z-index: -2;
             pointer-events: none;
+            overflow: hidden
         }
 
-        .orb.one {
-            width: 480px;
-            height: 480px;
-            left: -230px;
-            top: -180px;
-            background: rgba(124, 58, 237, .17);
-            animation: floatOne 10s ease-in-out infinite;
+        .ambient:before,
+        .ambient:after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: ambientMove 10s ease-in-out infinite alternate
         }
 
-        .orb.two {
+        .ambient:before {
             width: 430px;
             height: 430px;
-            right: -220px;
-            bottom: -190px;
-            background: rgba(37, 99, 235, .13);
-            animation: floatTwo 12s ease-in-out infinite;
+            left: -170px;
+            top: -180px;
+            background: radial-gradient(circle, rgba(139, 92, 246, .18), transparent 70%)
         }
 
-        .orb.three {
-            width: 260px;
-            height: 260px;
-            left: 48%;
-            top: 15%;
-            background: rgba(6, 182, 212, .055);
-            animation: drift 9s ease-in-out infinite;
+        .ambient:after {
+            width: 490px;
+            height: 490px;
+            right: -210px;
+            bottom: -230px;
+            background: radial-gradient(circle, rgba(59, 130, 246, .16), transparent 70%);
+            animation-delay: 1.5s
         }
 
-        .app {
-            min-height: 100vh
-        }
-
-        .sidebar {
-            position: fixed;
-            left: 0;
+        .navbar {
+            position: sticky;
             top: 0;
-            bottom: 0;
-            width: var(--sidebar);
-            z-index: 50;
+            z-index: 80;
+            height: 76px;
             display: flex;
-            flex-direction: column;
-            padding: 22px 16px;
-            background: rgba(9, 11, 22, .91);
-            border-right: 1px solid var(--border);
-            backdrop-filter: blur(20px);
-            transition: transform .3s ease;
-            overflow-y: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .sidebar::-webkit-scrollbar {
-            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 0 30px;
+            background: rgba(255, 255, 255, .93);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 7px 25px rgba(76, 57, 145, .05)
         }
 
         .brand {
             display: flex;
             align-items: center;
             gap: 11px;
-            padding: 2px 9px 24px;
+            flex: none
         }
 
         .brand-mark {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             display: grid;
             place-items: center;
-            border-radius: 12px;
+            border-radius: 14px;
             background: var(--gradient);
             color: #fff;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, .3);
+            box-shadow: 0 10px 24px rgba(99, 102, 241, .20);
+            animation: brandFloat 4s ease-in-out infinite
+        }
+
+        .brand-mark i {
+            font-size: 17px
         }
 
         .brand-name {
-            font-family: "Space Grotesk", sans-serif;
+            font-size: 20px;
             font-weight: 700;
-            font-size: 1.04rem;
+            letter-spacing: -.5px
         }
 
-        .brand-name span {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .brand-sub {
+            margin-top: 2px;
+            color: #9A9EAD;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: .6px
         }
 
-        .nav-title {
-            padding: 0 11px 9px;
-            color: #5f6680;
-            font-size: .66rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .13em;
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1
         }
 
         .nav {
             display: flex;
-            flex-direction: column;
-            gap: 4px
+            align-items: center;
+            gap: 6px
         }
 
-        .nav a {
-            position: relative;
+        .nav-item {
+            position: relative
+        }
+
+        .nav-trigger {
             display: flex;
             align-items: center;
-            gap: 12px;
-            min-height: 44px;
-            padding: 0 12px;
+            gap: 9px;
+            padding: 10px 15px;
             border: 1px solid transparent;
-            border-radius: 12px;
-            color: var(--soft);
-            font-size: .81rem;
-            transition: .2s ease;
+            border-radius: 11px;
+            background: transparent;
+            color: #606879;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .22s
         }
 
-        .nav a i {
-            width: 18px;
-            text-align: center;
-            color: #777e9c
+        .nav-trigger:hover,
+        .nav-item.open .nav-trigger {
+            color: var(--purple-dark);
+            background: #F7F4FF;
+            border-color: #ECE7FA
         }
 
-        .nav a:hover {
-            color: var(--text);
-            background: rgba(255, 255, 255, .035);
-            border-color: var(--border);
-            transform: translateX(2px);
+        .nav-trigger i {
+            font-size: 8px;
+            color: #9B9FAE
         }
 
-        .nav a.active {
-            color: #fff;
-            background: linear-gradient(100deg, rgba(139, 92, 246, .18), rgba(59, 130, 246, .08));
-            border-color: rgba(139, 92, 246, .24);
-            box-shadow: inset 3px 0 0 var(--purple);
-        }
-
-        .nav a.active i {
-            color: #a78bfa
-        }
-
-        .sidebar-bottom {
-            margin-top: auto
-        }
-
-        .help-card {
-            padding: 14px;
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 11px);
+            left: 0;
+            width: 220px;
+            padding: 9px;
             border: 1px solid var(--border);
             border-radius: 15px;
-            background: linear-gradient(145deg, rgba(139, 92, 246, .09), rgba(59, 130, 246, .035));
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 18px 45px rgba(76, 57, 145, .13);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: .2s;
+            backdrop-filter: blur(18px)
         }
 
-        .help-card i {
-            width: 30px;
-            height: 30px;
+        .nav-item:hover .dropdown,
+        .nav-item.open .dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0)
+        }
+
+        .dropdown-title {
+            padding: 7px 9px 8px;
+            color: #A0A4B0;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        .dropdown-link {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px;
+            border-radius: 9px;
+            color: #657080;
+            font-size: 12px;
+            font-weight: 600;
+            transition: .18s
+        }
+
+        .dropdown-link i {
+            width: 15px;
+            text-align: center;
+            color: #8C93A1
+        }
+
+        .dropdown-link:hover,
+        .dropdown-link.active {
+            background: #F6F3FF;
+            color: var(--purple-dark)
+        }
+
+        .dropdown-link.active i {
+            color: var(--purple)
+        }
+
+        .nav-note {
+            margin-left: auto;
+            color: var(--purple);
+            font-size: 8px
+        }
+
+        .account-area {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            flex: none
+        }
+
+        .icon-btn {
+            position: relative;
+            width: 37px;
+            height: 37px;
             display: grid;
             place-items: center;
-            margin-bottom: 9px;
-            border-radius: 9px;
-            background: rgba(139, 92, 246, .12);
-            color: #a78bfa;
-        }
-
-        .help-card strong {
-            display: block;
-            font-size: .76rem;
-            margin-bottom: 4px
-        }
-
-        .help-card span {
-            display: block;
-            color: var(--muted);
-            font-size: .66rem;
-            line-height: 1.5
-        }
-
-        .logout {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            margin-top: 9px;
-            padding: 11px 12px;
-            background: transparent;
-            color: var(--muted);
+            border: 1px solid var(--border);
             border-radius: 11px;
+            background: #fff;
+            color: #6D7485;
             cursor: pointer;
-            font-size: .78rem;
-            text-align: left;
-            transition: .2s ease;
+            transition: .2s
         }
 
-        .logout:hover {
-            color: #fca5a5;
-            background: rgba(248, 113, 113, .06)
+        .icon-btn:hover {
+            color: var(--purple-dark);
+            background: #F8F6FF;
+            border-color: #DDD7F2;
+            transform: translateY(-1px)
         }
 
-        .main {
-            min-height: 100vh;
-            margin-left: var(--sidebar);
+        .notification-dot {
+            position: absolute;
+            right: 8px;
+            top: 7px;
+            width: 7px;
+            height: 7px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: #EF4444
         }
 
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 30;
-            height: var(--topbar);
+        .account {
+            position: relative
+        }
+
+        .account-trigger {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            border-bottom: 1px solid var(--border);
-            background: rgba(7, 8, 17, .76);
-            backdrop-filter: blur(18px);
+            gap: 9px;
+            padding: 5px 7px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            background: transparent;
+            cursor: pointer;
+            transition: .2s
         }
 
-        .topbar-left {
+        .account-trigger:hover,
+        .account.open .account-trigger {
+            background: #F8F7FC;
+            border-color: var(--border)
+        }
+
+        .account-avatar {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #EDE6FF, #E5F0FF);
+            color: var(--purple-dark);
+            font-size: 11px;
+            font-weight: 800
+        }
+
+        .account-copy {
+            text-align: left
+        }
+
+        .account-name {
+            display: block;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
+            max-width: 125px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .account-role {
+            display: block;
+            margin-top: 2px;
+            color: #9A9EAD;
+            font-size: 9px;
+            font-weight: 600
+        }
+
+        .account-arrow {
+            font-size: 8px;
+            color: #9AA0AE;
+            transition: .2s
+        }
+
+        .account.open .account-arrow {
+            transform: rotate(180deg);
+            color: var(--purple)
+        }
+
+        .account-menu {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 9px);
+            width: 190px;
+            padding: 8px;
+            transform: translateY(-8px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 18px 44px rgba(76, 57, 145, .13);
+            transition: .2s
+        }
+
+        .account.open .account-menu {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto
+        }
+
+        .account-menu a,
+        .account-menu button {
             display: flex;
             align-items: center;
-            gap: 14px
+            gap: 9px;
+            width: 100%;
+            padding: 9px;
+            border-radius: 9px;
+            background: transparent;
+            color: #667081;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left
+        }
+
+        .account-menu a:hover,
+        .account-menu button:hover {
+            background: #F6F3FF;
+            color: var(--purple-dark)
+        }
+
+        .account-menu .logout {
+            color: #B42318
+        }
+
+        .account-menu .logout:hover {
+            background: #FFF5F3;
+            color: #A21B11
         }
 
         .mobile-menu {
@@ -322,424 +463,480 @@
             width: 38px;
             height: 38px;
             border: 1px solid var(--border);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, .035);
-            color: var(--soft);
-            cursor: pointer;
-        }
-
-        .page-label {
-            font-size: .76rem;
-            color: var(--muted)
-        }
-
-        .page-label strong {
-            display: block;
-            color: var(--text);
-            font-size: .96rem;
-            margin-top: 2px
-        }
-
-        .top-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px
-        }
-
-        .icon-btn {
-            position: relative;
-            width: 39px;
-            height: 39px;
-            display: grid;
-            place-items: center;
-            border: 1px solid var(--border);
             border-radius: 11px;
-            background: rgba(255, 255, 255, .025);
-            color: var(--soft);
-            cursor: pointer;
-            transition: .2s ease;
+            background: #fff;
+            color: #6D7485;
+            cursor: pointer
         }
 
-        .icon-btn:hover {
-            color: #fff;
-            border-color: var(--border2);
-            background: rgba(255, 255, 255, .055)
-        }
-
-        .notification-dot {
-            position: absolute;
-            width: 7px;
-            height: 7px;
-            right: 8px;
-            top: 7px;
-            border: 2px solid var(--bg2);
-            border-radius: 50%;
-            background: #f43f5e;
-        }
-
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-left: 8px;
-            cursor: pointer;
-        }
-
-        .avatar {
-            width: 39px;
-            height: 39px;
-            display: grid;
-            place-items: center;
-            border-radius: 12px;
-            background: var(--gradient);
-            color: #fff;
-            font-weight: 800;
-            font-size: .78rem;
-            box-shadow: 0 8px 22px rgba(99, 102, 241, .22);
-        }
-
-        .user-info strong {
-            display: block;
-            font-size: .76rem;
-            max-width: 130px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis
-        }
-
-        .user-info span {
-            display: block;
-            color: var(--muted);
-            font-size: .63rem;
-            margin-top: 2px
+        .mobile-nav {
+            display: none
         }
 
         .content {
-            padding: 30px
+            width: min(1240px, calc(100% - 60px));
+            margin: 0 auto;
+            padding: 27px 0 50px
         }
 
-        .container {
-            max-width: 1500px;
-            margin: auto
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #9A9EAD;
+            font-size: 10px;
+            margin-bottom: 17px
+        }
+
+        .breadcrumb strong {
+            color: var(--text)
         }
 
         .hero {
             position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 25px;
-            min-height: 205px;
-            padding: 30px 32px;
-            border: 1px solid var(--border2);
-            border-radius: 24px;
-            background:
-                radial-gradient(circle at 78% 25%, rgba(59, 130, 246, .16), transparent 30%),
-                radial-gradient(circle at 60% 90%, rgba(139, 92, 246, .12), transparent 35%),
-                rgba(15, 18, 34, .8);
+            margin-bottom: 18px;
+            padding: 28px;
+            border: 1px solid rgba(139, 92, 246, .18);
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(248, 246, 255, .96));
             box-shadow: var(--shadow);
-            animation: fadeUp .65s ease both;
+            animation: fadeUp .55s ease both
         }
 
-        .hero::after {
+        .hero:before {
             content: "";
             position: absolute;
-            width: 270px;
-            height: 270px;
-            right: -100px;
-            top: -150px;
+            width: 330px;
+            height: 330px;
+            right: -150px;
+            top: -185px;
+            border: 1px solid rgba(139, 92, 246, .10);
             border-radius: 50%;
-            border: 1px solid rgba(139, 92, 246, .13);
-            box-shadow: 0 0 0 35px rgba(139, 92, 246, .025), 0 0 0 70px rgba(139, 92, 246, .015);
+            box-shadow: 0 0 0 32px rgba(139, 92, 246, .025), 0 0 0 70px rgba(139, 92, 246, .018)
         }
 
-        .hero-copy {
+        .hero:after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            left: 44%;
+            bottom: -130px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, .10);
+            filter: blur(45px)
+        }
+
+        .hero-grid {
             position: relative;
             z-index: 1;
-            max-width: 720px
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 320px;
+            gap: 25px;
+            align-items: center
         }
 
-        .hero-badge {
+        .eyebrow {
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            padding: 6px 10px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(139, 92, 246, .24);
+            padding: 7px 10px;
+            border: 1px solid #E7E0FA;
             border-radius: 999px;
-            background: rgba(139, 92, 246, .08);
-            color: #c4b5fd;
-            font-size: .65rem;
+            background: #FAF8FF;
+            color: var(--purple-dark);
+            font-size: 9px;
             font-weight: 700;
-        }
-
-        .hero-badge i {
-            font-size: .58rem
+            letter-spacing: .7px;
+            text-transform: uppercase
         }
 
         .hero h1 {
-            font-family: "Space Grotesk", sans-serif;
-            font-size: clamp(1.65rem, 3vw, 2.45rem);
-            line-height: 1.1;
-            letter-spacing: -.035em;
-            margin-bottom: 9px;
+            margin: 12px 0 8px;
+            font-size: 32px;
+            line-height: 1.12;
+            letter-spacing: -1px
         }
 
         .hero h1 span {
             background: var(--gradient);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
         }
 
         .hero p {
-            color: var(--soft);
-            font-size: .78rem;
-            line-height: 1.7;
-            max-width: 650px
+            max-width: 720px;
+            color: var(--muted);
+            font-size: 11.5px;
+            line-height: 1.75
         }
 
         .hero-actions {
-            position: relative;
-            z-index: 2;
             display: flex;
-            gap: 9px;
-            flex-wrap: wrap
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 17px
         }
 
         .btn {
-            min-height: 42px;
+            min-height: 41px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 0 16px;
-            border-radius: 11px;
-            cursor: pointer;
-            font-size: .73rem;
+            gap: 7px;
+            padding: 0 15px;
+            border-radius: 10px;
+            font-size: 10px;
             font-weight: 700;
-            transition: .22s ease;
+            cursor: pointer;
+            transition: .22s
+        }
+
+        .btn:hover {
+            transform: translateY(-1px)
         }
 
         .btn-primary {
-            background: var(--gradient);
             color: #fff;
-            box-shadow: 0 11px 25px rgba(79, 70, 229, .25);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 30px rgba(79, 70, 229, .32)
+            background: var(--gradient);
+            box-shadow: 0 9px 20px rgba(99, 102, 241, .20)
         }
 
         .btn-secondary {
-            color: var(--soft);
-            border: 1px solid var(--border2);
-            background: rgba(255, 255, 255, .035);
+            border: 1px solid var(--border);
+            background: #F8F7FC;
+            color: #6B7280
         }
 
-        .btn-secondary:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, .065)
+        .btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+            transform: none
+        }
+
+        .profile-mini {
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .78);
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(15px)
+        }
+
+        .profile-mini-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px
+        }
+
+        .profile-mini-kicker {
+            font-size: 9px;
+            font-weight: 700;
+            color: #7E8492;
+            text-transform: uppercase;
+            letter-spacing: .7px
+        }
+
+        .profile-mini-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--purple-dark)
+        }
+
+        .progress-track {
+            height: 9px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #ECEAF5;
+            margin-top: 10px
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--purple), var(--blue), var(--cyan));
+            box-shadow: 0 0 18px rgba(79, 124, 255, .30);
+            transition: width .8s cubic-bezier(.22, 1, .36, 1)
+        }
+
+        .profile-mini-note {
+            margin-top: 9px;
+            color: #8B919E;
+            font-size: 9px;
+            line-height: 1.5
+        }
+
+        .profile-mini-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            color: var(--purple-dark);
+            font-size: 9px;
+            font-weight: 700
+        }
+
+        .profile-mini-link:hover {
+            text-decoration: underline
         }
 
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-            margin-top: 18px;
+            gap: 12px;
+            margin-bottom: 18px
         }
 
         .stat-card {
             position: relative;
-            overflow: hidden;
-            padding: 18px;
+            padding: 16px;
             border: 1px solid var(--border);
             border-radius: 17px;
-            background: rgba(15, 18, 32, .76);
+            background: rgba(255, 255, 255, .95);
+            box-shadow: var(--shadow-soft);
             animation: fadeUp .65s ease both;
-            transition: .25s ease;
+            overflow: hidden
         }
 
-        .stat-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--border2)
+        .stat-card:nth-child(2) {
+            animation-delay: .05s
         }
 
-        .stat-card::after {
+        .stat-card:nth-child(3) {
+            animation-delay: .1s
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: .15s
+        }
+
+        .stat-card:after {
             content: "";
             position: absolute;
-            width: 80px;
-            height: 80px;
-            right: -28px;
-            bottom: -32px;
+            width: 100px;
+            height: 100px;
+            right: -48px;
+            bottom: -48px;
             border-radius: 50%;
-            background: rgba(139, 92, 246, .06);
+            background: rgba(139, 92, 246, .05)
         }
 
         .stat-top {
             display: flex;
             align-items: center;
-            justify-content: space-between
+            justify-content: space-between;
+            gap: 8px
         }
 
         .stat-icon {
-            width: 34px;
-            height: 34px;
+            width: 35px;
+            height: 35px;
             display: grid;
             place-items: center;
-            border-radius: 10px;
-            background: rgba(139, 92, 246, .1);
-            color: #a78bfa;
+            border-radius: 11px;
+            background: #F0ECFF;
+            color: var(--purple-dark)
         }
 
-        .stat-change {
-            font-size: .6rem;
-            color: #4ade80
+        .stat-card:nth-child(2) .stat-icon {
+            background: #EAF3FF;
+            color: var(--blue)
+        }
+
+        .stat-card:nth-child(3) .stat-icon {
+            background: #E8FBF4;
+            color: #17985D
+        }
+
+        .stat-card:nth-child(4) .stat-icon {
+            background: #FFF5E7;
+            color: #D47B00
+        }
+
+        .stat-chip {
+            padding: 4px 7px;
+            border-radius: 999px;
+            background: #FAF8FF;
+            color: var(--purple-dark);
+            font-size: 8px;
+            font-weight: 800
         }
 
         .stat-value {
-            font-family: "Space Grotesk", sans-serif;
-            font-size: 1.45rem;
+            margin-top: 12px;
+            font-size: 25px;
             font-weight: 700;
-            margin-top: 13px
+            letter-spacing: -.5px
         }
 
         .stat-label {
-            color: var(--muted);
-            font-size: .67rem;
-            margin-top: 3px
+            margin-top: 3px;
+            color: #848B98;
+            font-size: 9px;
+            font-weight: 600
         }
 
-        .grid-main {
+        .section-grid {
             display: grid;
-            grid-template-columns: minmax(0, 1.65fr) minmax(280px, .9fr);
-            gap: 18px;
-            margin-top: 18px;
+            grid-template-columns: minmax(0, 1.75fr) minmax(300px, .95fr);
+            gap: 16px;
+            margin-bottom: 16px
         }
 
         .panel {
             border: 1px solid var(--border);
             border-radius: 19px;
-            background: rgba(15, 18, 32, .78);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, .16);
+            background: rgba(255, 255, 255, .95);
+            box-shadow: var(--shadow);
             overflow: hidden;
+            animation: fadeUp .7s ease both
         }
 
         .panel-head {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
-            gap: 12px;
-            padding: 19px 20px 15px;
+            gap: 14px;
+            padding: 17px 18px 14px;
+            border-bottom: 1px solid #F0EEF7
         }
 
         .panel-title {
-            font-family: "Space Grotesk", sans-serif;
-            font-size: .94rem;
-            font-weight: 700
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: -.2px
         }
 
         .panel-sub {
-            color: var(--muted);
-            font-size: .65rem;
-            margin-top: 4px
+            margin-top: 3px;
+            color: #8B919E;
+            font-size: 9px;
+            line-height: 1.45
         }
 
         .panel-link {
-            color: #a78bfa;
-            font-size: .65rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--purple-dark);
+            font-size: 9px;
             font-weight: 700;
-            cursor: pointer;
+            white-space: nowrap
+        }
+
+        .panel-link:hover {
+            text-decoration: underline
         }
 
         .panel-body {
-            padding: 0 20px 20px
+            padding: 17px 18px
         }
 
-        .profile-progress {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            padding: 18px;
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            background: linear-gradient(145deg, rgba(139, 92, 246, .07), rgba(59, 130, 246, .025));
+        .overview-head {
+            display: grid;
+            grid-template-columns: 100px minmax(0, 1fr);
+            gap: 17px;
+            align-items: center
         }
 
-        .progress-ring {
-            position: relative;
-            width: 82px;
-            height: 82px;
-            flex: 0 0 auto;
+        .ring {
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: conic-gradient(var(--purple) var(--progress, 0%), #ECEAF5 0);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, .10)
+        }
+
+        .ring-inner {
+            width: 73px;
+            height: 73px;
             display: grid;
             place-items: center;
             border-radius: 50%;
-            background: conic-gradient(#8b5cf6 0 72%, #24283c 72% 100%);
+            background: #fff;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--purple-dark)
         }
 
-        .progress-ring::before {
-            content: "";
-            position: absolute;
-            inset: 7px;
-            border-radius: 50%;
-            background: #111423;
+        .overview-copy h3 {
+            font-size: 14px
         }
 
-        .progress-ring strong {
-            position: relative;
-            font-size: .88rem
+        .overview-copy p {
+            margin-top: 6px;
+            color: #7C8492;
+            font-size: 10px;
+            line-height: 1.6
         }
 
-        .profile-progress h3 {
-            font-size: .82rem;
-            margin-bottom: 5px
-        }
-
-        .profile-progress p {
-            color: var(--muted);
-            font-size: .65rem;
-            line-height: 1.5
-        }
-
-        .progress-bar {
-            height: 6px;
-            margin-top: 11px;
-            overflow: hidden;
+        .mini-progress {
+            height: 7px;
+            margin-top: 12px;
             border-radius: 99px;
-            background: #25293d;
+            background: #ECEAF5;
+            overflow: hidden
         }
 
-        .progress-bar span {
+        .mini-progress span {
             display: block;
-            width: 72%;
             height: 100%;
             border-radius: inherit;
             background: var(--gradient);
-            animation: grow 1.2s ease both;
+            width: 0;
+            transition: width .7s
         }
 
-        .recommendations {
+        .subsection {
+            margin-top: 19px;
+            padding-top: 17px;
+            border-top: 1px solid #F0EEF7
+        }
+
+        .subsection-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: end;
+            margin-bottom: 11px
+        }
+
+        .subsection-title {
+            font-size: 11px;
+            font-weight: 700
+        }
+
+        .subsection-note {
+            color: #9298A3;
+            font-size: 8.5px
+        }
+
+        .career-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 11px;
-            margin-top: 14px
+            gap: 10px
         }
 
         .career-card {
-            position: relative;
-            padding: 15px;
+            min-height: 146px;
+            padding: 14px;
             border: 1px solid var(--border);
-            border-radius: 15px;
-            background: rgba(255, 255, 255, .018);
-            cursor: pointer;
-            transition: .25s ease;
+            border-radius: 14px;
+            background: linear-gradient(150deg, #fff, #FCFAFF);
+            transition: .22s;
+            cursor: default
         }
 
         .career-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(139, 92, 246, .3);
-            background: rgba(139, 92, 246, .045)
+            transform: translateY(-3px);
+            border-color: #D8CEF6;
+            box-shadow: 0 12px 26px rgba(76, 57, 145, .10)
         }
 
         .career-icon {
@@ -747,42 +944,73 @@
             height: 34px;
             display: grid;
             place-items: center;
-            margin-bottom: 11px;
             border-radius: 10px;
-            background: rgba(139, 92, 246, .1);
-            color: #a78bfa;
+            background: #F0ECFF;
+            color: var(--purple-dark)
         }
 
-        .career-card h3 {
-            font-size: .75rem;
-            margin-bottom: 4px
+        .career-card h4 {
+            margin-top: 10px;
+            font-size: 11px
         }
 
         .career-card p {
-            color: var(--muted);
-            font-size: .61rem;
-            line-height: 1.45
+            margin-top: 5px;
+            color: #8A919E;
+            font-size: 8.8px;
+            line-height: 1.5;
+            min-height: 38px
         }
 
-        .match {
+        .match-badge {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
             margin-top: 10px;
-            padding: 4px 7px;
-            border-radius: 7px;
-            background: rgba(34, 197, 94, .08);
-            color: #86efac;
-            font-size: .6rem;
-            font-weight: 700;
+            padding: 5px 7px;
+            border-radius: 999px;
+            background: #F0FBF5;
+            color: #148553;
+            font-size: 8px;
+            font-weight: 800
+        }
+
+        .empty-card {
+            padding: 18px;
+            border: 1px dashed #DCD6EE;
+            border-radius: 14px;
+            text-align: center;
+            background: #FCFBFF
+        }
+
+        .empty-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 8px;
+            border-radius: 12px;
+            background: #F0ECFF;
+            color: var(--purple-dark)
+        }
+
+        .empty-card strong {
+            display: block;
+            font-size: 10px
+        }
+
+        .empty-card p {
+            margin: 5px auto 11px;
+            max-width: 360px;
+            color: #8A919E;
+            font-size: 8.8px;
+            line-height: 1.55
         }
 
         .assessment {
-            min-height: 100%;
-            padding: 20px;
-            background:
-                radial-gradient(circle at 100% 0, rgba(139, 92, 246, .15), transparent 38%),
-                linear-gradient(145deg, rgba(139, 92, 246, .08), rgba(59, 130, 246, .025));
+            height: 100%;
+            padding: 19px;
+            background: linear-gradient(150deg, #FAF8FF, #F4F8FF)
         }
 
         .assessment-icon {
@@ -790,81 +1018,89 @@
             height: 42px;
             display: grid;
             place-items: center;
-            margin-bottom: 14px;
-            border-radius: 12px;
+            border-radius: 13px;
             background: var(--gradient);
             color: #fff;
-            box-shadow: 0 12px 25px rgba(99, 102, 241, .23);
+            box-shadow: 0 10px 22px rgba(99, 102, 241, .19);
+            animation: iconFloat 4s ease-in-out infinite
         }
 
         .assessment h3 {
-            font-family: "Space Grotesk", sans-serif;
-            font-size: 1rem;
-            margin-bottom: 7px
+            margin-top: 14px;
+            font-size: 16px;
+            line-height: 1.25
         }
 
         .assessment p {
-            color: var(--soft);
-            font-size: .67rem;
-            line-height: 1.6
+            margin-top: 7px;
+            color: #798191;
+            font-size: 9.5px;
+            line-height: 1.65
         }
 
-        .assessment ul {
-            list-style: none;
-            margin: 15px 0
+        .check-list {
+            display: grid;
+            gap: 8px;
+            margin: 16px 0
         }
 
-        .assessment li {
+        .check-item {
             display: flex;
             gap: 8px;
             align-items: flex-start;
-            color: var(--muted);
-            font-size: .63rem;
-            margin-bottom: 8px
+            color: #687182;
+            font-size: 9px;
+            line-height: 1.4
         }
 
-        .assessment li i {
-            color: #8b5cf6;
-            margin-top: 2px
+        .check-item i {
+            margin-top: 2px;
+            color: var(--green)
         }
 
         .assessment .btn {
             width: 100%;
-            margin-top: 5px
+            margin-top: 3px
         }
 
-        .bottom-grid {
+        .wide-grid {
             display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(270px, .75fr);
-            gap: 18px;
-            margin-top: 18px;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 16px;
+            margin-bottom: 16px
         }
 
-        .course-row,
-        .roadmap-step,
-        .notification {
+        .course-list {
+            display: grid;
+            gap: 9px
+        }
+
+        .course-row {
             display: flex;
             align-items: center;
-            gap: 11px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
+            gap: 10px;
+            padding: 11px;
+            border: 1px solid #F0EEF7;
+            border-radius: 13px;
+            background: #FCFBFF;
+            transition: .2s
         }
 
-        .course-row:last-child,
-        .roadmap-step:last-child,
-        .notification:last-child {
-            border-bottom: 0
+        .course-row:hover {
+            transform: translateX(2px);
+            border-color: #DDD6F1;
+            background: #FAF8FF
         }
 
         .course-logo {
-            width: 35px;
-            height: 35px;
+            width: 36px;
+            height: 36px;
             display: grid;
             place-items: center;
-            flex: 0 0 auto;
-            border-radius: 10px;
-            background: rgba(59, 130, 246, .1);
-            color: #60a5fa;
+            flex: none;
+            border-radius: 11px;
+            background: #EAF3FF;
+            color: var(--blue)
         }
 
         .course-info {
@@ -874,7 +1110,7 @@
 
         .course-info strong {
             display: block;
-            font-size: .69rem;
+            font-size: 10px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis
@@ -882,334 +1118,432 @@
 
         .course-info span {
             display: block;
-            color: var(--muted);
-            font-size: .59rem;
-            margin-top: 3px
+            margin-top: 3px;
+            color: #8B919E;
+            font-size: 8.3px
         }
 
-        .course-score {
-            font-size: .62rem;
-            font-weight: 700;
-            color: #86efac
+        .score-pill {
+            padding: 5px 7px;
+            border-radius: 999px;
+            background: #F0FBF5;
+            color: #148553;
+            font-size: 8px;
+            font-weight: 800
         }
 
-        .roadmap {
-            position: relative;
-            padding-left: 4px;
+        .college-list {
+            display: grid;
+            gap: 9px
+        }
+
+        .college-card {
+            padding: 11px;
+            border: 1px solid #F0EEF7;
+            border-radius: 13px;
+            background: #FCFBFF;
+            transition: .2s
+        }
+
+        .college-card:hover {
+            transform: translateY(-2px);
+            border-color: #DBD2F4;
+            box-shadow: 0 10px 22px rgba(76, 57, 145, .07)
+        }
+
+        .college-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px
+        }
+
+        .college-icon {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border-radius: 10px;
+            background: #E8FBF4;
+            color: #17985D
+        }
+
+        .college-card h4 {
+            font-size: 10px
+        }
+
+        .college-card p {
+            margin-top: 3px;
+            color: #8B919E;
+            font-size: 8.2px
+        }
+
+        .college-meta {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 9px
+        }
+
+        .meta-pill {
+            padding: 4px 7px;
+            border-radius: 999px;
+            background: #F7F6FA;
+            color: #767D8B;
+            font-size: 7.8px;
+            font-weight: 700
+        }
+
+        .meta-pill.match {
+            background: #F0FBF5;
+            color: #148553
+        }
+
+        .roadmap-list {
+            display: grid;
+            gap: 0
         }
 
         .roadmap-step {
-            align-items: flex-start
+            position: relative;
+            display: grid;
+            grid-template-columns: 34px minmax(0, 1fr);
+            gap: 11px;
+            padding: 0 0 16px
+        }
+
+        .roadmap-step:last-child {
+            padding-bottom: 0
+        }
+
+        .roadmap-step:not(:last-child):after {
+            content: "";
+            position: absolute;
+            left: 16px;
+            top: 33px;
+            bottom: 0;
+            width: 1px;
+            background: #E5E1F1
         }
 
         .step-dot {
             position: relative;
-            width: 28px;
-            height: 28px;
+            z-index: 1;
+            width: 33px;
+            height: 33px;
             display: grid;
             place-items: center;
-            flex: 0 0 auto;
             border-radius: 50%;
-            background: #20243a;
-            color: #737b99;
-            font-size: .6rem;
+            border: 1px solid #E4E0EF;
+            background: #FAF9FD;
+            color: #9A9FAC;
+            font-size: 10px;
+            font-weight: 800
         }
 
         .roadmap-step.done .step-dot {
-            background: rgba(34, 197, 94, .12);
-            color: #4ade80
+            background: #ECFBF4;
+            border-color: #C9F2DB;
+            color: #159A5C
         }
 
         .roadmap-step.current .step-dot {
-            background: rgba(139, 92, 246, .15);
-            color: #a78bfa;
+            background: #F0ECFF;
+            border-color: #DCD2F7;
+            color: var(--purple-dark);
             box-shadow: 0 0 0 5px rgba(139, 92, 246, .05)
-        }
-
-        .step-info {
-            padding-top: 1px
         }
 
         .step-info strong {
             display: block;
-            font-size: .68rem
+            font-size: 10px;
+            padding-top: 2px
         }
 
         .step-info span {
             display: block;
-            color: var(--muted);
-            font-size: .59rem;
-            margin-top: 3px
+            margin-top: 4px;
+            color: #8A919E;
+            font-size: 8.5px;
+            line-height: 1.45
         }
 
-        .notification {
-            align-items: flex-start
-        }
-
-        .notification-icon {
-            width: 31px;
-            height: 31px;
+        .action-list {
             display: grid;
-            place-items: center;
-            flex: 0 0 auto;
-            border-radius: 9px;
-            background: rgba(139, 92, 246, .09);
-            color: #a78bfa;
-            font-size: .68rem;
+            gap: 8px
         }
 
-        .notification strong {
-            display: block;
-            font-size: .65rem;
-            line-height: 1.35
-        }
-
-        .notification span {
-            display: block;
-            color: var(--muted);
-            font-size: .57rem;
-            margin-top: 4px
-        }
-
-        .bottom-note {
-            margin-top: 18px;
-            padding: 16px 18px;
-            border: 1px solid rgba(6, 182, 212, .13);
-            border-radius: 15px;
-            background: rgba(6, 182, 212, .035);
-            color: #8c96b6;
-            font-size: .64rem;
-            line-height: 1.6;
-        }
-
-        .bottom-note i {
-            color: #22d3ee;
-            margin-right: 7px
-        }
-
-        .drawer-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 40;
-            background: rgba(0, 0, 0, .58);
-            backdrop-filter: blur(3px);
-        }
-
-        .toast {
-            position: fixed;
-            right: 22px;
-            bottom: 22px;
-            z-index: 100;
-            min-width: 260px;
-            max-width: 360px;
-            padding: 13px 15px;
-            border: 1px solid var(--border2);
-            border-radius: 13px;
-            background: #141728;
-            box-shadow: var(--shadow);
-            color: var(--text);
-            font-size: .68rem;
-            transform: translateY(25px);
-            opacity: 0;
-            pointer-events: none;
-            transition: .28s ease;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1
-        }
-
-        .toast i {
-            color: #4ade80;
-            margin-right: 8px
-        }
-
-        .modal {
-            position: fixed;
-            inset: 0;
-            z-index: 90;
-            display: none;
-            place-items: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, .62);
-            backdrop-filter: blur(7px);
-        }
-
-        .modal.show {
-            display: grid
-        }
-
-        .modal-card {
-            width: min(510px, 100%);
-            padding: 25px;
-            border: 1px solid var(--border2);
-            border-radius: 20px;
-            background: #101321;
-            box-shadow: var(--shadow);
-            animation: modalIn .25s ease both;
-        }
-
-        .modal-head {
+        .action-card {
             display: flex;
+            gap: 10px;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px
+            padding: 11px;
+            border: 1px solid #F0EEF7;
+            border-radius: 13px;
+            background: #FCFBFF;
+            transition: .2s
         }
 
-        .modal-head h2 {
-            font-family: "Space Grotesk", sans-serif;
-            font-size: 1.05rem
+        .action-card:hover {
+            transform: translateY(-2px);
+            border-color: #DDD6F1
         }
 
-        .close-modal {
+        .action-icon {
             width: 34px;
             height: 34px;
             display: grid;
             place-items: center;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            background: transparent;
-            color: var(--soft);
-            cursor: pointer;
+            flex: none;
+            border-radius: 10px;
+            background: #F0ECFF;
+            color: var(--purple-dark)
         }
 
-        .modal-text {
-            color: var(--soft);
-            font-size: .7rem;
-            line-height: 1.7
+        .action-card:nth-child(2) .action-icon {
+            background: #EAF3FF;
+            color: var(--blue)
         }
 
-        .modal-actions {
+        .action-card:nth-child(3) .action-icon {
+            background: #FFF5E7;
+            color: #D47B00
+        }
+
+        .action-card div:nth-child(2) {
+            min-width: 0;
+            flex: 1
+        }
+
+        .action-card strong {
+            display: block;
+            font-size: 9.5px
+        }
+
+        .action-card span {
+            display: block;
+            margin-top: 3px;
+            color: #8B919E;
+            font-size: 8.2px;
+            line-height: 1.4
+        }
+
+        .action-arrow {
+            color: #A0A5B1;
+            font-size: 9px
+        }
+
+        .bottom-note {
             display: flex;
+            align-items: flex-start;
             gap: 9px;
-            margin-top: 20px
+            padding: 13px 15px;
+            border: 1px solid #E9E3F8;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #FCFAFF, #F8FBFF);
+            color: #7B8190;
+            font-size: 8.8px;
+            line-height: 1.5
+        }
+
+        .bottom-note i {
+            margin-top: 1px;
+            color: var(--purple-dark)
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 150;
+            place-items: center;
+            background: rgba(18, 21, 38, .16);
+            backdrop-filter: blur(6px)
+        }
+
+        .overlay.show {
+            display: grid
+        }
+
+        .loading-card {
+            min-width: 235px;
+            padding: 23px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: #fff;
+            box-shadow: 0 25px 70px rgba(76, 57, 145, .18)
+        }
+
+        .spinner {
+            width: 34px;
+            height: 34px;
+            margin: 0 auto 11px;
+            border: 3px solid #ECEAF5;
+            border-top-color: var(--purple);
+            border-right-color: var(--blue);
+            border-radius: 50%;
+            animation: spin .8s linear infinite
+        }
+
+        .loading-card p {
+            color: #596173;
+            font-size: 11px;
+            font-weight: 600
+        }
+
+        .toast {
+            position: fixed;
+            right: 20px;
+            top: 92px;
+            z-index: 160;
+            width: min(370px, calc(100vw - 30px));
+            display: flex;
+            gap: 10px;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 18px 48px rgba(15, 23, 42, .14);
+            transform: translateX(125%);
+            opacity: 0;
+            transition: .3s
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1
+        }
+
+        .toast-icon {
+            width: 31px;
+            height: 31px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border-radius: 9px;
+            background: rgba(139, 92, 246, .09);
+            color: var(--purple-dark)
+        }
+
+        .toast.success .toast-icon {
+            background: rgba(34, 197, 94, .09);
+            color: var(--green)
+        }
+
+        .toast.error .toast-icon {
+            background: rgba(239, 68, 68, .08);
+            color: var(--red)
+        }
+
+        .toast strong {
+            display: block;
+            margin-bottom: 3px;
+            font-size: 11px
+        }
+
+        .toast p {
+            color: var(--muted);
+            font-size: 9.5px;
+            line-height: 1.5
         }
 
         @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(18px)
+                transform: translateY(15px)
             }
 
             to {
                 opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes brandFloat {
+
+            0%,
+            100% {
                 transform: translateY(0)
             }
+
+            50% {
+                transform: translateY(-3px)
+            }
         }
 
-        @keyframes grow {
+        @keyframes ambientMove {
             from {
-                width: 0
+                transform: translate3d(0, 0, 0) scale(1)
             }
 
             to {
-                width: 72%
+                transform: translate3d(28px, 20px, 0) scale(1.07)
             }
         }
 
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px) scale(.98)
+        @keyframes iconFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0)
             }
 
+            50% {
+                transform: translateY(-3px) rotate(2deg)
+            }
+        }
+
+        @keyframes spin {
             to {
-                opacity: 1;
-                transform: translateY(0) scale(1)
+                transform: rotate(360deg)
             }
         }
 
-        @keyframes floatOne {
-
-            0%,
-            100% {
-                transform: translate(0, 0)
+        @media(max-width:1040px) {
+            .hero-grid {
+                grid-template-columns: 1fr 290px
             }
 
-            50% {
-                transform: translate(28px, 20px)
-            }
-        }
-
-        @keyframes floatTwo {
-
-            0%,
-            100% {
-                transform: translate(0, 0)
-            }
-
-            50% {
-                transform: translate(-24px, -18px)
-            }
-        }
-
-        @keyframes drift {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1)
-            }
-
-            50% {
-                transform: translate(22px, -16px) scale(1.08)
-            }
-        }
-
-        @media(max-width:1180px) {
-            .bottom-grid {
+            .career-grid {
                 grid-template-columns: 1fr 1fr
-            }
-
-            .bottom-grid .panel:last-child {
-                grid-column: 1/-1
-            }
-        }
-
-        @media(max-width:950px) {
-            :root {
-                --sidebar: 245px
             }
 
             .stats {
                 grid-template-columns: repeat(2, 1fr)
             }
+        }
 
-            .grid-main {
+        @media(max-width:900px) {
+            .nav-wrap {
+                justify-content: flex-start
+            }
+
+            .content {
+                width: min(100% - 36px, 920px)
+            }
+
+            .hero-grid {
                 grid-template-columns: 1fr
             }
 
-            .hero {
-                align-items: flex-start;
-                flex-direction: column
+            .section-grid,
+            .wide-grid {
+                grid-template-columns: 1fr
             }
 
-            .hero-actions {
-                width: 100%
+            .profile-mini {
+                max-width: 420px
+            }
+
+            .overview-head {
+                grid-template-columns: 92px 1fr
             }
         }
 
-        @media(max-width:760px) {
-            .sidebar {
-                transform: translateX(-105%);
-                box-shadow: 20px 0 60px rgba(0, 0, 0, .4)
-            }
-
-            .sidebar.open {
-                transform: translateX(0)
-            }
-
-            .drawer-overlay.show {
-                display: block
-            }
-
-            .main {
-                margin-left: 0
-            }
-
-            .topbar {
-                padding: 0 16px
+        @media(max-width:820px) {
+            .nav-wrap {
+                display: none
             }
 
             .mobile-menu {
@@ -1217,51 +1551,129 @@
                 place-items: center
             }
 
-            .user-info {
+            .account-copy {
                 display: none
+            }
+
+            .navbar {
+                padding: 0 18px
+            }
+
+            .mobile-nav {
+                position: absolute;
+                left: 12px;
+                right: 12px;
+                top: calc(100% + 9px);
+                display: none;
+                padding: 10px;
+                border: 1px solid var(--border);
+                border-radius: 18px;
+                background: rgba(255, 255, 255, .98);
+                box-shadow: 0 18px 48px rgba(76, 57, 145, .14);
+                backdrop-filter: blur(18px)
+            }
+
+            .mobile-nav.show {
+                display: block;
+                animation: fadeUp .22s ease
+            }
+
+            .mobile-group {
+                border: 1px solid #F0EEF7;
+                border-radius: 13px;
+                background: #FCFBFF;
+                overflow: hidden
+            }
+
+            .mobile-group+.mobile-group {
+                margin-top: 8px
+            }
+
+            .mobile-group-title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 11px;
+                color: #566071;
+                font-size: 12px;
+                font-weight: 700
+            }
+
+            .mobile-links {
+                display: grid;
+                gap: 2px;
+                padding: 0 6px 6px
+            }
+
+            .mobile-links a {
+                padding: 8px;
+                border-radius: 8px;
+                color: #6A7281;
+                font-size: 11px;
+                font-weight: 600
+            }
+
+            .mobile-links a:hover {
+                background: #F6F3FF;
+                color: var(--purple-dark)
             }
 
             .content {
-                padding: 18px 14px 28px
+                width: calc(100% - 28px);
+                padding-top: 22px
             }
 
-            .hero {
-                padding: 24px 21px;
-                min-height: auto
-            }
-
-            .stats {
-                gap: 10px
-            }
-
-            .stat-card {
-                padding: 14px
-            }
-
-            .recommendations {
-                grid-template-columns: 1fr
-            }
-
-            .bottom-grid {
-                grid-template-columns: 1fr
-            }
-
-            .bottom-grid .panel:last-child {
-                grid-column: auto
+            .career-grid {
+                grid-template-columns: 1fr 1fr
             }
         }
 
-        @media(max-width:480px) {
-            .topbar {
-                height: 68px
+        @media(max-width:560px) {
+            .navbar {
+                height: 68px;
+                padding: 0 12px
             }
 
-            .page-label {
+            .brand-name {
+                font-size: 17px
+            }
+
+            .brand-sub {
                 display: none
             }
 
+            .brand-mark {
+                width: 39px;
+                height: 39px;
+                border-radius: 12px
+            }
+
+            .account-area .icon-btn {
+                width: 35px;
+                height: 35px
+            }
+
+            .content {
+                width: calc(100% - 20px);
+                padding-top: 18px
+            }
+
+            .breadcrumb {
+                font-size: 9px;
+                margin-bottom: 13px
+            }
+
+            .hero {
+                padding: 20px;
+                border-radius: 19px
+            }
+
             .hero h1 {
-                font-size: 1.55rem
+                font-size: 26px
+            }
+
+            .hero p {
+                font-size: 10.5px
             }
 
             .hero-actions {
@@ -1273,553 +1685,1234 @@
             }
 
             .stats {
-                grid-template-columns: 1fr 1fr
+                gap: 10px
+            }
+
+            .stat-card {
+                padding: 13px
             }
 
             .stat-value {
-                font-size: 1.18rem
+                font-size: 21px
             }
 
-            .profile-progress {
+            .career-grid {
+                grid-template-columns: 1fr
+            }
+
+            .overview-head {
+                grid-template-columns: 1fr
+            }
+
+            .ring {
+                margin-bottom: 2px
+            }
+
+            .panel-head {
+                padding: 15px
+            }
+
+            .panel-body {
+                padding: 15px
+            }
+
+            .course-row {
                 align-items: flex-start
             }
 
-            .progress-ring {
-                width: 68px;
-                height: 68px
+            .score-pill {
+                margin-left: auto
             }
 
-            .progress-ring::before {
-                inset: 6px
-            }
-
-            .panel-head,
-            .panel-body {
-                padding-left: 15px;
-                padding-right: 15px
-            }
-
-            .assessment {
-                padding: 17px
+            .bottom-note {
+                font-size: 8.4px
             }
 
             .toast {
                 left: 14px;
                 right: 14px;
-                bottom: 14px;
-                min-width: 0
+                top: 80px;
+                width: auto
             }
         }
 
         @media(prefers-reduced-motion:reduce) {
 
             *,
-            *::before,
-            *::after {
-                animation-duration: .01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: .01ms !important;
-                scroll-behavior: auto !important;
+            :before,
+            :after {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important
             }
+        }
+
+        /* Additional small utility for generated empty-state buttons. */
+        .empty-action {
+            min-height: 35px;
+            font-size: 9px;
         }
     </style>
 </head>
 
 <body>
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-    <div class="orb three"></div>
+    <div class="page-shell">
+        <div class="ambient"></div>
 
-    <div class="app">
-        <aside class="sidebar" id="sidebar">
+        <!-- ==================== TOP NAVBAR ==================== -->
+        <header class="navbar">
             <div class="brand">
-                <div class="brand-mark"><i class="fa-solid fa-compass"></i></div>
-                <div class="brand-name">Career<span>Advisor</span></div>
-            </div>
-
-            <div class="nav-title">Workspace</div>
-            <nav class="nav">
-                <a href="student-dashboard.html" class="active"><i
-                        class="fa-solid fa-grid-2"></i><span>Dashboard</span></a>
-                <a href="student-profile.html"><i class="fa-regular fa-user"></i><span>My Profile</span></a>
-                <a href="assessment.html"><i class="fa-solid fa-clipboard-check"></i><span>Career Assessment</span></a>
-                <a href="careers.html"><i class="fa-solid fa-compass"></i><span>Explore Careers</span></a>
-                <a href="courses.html"><i class="fa-solid fa-graduation-cap"></i><span>Courses</span></a>
-                <a href="colleges.html"><i class="fa-solid fa-building-columns"></i><span>Government Colleges</span></a>
-            </nav>
-
-            <div class="nav-title" style="margin-top:20px">Planning</div>
-            <nav class="nav">
-                <a href="career-roadmap.html"><i class="fa-solid fa-route"></i><span>My Roadmap</span></a>
-                <a href="skill-gap.html"><i class="fa-solid fa-chart-simple"></i><span>Skill Gap</span></a>
-                <a href="scholarships.html"><i class="fa-solid fa-award"></i><span>Scholarships</span></a>
-                <a href="entrance-exams.html"><i class="fa-solid fa-file-pen"></i><span>Entrance Exams</span></a>
-                <a href="learning-resources.html"><i class="fa-solid fa-book-open"></i><span>Learning
-                        Resources</span></a>
-                <a href="application-tracker.html"><i class="fa-solid fa-list-check"></i><span>Application
-                        Tracker</span></a>
-            </nav>
-
-            <div class="sidebar-bottom">
-                <div class="help-card">
-                    <i class="fa-regular fa-circle-question"></i>
-                    <strong>Need career guidance?</strong>
-                    <span>Complete your assessment to unlock personalized recommendations.</span>
+                <div class="brand-mark">
+                    <i class="fa-solid fa-compass"></i>
                 </div>
-                <button class="logout" id="logoutBtn"><i
-                        class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></button>
+                <div>
+                    <div class="brand-name">CareerAdvisor</div>
+                    <div class="brand-sub">STUDENT PORTAL</div>
+                </div>
             </div>
-        </aside>
 
-        <div class="drawer-overlay" id="drawerOverlay"></div>
+            <nav class="nav-wrap" aria-label="Student navigation">
+                <div class="nav">
+                    <div class="nav-item">
+                        <button class="nav-trigger" type="button" aria-haspopup="true">
+                            Student <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown">
+                            <div class="dropdown-title">Student</div>
+                            <a class="dropdown-link active" href="student-dashboard.html">
+                                <i class="fa-solid fa-chart-pie"></i>Dashboard
+                                <span class="nav-note">Current</span>
+                            </a>
+                            <a class="dropdown-link" href="student-profile.html">
+                                <i class="fa-solid fa-user"></i>My Profile
+                            </a>
+                            <a class="dropdown-link" href="student-assessment.html">
+                                <i class="fa-solid fa-clipboard-check"></i>Assessment
+                            </a>
+                            <a class="dropdown-link" href="student-recommendations.html">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>Recommendations
+                            </a>
+                        </div>
+                    </div>
 
-        <main class="main">
-            <header class="topbar">
-                <div class="topbar-left">
-                    <button class="mobile-menu" id="mobileMenu" aria-label="Open menu"><i
-                            class="fa-solid fa-bars"></i></button>
-                    <div class="page-label">
-                        Student Workspace
-                        <strong>Dashboard</strong>
+                    <div class="nav-item">
+                        <button class="nav-trigger" type="button" aria-haspopup="true">
+                            Explore <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown">
+                            <div class="dropdown-title">Explore</div>
+                            <a class="dropdown-link" href="student-careers.html">
+                                <i class="fa-solid fa-briefcase"></i>Careers
+                            </a>
+                            <a class="dropdown-link" href="student-courses.html">
+                                <i class="fa-solid fa-book-open"></i>Courses
+                            </a>
+                            <a class="dropdown-link" href="student-colleges.html">
+                                <i class="fa-solid fa-building-columns"></i>Colleges
+                            </a>
+                            <a class="dropdown-link" href="student-skill-gap.html">
+                                <i class="fa-solid fa-chart-simple"></i>Skill Gap
+                            </a>
+                            <a class="dropdown-link" href="student-career-roadmap.html">
+                                <i class="fa-solid fa-route"></i>Career Roadmap
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="nav-item">
+                        <button class="nav-trigger" type="button" aria-haspopup="true">
+                            Resources <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown">
+                            <div class="dropdown-title">Resources</div>
+                            <a class="dropdown-link" href="scholarships.html">
+                                <i class="fa-solid fa-graduation-cap"></i>Scholarships
+                            </a>
+                            <a class="dropdown-link" href="entrance-exams.html">
+                                <i class="fa-solid fa-file-pen"></i>Entrance Exams
+                            </a>
+                            <a class="dropdown-link" href="learning-resources.html">
+                                <i class="fa-solid fa-lightbulb"></i>Learning Resources
+                            </a>
+                            <a class="dropdown-link" href="application-tracker.html">
+                                <i class="fa-solid fa-list-check"></i>Application Tracker
+                            </a>
+                        </div>
                     </div>
                 </div>
+            </nav>
 
-                <div class="top-actions">
-                    <button class="icon-btn" id="notificationBtn" aria-label="Notifications">
-                        <i class="fa-regular fa-bell"></i>
-                        <span class="notification-dot"></span>
+            <div class="account-area">
+                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-label="Open navigation"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <button class="icon-btn" id="notificationBtn" type="button" title="Notifications"
+                    aria-label="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="account" id="account">
+                    <button class="account-trigger" id="accountTrigger" type="button" aria-expanded="false"
+                        aria-haspopup="true">
+                        <div class="account-avatar" id="topAvatar">S</div>
+                        <div class="account-copy">
+                            <span class="account-name" id="topName">Student</span>
+                            <span class="account-role">STUDENT ACCOUNT</span>
+                        </div>
+                        <i class="account-arrow fa-solid fa-chevron-down"></i>
                     </button>
-                    <div class="user-menu">
-                        <div class="avatar" id="userAvatar">A</div>
-                        <div class="user-info">
-                            <strong id="topUserName">Student</strong>
-                            <span id="topUserRole">Student Account</span>
-                        </div>
+
+                    <div class="account-menu">
+                        <a href="student-profile.html">
+                            <i class="fa-solid fa-user"></i>My Profile
+                        </a>
+                        <button type="button" id="logoutBtn" class="logout">
+                            <i class="fa-solid fa-right-from-bracket"></i>Logout
+                        </button>
                     </div>
                 </div>
-            </header>
+            </div>
 
-            <section class="content">
-                <div class="container">
+            <!-- Mobile navigation -->
+            <div class="mobile-nav" id="mobileNav">
+                <div class="mobile-group">
+                    <div class="mobile-group-title">Main <i class="fa-solid fa-layer-group"></i></div>
+                    <div class="mobile-links">
+                        <a href="student-dashboard.html">Dashboard</a>
+                        <a href="student-profile.html">My Profile</a>
+                        <a href="student-assessment.html">Assessment</a>
+                        <a href="student-recommendations.html">Recommendations</a>
+                    </div>
+                </div>
+                <div class="mobile-group">
+                    <div class="mobile-group-title">Explore <i class="fa-solid fa-compass"></i></div>
+                    <div class="mobile-links">
+                        <a href="student-careers.html">Careers</a>
+                        <a href="student-courses.html">Courses</a>
+                        <a href="student-colleges.html">Colleges</a>
+                        <a href="student-skill-gap.html">Skill Gap</a>
+                        <a href="student-career-roadmap.html">Career Roadmap</a>
+                    </div>
+                </div>
+                <div class="mobile-group">
+                    <div class="mobile-group-title">Resources <i class="fa-solid fa-book-open"></i></div>
+                    <div class="mobile-links">
+                        <a href="scholarships.html">Scholarships</a>
+                        <a href="entrance-exams.html">Entrance Exams</a>
+                        <a href="learning-resources.html">Learning Resources</a>
+                        <a href="application-tracker.html">Application Tracker</a>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-                    <section class="hero">
-                        <div class="hero-copy">
-                            <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> PERSONALIZED CAREER JOURNEY
-                            </div>
-                            <h1>Welcome back, <span id="heroUserName">Student</span> 👋</h1>
-                            <p>Your career journey starts here. Complete your profile and assessment to receive
-                                personalized career, course and government-college recommendations based on your
-                                interests, skills and academic profile.</p>
+        <!-- ==================== DASHBOARD CONTENT ==================== -->
+        <main class="content">
+            <div class="breadcrumb">
+                <span>Student Portal</span>
+                <i class="fa-solid fa-chevron-right" style="font-size:7px"></i>
+                <strong>Dashboard</strong>
+            </div>
+
+            <!-- ==================== HERO ==================== -->
+            <section class="hero">
+                <div class="hero-grid">
+                    <div>
+                        <div class="eyebrow">
+                            <i class="fa-solid fa-sparkles"></i>
+                            Personalized Career Journey
                         </div>
+                        <h1>Welcome back, <span id="heroUserName">Student</span> 👋</h1>
+                        <p>
+                            Your dashboard brings your profile, career exploration, course guidance and
+                            government-college recommendations into one place. Complete your profile and
+                            assessment to unlock more personalized results.
+                        </p>
                         <div class="hero-actions">
-                            <a class="btn btn-primary" href="assessment.html"><i
-                                    class="fa-solid fa-wand-magic-sparkles"></i> Start Assessment</a>
-                            <a class="btn btn-secondary" href="student-profile.html"><i class="fa-regular fa-user"></i>
-                                Complete Profile</a>
+                            <a class="btn btn-primary" href="assessment.html">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>Start Assessment
+                            </a>
+                            <a class="btn btn-secondary" href="student-profile.html">
+                                <i class="fa-regular fa-user"></i>Complete Profile
+                            </a>
                         </div>
-                    </section>
+                    </div>
 
-                    <section class="stats">
-                        <div class="stat-card">
-                            <div class="stat-top">
-                                <div class="stat-icon"><i class="fa-solid fa-user-check"></i></div><span
-                                    class="stat-change">+12%</span>
+                    <div class="profile-mini">
+                        <div class="profile-mini-head">
+                            <div>
+                                <div class="profile-mini-kicker">Profile readiness</div>
+                                <div style="margin-top:5px;color:#7D8492;font-size:9px">
+                                    Better profile data = better recommendations
+                                </div>
                             </div>
-                            <div class="stat-value">72%</div>
-                            <div class="stat-label">Profile completed</div>
+                            <strong class="profile-mini-value" id="profilePercent">0%</strong>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-top">
-                                <div class="stat-icon"><i class="fa-solid fa-compass"></i></div><span
-                                    class="stat-change">Ready</span>
-                            </div>
-                            <div class="stat-value">3</div>
-                            <div class="stat-label">Career matches</div>
+                        <div class="progress-track">
+                            <div class="progress-bar" id="profileProgressBar"></div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-top">
-                                <div class="stat-icon"><i class="fa-solid fa-building-columns"></i></div><span
-                                    class="stat-change">New</span>
-                            </div>
-                            <div class="stat-value">6</div>
-                            <div class="stat-label">College matches</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-top">
-                                <div class="stat-icon"><i class="fa-solid fa-route"></i></div><span
-                                    class="stat-change">30%</span>
-                            </div>
-                            <div class="stat-value">4</div>
-                            <div class="stat-label">Roadmap milestones</div>
-                        </div>
-                    </section>
-
-                    <section class="grid-main">
-                        <div class="panel">
-                            <div class="panel-head">
-                                <div>
-                                    <div class="panel-title">Your Career Overview</div>
-                                    <div class="panel-sub">Personalization progress and current recommendations</div>
-                                </div>
-                                <a class="panel-link" href="student-profile.html">View profile <i
-                                        class="fa-solid fa-arrow-right"></i></a>
-                            </div>
-                            <div class="panel-body">
-                                <div class="profile-progress">
-                                    <div class="progress-ring"><strong id="profilePercent">72%</strong></div>
-                                    <div style="flex:1">
-                                        <h3>Complete your student profile</h3>
-                                        <p>Add your academic details, interests, skills and career goals to improve
-                                            recommendation accuracy.</p>
-                                        <div class="progress-bar"><span id="profileProgressBar"></span></div>
-                                    </div>
-                                </div>
-
-                                <div class="panel-head" style="padding:20px 0 11px">
-                                    <div>
-                                        <div class="panel-title">Recommended Careers</div>
-                                        <div class="panel-sub">Based on your current profile</div>
-                                    </div>
-                                    <a class="panel-link" href="careers.html">Explore all</a>
-                                </div>
-
-                                <div class="recommendations">
-                                    <article class="career-card" data-career="Software Developer">
-                                        <div class="career-icon"><i class="fa-solid fa-code"></i></div>
-                                        <h3>Software Developer</h3>
-                                        <p>Build applications and solve technical problems through software.</p>
-                                        <span class="match"><i class="fa-solid fa-bolt"></i> 92% match</span>
-                                    </article>
-                                    <article class="career-card" data-career="Data Analyst">
-                                        <div class="career-icon"><i class="fa-solid fa-chart-line"></i></div>
-                                        <h3>Data Analyst</h3>
-                                        <p>Use data, statistics and visualization to support decisions.</p>
-                                        <span class="match"><i class="fa-solid fa-bolt"></i> 87% match</span>
-                                    </article>
-                                    <article class="career-card" data-career="UI/UX Designer">
-                                        <div class="career-icon"><i class="fa-solid fa-pen-ruler"></i></div>
-                                        <h3>UI/UX Designer</h3>
-                                        <p>Design useful, accessible and engaging digital experiences.</p>
-                                        <span class="match"><i class="fa-solid fa-bolt"></i> 81% match</span>
-                                    </article>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel">
-                            <div class="assessment">
-                                <div class="assessment-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                                <h3>Discover your career direction</h3>
-                                <p>Your assessment helps connect your interests, strengths and preferences with suitable
-                                    career paths.</p>
-                                <ul>
-                                    <li><i class="fa-solid fa-check"></i><span>Interest and aptitude insights</span>
-                                    </li>
-                                    <li><i class="fa-solid fa-check"></i><span>Career compatibility analysis</span></li>
-                                    <li><i class="fa-solid fa-check"></i><span>Personalized career roadmap</span></li>
-                                    <li><i class="fa-solid fa-check"></i><span>Skill-gap identification</span></li>
-                                </ul>
-                                <a class="btn btn-primary" href="assessment.html">Take Assessment <i
-                                        class="fa-solid fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="bottom-grid">
-                        <div class="panel">
-                            <div class="panel-head">
-                                <div>
-                                    <div class="panel-title">Recommended Courses</div>
-                                    <div class="panel-sub">Courses matching your current profile</div>
-                                </div>
-                                <a class="panel-link" href="courses.html">View all</a>
-                            </div>
-                            <div class="panel-body">
-                                <div class="course-row">
-                                    <div class="course-logo"><i class="fa-solid fa-laptop-code"></i></div>
-                                    <div class="course-info"><strong>B.Tech / B.E. Computer
-                                            Science</strong><span>Engineering • 4 years</span></div>
-                                    <span class="course-score">94%</span>
-                                </div>
-                                <div class="course-row">
-                                    <div class="course-logo"><i class="fa-solid fa-code"></i></div>
-                                    <div class="course-info"><strong>Bachelor of Computer
-                                            Applications</strong><span>Computer Applications • 3 years</span></div>
-                                    <span class="course-score">88%</span>
-                                </div>
-                                <div class="course-row">
-                                    <div class="course-logo"><i class="fa-solid fa-database"></i></div>
-                                    <div class="course-info"><strong>B.Sc. Data Science</strong><span>Data & Analytics •
-                                            3 years</span></div>
-                                    <span class="course-score">84%</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel">
-                            <div class="panel-head">
-                                <div>
-                                    <div class="panel-title">Career Roadmap</div>
-                                    <div class="panel-sub">Your next milestones</div>
-                                </div>
-                                <a class="panel-link" href="career-roadmap.html">Open roadmap</a>
-                            </div>
-                            <div class="panel-body roadmap">
-                                <div class="roadmap-step done">
-                                    <div class="step-dot"><i class="fa-solid fa-check"></i></div>
-                                    <div class="step-info"><strong>Complete basic profile</strong><span>Academic and
-                                            personal details</span></div>
-                                </div>
-                                <div class="roadmap-step current">
-                                    <div class="step-dot"><i class="fa-solid fa-spinner"></i></div>
-                                    <div class="step-info"><strong>Take career assessment</strong><span>Discover your
-                                            strengths</span></div>
-                                </div>
-                                <div class="roadmap-step">
-                                    <div class="step-dot">3</div>
-                                    <div class="step-info"><strong>Build required skills</strong><span>Follow your
-                                            skill-gap plan</span></div>
-                                </div>
-                                <div class="roadmap-step">
-                                    <div class="step-dot">4</div>
-                                    <div class="step-info"><strong>Prepare for opportunities</strong><span>Courses,
-                                            exams and applications</span></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel">
-                            <div class="panel-head">
-                                <div>
-                                    <div class="panel-title">Recent Updates</div>
-                                    <div class="panel-sub">Things that need your attention</div>
-                                </div>
-                                <a class="panel-link" href="notifications.html">All</a>
-                            </div>
-                            <div class="panel-body">
-                                <div class="notification">
-                                    <div class="notification-icon"><i class="fa-solid fa-clipboard-check"></i></div>
-                                    <div><strong>Complete your assessment</strong><span>Get personalized career
-                                            matches</span></div>
-                                </div>
-                                <div class="notification">
-                                    <div class="notification-icon"><i class="fa-solid fa-award"></i></div>
-                                    <div><strong>Scholarship opportunities</strong><span>Profile matching is
-                                            available</span></div>
-                                </div>
-                                <div class="notification">
-                                    <div class="notification-icon"><i class="fa-solid fa-building-columns"></i></div>
-                                    <div><strong>Explore government colleges</strong><span>Compare eligibility and
-                                            options</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <div class="bottom-note">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        Your dashboard is designed to use your profile and assessment data for personalized guidance.
-                        Recommendation data will be connected to the Spring Boot backend as each module is completed.
+                        <div class="profile-mini-note" id="profileProgressNote">Loading your profile information…</div>
+                        <a class="profile-mini-link" href="student-profile.html">
+                            Update profile <i class="fa-solid fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
             </section>
+
+            <!-- ==================== QUICK STATS ==================== -->
+            <section class="stats">
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-icon"><i class="fa-solid fa-user-check"></i></div>
+                        <span class="stat-chip" id="profileStatChip">Loading</span>
+                    </div>
+                    <div class="stat-value" id="statProfile">0%</div>
+                    <div class="stat-label">Profile completion</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-icon"><i class="fa-solid fa-compass"></i></div>
+                        <span class="stat-chip" id="careerStatChip">Profile</span>
+                    </div>
+                    <div class="stat-value" id="statCareers">—</div>
+                    <div class="stat-label">Career matches</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-icon"><i class="fa-solid fa-building-columns"></i></div>
+                        <span class="stat-chip" id="collegeStatChip">Profile</span>
+                    </div>
+                    <div class="stat-value" id="statColleges">—</div>
+                    <div class="stat-label">College matches</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
+                        <span class="stat-chip">Profile</span>
+                    </div>
+                    <div class="stat-value" id="statRoadmap">0%</div>
+                    <div class="stat-label">Roadmap progress</div>
+                </div>
+            </section>
+
+            <!-- ==================== OVERVIEW + ASSESSMENT ==================== -->
+            <section class="section-grid">
+                <div class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <div class="panel-title">Your Career Overview</div>
+                            <div class="panel-sub">Profile progress and personalized career recommendations</div>
+                        </div>
+                        <a class="panel-link" href="student-profile.html">
+                            View profile <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="overview-head">
+                            <div class="ring" id="profileRing">
+                                <div class="ring-inner" id="ringValue">0%</div>
+                            </div>
+                            <div class="overview-copy">
+                                <h3 id="overviewTitle">Complete your student profile</h3>
+                                <p id="overviewText">
+                                    Add your academic details, interests, skills, goals and preferences
+                                    to improve recommendation accuracy.
+                                </p>
+                                <div class="mini-progress">
+                                    <span id="overviewProgress"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subsection">
+                            <div class="subsection-head">
+                                <div>
+                                    <div class="subsection-title">Recommended Careers</div>
+                                    <div class="subsection-note" id="careerNote">
+                                        Recommendations are generated from your saved profile.
+                                    </div>
+                                </div>
+                                <a class="panel-link" href="careers.html">Explore all</a>
+                            </div>
+                            <div id="careerGrid" class="career-grid">
+                                <div class="empty-card">
+                                    <div class="empty-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                                    <strong>Loading recommendations</strong>
+                                    <p>We are checking your current profile.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="assessment">
+                        <div class="assessment-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <h3>Discover your career direction</h3>
+                        <p>
+                            The assessment can add another signal to your profile by connecting interests,
+                            strengths and preferences with career paths.
+                        </p>
+                        <div class="check-list">
+                            <div class="check-item">
+                                <i class="fa-solid fa-check"></i>
+                                <span>Interest and aptitude insights</span>
+                            </div>
+                            <div class="check-item">
+                                <i class="fa-solid fa-check"></i>
+                                <span>Career compatibility analysis</span>
+                            </div>
+                            <div class="check-item">
+                                <i class="fa-solid fa-check"></i>
+                                <span>Personalized roadmap direction</span>
+                            </div>
+                            <div class="check-item">
+                                <i class="fa-solid fa-check"></i>
+                                <span>Skill-gap identification</span>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary" href="assessment.html">
+                            Take Assessment <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== COURSE + COLLEGE ==================== -->
+            <section class="wide-grid">
+                <div class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <div class="panel-title">Recommended Courses</div>
+                            <div class="panel-sub">Courses returned by the recommendation service</div>
+                        </div>
+                        <a class="panel-link" href="courses.html">View all</a>
+                    </div>
+                    <div class="panel-body">
+                        <div id="courseList" class="course-list">
+                            <div class="empty-card">
+                                <div class="empty-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                                <strong>Loading course matches</strong>
+                                <p>Your saved profile is being used to request course recommendations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <div class="panel-title">Government College Matches</div>
+                            <div class="panel-sub">College recommendations based on your preferences</div>
+                        </div>
+                        <a class="panel-link" href="colleges.html">Explore colleges</a>
+                    </div>
+                    <div class="panel-body">
+                        <div id="collegeList" class="college-list">
+                            <div class="empty-card">
+                                <div class="empty-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                                <strong>Loading college matches</strong>
+                                <p>We are checking the recommendation service.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== ROADMAP + ACTIONS ==================== -->
+            <section class="wide-grid">
+                <div class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <div class="panel-title">Career Roadmap</div>
+                            <div class="panel-sub">Your suggested next milestones</div>
+                        </div>
+                        <a class="panel-link" href="career-roadmap.html">Open roadmap</a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="roadmap-list">
+                            <div class="roadmap-step done">
+                                <div class="step-dot"><i class="fa-solid fa-check"></i></div>
+                                <div class="step-info">
+                                    <strong>Complete basic profile</strong>
+                                    <span>Academic, interests, skills and preference details are captured.</span>
+                                </div>
+                            </div>
+
+                            <div class="roadmap-step current" id="roadmapAssessment">
+                                <div class="step-dot">2</div>
+                                <div class="step-info">
+                                    <strong>Take career assessment</strong>
+                                    <span>Use the assessment to add stronger career-direction signals.</span>
+                                </div>
+                            </div>
+
+                            <div class="roadmap-step">
+                                <div class="step-dot">3</div>
+                                <div class="step-info">
+                                    <strong>Build required skills</strong>
+                                    <span>Use skill-gap analysis and learning resources to close the gaps.</span>
+                                </div>
+                            </div>
+
+                            <div class="roadmap-step">
+                                <div class="step-dot">4</div>
+                                <div class="step-info">
+                                    <strong>Prepare for opportunities</strong>
+                                    <span>Explore exams, scholarships and application tracking.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <div class="panel-title">Your Next Actions</div>
+                            <div class="panel-sub">Simple steps to keep your journey moving</div>
+                        </div>
+                        <a class="panel-link" href="application-tracker.html">Track apps</a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="action-list">
+                            <a class="action-card" href="student-profile.html">
+                                <div class="action-icon"><i class="fa-solid fa-user-pen"></i></div>
+                                <div>
+                                    <strong>Review profile details</strong>
+                                    <span>Keep academic, skill and location information current.</span>
+                                </div>
+                                <i class="action-arrow fa-solid fa-chevron-right"></i>
+                            </a>
+
+                            <a class="action-card" href="assessment.html">
+                                <div class="action-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+                                <div>
+                                    <strong>Complete career assessment</strong>
+                                    <span>Get more evidence for your personalized career path.</span>
+                                </div>
+                                <i class="action-arrow fa-solid fa-chevron-right"></i>
+                            </a>
+
+                            <a class="action-card" href="scholarships.html">
+                                <div class="action-icon"><i class="fa-solid fa-award"></i></div>
+                                <div>
+                                    <strong>Explore funding opportunities</strong>
+                                    <span>Check scholarships and other education resources.</span>
+                                </div>
+                                <i class="action-arrow fa-solid fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== TRUST NOTE ==================== -->
+            <div class="bottom-note">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>
+                    This dashboard uses your saved student profile to request personalized career, course and
+                    college recommendations. When a connected service is unavailable, the page keeps your profile
+                    and shows a clear retry or empty state instead of displaying invented recommendation data.
+                </span>
+            </div>
         </main>
     </div>
 
-    <div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastText"></span></div>
+    <!-- ==================== TOAST ==================== -->
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <div class="toast-icon" id="toastIcon">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div>
+            <strong id="toastTitle">Ready</strong>
+            <p id="toastText"></p>
+        </div>
+    </div>
 
-    <div class="modal" id="notificationModal">
-        <div class="modal-card">
-            <div class="modal-head">
-                <h2>Notifications</h2>
-                <button class="close-modal" id="closeNotification"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <p class="modal-text">You currently have profile and assessment actions pending. Complete your profile and
-                career assessment to unlock personalized recommendations.</p>
-            <div class="modal-actions">
-                <a class="btn btn-primary" href="assessment.html">Start Assessment</a>
-                <button class="btn btn-secondary" id="closeNotification2">Close</button>
-            </div>
+    <!-- ==================== LOADING OVERLAY ==================== -->
+    <div class="overlay" id="loadingOverlay" aria-hidden="true">
+        <div class="loading-card">
+            <div class="spinner"></div>
+            <p id="loadingText">Loading your dashboard…</p>
         </div>
     </div>
 
     <script>
+        /* =========================================================
+           API CONFIGURATION
+           ========================================================= */
         const API_BASE_URL = "http://localhost:8081";
-        const TOKEN_KEY = "token";
-        const USER_KEY = "user";
+        const PROFILE_API = `${API_BASE_URL}/api/student/profile`;
+        const RECOMMENDATION_APIS = {
+            careers: `${API_BASE_URL}/api/recommendation/careers`,
+            courses: `${API_BASE_URL}/api/recommendation/courses`,
+            colleges: `${API_BASE_URL}/api/recommendation/colleges`
+        };
 
-        const sidebar = document.getElementById("sidebar");
-        const mobileMenu = document.getElementById("mobileMenu");
-        const drawerOverlay = document.getElementById("drawerOverlay");
-        const logoutBtn = document.getElementById("logoutBtn");
+        const PROFILE_FIELDS = [
+            "className",
+            "stream",
+            "percentage",
+            "favoriteSubjects",
+            "strongSubjects",
+            "weakSubjects",
+            "interests",
+            "skills",
+            "careerInterest",
+            "targetCareer",
+            "preferredCourse",
+            "collegeType",
+            "budgetRange",
+            "hostelRequired",
+            "city",
+            "state",
+            "preferredLocation"
+        ];
+
+        /* =========================================================
+           DOM REFERENCES
+           ========================================================= */
+        const account = document.getElementById("account");
+        const accountTrigger = document.getElementById("accountTrigger");
+        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+        const mobileNav = document.getElementById("mobileNav");
         const notificationBtn = document.getElementById("notificationBtn");
-        const notificationModal = document.getElementById("notificationModal");
-        const closeNotification = document.getElementById("closeNotification");
-        const closeNotification2 = document.getElementById("closeNotification2");
+        const logoutBtn = document.getElementById("logoutBtn");
         const toast = document.getElementById("toast");
+        const toastIcon = document.getElementById("toastIcon");
+        const toastTitle = document.getElementById("toastTitle");
         const toastText = document.getElementById("toastText");
+        const loadingOverlay = document.getElementById("loadingOverlay");
+        const loadingText = document.getElementById("loadingText");
 
-        const heroUserName = document.getElementById("heroUserName");
-        const topUserName = document.getElementById("topUserName");
-        const topUserRole = document.getElementById("topUserRole");
-        const userAvatar = document.getElementById("userAvatar");
+        let toastTimer = null;
+
+        /* =========================================================
+           AUTHENTICATION
+           ========================================================= */
+        function getToken() {
+            return localStorage.getItem("token");
+        }
 
         function getStoredUser() {
             try {
-                return JSON.parse(localStorage.getItem(USER_KEY) || "null");
+                return JSON.parse(localStorage.getItem("user") || "null");
             } catch {
                 return null;
             }
         }
 
-        function setUserUI(user) {
-            if (!user) return;
+        function requireStudent() {
+            const token = getToken();
+            const user = getStoredUser();
+            const role = String(user?.role || "").toUpperCase();
 
-            const name = user.name || "Student";
-            const role = String(user.role || "STUDENT").toUpperCase();
+            if (!token || !user || role !== "STUDENT") {
+                window.location.href = "../login.html";
+                return false;
+            }
 
-            heroUserName.textContent = name.split(" ")[0];
-            topUserName.textContent = name;
-            topUserRole.textContent = role === "STUDENT" ? "Student Account" : role;
-            userAvatar.textContent = name
-                .split(" ")
-                .filter(Boolean)
-                .slice(0, 2)
-                .map(word => word[0])
-                .join("")
-                .toUpperCase();
+            return true;
         }
 
-        async function loadAuthenticatedUser() {
-            const token = localStorage.getItem(TOKEN_KEY);
+        function authHeaders() {
+            return {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${getToken()}`
+            };
+        }
 
-            if (!token) {
-                window.location.href = "login.html";
+        /* =========================================================
+           HEADER / ACCOUNT UI
+           ========================================================= */
+        function updateUserHeader() {
+            const user = getStoredUser();
+            const name = user?.name || user?.fullName || "Student";
+            const initials = name
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((part) => part[0])
+                .join("")
+                .toUpperCase() || "S";
+            const firstName = name.trim().split(/\s+/)[0] || "Student";
+
+            document.getElementById("heroUserName").textContent = firstName;
+            document.getElementById("topName").textContent = name;
+            document.getElementById("topAvatar").textContent = initials;
+        }
+
+        function openAccountMenu() {
+            const isOpen = account.classList.toggle("open");
+            accountTrigger.setAttribute("aria-expanded", String(isOpen));
+        }
+
+        function closeMenus() {
+            account.classList.remove("open");
+            accountTrigger.setAttribute("aria-expanded", "false");
+            mobileNav.classList.remove("show");
+            mobileMenuBtn.setAttribute("aria-expanded", "false");
+            document.querySelectorAll(".nav-item.open").forEach((item) => item.classList.remove("open"));
+        }
+
+        /* =========================================================
+           FEEDBACK UI
+           ========================================================= */
+        function setLoading(show, message = "Loading your dashboard…") {
+            loadingText.textContent = message;
+            loadingOverlay.classList.toggle("show", show);
+            loadingOverlay.setAttribute("aria-hidden", String(!show));
+        }
+
+        function showToast(type, title, message) {
+            clearTimeout(toastTimer);
+            toast.className = `toast ${type} show`;
+            toastIcon.innerHTML = `<i class="fa-solid ${type === "success" ? "fa-circle-check" : "fa-circle-exclamation"}"></i>`;
+            toastTitle.textContent = title;
+            toastText.textContent = message;
+            toastTimer = setTimeout(() => toast.classList.remove("show"), 4300);
+        }
+
+        /* =========================================================
+           PROFILE PROGRESS
+           ========================================================= */
+        function clamp(value, min = 0, max = 100) {
+            return Math.max(min, Math.min(max, value));
+        }
+
+        function calculateProfileCompletion(profile) {
+            const filled = PROFILE_FIELDS.filter((field) => {
+                const value = profile?.[field];
+                return value !== null && value !== undefined && String(value).trim() !== "";
+            }).length;
+
+            return Math.round((filled / PROFILE_FIELDS.length) * 100);
+        }
+
+        function updateRoadmapProgress(profilePercent) {
+            let progress = 0;
+
+            if (profilePercent >= 100) {
+                progress = 50;
+            } else if (profilePercent >= 50) {
+                progress = 25;
+            }
+
+            document.getElementById("statRoadmap").textContent = `${progress}%`;
+        }
+
+        function updateProgress(percent) {
+            const value = clamp(Number(percent) || 0);
+
+            document.getElementById("profilePercent").textContent = `${value}%`;
+            document.getElementById("statProfile").textContent = `${value}%`;
+            document.getElementById("ringValue").textContent = `${value}%`;
+            document.getElementById("profileProgressBar").style.width = `${value}%`;
+            document.getElementById("overviewProgress").style.width = `${value}%`;
+            document.getElementById("profileRing").style.setProperty("--progress", `${value}%`);
+
+            const chip = document.getElementById("profileStatChip");
+            const note = document.getElementById("profileProgressNote");
+            const title = document.getElementById("overviewTitle");
+            const text = document.getElementById("overviewText");
+
+            if (value >= 80) {
+                chip.textContent = "Strong";
+                note.textContent = "Your profile has enough information for stronger personalization.";
+            } else if (value >= 50) {
+                chip.textContent = "In progress";
+                note.textContent = "Add a few more details to improve recommendation quality.";
+            } else {
+                chip.textContent = "Needs attention";
+                note.textContent = "Complete more profile fields before relying on personalized matches.";
+            }
+
+            if (value === 100) {
+                title.textContent = "Your profile is ready for personalization";
+                text.textContent = "Your saved academic, interest, skill and preference details are ready to power personalized recommendations.";
+            } else {
+                title.textContent = "Complete your student profile";
+                text.textContent = "Add your academic details, interests, skills, goals and preferences to improve recommendation accuracy.";
+            }
+
+            updateRoadmapProgress(value);
+        }
+
+        /* =========================================================
+           RECOMMENDATION DATA HELPERS
+           ========================================================= */
+        function normalizeRecommendationResponse(data) {
+            if (Array.isArray(data)) return data;
+            if (Array.isArray(data?.recommendations)) return data.recommendations;
+            if (Array.isArray(data?.data)) return data.data;
+            if (Array.isArray(data?.results)) return data.results;
+            return [];
+        }
+
+        function pick(object, keys, fallback = "") {
+            for (const key of keys) {
+                const value = object?.[key];
+                if (value !== undefined && value !== null && String(value).trim() !== "") {
+                    return value;
+                }
+            }
+            return fallback;
+        }
+
+        function recommendationName(item) {
+            return String(pick(item, [
+                "name",
+                "title",
+                "course_name",
+                "courseName",
+                "career",
+                "career_name",
+                "college",
+                "college_name",
+                "institution",
+                "collegeName"
+            ], "Recommendation"));
+        }
+
+        function recommendationDescription(item, type) {
+            const fallback = type === "career"
+                ? "Explore this career path and review the details before making study decisions."
+                : type === "course"
+                    ? "Review eligibility, duration and learning outcomes for this course."
+                    : "Review the college profile, eligibility and location before applying.";
+
+            return String(pick(item, ["description", "summary", "details", "overview"], fallback));
+        }
+
+        function recommendationScore(item) {
+            const raw = pick(item, [
+                "score",
+                "match_score",
+                "matchScore",
+                "compatibility",
+                "percentage",
+                "match"
+            ], null);
+
+            if (raw === null) return "";
+
+            const number = Number(String(raw).replace("%", ""));
+            return Number.isFinite(number) ? String(Math.round(number)) : String(raw);
+        }
+
+        function recommendationIcon(type, item) {
+            if (type === "career") return pick(item, ["icon"], "fa-code");
+            if (type === "course") return pick(item, ["icon"], "fa-graduation-cap");
+            return pick(item, ["icon"], "fa-building-columns");
+        }
+
+        function formatScoreBadge(score) {
+            if (!score) return "";
+            return `<span class="match-badge"><i class="fa-solid fa-bolt"></i>${escapeHtml(score)} score</span>`;
+        }
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>'"]/g, (char) => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                "'": "&#39;",
+                '"': "&quot;"
+            }[char]));
+        }
+
+        function escapeAttribute(value) {
+            return String(value).replace(/[^a-zA-Z0-9_\-\s]/g, "") || "fa-graduation-cap";
+        }
+
+        /* =========================================================
+           EMPTY / ERROR STATES
+           ========================================================= */
+        function renderEmpty(container, title, text, link, label) {
+            const action = link
+                ? `<a class="btn btn-secondary empty-action" href="${escapeHtml(link)}">${escapeHtml(label || "Explore")} <i class="fa-solid fa-arrow-right"></i></a>`
+                : "";
+
+            container.innerHTML = `
+                <div class="empty-card">
+                    <div class="empty-icon"><i class="fa-solid fa-circle-info"></i></div>
+                    <strong>${escapeHtml(title)}</strong>
+                    <p>${escapeHtml(text)}</p>
+                    ${action}
+                </div>
+            `;
+        }
+
+        /* =========================================================
+           RECOMMENDATION RENDERERS
+           ========================================================= */
+        function renderCareers(items) {
+            const grid = document.getElementById("careerGrid");
+            const stat = document.getElementById("statCareers");
+            const chip = document.getElementById("careerStatChip");
+            const note = document.getElementById("careerNote");
+
+            if (!items.length) {
+                stat.textContent = "0";
+                chip.textContent = "Complete profile";
+                renderEmpty(
+                    grid,
+                    "No career matches yet",
+                    "Complete more profile details or take the career assessment to unlock personalized career recommendations.",
+                    "assessment.html",
+                    "Take Assessment"
+                );
+                note.textContent = "Add more profile information to improve personalization.";
                 return;
             }
 
-            const storedUser = getStoredUser();
-            setUserUI(storedUser);
+            stat.textContent = String(items.length);
+            chip.textContent = "Ready";
+            note.textContent = "Personalized using the profile currently saved in your account.";
+
+            grid.innerHTML = items.slice(0, 3).map((item) => {
+                const score = recommendationScore(item);
+                const icon = escapeAttribute(recommendationIcon("career", item));
+                const badge = score
+                    ? formatScoreBadge(score)
+                    : `<span class="match-badge"><i class="fa-solid fa-sparkles"></i>Profile match</span>`;
+
+                return `
+                    <article class="career-card">
+                        <div class="career-icon">
+                            <i class="fa-solid ${icon}"></i>
+                        </div>
+                        <h4>${escapeHtml(recommendationName(item))}</h4>
+                        <p>${escapeHtml(recommendationDescription(item, "career"))}</p>
+                        ${badge}
+                    </article>
+                `;
+            }).join("");
+        }
+
+        function renderCourses(items) {
+            const list = document.getElementById("courseList");
+
+            if (!items.length) {
+                renderEmpty(
+                    list,
+                    "No course matches yet",
+                    "Complete your profile to request course recommendations from the recommendation service.",
+                    "student-profile.html",
+                    "Update Profile"
+                );
+                return;
+            }
+
+            list.innerHTML = items.slice(0, 4).map((item) => {
+                const score = recommendationScore(item);
+                const duration = pick(item, ["duration", "duration_years", "course_duration", "courseDuration"], "Course details available");
+                const icon = escapeAttribute(pick(item, ["icon"], "fa-graduation-cap"));
+
+                return `
+                    <div class="course-row">
+                        <div class="course-logo">
+                            <i class="fa-solid ${icon}"></i>
+                        </div>
+                        <div class="course-info">
+                            <strong>${escapeHtml(recommendationName(item))}</strong>
+                            <span>${escapeHtml(String(duration))}</span>
+                        </div>
+                        ${score ? `<span class="score-pill">${escapeHtml(score)} score</span>` : ""}
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function renderColleges(items) {
+            const list = document.getElementById("collegeList");
+            const stat = document.getElementById("statColleges");
+            const chip = document.getElementById("collegeStatChip");
+
+            stat.textContent = String(items.length);
+
+            if (!items.length) {
+                chip.textContent = "Complete profile";
+                renderEmpty(
+                    list,
+                    "No college matches yet",
+                    "Add your location, college type and budget preferences to improve government-college matching.",
+                    "student-profile.html",
+                    "Update Profile"
+                );
+                return;
+            }
+
+            chip.textContent = "Ready";
+
+            list.innerHTML = items.slice(0, 3).map((item) => {
+                const score = recommendationScore(item);
+                const city = pick(item, ["city"], "");
+                const state = pick(item, ["state"], "");
+                const location = [city, state].filter(Boolean).join(", ") || pick(item, ["location", "address"], "Location details available");
+                const type = pick(item, ["college_type", "collegeType", "type"], "College");
+
+                return `
+                    <article class="college-card">
+                        <div class="college-top">
+                            <div class="college-icon">
+                                <i class="fa-solid fa-building-columns"></i>
+                            </div>
+                            <div>
+                                <h4>${escapeHtml(recommendationName(item))}</h4>
+                                <p>${escapeHtml(String(location))}</p>
+                            </div>
+                        </div>
+                        <div class="college-meta">
+                            <span class="meta-pill">${escapeHtml(String(type))}</span>
+                            ${score ? `<span class="meta-pill match">${escapeHtml(score)} score</span>` : ""}
+                        </div>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        /* =========================================================
+           API HELPER
+           ========================================================= */
+        async function fetchJson(url, options = {}) {
+            let response;
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
-                    method: "GET",
+                response = await fetch(url, {
+                    ...options,
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
+                        ...authHeaders(),
+                        ...(options.headers || {})
                     }
                 });
-
-                if (response.ok) {
-                    const serverUser = await response.json();
-                    const user = serverUser.user || serverUser;
-                    if (user) {
-                        localStorage.setItem(USER_KEY, JSON.stringify(user));
-                        setUserUI(user);
-                    }
-                }
             } catch (error) {
-                setUserUI(storedUser);
+                const networkError = new Error("Unable to connect to the server.");
+                networkError.status = 0;
+                throw networkError;
+            }
+
+            const rawText = await response.text();
+            let data = null;
+
+            try {
+                data = rawText ? JSON.parse(rawText) : null;
+            } catch {
+                data = rawText;
+            }
+
+            if (!response.ok) {
+                const message = typeof data === "string"
+                    ? data
+                    : data?.message || data?.error || `Request failed (${response.status})`;
+                const error = new Error(message);
+                error.status = response.status;
+                throw error;
+            }
+
+            return data;
+        }
+
+        /* =========================================================
+           PROFILE LOADING
+           ========================================================= */
+        async function loadProfile() {
+            try {
+                const profile = await fetchJson(PROFILE_API);
+                const completion = calculateProfileCompletion(profile);
+                updateProgress(completion);
+                return profile;
+            } catch (error) {
+                updateProgress(0);
+                document.getElementById("profileProgressNote").textContent =
+                    "Your profile could not be loaded. Check the server and try again.";
+                throw error;
             }
         }
 
-        async function loadDashboardData() {
-            const token = localStorage.getItem(TOKEN_KEY);
+        /* =========================================================
+           RECOMMENDATION LOADING
+           ========================================================= */
+        async function loadRecommendations(profile) {
+            const payload = { ...profile };
+            const requests = [
+                fetchJson(RECOMMENDATION_APIS.careers, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                }),
+                fetchJson(RECOMMENDATION_APIS.courses, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                }),
+                fetchJson(RECOMMENDATION_APIS.colleges, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                })
+            ];
 
-            if (!token) return;
+            const results = await Promise.allSettled(requests);
+            const [careerResult, courseResult, collegeResult] = results;
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/students/dashboard`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    }
-                });
+            const careers = careerResult.status === "fulfilled"
+                ? normalizeRecommendationResponse(careerResult.value)
+                : [];
+            const courses = courseResult.status === "fulfilled"
+                ? normalizeRecommendationResponse(courseResult.value)
+                : [];
+            const colleges = collegeResult.status === "fulfilled"
+                ? normalizeRecommendationResponse(collegeResult.value)
+                : [];
 
-                if (!response.ok) return;
+            renderCareers(careers);
+            renderCourses(courses);
+            renderColleges(colleges);
 
-                const data = await response.json();
+            const failedNames = [];
+            if (careerResult.status === "rejected") failedNames.push("careers");
+            if (courseResult.status === "rejected") failedNames.push("courses");
+            if (collegeResult.status === "rejected") failedNames.push("colleges");
 
-                if (typeof data.profileCompletion === "number") {
-                    const value = Math.max(0, Math.min(100, data.profileCompletion));
-                    document.getElementById("profilePercent").textContent = `${value}%`;
-                    document.getElementById("profileProgressBar").style.width = `${value}%`;
-                }
-            } catch (error) {
+            if (failedNames.length) {
+                showToast(
+                    "error",
+                    "Some recommendations are unavailable",
+                    `The ${failedNames.join(", ")} recommendation service did not respond. Other dashboard sections remain available.`
+                );
+            } else {
+                showToast(
+                    "success",
+                    "Dashboard updated",
+                    "Your latest profile was used for personalized recommendations."
+                );
             }
         }
 
-        function showToast(message) {
-            toastText.textContent = message;
-            toast.classList.add("show");
+        /* =========================================================
+           DASHBOARD BOOTSTRAP
+           ========================================================= */
+        async function loadDashboard() {
+            if (!requireStudent()) return;
 
-            clearTimeout(window.toastTimer);
+            updateUserHeader();
+            setLoading(true, "Loading your dashboard…");
 
-            window.toastTimer = setTimeout(() => {
-                toast.classList.remove("show");
-            }, 2800);
+            try {
+                const profile = await loadProfile();
+                await loadRecommendations(profile);
+            } catch (error) {
+                renderEmpty(
+                    document.getElementById("careerGrid"),
+                    "Profile data unavailable",
+                    "Your profile could not be loaded from Spring Boot. Check that the backend is running on port 8081.",
+                    "student-profile.html",
+                    "Open Profile"
+                );
+
+                renderEmpty(
+                    document.getElementById("courseList"),
+                    "Recommendations unavailable",
+                    "Course recommendations need the saved profile and running recommendation service.",
+                    "student-profile.html",
+                    "Open Profile"
+                );
+
+                renderEmpty(
+                    document.getElementById("collegeList"),
+                    "Recommendations unavailable",
+                    "College recommendations need the saved profile and running recommendation service.",
+                    "student-profile.html",
+                    "Open Profile"
+                );
+
+                if (error.status === 401 || error.status === 403) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    window.location.href = "../login.html";
+                    return;
+                }
+
+                showToast(
+                    "error",
+                    "Unable to load dashboard",
+                    "Please make sure Spring Boot is running and you are signed in as a student."
+                );
+            } finally {
+                setLoading(false);
+            }
         }
 
-        function openSidebar() {
-            sidebar.classList.add("open");
-            drawerOverlay.classList.add("show");
-        }
+        /* =========================================================
+           EVENT HANDLERS
+           ========================================================= */
+        document.querySelectorAll(".nav-trigger").forEach((trigger) => {
+            trigger.addEventListener("click", (event) => {
+                if (window.innerWidth > 820) return;
 
-        function closeSidebar() {
-            sidebar.classList.remove("open");
-            drawerOverlay.classList.remove("show");
-        }
+                event.stopPropagation();
+                const item = trigger.closest(".nav-item");
 
-        mobileMenu.addEventListener("click", openSidebar);
-        drawerOverlay.addEventListener("click", closeSidebar);
+                document.querySelectorAll(".nav-item.open").forEach((other) => {
+                    if (other !== item) other.classList.remove("open");
+                });
 
-        document.querySelectorAll(".nav a").forEach(link => {
-            link.addEventListener("click", () => {
-                closeSidebar();
+                item.classList.toggle("open");
             });
+        });
+
+        accountTrigger.addEventListener("click", (event) => {
+            event.stopPropagation();
+            openAccountMenu();
+        });
+
+        mobileMenuBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const isOpen = mobileNav.classList.toggle("show");
+            mobileMenuBtn.setAttribute("aria-expanded", String(isOpen));
+            account.classList.remove("open");
+            accountTrigger.setAttribute("aria-expanded", "false");
         });
 
         notificationBtn.addEventListener("click", () => {
-            notificationModal.classList.add("show");
-        });
-
-        closeNotification.addEventListener("click", () => {
-            notificationModal.classList.remove("show");
-        });
-
-        closeNotification2.addEventListener("click", () => {
-            notificationModal.classList.remove("show");
-        });
-
-        notificationModal.addEventListener("click", event => {
-            if (event.target === notificationModal) {
-                notificationModal.classList.remove("show");
-            }
-        });
-
-        document.querySelectorAll(".career-card").forEach(card => {
-            card.addEventListener("click", () => {
-                const career = card.dataset.career;
-                showToast(`${career} details will be connected to the career module.`);
-            });
+            showToast(
+                "success",
+                "CareerAdvisor",
+                "Use the Next Actions section to continue your profile, assessment and scholarship tasks."
+            );
         });
 
         logoutBtn.addEventListener("click", () => {
-            localStorage.removeItem(TOKEN_KEY);
-            localStorage.removeItem(USER_KEY);
-            window.location.href = "login.html";
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "../login.html";
         });
 
-        document.addEventListener("keydown", event => {
-            if (event.key === "Escape") {
-                notificationModal.classList.remove("show");
-                closeSidebar();
+        document.addEventListener("click", (event) => {
+            if (!account.contains(event.target) && !mobileNav.contains(event.target)) {
+                closeMenus();
             }
         });
 
-        loadAuthenticatedUser();
-        loadDashboardData();
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 820) {
+                mobileNav.classList.remove("show");
+                mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        /* =========================================================
+           START DASHBOARD
+           ========================================================= */
+        loadDashboard();
     </script>
 </body>
 
