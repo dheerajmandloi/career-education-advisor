@@ -4,18 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CareerAdvisor personalized student dashboard">
+    <meta name="description" content="CareerAdvisor student dashboard">
     <title>Student Dashboard | CareerAdvisor</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <style>
-        /* =========================================================
-   CareerAdvisor Student Dashboard
-   Visual System
-   ========================================================= */
         :root {
             --purple: #8B5CF6;
             --purple-dark: #7C3AED;
@@ -24,27 +22,40 @@
             --green: #22C55E;
             --red: #EF4444;
             --amber: #F59E0B;
+
             --bg: #FAFAFE;
             --surface: #FFFFFF;
-            --surface-soft: #F5F3FF;
-            --text: #172033;
-            --text-soft: #525B6D;
-            --muted: #7B8190;
-            --border: #E7E4F4;
-            --border-strong: #D9D3EE;
-            --gradient: linear-gradient(135deg, #8B5CF6, #3B82F6);
-            --shadow: 0 18px 44px rgba(76, 57, 145, .09);
-            --shadow-soft: 0 12px 32px rgba(76, 57, 145, .07)
+            --surface-soft: #F7F5FF;
+            --surface-blue: #F6F9FF;
+
+            --text: #182238;
+            --text-soft: #4F5A70;
+            --muted: #7B8496;
+            --muted-light: #9AA2B2;
+
+            --border: #E5E1F1;
+            --border-soft: #EEEAF7;
+            --border-strong: #D7D1E9;
+
+            --gradient: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+            --gradient-soft: linear-gradient(135deg, #FBF9FF 0%, #F6FAFF 100%);
+
+            --shadow: 0 18px 48px rgba(76, 57, 145, .08);
+            --shadow-hover: 0 22px 48px rgba(76, 57, 145, .12);
+
+            --nav-height: 78px;
+            --page-padding: 24px;
+            --section-gap: 22px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
-            padding: 0
+            padding: 0;
         }
 
         html {
-            scroll-behavior: smooth
+            scroll-behavior: smooth;
         }
 
         body {
@@ -52,276 +63,292 @@
             min-height: 100vh;
             font-family: "Space Grotesk", sans-serif;
             color: var(--text);
-            background: var(--bg);
-            overflow-x: hidden
+            background:
+                radial-gradient(circle at 10% 4%, rgba(139, 92, 246, .11), transparent 24%),
+                radial-gradient(circle at 92% 72%, rgba(59, 130, 246, .09), transparent 26%),
+                var(--bg);
+            overflow-x: hidden;
         }
 
         body::-webkit-scrollbar {
-            width: 0
+            width: 7px;
         }
 
-        body {
-            scrollbar-width: none
+        body::-webkit-scrollbar-track {
+            background: #F4F2FA;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #D4CCEA;
+            border-radius: 999px;
         }
 
         button,
         input,
         select,
         textarea {
-            font: inherit
+            font: inherit;
         }
 
         button {
-            border: 0
+            border: 0;
         }
 
         a {
+            color: inherit;
             text-decoration: none;
-            color: inherit
         }
 
         .page-shell {
             min-height: 100vh;
-            position: relative
+            position: relative;
         }
 
-        .page-shell:before {
+        .page-shell::before {
             content: "";
             position: fixed;
             inset: 0;
             z-index: -3;
-            background-image: linear-gradient(rgba(139, 92, 246, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, .04) 1px, transparent 1px);
-            background-size: 38px 38px;
-            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .72), transparent 94%);
-            pointer-events: none
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(139, 92, 246, .028) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, .028) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .72), transparent 95%);
         }
 
         .ambient {
             position: fixed;
             inset: 0;
             z-index: -2;
+            overflow: hidden;
             pointer-events: none;
-            overflow: hidden
         }
 
-        .ambient:before,
-        .ambient:after {
+        .ambient::before,
+        .ambient::after {
             content: "";
             position: absolute;
             border-radius: 50%;
-            filter: blur(20px);
-            animation: ambientMove 10s ease-in-out infinite alternate
+            filter: blur(26px);
+            animation: floatAmbient 12s ease-in-out infinite alternate;
         }
 
-        .ambient:before {
-            width: 430px;
-            height: 430px;
-            left: -170px;
-            top: -180px;
-            background: radial-gradient(circle, rgba(139, 92, 246, .18), transparent 70%)
+        .ambient::before {
+            width: 460px;
+            height: 460px;
+            left: -220px;
+            top: 80px;
+            background: radial-gradient(circle, rgba(139, 92, 246, .13), transparent 70%);
         }
 
-        .ambient:after {
-            width: 490px;
-            height: 490px;
-            right: -210px;
-            bottom: -230px;
-            background: radial-gradient(circle, rgba(59, 130, 246, .16), transparent 70%);
-            animation-delay: 1.5s
+        .ambient::after {
+            width: 520px;
+            height: 520px;
+            right: -250px;
+            bottom: -220px;
+            background: radial-gradient(circle, rgba(59, 130, 246, .12), transparent 70%);
+            animation-delay: 1.2s;
         }
+
+        /* ==================== NAVBAR ==================== */
 
         .navbar {
             position: sticky;
             top: 0;
-            z-index: 80;
-            height: 76px;
-            display: flex;
+            z-index: 100;
+            min-height: var(--nav-height);
+            display: grid;
+            grid-template-columns: minmax(260px, 1fr) auto minmax(260px, 1fr);
             align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 0 30px;
-            background: rgba(255, 255, 255, .93);
+            gap: 24px;
+            padding: 0 28px;
+            background: rgba(255, 255, 255, .94);
             border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(18px);
-            box-shadow: 0 7px 25px rgba(76, 57, 145, .05)
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 28px rgba(76, 57, 145, .05);
         }
 
         .brand {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 11px;
-            flex: none
+            gap: 12px;
+            justify-self: start;
         }
 
         .brand-mark {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             display: grid;
             place-items: center;
             border-radius: 14px;
-            background: var(--gradient);
             color: #fff;
-            box-shadow: 0 10px 24px rgba(99, 102, 241, .20);
-            animation: brandFloat 4s ease-in-out infinite
+            background: var(--gradient);
+            box-shadow: 0 12px 26px rgba(99, 102, 241, .20);
+            animation: softFloat 4s ease-in-out infinite;
         }
 
         .brand-mark i {
-            font-size: 17px
+            font-size: 18px;
         }
 
         .brand-name {
-            font-size: 20px;
+            font-size: 21px;
+            line-height: 1;
             font-weight: 700;
-            letter-spacing: -.5px
+            letter-spacing: -.6px;
         }
 
         .brand-sub {
-            margin-top: 2px;
-            color: #9A9EAD;
-            font-size: 9px;
-            font-weight: 600;
-            letter-spacing: .6px
+            margin-top: 5px;
+            color: #939AAA;
+            font-size: 10px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: .75px;
         }
 
         .nav-wrap {
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 1
         }
 
         .nav {
             display: flex;
             align-items: center;
-            gap: 6px
+            gap: 5px;
         }
 
-        .nav-item {
-            position: relative
-        }
-
+        .nav-link,
         .nav-trigger {
-            display: flex;
+            min-height: 42px;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 9px;
-            padding: 10px 15px;
+            padding: 0 15px;
             border: 1px solid transparent;
-            border-radius: 11px;
+            border-radius: 12px;
             background: transparent;
-            color: #606879;
-            font-size: 14px;
+            color: #606A7D;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: .22s
+            transition: .22s ease;
         }
 
+        .nav-link:hover,
+        .nav-link.active,
         .nav-trigger:hover,
         .nav-item.open .nav-trigger {
             color: var(--purple-dark);
-            background: #F7F4FF;
-            border-color: #ECE7FA
+            background: #F6F2FF;
+            border-color: #E9E3F7;
         }
 
         .nav-trigger i {
-            font-size: 8px;
-            color: #9B9FAE
+            font-size: 10px;
+            color: #9199AA;
+            transition: transform .2s ease;
+        }
+
+        .nav-item.open .nav-trigger i {
+            transform: rotate(180deg);
+            color: var(--purple);
+        }
+
+        .nav-item {
+            position: relative;
         }
 
         .dropdown {
             position: absolute;
             top: calc(100% + 11px);
             left: 0;
-            width: 220px;
-            padding: 9px;
+            width: 240px;
+            padding: 10px;
             border: 1px solid var(--border);
-            border-radius: 15px;
+            border-radius: 16px;
             background: rgba(255, 255, 255, .98);
-            box-shadow: 0 18px 45px rgba(76, 57, 145, .13);
+            box-shadow: 0 22px 52px rgba(76, 57, 145, .14);
+            backdrop-filter: blur(20px);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
             transform: translateY(-8px);
-            transition: .2s;
-            backdrop-filter: blur(18px)
+            transition: .2s ease;
         }
 
-        .nav-item:hover .dropdown,
         .nav-item.open .dropdown {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            transform: translateY(0)
+            transform: translateY(0);
         }
 
         .dropdown-title {
-            padding: 7px 9px 8px;
-            color: #A0A4B0;
+            padding: 8px 10px 9px;
+            color: #9AA2B1;
             font-size: 10px;
             font-weight: 800;
+            letter-spacing: 1.1px;
             text-transform: uppercase;
-            letter-spacing: 1px
         }
 
         .dropdown-link {
             display: flex;
             align-items: center;
-            gap: 9px;
-            padding: 9px;
-            border-radius: 9px;
-            color: #657080;
-            font-size: 12px;
-            font-weight: 600;
-            transition: .18s
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            transition: .18s ease;
         }
 
         .dropdown-link i {
-            width: 15px;
+            width: 18px;
+            color: #8D96A7;
             text-align: center;
-            color: #8C93A1
         }
 
-        .dropdown-link:hover,
-        .dropdown-link.active {
-            background: #F6F3FF;
-            color: var(--purple-dark)
+        .dropdown-link:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
         }
 
-        .dropdown-link.active i {
-            color: var(--purple)
-        }
-
-        .nav-note {
-            margin-left: auto;
+        .dropdown-link:hover i {
             color: var(--purple);
-            font-size: 8px
         }
 
         .account-area {
             display: flex;
             align-items: center;
-            gap: 7px;
-            flex: none
+            justify-self: end;
+            gap: 9px;
         }
 
         .icon-btn {
             position: relative;
-            width: 37px;
-            height: 37px;
+            width: 42px;
+            height: 42px;
             display: grid;
             place-items: center;
             border: 1px solid var(--border);
-            border-radius: 11px;
+            border-radius: 12px;
+            color: #697488;
             background: #fff;
-            color: #6D7485;
             cursor: pointer;
-            transition: .2s
+            transition: .2s ease;
         }
 
         .icon-btn:hover {
             color: var(--purple-dark);
             background: #F8F6FF;
-            border-color: #DDD7F2;
-            transform: translateY(-1px)
+            border-color: #DCD5ED;
+            transform: translateY(-1px);
         }
 
         .notification-dot {
@@ -332,1261 +359,1376 @@
             height: 7px;
             border: 2px solid #fff;
             border-radius: 50%;
-            background: #EF4444
+            background: var(--red);
         }
 
         .account {
-            position: relative
+            position: relative;
         }
 
         .account-trigger {
+            min-height: 48px;
             display: flex;
             align-items: center;
-            gap: 9px;
-            padding: 5px 7px;
+            gap: 10px;
+            padding: 5px 8px 5px 5px;
             border: 1px solid transparent;
-            border-radius: 12px;
+            border-radius: 14px;
             background: transparent;
             cursor: pointer;
-            transition: .2s
+            transition: .2s ease;
         }
 
         .account-trigger:hover,
         .account.open .account-trigger {
             background: #F8F7FC;
-            border-color: var(--border)
+            border-color: var(--border);
         }
 
         .account-avatar {
-            width: 35px;
-            height: 35px;
+            width: 39px;
+            height: 39px;
             display: grid;
             place-items: center;
-            border-radius: 11px;
-            background: linear-gradient(135deg, #EDE6FF, #E5F0FF);
+            border-radius: 12px;
             color: var(--purple-dark);
-            font-size: 11px;
-            font-weight: 800
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            font-size: 12px;
+            font-weight: 800;
         }
 
         .account-copy {
-            text-align: left
+            min-width: 105px;
+            text-align: left;
         }
 
         .account-name {
             display: block;
-            color: var(--text);
-            font-size: 12px;
-            font-weight: 700;
-            max-width: 125px;
-            white-space: nowrap;
+            max-width: 150px;
             overflow: hidden;
-            text-overflow: ellipsis
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .account-role {
             display: block;
-            margin-top: 2px;
-            color: #9A9EAD;
-            font-size: 9px;
-            font-weight: 600
+            margin-top: 3px;
+            color: #939AAA;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .35px;
         }
 
         .account-arrow {
-            font-size: 8px;
-            color: #9AA0AE;
-            transition: .2s
+            color: #9AA2B0;
+            font-size: 9px;
+            transition: .2s ease;
         }
 
         .account.open .account-arrow {
             transform: rotate(180deg);
-            color: var(--purple)
+            color: var(--purple);
         }
 
         .account-menu {
             position: absolute;
+            top: calc(100% + 10px);
             right: 0;
-            top: calc(100% + 9px);
-            width: 190px;
+            width: 205px;
             padding: 8px;
-            transform: translateY(-8px);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            background: #fff;
-            box-shadow: 0 18px 44px rgba(76, 57, 145, .13);
-            transition: .2s
+            transform: translateY(-7px);
+            transition: .2s ease;
         }
 
         .account.open .account-menu {
-            transform: translateY(0);
             opacity: 1;
             visibility: visible;
-            pointer-events: auto
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
         .account-menu a,
         .account-menu button {
+            width: 100%;
             display: flex;
             align-items: center;
-            gap: 9px;
-            width: 100%;
-            padding: 9px;
-            border-radius: 9px;
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
             background: transparent;
-            color: #667081;
-            font-size: 12px;
-            font-weight: 600;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            text-align: left;
             cursor: pointer;
-            text-align: left
         }
 
-        .account-menu a:hover,
-        .account-menu button:hover {
-            background: #F6F3FF;
-            color: var(--purple-dark)
+        .account-menu a:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
         }
 
         .account-menu .logout {
-            color: #B42318
+            margin-top: 3px;
+            color: #C53030;
         }
 
         .account-menu .logout:hover {
-            background: #FFF5F3;
-            color: #A21B11
+            background: #FFF4F2;
         }
 
         .mobile-menu {
             display: none;
-            width: 38px;
-            height: 38px;
+            width: 42px;
+            height: 42px;
             border: 1px solid var(--border);
-            border-radius: 11px;
+            border-radius: 12px;
+            color: #697488;
             background: #fff;
-            color: #6D7485;
-            cursor: pointer
+            cursor: pointer;
         }
 
         .mobile-nav {
-            display: none
+            display: none;
         }
 
+        /* ==================== PAGE FRAME ==================== */
+
         .content {
-            width: min(1240px, calc(100% - 60px));
+            width: calc(100% - (var(--page-padding) * 2));
             margin: 0 auto;
-            padding: 27px 0 50px
+            padding: 26px 0 44px;
         }
 
         .breadcrumb {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #9A9EAD;
-            font-size: 10px;
-            margin-bottom: 17px
+            margin-bottom: 18px;
+            color: #969EAE;
+            font-size: 11px;
+            font-weight: 600;
         }
 
         .breadcrumb strong {
-            color: var(--text)
+            color: var(--text);
         }
+
+        .section {
+            width: 100%;
+            margin-top: var(--section-gap);
+        }
+
+        .section-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .section-title,
+        .panel-title {
+            font-size: 23px;
+            line-height: 1.2;
+            font-weight: 700;
+            letter-spacing: -.45px;
+        }
+
+        .section-sub,
+        .panel-sub {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        /* ==================== HERO ==================== */
 
         .hero {
             position: relative;
             overflow: hidden;
-            margin-bottom: 18px;
-            padding: 28px;
-            border: 1px solid rgba(139, 92, 246, .18);
-            border-radius: 22px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(248, 246, 255, .96));
+            width: 100%;
+            padding: 32px;
+            border: 1px solid rgba(139, 92, 246, .16);
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .97), rgba(249, 247, 255, .96));
             box-shadow: var(--shadow);
-            animation: fadeUp .55s ease both
+            animation: fadeUp .55s ease both;
         }
 
-        .hero:before {
+        .hero::before {
             content: "";
             position: absolute;
-            width: 330px;
-            height: 330px;
-            right: -150px;
-            top: -185px;
+            width: 440px;
+            height: 440px;
+            top: -250px;
+            right: -130px;
             border: 1px solid rgba(139, 92, 246, .10);
             border-radius: 50%;
-            box-shadow: 0 0 0 32px rgba(139, 92, 246, .025), 0 0 0 70px rgba(139, 92, 246, .018)
+            box-shadow:
+                0 0 0 34px rgba(139, 92, 246, .025),
+                0 0 0 76px rgba(139, 92, 246, .015);
         }
 
-        .hero:after {
+        .hero::after {
             content: "";
             position: absolute;
-            width: 190px;
-            height: 190px;
-            left: 44%;
-            bottom: -130px;
+            width: 260px;
+            height: 260px;
+            bottom: -210px;
+            left: 38%;
             border-radius: 50%;
-            background: rgba(59, 130, 246, .10);
-            filter: blur(45px)
+            background: rgba(59, 130, 246, .09);
+            filter: blur(50px);
         }
 
         .hero-grid {
             position: relative;
             z-index: 1;
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 320px;
-            gap: 25px;
-            align-items: center
+            grid-template-columns: minmax(0, 1.65fr) minmax(330px, .75fr);
+            gap: 32px;
+            align-items: center;
         }
 
         .eyebrow {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            padding: 7px 10px;
+            gap: 8px;
+            padding: 8px 11px;
             border: 1px solid #E7E0FA;
             border-radius: 999px;
-            background: #FAF8FF;
             color: var(--purple-dark);
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: .7px;
-            text-transform: uppercase
+            background: #FAF8FF;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .75px;
+            text-transform: uppercase;
         }
 
         .hero h1 {
-            margin: 12px 0 8px;
-            font-size: 32px;
-            line-height: 1.12;
-            letter-spacing: -1px
+            margin-top: 15px;
+            max-width: 900px;
+            font-size: clamp(32px, 3vw, 46px);
+            line-height: 1.08;
+            letter-spacing: -1.25px;
         }
 
         .hero h1 span {
+            color: transparent;
             background: var(--gradient);
             -webkit-background-clip: text;
             background-clip: text;
-            -webkit-text-fill-color: transparent
         }
 
         .hero p {
-            max-width: 720px;
-            color: var(--muted);
-            font-size: 11.5px;
-            line-height: 1.75
+            max-width: 840px;
+            margin-top: 12px;
+            color: var(--text-soft);
+            font-size: 15px;
+            line-height: 1.75;
         }
 
         .hero-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 17px
+            gap: 10px;
+            margin-top: 20px;
         }
 
         .btn {
-            min-height: 41px;
+            min-height: 44px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
-            padding: 0 15px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 700;
+            gap: 8px;
+            padding: 0 16px;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 750;
             cursor: pointer;
-            transition: .22s
+            transition: .22s ease;
         }
 
         .btn:hover {
-            transform: translateY(-1px)
+            transform: translateY(-2px);
         }
 
         .btn-primary {
             color: #fff;
             background: var(--gradient);
-            box-shadow: 0 9px 20px rgba(99, 102, 241, .20)
+            box-shadow: 0 11px 24px rgba(99, 102, 241, .21);
         }
 
-        .btn-secondary {
-            border: 1px solid var(--border);
+        .btn-secondary,
+        .btn-soft {
+            color: #5E6880;
             background: #F8F7FC;
-            color: #6B7280
-        }
-
-        .btn:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-            transform: none
-        }
-
-        .profile-mini {
-            padding: 18px;
             border: 1px solid var(--border);
-            border-radius: 18px;
-            background: rgba(255, 255, 255, .78);
-            box-shadow: var(--shadow-soft);
-            backdrop-filter: blur(15px)
         }
 
-        .profile-mini-head {
+        .btn-secondary:hover,
+        .btn-soft:hover {
+            background: #F5F1FF;
+            border-color: #DCD4EE;
+            color: var(--purple-dark);
+        }
+
+        .profile-card {
+            padding: 23px;
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            background: rgba(255, 255, 255, .82);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px);
+        }
+
+        .profile-head {
             display: flex;
-            justify-content: space-between;
             align-items: flex-start;
-            gap: 10px
+            justify-content: space-between;
+            gap: 16px;
         }
 
-        .profile-mini-kicker {
-            font-size: 9px;
-            font-weight: 700;
-            color: #7E8492;
+        .profile-kicker {
+            color: #7A8497;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .8px;
             text-transform: uppercase;
-            letter-spacing: .7px
         }
 
-        .profile-mini-value {
-            font-size: 26px;
+        .profile-copy {
+            max-width: 250px;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .profile-value {
+            color: var(--purple-dark);
+            font-size: 31px;
+            line-height: 1;
             font-weight: 700;
-            color: var(--purple-dark)
         }
 
         .progress-track {
-            height: 9px;
+            height: 10px;
+            margin-top: 17px;
             overflow: hidden;
             border-radius: 999px;
-            background: #ECEAF5;
-            margin-top: 10px
+            background: #EDEAF6;
         }
 
         .progress-bar {
-            height: 100%;
             width: 0;
+            height: 100%;
             border-radius: inherit;
             background: linear-gradient(90deg, var(--purple), var(--blue), var(--cyan));
-            box-shadow: 0 0 18px rgba(79, 124, 255, .30);
-            transition: width .8s cubic-bezier(.22, 1, .36, 1)
+            box-shadow: 0 0 18px rgba(79, 124, 255, .24);
+            transition: width .9s cubic-bezier(.22, 1, .36, 1);
         }
 
-        .profile-mini-note {
-            margin-top: 9px;
-            color: #8B919E;
-            font-size: 9px;
-            line-height: 1.5
+        .profile-note {
+            margin-top: 10px;
+            color: #8992A2;
+            font-size: 11px;
+            line-height: 1.5;
         }
 
-        .profile-mini-link {
+        .profile-link {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            margin-top: 12px;
+            gap: 7px;
+            margin-top: 14px;
             color: var(--purple-dark);
-            font-size: 9px;
-            font-weight: 700
+            font-size: 11px;
+            font-weight: 750;
         }
 
-        .profile-mini-link:hover {
-            text-decoration: underline
+        .profile-link:hover {
+            text-decoration: underline;
         }
 
-        .stats {
+        /* ==================== STATUS CARDS ==================== */
+
+        .status-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 18px
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
         }
 
-        .stat-card {
+        .status-card {
             position: relative;
-            padding: 16px;
+            overflow: hidden;
+            padding: 20px;
             border: 1px solid var(--border);
-            border-radius: 17px;
-            background: rgba(255, 255, 255, .95);
-            box-shadow: var(--shadow-soft);
-            animation: fadeUp .65s ease both;
-            overflow: hidden
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .96);
+            box-shadow: var(--shadow);
+            transition: .22s ease;
         }
 
-        .stat-card:nth-child(2) {
-            animation-delay: .05s
+        .status-card:hover {
+            transform: translateY(-3px);
+            border-color: #DCD4EE;
+            box-shadow: var(--shadow-hover);
         }
 
-        .stat-card:nth-child(3) {
-            animation-delay: .1s
-        }
-
-        .stat-card:nth-child(4) {
-            animation-delay: .15s
-        }
-
-        .stat-card:after {
+        .status-card::after {
             content: "";
             position: absolute;
-            width: 100px;
-            height: 100px;
-            right: -48px;
-            bottom: -48px;
+            width: 120px;
+            height: 120px;
+            right: -60px;
+            bottom: -60px;
             border-radius: 50%;
-            background: rgba(139, 92, 246, .05)
+            background: rgba(139, 92, 246, .045);
         }
 
-        .stat-top {
+        .status-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px
+            gap: 12px;
         }
 
-        .stat-icon {
-            width: 35px;
-            height: 35px;
-            display: grid;
-            place-items: center;
-            border-radius: 11px;
-            background: #F0ECFF;
-            color: var(--purple-dark)
-        }
-
-        .stat-card:nth-child(2) .stat-icon {
-            background: #EAF3FF;
-            color: var(--blue)
-        }
-
-        .stat-card:nth-child(3) .stat-icon {
-            background: #E8FBF4;
-            color: #17985D
-        }
-
-        .stat-card:nth-child(4) .stat-icon {
-            background: #FFF5E7;
-            color: #D47B00
-        }
-
-        .stat-chip {
-            padding: 4px 7px;
-            border-radius: 999px;
-            background: #FAF8FF;
-            color: var(--purple-dark);
-            font-size: 8px;
-            font-weight: 800
-        }
-
-        .stat-value {
-            margin-top: 12px;
-            font-size: 25px;
-            font-weight: 700;
-            letter-spacing: -.5px
-        }
-
-        .stat-label {
-            margin-top: 3px;
-            color: #848B98;
-            font-size: 9px;
-            font-weight: 600
-        }
-
-        .section-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.75fr) minmax(300px, .95fr);
-            gap: 16px;
-            margin-bottom: 16px
-        }
-
-        .panel {
-            border: 1px solid var(--border);
-            border-radius: 19px;
-            background: rgba(255, 255, 255, .95);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            animation: fadeUp .7s ease both
-        }
-
-        .panel-head {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 14px;
-            padding: 17px 18px 14px;
-            border-bottom: 1px solid #F0EEF7
-        }
-
-        .panel-title {
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: -.2px
-        }
-
-        .panel-sub {
-            margin-top: 3px;
-            color: #8B919E;
-            font-size: 9px;
-            line-height: 1.45
-        }
-
-        .panel-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--purple-dark);
-            font-size: 9px;
-            font-weight: 700;
-            white-space: nowrap
-        }
-
-        .panel-link:hover {
-            text-decoration: underline
-        }
-
-        .panel-body {
-            padding: 17px 18px
-        }
-
-        .overview-head {
-            display: grid;
-            grid-template-columns: 100px minmax(0, 1fr);
-            gap: 17px;
-            align-items: center
-        }
-
-        .ring {
-            width: 92px;
-            height: 92px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            background: conic-gradient(var(--purple) var(--progress, 0%), #ECEAF5 0);
-            box-shadow: 0 8px 25px rgba(139, 92, 246, .10)
-        }
-
-        .ring-inner {
-            width: 73px;
-            height: 73px;
-            display: grid;
-            place-items: center;
-            border-radius: 50%;
-            background: #fff;
-            font-size: 19px;
-            font-weight: 700;
-            color: var(--purple-dark)
-        }
-
-        .overview-copy h3 {
-            font-size: 14px
-        }
-
-        .overview-copy p {
-            margin-top: 6px;
-            color: #7C8492;
-            font-size: 10px;
-            line-height: 1.6
-        }
-
-        .mini-progress {
-            height: 7px;
-            margin-top: 12px;
-            border-radius: 99px;
-            background: #ECEAF5;
-            overflow: hidden
-        }
-
-        .mini-progress span {
-            display: block;
-            height: 100%;
-            border-radius: inherit;
-            background: var(--gradient);
-            width: 0;
-            transition: width .7s
-        }
-
-        .subsection {
-            margin-top: 19px;
-            padding-top: 17px;
-            border-top: 1px solid #F0EEF7
-        }
-
-        .subsection-head {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            align-items: end;
-            margin-bottom: 11px
-        }
-
-        .subsection-title {
-            font-size: 11px;
-            font-weight: 700
-        }
-
-        .subsection-note {
-            color: #9298A3;
-            font-size: 8.5px
-        }
-
-        .career-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px
-        }
-
-        .career-card {
-            min-height: 146px;
-            padding: 14px;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            background: linear-gradient(150deg, #fff, #FCFAFF);
-            transition: .22s;
-            cursor: default
-        }
-
-        .career-card:hover {
-            transform: translateY(-3px);
-            border-color: #D8CEF6;
-            box-shadow: 0 12px 26px rgba(76, 57, 145, .10)
-        }
-
-        .career-icon {
-            width: 34px;
-            height: 34px;
-            display: grid;
-            place-items: center;
-            border-radius: 10px;
-            background: #F0ECFF;
-            color: var(--purple-dark)
-        }
-
-        .career-card h4 {
-            margin-top: 10px;
-            font-size: 11px
-        }
-
-        .career-card p {
-            margin-top: 5px;
-            color: #8A919E;
-            font-size: 8.8px;
-            line-height: 1.5;
-            min-height: 38px
-        }
-
-        .match-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 10px;
-            padding: 5px 7px;
-            border-radius: 999px;
-            background: #F0FBF5;
-            color: #148553;
-            font-size: 8px;
-            font-weight: 800
-        }
-
-        .empty-card {
-            padding: 18px;
-            border: 1px dashed #DCD6EE;
-            border-radius: 14px;
-            text-align: center;
-            background: #FCFBFF
-        }
-
-        .empty-icon {
-            width: 40px;
-            height: 40px;
-            display: grid;
-            place-items: center;
-            margin: 0 auto 8px;
-            border-radius: 12px;
-            background: #F0ECFF;
-            color: var(--purple-dark)
-        }
-
-        .empty-card strong {
-            display: block;
-            font-size: 10px
-        }
-
-        .empty-card p {
-            margin: 5px auto 11px;
-            max-width: 360px;
-            color: #8A919E;
-            font-size: 8.8px;
-            line-height: 1.55
-        }
-
-        .assessment {
-            height: 100%;
-            padding: 19px;
-            background: linear-gradient(150deg, #FAF8FF, #F4F8FF)
-        }
-
-        .assessment-icon {
+        .status-icon {
             width: 42px;
             height: 42px;
             display: grid;
             place-items: center;
-            border-radius: 13px;
-            background: var(--gradient);
-            color: #fff;
-            box-shadow: 0 10px 22px rgba(99, 102, 241, .19);
-            animation: iconFloat 4s ease-in-out infinite
+            border-radius: 12px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
         }
 
-        .assessment h3 {
-            margin-top: 14px;
-            font-size: 16px;
-            line-height: 1.25
+        .status-card:nth-child(2) .status-icon {
+            color: var(--blue);
+            background: #EAF3FF;
         }
 
-        .assessment p {
-            margin-top: 7px;
-            color: #798191;
-            font-size: 9.5px;
-            line-height: 1.65
+        .status-card:nth-child(3) .status-icon {
+            color: #17985D;
+            background: #E8FBF4;
         }
 
-        .check-list {
-            display: grid;
-            gap: 8px;
-            margin: 16px 0
+        .status-card:nth-child(4) .status-icon {
+            color: #D47B00;
+            background: #FFF5E7;
         }
 
-        .check-item {
-            display: flex;
-            gap: 8px;
-            align-items: flex-start;
-            color: #687182;
-            font-size: 9px;
-            line-height: 1.4
+        .status-badge,
+        .task-state,
+        .journey-state,
+        .meta {
+            border-radius: 999px;
+            font-weight: 800;
         }
 
-        .check-item i {
-            margin-top: 2px;
-            color: var(--green)
+        .status-badge {
+            padding: 6px 9px;
+            color: var(--purple-dark);
+            background: #F5F1FF;
+            font-size: 10px;
         }
 
-        .assessment .btn {
+        .status-card h3 {
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        .status-main {
+            margin-top: 5px;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -.4px;
+        }
+
+        .status-note {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 11.5px;
+            line-height: 1.5;
+        }
+
+        /* ==================== FULL-WIDTH PANELS ==================== */
+
+        .panel {
             width: 100%;
-            margin-top: 3px
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, .97);
+            box-shadow: var(--shadow);
+            animation: fadeUp .65s ease both;
         }
 
-        .wide-grid {
-            display: grid;
-            grid-template-columns: 1.1fr .9fr;
-            gap: 16px;
-            margin-bottom: 16px
-        }
-
-        .course-list {
-            display: grid;
-            gap: 9px
-        }
-
-        .course-row {
+        .panel-head {
+            min-height: 88px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 11px;
-            border: 1px solid #F0EEF7;
-            border-radius: 13px;
-            background: #FCFBFF;
-            transition: .2s
+            justify-content: space-between;
+            gap: 18px;
+            padding: 20px 26px;
+            border-bottom: 1px solid #EFEBF6;
         }
 
-        .course-row:hover {
-            transform: translateX(2px);
-            border-color: #DDD6F1;
-            background: #FAF8FF
+        .section-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--purple-dark);
+            font-size: 12px;
+            font-weight: 800;
         }
 
-        .course-logo {
-            width: 36px;
-            height: 36px;
+        .panel-body {
+            padding: 24px 26px 27px;
+        }
+
+        /* ==================== CAREER JOURNEY ==================== */
+
+        .journey {
             display: grid;
-            place-items: center;
-            flex: none;
-            border-radius: 11px;
-            background: #EAF3FF;
-            color: var(--blue)
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 14px;
         }
 
-        .course-info {
-            min-width: 0;
-            flex: 1
-        }
-
-        .course-info strong {
-            display: block;
-            font-size: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis
-        }
-
-        .course-info span {
-            display: block;
-            margin-top: 3px;
-            color: #8B919E;
-            font-size: 8.3px
-        }
-
-        .score-pill {
-            padding: 5px 7px;
-            border-radius: 999px;
-            background: #F0FBF5;
-            color: #148553;
-            font-size: 8px;
-            font-weight: 800
-        }
-
-        .college-list {
-            display: grid;
-            gap: 9px
-        }
-
-        .college-card {
-            padding: 11px;
-            border: 1px solid #F0EEF7;
-            border-radius: 13px;
-            background: #FCFBFF;
-            transition: .2s
-        }
-
-        .college-card:hover {
-            transform: translateY(-2px);
-            border-color: #DBD2F4;
-            box-shadow: 0 10px 22px rgba(76, 57, 145, .07)
-        }
-
-        .college-top {
-            display: flex;
-            align-items: flex-start;
-            gap: 9px
-        }
-
-        .college-icon {
-            width: 35px;
-            height: 35px;
-            display: grid;
-            place-items: center;
-            flex: none;
-            border-radius: 10px;
-            background: #E8FBF4;
-            color: #17985D
-        }
-
-        .college-card h4 {
-            font-size: 10px
-        }
-
-        .college-card p {
-            margin-top: 3px;
-            color: #8B919E;
-            font-size: 8.2px
-        }
-
-        .college-meta {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-top: 9px
-        }
-
-        .meta-pill {
-            padding: 4px 7px;
-            border-radius: 999px;
-            background: #F7F6FA;
-            color: #767D8B;
-            font-size: 7.8px;
-            font-weight: 700
-        }
-
-        .meta-pill.match {
-            background: #F0FBF5;
-            color: #148553
-        }
-
-        .roadmap-list {
-            display: grid;
-            gap: 0
-        }
-
-        .roadmap-step {
+        .journey-step {
             position: relative;
+            min-width: 0;
+            min-height: 205px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 19px;
+            border: 1px solid var(--border-soft);
+            border-radius: 17px;
+            background: linear-gradient(155deg, #fff, #FCFAFF);
+            transition: .22s ease;
+        }
+
+        .journey-step:hover {
+            transform: translateY(-3px);
+            border-color: #D9D0EE;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .journey-step.active {
+            border-color: #D8CEF4;
+            background: linear-gradient(150deg, #FBF8FF, #F7FBFF);
+        }
+
+        .journey-step.done {
+            border-color: #CDEFD9;
+            background: linear-gradient(150deg, #FBFEFC, #F8FFFB);
+        }
+
+        .journey-dot {
+            width: 44px;
+            height: 44px;
             display: grid;
-            grid-template-columns: 34px minmax(0, 1fr);
-            gap: 11px;
-            padding: 0 0 16px
+            place-items: center;
+            border-radius: 13px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+            font-size: 15px;
         }
 
-        .roadmap-step:last-child {
-            padding-bottom: 0
+        .journey-step:nth-child(2) .journey-dot {
+            color: var(--blue);
+            background: #EAF3FF;
         }
 
-        .roadmap-step:not(:last-child):after {
+        .journey-step:nth-child(3) .journey-dot {
+            color: #17985D;
+            background: #E8FBF4;
+        }
+
+        .journey-step:nth-child(4) .journey-dot {
+            color: #1689BD;
+            background: #EEF8FF;
+        }
+
+        .journey-step:nth-child(5) .journey-dot {
+            color: #D47B00;
+            background: #FFF5E7;
+        }
+
+        .journey-label {
+            margin-top: 15px;
+            font-size: 15px;
+            font-weight: 750;
+        }
+
+        .journey-copy {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 11.5px;
+            line-height: 1.55;
+        }
+
+        .journey-state {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 9px;
+            color: var(--purple-dark);
+            background: #F5F1FF;
+            font-size: 10px;
+        }
+
+        .journey-step.done .journey-state {
+            color: #15844F;
+            background: #EFFBF4;
+        }
+
+        .journey-line {
+            position: absolute;
+            top: 40px;
+            right: -14px;
+            width: 14px;
+            height: 1px;
+            background: #DBD4EA;
+        }
+
+        /* ==================== PROFILE SNAPSHOT ==================== */
+
+        .snapshot {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 13px;
+        }
+
+        .snapshot-item {
+            min-width: 0;
+            min-height: 82px;
+            padding: 15px 16px;
+            border: 1px solid var(--border-soft);
+            border-radius: 15px;
+            background: #FCFBFF;
+            transition: .2s ease;
+        }
+
+        .snapshot-item:hover {
+            background: #FAF8FF;
+            border-color: #DDD5F0;
+            transform: translateY(-1px);
+        }
+
+        .snapshot-label {
+            color: #98A0AF;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .snapshot-value {
+            margin-top: 7px;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.45;
+            overflow-wrap: anywhere;
+        }
+
+        .snapshot-value.muted {
+            color: #9AA2B1;
+            font-weight: 600;
+        }
+
+        /* ==================== CONTINUE ==================== */
+
+        .continue {
+            display: grid;
+            grid-template-columns: 62px minmax(0, 1fr) auto;
+            gap: 18px;
+            align-items: center;
+            padding: 21px;
+            border: 1px solid #E7E0F4;
+            border-radius: 19px;
+            background: var(--gradient-soft);
+            box-shadow: 0 12px 30px rgba(76, 57, 145, .06);
+        }
+
+        .continue-icon {
+            width: 62px;
+            height: 62px;
+            display: grid;
+            place-items: center;
+            border-radius: 18px;
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 11px 24px rgba(99, 102, 241, .20);
+            font-size: 21px;
+        }
+
+        .continue h3 {
+            font-size: 18px;
+            font-weight: 750;
+        }
+
+        .continue p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12.5px;
+            line-height: 1.55;
+        }
+
+        .continue-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 10px;
+        }
+
+        .meta {
+            padding: 5px 8px;
+            color: #7B8190;
+            background: #F2F0F8;
+            font-size: 10px;
+        }
+
+        .meta.accent {
+            color: var(--purple-dark);
+            background: #F2ECFF;
+        }
+
+        /* ==================== EXPLORE ==================== */
+
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .explore-card {
+            position: relative;
+            min-height: 215px;
+            display: flex;
+            flex-direction: column;
+            padding: 21px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            background: #fff;
+            box-shadow: var(--shadow);
+            transition: .22s ease;
+        }
+
+        .explore-card::after {
             content: "";
             position: absolute;
-            left: 16px;
-            top: 33px;
-            bottom: 0;
-            width: 1px;
-            background: #E5E1F1
+            width: 150px;
+            height: 150px;
+            right: -80px;
+            bottom: -80px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, .05);
         }
 
-        .step-dot {
-            position: relative;
-            z-index: 1;
-            width: 33px;
-            height: 33px;
+        .explore-card:hover {
+            transform: translateY(-3px);
+            border-color: #DDD4EF;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .explore-icon {
+            width: 45px;
+            height: 45px;
             display: grid;
             place-items: center;
-            border-radius: 50%;
-            border: 1px solid #E4E0EF;
-            background: #FAF9FD;
-            color: #9A9FAC;
-            font-size: 10px;
-            font-weight: 800
-        }
-
-        .roadmap-step.done .step-dot {
-            background: #ECFBF4;
-            border-color: #C9F2DB;
-            color: #159A5C
-        }
-
-        .roadmap-step.current .step-dot {
-            background: #F0ECFF;
-            border-color: #DCD2F7;
-            color: var(--purple-dark);
-            box-shadow: 0 0 0 5px rgba(139, 92, 246, .05)
-        }
-
-        .step-info strong {
-            display: block;
-            font-size: 10px;
-            padding-top: 2px
-        }
-
-        .step-info span {
-            display: block;
-            margin-top: 4px;
-            color: #8A919E;
-            font-size: 8.5px;
-            line-height: 1.45
-        }
-
-        .action-list {
-            display: grid;
-            gap: 8px
-        }
-
-        .action-card {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            padding: 11px;
-            border: 1px solid #F0EEF7;
             border-radius: 13px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+            font-size: 16px;
+        }
+
+        .explore-card:nth-child(2) .explore-icon {
+            color: var(--blue);
+            background: #EAF3FF;
+        }
+
+        .explore-card:nth-child(3) .explore-icon {
+            color: #17985D;
+            background: #E8FBF4;
+        }
+
+        .explore-card h3 {
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        .explore-card p {
+            max-width: 520px;
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .explore-footer {
+            margin-top: auto;
+            padding-top: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            color: var(--purple-dark);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* ==================== QUICK ACTIONS ==================== */
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 13px;
+        }
+
+        .quick-action {
+            min-width: 0;
+            min-height: 82px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border: 1px solid var(--border-soft);
+            border-radius: 15px;
             background: #FCFBFF;
-            transition: .2s
+            transition: .2s ease;
         }
 
-        .action-card:hover {
+        .quick-action:hover {
             transform: translateY(-2px);
-            border-color: #DDD6F1
+            border-color: #DAD2EE;
+            background: #FAF8FF;
+            box-shadow: 0 12px 22px rgba(76, 57, 145, .07);
         }
 
-        .action-icon {
-            width: 34px;
-            height: 34px;
+        .quick-icon {
+            width: 42px;
+            height: 42px;
             display: grid;
             place-items: center;
             flex: none;
-            border-radius: 10px;
+            border-radius: 12px;
+            color: var(--purple-dark);
             background: #F0ECFF;
-            color: var(--purple-dark)
         }
 
-        .action-card:nth-child(2) .action-icon {
+        .quick-action:nth-child(2) .quick-icon {
+            color: var(--blue);
             background: #EAF3FF;
-            color: var(--blue)
         }
 
-        .action-card:nth-child(3) .action-icon {
+        .quick-action:nth-child(3) .quick-icon {
+            color: #17985D;
+            background: #E8FBF4;
+        }
+
+        .quick-action:nth-child(4) .quick-icon {
+            color: #D47B00;
             background: #FFF5E7;
-            color: #D47B00
         }
 
-        .action-card div:nth-child(2) {
+        .quick-action:nth-child(5) .quick-icon {
+            color: #5B72D7;
+            background: #F0F5FF;
+        }
+
+        .quick-action:nth-child(6) .quick-icon {
+            color: #A443C4;
+            background: #F7ECFF;
+        }
+
+        .quick-copy {
             min-width: 0;
-            flex: 1
+            flex: 1;
         }
 
-        .action-card strong {
+        .quick-copy strong {
             display: block;
-            font-size: 9.5px
+            font-size: 14px;
+            line-height: 1.3;
         }
 
-        .action-card span {
+        .quick-copy span {
             display: block;
-            margin-top: 3px;
-            color: #8B919E;
-            font-size: 8.2px;
-            line-height: 1.4
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.4;
         }
 
-        .action-arrow {
-            color: #A0A5B1;
-            font-size: 9px
+        .quick-arrow {
+            color: #98A0AE;
+            font-size: 11px;
         }
 
-        .bottom-note {
+        /* ==================== TASKS ==================== */
+
+        .tasks {
+            display: grid;
+            gap: 10px;
+        }
+
+        .task {
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: center;
+            min-height: 74px;
+            padding: 13px 15px;
+            border: 1px solid var(--border-soft);
+            border-radius: 15px;
+            background: #FCFBFF;
+            transition: .2s ease;
+        }
+
+        .task:hover {
+            background: #FAF8FF;
+            border-color: #DDD4EF;
+        }
+
+        .task-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: #8D93A2;
+            background: #F2EFFA;
+        }
+
+        .task.done .task-icon {
+            color: #15955A;
+            background: #EAFBF2;
+        }
+
+        .task.current .task-icon {
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .task-title {
+            font-size: 14px;
+            font-weight: 750;
+        }
+
+        .task-sub {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.45;
+        }
+
+        .task-state {
+            padding: 6px 10px;
+            color: #7F8796;
+            background: #F2F0F7;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .task.current .task-state {
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .task.done .task-state {
+            color: #15844F;
+            background: #EFFBF4;
+        }
+
+        /* ==================== GUIDANCE ==================== */
+
+        .guidance {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+            padding: 22px;
+            border: 1px solid #E6DFF3;
+            border-radius: 19px;
+            background: var(--gradient-soft);
+        }
+
+        .guidance-left {
             display: flex;
             align-items: flex-start;
-            gap: 9px;
-            padding: 13px 15px;
-            border: 1px solid #E9E3F8;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #FCFAFF, #F8FBFF);
-            color: #7B8190;
-            font-size: 8.8px;
-            line-height: 1.5
+            gap: 13px;
+            min-width: 0;
         }
 
-        .bottom-note i {
-            margin-top: 1px;
-            color: var(--purple-dark)
+        .guidance-icon {
+            width: 45px;
+            height: 45px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border-radius: 13px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
         }
 
-        .overlay {
-            display: none;
+        .guidance h3 {
+            font-size: 17px;
+        }
+
+        .guidance p {
+            max-width: 1000px;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .guidance-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            flex: none;
+        }
+
+        /* ==================== STATES ==================== */
+
+        .loading-overlay {
             position: fixed;
             inset: 0;
-            z-index: 150;
+            z-index: 200;
+            display: none;
             place-items: center;
-            background: rgba(18, 21, 38, .16);
-            backdrop-filter: blur(6px)
+            background: rgba(18, 21, 38, .12);
+            backdrop-filter: blur(7px);
         }
 
-        .overlay.show {
-            display: grid
+        .loading-overlay.show {
+            display: grid;
         }
 
         .loading-card {
-            min-width: 235px;
-            padding: 23px;
+            min-width: 260px;
+            padding: 25px;
             text-align: center;
             border: 1px solid var(--border);
-            border-radius: 17px;
+            border-radius: 18px;
             background: #fff;
-            box-shadow: 0 25px 70px rgba(76, 57, 145, .18)
+            box-shadow: 0 25px 70px rgba(76, 57, 145, .18);
         }
 
         .spinner {
-            width: 34px;
-            height: 34px;
-            margin: 0 auto 11px;
+            width: 35px;
+            height: 35px;
+            margin: 0 auto 12px;
             border: 3px solid #ECEAF5;
             border-top-color: var(--purple);
             border-right-color: var(--blue);
             border-radius: 50%;
-            animation: spin .8s linear infinite
+            animation: spin .8s linear infinite;
         }
 
         .loading-card p {
             color: #596173;
-            font-size: 11px;
-            font-weight: 600
+            font-size: 12px;
+            font-weight: 650;
         }
 
         .toast {
             position: fixed;
-            right: 20px;
-            top: 92px;
-            z-index: 160;
-            width: min(370px, calc(100vw - 30px));
+            top: 94px;
+            right: 24px;
+            z-index: 210;
+            width: min(400px, calc(100vw - 36px));
             display: flex;
-            gap: 10px;
-            padding: 13px;
+            gap: 11px;
+            padding: 14px;
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 15px;
             background: #fff;
-            box-shadow: 0 18px 48px rgba(15, 23, 42, .14);
-            transform: translateX(125%);
+            box-shadow: 0 20px 52px rgba(15, 23, 42, .14);
             opacity: 0;
-            transition: .3s
+            transform: translateX(120%);
+            transition: .3s ease;
         }
 
         .toast.show {
+            opacity: 1;
             transform: translateX(0);
-            opacity: 1
         }
 
         .toast-icon {
-            width: 31px;
-            height: 31px;
+            width: 32px;
+            height: 32px;
             display: grid;
             place-items: center;
             flex: none;
             border-radius: 9px;
+            color: var(--purple-dark);
             background: rgba(139, 92, 246, .09);
-            color: var(--purple-dark)
         }
 
         .toast.success .toast-icon {
+            color: var(--green);
             background: rgba(34, 197, 94, .09);
-            color: var(--green)
         }
 
         .toast.error .toast-icon {
+            color: var(--red);
             background: rgba(239, 68, 68, .08);
-            color: var(--red)
         }
 
         .toast strong {
             display: block;
-            margin-bottom: 3px;
-            font-size: 11px
+            font-size: 12px;
         }
 
         .toast p {
+            margin-top: 4px;
             color: var(--muted);
-            font-size: 9.5px;
-            line-height: 1.5
+            font-size: 10.5px;
+            line-height: 1.5;
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px)
+        /* ==================== RESPONSIVE ==================== */
+
+        @media (max-width: 1280px) {
+            .navbar {
+                grid-template-columns: minmax(210px, 1fr) auto minmax(230px, 1fr);
+                gap: 14px;
+                padding: 0 20px;
             }
 
-            to {
-                opacity: 1;
-                transform: none
-            }
-        }
-
-        @keyframes brandFloat {
-
-            0%,
-            100% {
-                transform: translateY(0)
-            }
-
-            50% {
-                transform: translateY(-3px)
-            }
-        }
-
-        @keyframes ambientMove {
-            from {
-                transform: translate3d(0, 0, 0) scale(1)
-            }
-
-            to {
-                transform: translate3d(28px, 20px, 0) scale(1.07)
-            }
-        }
-
-        @keyframes iconFloat {
-
-            0%,
-            100% {
-                transform: translateY(0) rotate(0)
-            }
-
-            50% {
-                transform: translateY(-3px) rotate(2deg)
-            }
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg)
-            }
-        }
-
-        @media(max-width:1040px) {
-            .hero-grid {
-                grid-template-columns: 1fr 290px
-            }
-
-            .career-grid {
-                grid-template-columns: 1fr 1fr
-            }
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr)
-            }
-        }
-
-        @media(max-width:900px) {
-            .nav-wrap {
-                justify-content: flex-start
-            }
-
-            .content {
-                width: min(100% - 36px, 920px)
+            .nav-link,
+            .nav-trigger {
+                padding: 0 12px;
+                font-size: 14px;
             }
 
             .hero-grid {
-                grid-template-columns: 1fr
+                grid-template-columns: minmax(0, 1fr) 330px;
             }
 
-            .section-grid,
-            .wide-grid {
-                grid-template-columns: 1fr
+            .journey {
+                gap: 11px;
             }
 
-            .profile-mini {
-                max-width: 420px
-            }
-
-            .overview-head {
-                grid-template-columns: 92px 1fr
+            .journey-step {
+                padding: 17px;
             }
         }
 
-        @media(max-width:820px) {
+        @media (max-width: 1050px) {
+            .navbar {
+                grid-template-columns: 1fr auto;
+            }
+
             .nav-wrap {
-                display: none
+                display: none;
             }
 
             .mobile-menu {
                 display: grid;
-                place-items: center
+                place-items: center;
             }
 
             .account-copy {
-                display: none
+                display: none;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                max-width: 620px;
+            }
+
+            .status-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .journey {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .journey-line {
+                display: none;
+            }
+
+            .snapshot {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            :root {
+                --page-padding: 14px;
+                --section-gap: 18px;
             }
 
             .navbar {
-                padding: 0 18px
+                min-height: 70px;
+                padding: 0 14px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
+
+            .brand-sub {
+                display: none;
+            }
+
+            .account-area {
+                gap: 6px;
+            }
+
+            .icon-btn,
+            .mobile-menu {
+                width: 39px;
+                height: 39px;
+            }
+
+            .account-avatar {
+                width: 36px;
+                height: 36px;
+            }
+
+            .content {
+                padding-top: 20px;
+                padding-bottom: 32px;
+            }
+
+            .breadcrumb {
+                margin-bottom: 14px;
+                font-size: 10px;
+            }
+
+            .hero {
+                padding: 22px;
+                border-radius: 20px;
+            }
+
+            .hero h1 {
+                font-size: 31px;
+            }
+
+            .hero p {
+                font-size: 13px;
+            }
+
+            .section-title,
+            .panel-title {
+                font-size: 20px;
+            }
+
+            .section-sub,
+            .panel-sub {
+                font-size: 12px;
+            }
+
+            .panel-head {
+                min-height: auto;
+                padding: 18px;
+            }
+
+            .panel-body {
+                padding: 18px;
+            }
+
+            .journey,
+            .status-grid,
+            .snapshot,
+            .quick-grid,
+            .explore-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-step {
+                min-height: 180px;
+            }
+
+            .continue {
+                grid-template-columns: 50px minmax(0, 1fr);
+                padding: 17px;
+            }
+
+            .continue-icon {
+                width: 50px;
+                height: 50px;
+                border-radius: 15px;
+            }
+
+            .continue .btn {
+                grid-column: 1 / -1;
+                width: 100%;
+            }
+
+            .guidance {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 18px;
+            }
+
+            .guidance-actions {
+                width: 100%;
+            }
+
+            .guidance-actions .btn {
+                flex: 1 1 180px;
             }
 
             .mobile-nav {
                 position: absolute;
-                left: 12px;
-                right: 12px;
+                left: 10px;
+                right: 10px;
                 top: calc(100% + 9px);
                 display: none;
                 padding: 10px;
                 border: 1px solid var(--border);
                 border-radius: 18px;
                 background: rgba(255, 255, 255, .98);
-                box-shadow: 0 18px 48px rgba(76, 57, 145, .14);
-                backdrop-filter: blur(18px)
+                box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+                backdrop-filter: blur(18px);
             }
 
             .mobile-nav.show {
                 display: block;
-                animation: fadeUp .22s ease
+                animation: fadeUp .22s ease both;
             }
 
             .mobile-group {
                 border: 1px solid #F0EEF7;
                 border-radius: 13px;
                 background: #FCFBFF;
-                overflow: hidden
+                overflow: hidden;
             }
 
             .mobile-group+.mobile-group {
-                margin-top: 8px
+                margin-top: 8px;
             }
 
             .mobile-group-title {
@@ -1596,161 +1738,128 @@
                 padding: 11px;
                 color: #566071;
                 font-size: 12px;
-                font-weight: 700
+                font-weight: 750;
             }
 
             .mobile-links {
                 display: grid;
                 gap: 2px;
-                padding: 0 6px 6px
+                padding: 0 6px 6px;
             }
 
             .mobile-links a {
-                padding: 8px;
-                border-radius: 8px;
-                color: #6A7281;
+                padding: 9px;
+                border-radius: 9px;
+                color: #687286;
                 font-size: 11px;
-                font-weight: 600
+                font-weight: 650;
             }
 
-            .mobile-links a:hover {
-                background: #F6F3FF;
-                color: var(--purple-dark)
-            }
-
-            .content {
-                width: calc(100% - 28px);
-                padding-top: 22px
-            }
-
-            .career-grid {
-                grid-template-columns: 1fr 1fr
+            .mobile-links a:hover,
+            .mobile-links a.active {
+                color: var(--purple-dark);
+                background: #F6F2FF;
             }
         }
 
-        @media(max-width:560px) {
-            .navbar {
-                height: 68px;
-                padding: 0 12px
-            }
-
-            .brand-name {
-                font-size: 17px
-            }
-
-            .brand-sub {
-                display: none
-            }
-
-            .brand-mark {
-                width: 39px;
-                height: 39px;
-                border-radius: 12px
-            }
-
-            .account-area .icon-btn {
-                width: 35px;
-                height: 35px
-            }
-
-            .content {
-                width: calc(100% - 20px);
-                padding-top: 18px
-            }
-
-            .breadcrumb {
-                font-size: 9px;
-                margin-bottom: 13px
-            }
-
-            .hero {
-                padding: 20px;
-                border-radius: 19px
-            }
-
-            .hero h1 {
-                font-size: 26px
-            }
-
-            .hero p {
-                font-size: 10.5px
-            }
-
+        @media (max-width: 520px) {
             .hero-actions {
-                flex-direction: column
+                flex-direction: column;
             }
 
             .hero-actions .btn {
-                width: 100%
+                width: 100%;
             }
 
-            .stats {
-                gap: 10px
+            .section-head {
+                align-items: flex-start;
+                flex-direction: column;
             }
 
-            .stat-card {
-                padding: 13px
+            .profile-card {
+                padding: 18px;
             }
 
-            .stat-value {
-                font-size: 21px
+            .profile-copy {
+                font-size: 11px;
             }
 
-            .career-grid {
-                grid-template-columns: 1fr
+            .status-card {
+                padding: 17px;
             }
 
-            .overview-head {
-                grid-template-columns: 1fr
+            .snapshot-item {
+                min-height: 76px;
             }
 
-            .ring {
-                margin-bottom: 2px
+            .task {
+                grid-template-columns: 38px minmax(0, 1fr);
             }
 
-            .panel-head {
-                padding: 15px
-            }
-
-            .panel-body {
-                padding: 15px
-            }
-
-            .course-row {
-                align-items: flex-start
-            }
-
-            .score-pill {
-                margin-left: auto
-            }
-
-            .bottom-note {
-                font-size: 8.4px
+            .task-state {
+                grid-column: 2;
+                justify-self: start;
             }
 
             .toast {
                 left: 14px;
                 right: 14px;
-                top: 80px;
-                width: auto
+                top: 82px;
+                width: auto;
             }
         }
 
-        @media(prefers-reduced-motion:reduce) {
+        @media (prefers-reduced-motion: reduce) {
 
             *,
-            :before,
-            :after {
+            *::before,
+            *::after {
                 animation: none !important;
                 transition: none !important;
-                scroll-behavior: auto !important
+                scroll-behavior: auto !important;
             }
         }
 
-        /* Additional small utility for generated empty-state buttons. */
-        .empty-action {
-            min-height: 35px;
-            font-size: 9px;
+        /* ==================== ANIMATIONS ==================== */
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes softFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes floatAmbient {
+            from {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            to {
+                transform: translate3d(24px, 16px, 0) scale(1.06);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -1759,12 +1868,14 @@
     <div class="page-shell">
         <div class="ambient"></div>
 
-        <!-- ==================== TOP NAVBAR ==================== -->
+        <!-- ==================== NAVBAR ==================== -->
+
         <header class="navbar">
             <div class="brand">
                 <div class="brand-mark">
                     <i class="fa-solid fa-compass"></i>
                 </div>
+
                 <div>
                     <div class="brand-name">CareerAdvisor</div>
                     <div class="brand-sub">STUDENT PORTAL</div>
@@ -1773,69 +1884,64 @@
 
             <nav class="nav-wrap" aria-label="Student navigation">
                 <div class="nav">
-                    <div class="nav-item">
-                        <button class="nav-trigger" type="button" aria-haspopup="true">
-                            Student <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                        <div class="dropdown">
-                            <div class="dropdown-title">Student</div>
-                            <a class="dropdown-link active" href="student-dashboard.html">
-                                <i class="fa-solid fa-chart-pie"></i>Dashboard
-                                <span class="nav-note">Current</span>
-                            </a>
-                            <a class="dropdown-link" href="student-profile.html">
-                                <i class="fa-solid fa-user"></i>My Profile
-                            </a>
-                            <a class="dropdown-link" href="student-assessment.html">
-                                <i class="fa-solid fa-clipboard-check"></i>Assessment
-                            </a>
-                            <a class="dropdown-link" href="student-recommendations.html">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i>Recommendations
-                            </a>
-                        </div>
-                    </div>
+                    <a class="nav-link active" href="student-dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="student-profile.html">Profile</a>
+                    <a class="nav-link" href="student-assessment.html">Assessment</a>
 
                     <div class="nav-item">
-                        <button class="nav-trigger" type="button" aria-haspopup="true">
-                            Explore <i class="fa-solid fa-chevron-down"></i>
+                        <button class="nav-trigger" type="button" aria-expanded="false">
+                            Explore
+                            <i class="fa-solid fa-chevron-down"></i>
                         </button>
+
                         <div class="dropdown">
                             <div class="dropdown-title">Explore</div>
                             <a class="dropdown-link" href="student-careers.html">
-                                <i class="fa-solid fa-briefcase"></i>Careers
+                                <i class="fa-solid fa-briefcase"></i>
+                                Careers
                             </a>
                             <a class="dropdown-link" href="student-courses.html">
-                                <i class="fa-solid fa-book-open"></i>Courses
+                                <i class="fa-solid fa-book-open"></i>
+                                Courses
                             </a>
                             <a class="dropdown-link" href="student-colleges.html">
-                                <i class="fa-solid fa-building-columns"></i>Colleges
+                                <i class="fa-solid fa-building-columns"></i>
+                                Colleges
                             </a>
                             <a class="dropdown-link" href="student-skill-gap.html">
-                                <i class="fa-solid fa-chart-simple"></i>Skill Gap
+                                <i class="fa-solid fa-chart-simple"></i>
+                                Skill Gap
                             </a>
                             <a class="dropdown-link" href="student-career-roadmap.html">
-                                <i class="fa-solid fa-route"></i>Career Roadmap
+                                <i class="fa-solid fa-route"></i>
+                                Career Roadmap
                             </a>
                         </div>
                     </div>
 
                     <div class="nav-item">
-                        <button class="nav-trigger" type="button" aria-haspopup="true">
-                            Resources <i class="fa-solid fa-chevron-down"></i>
+                        <button class="nav-trigger" type="button" aria-expanded="false">
+                            Resources
+                            <i class="fa-solid fa-chevron-down"></i>
                         </button>
+
                         <div class="dropdown">
                             <div class="dropdown-title">Resources</div>
                             <a class="dropdown-link" href="scholarships.html">
-                                <i class="fa-solid fa-graduation-cap"></i>Scholarships
+                                <i class="fa-solid fa-award"></i>
+                                Scholarships
                             </a>
                             <a class="dropdown-link" href="entrance-exams.html">
-                                <i class="fa-solid fa-file-pen"></i>Entrance Exams
+                                <i class="fa-solid fa-file-signature"></i>
+                                Entrance Exams
                             </a>
                             <a class="dropdown-link" href="learning-resources.html">
-                                <i class="fa-solid fa-lightbulb"></i>Learning Resources
+                                <i class="fa-solid fa-laptop-code"></i>
+                                Learning Resources
                             </a>
                             <a class="dropdown-link" href="application-tracker.html">
-                                <i class="fa-solid fa-list-check"></i>Application Tracker
+                                <i class="fa-solid fa-list-check"></i>
+                                Application Tracker
                             </a>
                         </div>
                     </div>
@@ -1843,52 +1949,61 @@
             </nav>
 
             <div class="account-area">
-                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-label="Open navigation"
-                    aria-expanded="false">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-
-                <button class="icon-btn" id="notificationBtn" type="button" title="Notifications"
-                    aria-label="Notifications">
+                <button class="icon-btn" id="notificationBtn" type="button" aria-label="Notifications">
                     <i class="fa-regular fa-bell"></i>
                     <span class="notification-dot"></span>
                 </button>
 
-                <div class="account" id="account">
-                    <button class="account-trigger" id="accountTrigger" type="button" aria-expanded="false"
-                        aria-haspopup="true">
-                        <div class="account-avatar" id="topAvatar">S</div>
-                        <div class="account-copy">
-                            <span class="account-name" id="topName">Student</span>
-                            <span class="account-role">STUDENT ACCOUNT</span>
-                        </div>
-                        <i class="account-arrow fa-solid fa-chevron-down"></i>
+                <div class="account">
+                    <button class="account-trigger" id="accountTrigger" type="button" aria-expanded="false">
+                        <span class="account-avatar" id="accountAvatar">S</span>
+
+                        <span class="account-copy">
+                            <span class="account-name" id="accountName">Student</span>
+                            <span class="account-role">STUDENT</span>
+                        </span>
+
+                        <i class="fa-solid fa-chevron-down account-arrow"></i>
                     </button>
 
                     <div class="account-menu">
                         <a href="student-profile.html">
-                            <i class="fa-solid fa-user"></i>My Profile
+                            <i class="fa-regular fa-user"></i>
+                            My Profile
                         </a>
-                        <button type="button" id="logoutBtn" class="logout">
-                            <i class="fa-solid fa-right-from-bracket"></i>Logout
+                        <button class="logout" id="logoutBtn" type="button">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Logout
                         </button>
                     </div>
                 </div>
+
+                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-expanded="false"
+                    aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
 
-            <!-- Mobile navigation -->
             <div class="mobile-nav" id="mobileNav">
                 <div class="mobile-group">
-                    <div class="mobile-group-title">Main <i class="fa-solid fa-layer-group"></i></div>
+                    <div class="mobile-group-title">
+                        Student
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+
                     <div class="mobile-links">
-                        <a href="student-dashboard.html">Dashboard</a>
-                        <a href="student-profile.html">My Profile</a>
+                        <a class="active" href="student-dashboard.html">Dashboard</a>
+                        <a href="student-profile.html">Profile</a>
                         <a href="student-assessment.html">Assessment</a>
-                        <a href="student-recommendations.html">Recommendations</a>
                     </div>
                 </div>
+
                 <div class="mobile-group">
-                    <div class="mobile-group-title">Explore <i class="fa-solid fa-compass"></i></div>
+                    <div class="mobile-group-title">
+                        Explore
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+
                     <div class="mobile-links">
                         <a href="student-careers.html">Careers</a>
                         <a href="student-courses.html">Courses</a>
@@ -1897,8 +2012,13 @@
                         <a href="student-career-roadmap.html">Career Roadmap</a>
                     </div>
                 </div>
+
                 <div class="mobile-group">
-                    <div class="mobile-group-title">Resources <i class="fa-solid fa-book-open"></i></div>
+                    <div class="mobile-group-title">
+                        Resources
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+
                     <div class="mobile-links">
                         <a href="scholarships.html">Scholarships</a>
                         <a href="entrance-exams.html">Entrance Exams</a>
@@ -1909,1010 +2029,939 @@
             </div>
         </header>
 
-        <!-- ==================== DASHBOARD CONTENT ==================== -->
+        <!-- ==================== MAIN CONTENT ==================== -->
+
         <main class="content">
             <div class="breadcrumb">
                 <span>Student Portal</span>
-                <i class="fa-solid fa-chevron-right" style="font-size:7px"></i>
+                <i class="fa-solid fa-chevron-right"></i>
                 <strong>Dashboard</strong>
             </div>
 
             <!-- ==================== HERO ==================== -->
+
             <section class="hero">
                 <div class="hero-grid">
                     <div>
                         <div class="eyebrow">
-                            <i class="fa-solid fa-sparkles"></i>
-                            Personalized Career Journey
+                            <i class="fa-solid fa-compass"></i>
+                            Career Planning
                         </div>
-                        <h1>Welcome back, <span id="heroUserName">Student</span> 👋</h1>
+
+                        <h1>
+                            Welcome back, <span id="heroUserName">Student</span> 👋
+                        </h1>
+
                         <p>
-                            Your dashboard brings your profile, career exploration, course guidance and
-                            government-college recommendations into one place. Complete your profile and
-                            assessment to unlock more personalized results.
+                            Keep your profile, assessment and next career steps in one place.
                         </p>
+
                         <div class="hero-actions">
-                            <a class="btn btn-primary" href="assessment.html">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i>Start Assessment
+                            <a class="btn btn-primary" id="heroPrimary" href="student-profile.html">
+                                <i class="fa-solid fa-user-pen"></i>
+                                Complete Profile
                             </a>
-                            <a class="btn btn-secondary" href="student-profile.html">
-                                <i class="fa-regular fa-user"></i>Complete Profile
+                            <a class="btn btn-secondary" href="student-assessment.html">
+                                <i class="fa-solid fa-clipboard-check"></i>
+                                Take Assessment
                             </a>
                         </div>
                     </div>
 
-                    <div class="profile-mini">
-                        <div class="profile-mini-head">
+                    <div class="profile-card">
+                        <div class="profile-head">
                             <div>
-                                <div class="profile-mini-kicker">Profile readiness</div>
-                                <div style="margin-top:5px;color:#7D8492;font-size:9px">
-                                    Better profile data = better recommendations
+                                <div class="profile-kicker">Profile readiness</div>
+                                <div class="profile-copy">
+                                    Complete the key profile fields to keep your results relevant.
                                 </div>
                             </div>
-                            <strong class="profile-mini-value" id="profilePercent">0%</strong>
+
+                            <strong class="profile-value" id="profilePercent">0%</strong>
                         </div>
+
                         <div class="progress-track">
                             <div class="progress-bar" id="profileProgressBar"></div>
                         </div>
-                        <div class="profile-mini-note" id="profileProgressNote">Loading your profile information…</div>
-                        <a class="profile-mini-link" href="student-profile.html">
-                            Update profile <i class="fa-solid fa-arrow-right"></i>
+
+                        <div class="profile-note" id="profileProgressNote">
+                            Loading your profile from the server…
+                        </div>
+
+                        <a class="profile-link" href="student-profile.html">
+                            Update profile
+                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
             </section>
 
-            <!-- ==================== QUICK STATS ==================== -->
-            <section class="stats">
-                <div class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-user-check"></i></div>
-                        <span class="stat-chip" id="profileStatChip">Loading</span>
+            <!-- ==================== JOURNEY STATUS ==================== -->
+
+            <section class="section">
+                <div class="section-head">
+                    <div>
+                        <div class="section-title">Journey Status</div>
+                        <div class="section-sub">See what is complete and what you can do next.</div>
                     </div>
-                    <div class="stat-value" id="statProfile">0%</div>
-                    <div class="stat-label">Profile completion</div>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-compass"></i></div>
-                        <span class="stat-chip" id="careerStatChip">Profile</span>
-                    </div>
-                    <div class="stat-value" id="statCareers">—</div>
-                    <div class="stat-label">Career matches</div>
-                </div>
+                <div class="status-grid">
+                    <article class="status-card">
+                        <div class="status-top">
+                            <div class="status-icon">
+                                <i class="fa-solid fa-user-check"></i>
+                            </div>
+                            <span class="status-badge" id="profileStatusBadge">Live</span>
+                        </div>
 
-                <div class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-building-columns"></i></div>
-                        <span class="stat-chip" id="collegeStatChip">Profile</span>
-                    </div>
-                    <div class="stat-value" id="statColleges">—</div>
-                    <div class="stat-label">College matches</div>
-                </div>
+                        <h3>Profile</h3>
+                        <div class="status-main" id="statusProfile">0%</div>
+                        <div class="status-note" id="statusProfileNote">Loading saved profile data.</div>
+                    </article>
 
-                <div class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
-                        <span class="stat-chip">Profile</span>
-                    </div>
-                    <div class="stat-value" id="statRoadmap">0%</div>
-                    <div class="stat-label">Roadmap progress</div>
+                    <article class="status-card">
+                        <div class="status-top">
+                            <div class="status-icon">
+                                <i class="fa-solid fa-clipboard-check"></i>
+                            </div>
+                            <span class="status-badge" id="assessmentStatusBadge">Pending</span>
+                        </div>
+
+                        <h3>Assessment</h3>
+                        <div class="status-main" id="statusAssessment">Not started</div>
+                        <div class="status-note">Complete the assessment to add more direction.</div>
+                    </article>
+
+                    <article class="status-card">
+                        <div class="status-top">
+                            <div class="status-icon">
+                                <i class="fa-solid fa-chart-simple"></i>
+                            </div>
+                            <span class="status-badge">Ready</span>
+                        </div>
+
+                        <h3>Skill Gap</h3>
+                        <div class="status-main" id="statusSkillGap">Not started</div>
+                        <div class="status-note">Review skills after choosing a career path.</div>
+                    </article>
+
+                    <article class="status-card">
+                        <div class="status-top">
+                            <div class="status-icon">
+                                <i class="fa-solid fa-route"></i>
+                            </div>
+                            <span class="status-badge">Ready</span>
+                        </div>
+
+                        <h3>Career Roadmap</h3>
+                        <div class="status-main" id="statusRoadmap">Not started</div>
+                        <div class="status-note">Turn your selected direction into practical steps.</div>
+                    </article>
                 </div>
             </section>
 
-            <!-- ==================== OVERVIEW + ASSESSMENT ==================== -->
-            <section class="section-grid">
-                <div class="panel">
+            <!-- ==================== CAREER JOURNEY ==================== -->
+
+            <section class="section">
+                <article class="panel">
                     <div class="panel-head">
                         <div>
-                            <div class="panel-title">Your Career Overview</div>
-                            <div class="panel-sub">Profile progress and personalized career recommendations</div>
+                            <div class="panel-title">Your Career Journey</div>
+                            <div class="panel-sub">Follow the main steps from your profile to your career plan.</div>
                         </div>
-                        <a class="panel-link" href="student-profile.html">
-                            View profile <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="journey">
+                            <a class="journey-step active" href="student-profile.html" id="journeyProfile">
+                                <div class="journey-dot">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div class="journey-label">Profile</div>
+                                <div class="journey-copy">Academic details, interests, skills and preferences.</div>
+                                <span class="journey-state" id="journeyProfileState">
+                                    <i class="fa-regular fa-circle"></i>
+                                    In progress
+                                </span>
+                                <span class="journey-line"></span>
+                            </a>
+
+                            <a class="journey-step" href="student-assessment.html" id="journeyAssessment">
+                                <div class="journey-dot">
+                                    <i class="fa-solid fa-clipboard-check"></i>
+                                </div>
+                                <div class="journey-label">Assessment</div>
+                                <div class="journey-copy">Add more detail about your interests and direction.</div>
+                                <span class="journey-state" id="journeyAssessmentState">
+                                    <i class="fa-regular fa-circle"></i>
+                                    Pending
+                                </span>
+                                <span class="journey-line"></span>
+                            </a>
+
+                            <a class="journey-step" href="student-careers.html">
+                                <div class="journey-dot">
+                                    <i class="fa-solid fa-compass"></i>
+                                </div>
+                                <div class="journey-label">Explore</div>
+                                <div class="journey-copy">Review career, course and college options.</div>
+                                <span class="journey-state">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    Explore
+                                </span>
+                                <span class="journey-line"></span>
+                            </a>
+
+                            <a class="journey-step" href="student-skill-gap.html">
+                                <div class="journey-dot">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </div>
+                                <div class="journey-label">Skill Gap</div>
+                                <div class="journey-copy">See the skills to strengthen for a selected path.</div>
+                                <span class="journey-state">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    Open
+                                </span>
+                                <span class="journey-line"></span>
+                            </a>
+
+                            <a class="journey-step" href="student-career-roadmap.html">
+                                <div class="journey-dot">
+                                    <i class="fa-solid fa-route"></i>
+                                </div>
+                                <div class="journey-label">Roadmap</div>
+                                <div class="journey-copy">Turn your selected direction into clear next actions.</div>
+                                <span class="journey-state">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    Open
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ==================== PROFILE SNAPSHOT ==================== -->
+
+            <section class="section">
+                <article class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <div class="panel-title">Profile Snapshot</div>
+                            <div class="panel-sub">Key details saved in your student profile.</div>
+                        </div>
+
+                        <a class="section-link" href="student-profile.html">
+                            Edit
+                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>
 
                     <div class="panel-body">
-                        <div class="overview-head">
-                            <div class="ring" id="profileRing">
-                                <div class="ring-inner" id="ringValue">0%</div>
+                        <div class="snapshot">
+                            <div class="snapshot-item">
+                                <div class="snapshot-label">Stream</div>
+                                <div class="snapshot-value muted" id="snapshotStream">Not added</div>
                             </div>
-                            <div class="overview-copy">
-                                <h3 id="overviewTitle">Complete your student profile</h3>
-                                <p id="overviewText">
-                                    Add your academic details, interests, skills, goals and preferences
-                                    to improve recommendation accuracy.
-                                </p>
-                                <div class="mini-progress">
-                                    <span id="overviewProgress"></span>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="subsection">
-                            <div class="subsection-head">
-                                <div>
-                                    <div class="subsection-title">Recommended Careers</div>
-                                    <div class="subsection-note" id="careerNote">
-                                        Recommendations are generated from your saved profile.
-                                    </div>
-                                </div>
-                                <a class="panel-link" href="careers.html">Explore all</a>
+                            <div class="snapshot-item">
+                                <div class="snapshot-label">Class</div>
+                                <div class="snapshot-value muted" id="snapshotClass">Not added</div>
                             </div>
-                            <div id="careerGrid" class="career-grid">
-                                <div class="empty-card">
-                                    <div class="empty-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
-                                    <strong>Loading recommendations</strong>
-                                    <p>We are checking your current profile.</p>
-                                </div>
+
+                            <div class="snapshot-item">
+                                <div class="snapshot-label">Target Career</div>
+                                <div class="snapshot-value muted" id="snapshotTarget">Not added</div>
+                            </div>
+
+                            <div class="snapshot-item">
+                                <div class="snapshot-label">Preferred Course</div>
+                                <div class="snapshot-value muted" id="snapshotCourse">Not added</div>
+                            </div>
+
+                            <div class="snapshot-item">
+                                <div class="snapshot-label">Location</div>
+                                <div class="snapshot-value muted" id="snapshotLocation">Not added</div>
+                            </div>
+
+                            <div class="snapshot-item">
+                                <div class="snapshot-label">Budget</div>
+                                <div class="snapshot-value muted" id="snapshotBudget">Not added</div>
                             </div>
                         </div>
                     </div>
+                </article>
+            </section>
+
+            <!-- ==================== CONTINUE JOURNEY ==================== -->
+
+            <section class="section">
+                <div class="section-head">
+                    <div>
+                        <div class="section-title">Continue Your Journey</div>
+                        <div class="section-sub">Your next step is based on what you have completed so far.</div>
+                    </div>
                 </div>
 
-                <div class="panel">
-                    <div class="assessment">
-                        <div class="assessment-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                        <h3>Discover your career direction</h3>
-                        <p>
-                            The assessment can add another signal to your profile by connecting interests,
-                            strengths and preferences with career paths.
-                        </p>
-                        <div class="check-list">
-                            <div class="check-item">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Interest and aptitude insights</span>
+                <div class="continue">
+                    <div class="continue-icon" id="continueIcon">
+                        <i class="fa-solid fa-user-pen"></i>
+                    </div>
+
+                    <div>
+                        <h3 id="continueTitle">Complete your profile</h3>
+                        <p id="continueText">Finish the remaining profile fields before moving ahead.</p>
+
+                        <div class="continue-meta">
+                            <span class="meta accent" id="continueMeta">Profile setup</span>
+                            <span class="meta" id="continueSecondary">Saved in Spring Boot</span>
+                        </div>
+                    </div>
+
+                    <a class="btn btn-primary" href="student-profile.html" id="continueBtn">
+                        Open Profile
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ==================== EXPLORE OPPORTUNITIES ==================== -->
+
+            <section class="section">
+                <div class="section-head">
+                    <div>
+                        <div class="section-title">Explore Opportunities</div>
+                        <div class="section-sub">Open the dedicated page when you want to review careers, courses or
+                            colleges.</div>
+                    </div>
+                </div>
+
+                <div class="explore-grid">
+                    <a class="explore-card" href="student-careers.html">
+                        <div class="explore-icon">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <h3>Explore Careers</h3>
+                        <p>View career options based on the information saved in your profile.</p>
+                        <div class="explore-footer">
+                            <span>Open Careers</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <a class="explore-card" href="student-courses.html">
+                        <div class="explore-icon">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h3>Explore Courses</h3>
+                        <p>Compare courses, eligibility, duration and career options.</p>
+                        <div class="explore-footer">
+                            <span>Open Courses</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <a class="explore-card" href="student-colleges.html">
+                        <div class="explore-icon">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <h3>Explore Colleges</h3>
+                        <p>Find colleges using your course, location, type and budget preferences.</p>
+                        <div class="explore-footer">
+                            <span>Open Colleges</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ==================== QUICK ACTIONS ==================== -->
+
+            <section class="section">
+                <article class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <div class="panel-title">Quick Actions</div>
+                            <div class="panel-sub">Open the page you want to use next.</div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="quick-grid">
+                            <a class="quick-action" href="student-profile.html">
+                                <div class="quick-icon">
+                                    <i class="fa-regular fa-user"></i>
+                                </div>
+                                <div class="quick-copy">
+                                    <strong>My Profile</strong>
+                                    <span>Update your student information.</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-right quick-arrow"></i>
+                            </a>
+
+                            <a class="quick-action" href="student-assessment.html">
+                                <div class="quick-icon">
+                                    <i class="fa-solid fa-clipboard-check"></i>
+                                </div>
+                                <div class="quick-copy">
+                                    <strong>Career Assessment</strong>
+                                    <span>Complete the assessment flow.</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-right quick-arrow"></i>
+                            </a>
+
+                            <a class="quick-action" href="student-skill-gap.html">
+                                <div class="quick-icon">
+                                    <i class="fa-solid fa-chart-simple"></i>
+                                </div>
+                                <div class="quick-copy">
+                                    <strong>Skill Gap</strong>
+                                    <span>Review skills to develop.</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-right quick-arrow"></i>
+                            </a>
+
+                            <a class="quick-action" href="student-career-roadmap.html">
+                                <div class="quick-icon">
+                                    <i class="fa-solid fa-route"></i>
+                                </div>
+                                <div class="quick-copy">
+                                    <strong>Career Roadmap</strong>
+                                    <span>Plan practical next steps.</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-right quick-arrow"></i>
+                            </a>
+
+                            <a class="quick-action" href="scholarships.html">
+                                <div class="quick-icon">
+                                    <i class="fa-solid fa-award"></i>
+                                </div>
+                                <div class="quick-copy">
+                                    <strong>Scholarships</strong>
+                                    <span>View available funding resources.</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-right quick-arrow"></i>
+                            </a>
+
+                            <a class="quick-action" href="application-tracker.html">
+                                <div class="quick-icon">
+                                    <i class="fa-solid fa-list-check"></i>
+                                </div>
+                                <div class="quick-copy">
+                                    <strong>Application Tracker</strong>
+                                    <span>Keep application tasks organised.</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-right quick-arrow"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ==================== TASKS ==================== -->
+
+            <section class="section">
+                <article class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <div class="panel-title">Your Tasks</div>
+                            <div class="panel-sub">A simple checklist to keep your plan moving.</div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="tasks">
+                            <div class="task done" id="taskProfile">
+                                <div class="task-icon">
+                                    <i class="fa-solid fa-user-check"></i>
+                                </div>
+                                <div>
+                                    <div class="task-title">Complete student profile</div>
+                                    <div class="task-sub">Add the details used by the student dashboard.</div>
+                                </div>
+                                <span class="task-state">Complete</span>
                             </div>
-                            <div class="check-item">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Career compatibility analysis</span>
+
+                            <div class="task current" id="taskAssessment">
+                                <div class="task-icon">
+                                    <i class="fa-solid fa-clipboard-check"></i>
+                                </div>
+                                <div>
+                                    <div class="task-title">Take career assessment</div>
+                                    <div class="task-sub">Add assessment context to your journey.</div>
+                                </div>
+                                <span class="task-state">Pending</span>
                             </div>
-                            <div class="check-item">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Personalized roadmap direction</span>
+
+                            <div class="task" id="taskExplore">
+                                <div class="task-icon">
+                                    <i class="fa-solid fa-compass"></i>
+                                </div>
+                                <div>
+                                    <div class="task-title">Explore your options</div>
+                                    <div class="task-sub">Browse careers, courses and colleges.</div>
+                                </div>
+                                <span class="task-state">Open</span>
                             </div>
-                            <div class="check-item">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Skill-gap identification</span>
+
+                            <div class="task" id="taskRoadmap">
+                                <div class="task-icon">
+                                    <i class="fa-solid fa-route"></i>
+                                </div>
+                                <div>
+                                    <div class="task-title">Build your roadmap</div>
+                                    <div class="task-sub">Turn your chosen direction into clear steps.</div>
+                                </div>
+                                <span class="task-state">Open</span>
                             </div>
                         </div>
-                        <a class="btn btn-primary" href="assessment.html">
-                            Take Assessment <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ==================== FOOTER GUIDANCE ==================== -->
+
+            <section class="section">
+                <div class="guidance">
+                    <div class="guidance-left">
+                        <div class="guidance-icon">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+
+                        <div>
+                            <h3>Keep your next step clear</h3>
+                            <p>
+                                Use this dashboard for progress and quick access. Career, course and college results
+                                remain on their dedicated pages.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="guidance-actions">
+                        <a class="btn btn-soft" href="student-profile.html">Review Profile</a>
+                        <a class="btn btn-primary" href="student-assessment.html" id="guidanceBtn">
+                            Continue Journey
+                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
             </section>
-
-            <!-- ==================== COURSE + COLLEGE ==================== -->
-            <section class="wide-grid">
-                <div class="panel">
-                    <div class="panel-head">
-                        <div>
-                            <div class="panel-title">Recommended Courses</div>
-                            <div class="panel-sub">Courses returned by the recommendation service</div>
-                        </div>
-                        <a class="panel-link" href="courses.html">View all</a>
-                    </div>
-                    <div class="panel-body">
-                        <div id="courseList" class="course-list">
-                            <div class="empty-card">
-                                <div class="empty-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
-                                <strong>Loading course matches</strong>
-                                <p>Your saved profile is being used to request course recommendations.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="panel-head">
-                        <div>
-                            <div class="panel-title">Government College Matches</div>
-                            <div class="panel-sub">College recommendations based on your preferences</div>
-                        </div>
-                        <a class="panel-link" href="colleges.html">Explore colleges</a>
-                    </div>
-                    <div class="panel-body">
-                        <div id="collegeList" class="college-list">
-                            <div class="empty-card">
-                                <div class="empty-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
-                                <strong>Loading college matches</strong>
-                                <p>We are checking the recommendation service.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ==================== ROADMAP + ACTIONS ==================== -->
-            <section class="wide-grid">
-                <div class="panel">
-                    <div class="panel-head">
-                        <div>
-                            <div class="panel-title">Career Roadmap</div>
-                            <div class="panel-sub">Your suggested next milestones</div>
-                        </div>
-                        <a class="panel-link" href="career-roadmap.html">Open roadmap</a>
-                    </div>
-                    <div class="panel-body">
-                        <div class="roadmap-list">
-                            <div class="roadmap-step done">
-                                <div class="step-dot"><i class="fa-solid fa-check"></i></div>
-                                <div class="step-info">
-                                    <strong>Complete basic profile</strong>
-                                    <span>Academic, interests, skills and preference details are captured.</span>
-                                </div>
-                            </div>
-
-                            <div class="roadmap-step current" id="roadmapAssessment">
-                                <div class="step-dot">2</div>
-                                <div class="step-info">
-                                    <strong>Take career assessment</strong>
-                                    <span>Use the assessment to add stronger career-direction signals.</span>
-                                </div>
-                            </div>
-
-                            <div class="roadmap-step">
-                                <div class="step-dot">3</div>
-                                <div class="step-info">
-                                    <strong>Build required skills</strong>
-                                    <span>Use skill-gap analysis and learning resources to close the gaps.</span>
-                                </div>
-                            </div>
-
-                            <div class="roadmap-step">
-                                <div class="step-dot">4</div>
-                                <div class="step-info">
-                                    <strong>Prepare for opportunities</strong>
-                                    <span>Explore exams, scholarships and application tracking.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="panel-head">
-                        <div>
-                            <div class="panel-title">Your Next Actions</div>
-                            <div class="panel-sub">Simple steps to keep your journey moving</div>
-                        </div>
-                        <a class="panel-link" href="application-tracker.html">Track apps</a>
-                    </div>
-                    <div class="panel-body">
-                        <div class="action-list">
-                            <a class="action-card" href="student-profile.html">
-                                <div class="action-icon"><i class="fa-solid fa-user-pen"></i></div>
-                                <div>
-                                    <strong>Review profile details</strong>
-                                    <span>Keep academic, skill and location information current.</span>
-                                </div>
-                                <i class="action-arrow fa-solid fa-chevron-right"></i>
-                            </a>
-
-                            <a class="action-card" href="assessment.html">
-                                <div class="action-icon"><i class="fa-solid fa-clipboard-check"></i></div>
-                                <div>
-                                    <strong>Complete career assessment</strong>
-                                    <span>Get more evidence for your personalized career path.</span>
-                                </div>
-                                <i class="action-arrow fa-solid fa-chevron-right"></i>
-                            </a>
-
-                            <a class="action-card" href="scholarships.html">
-                                <div class="action-icon"><i class="fa-solid fa-award"></i></div>
-                                <div>
-                                    <strong>Explore funding opportunities</strong>
-                                    <span>Check scholarships and other education resources.</span>
-                                </div>
-                                <i class="action-arrow fa-solid fa-chevron-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ==================== TRUST NOTE ==================== -->
-            <div class="bottom-note">
-                <i class="fa-solid fa-shield-halved"></i>
-                <span>
-                    This dashboard uses your saved student profile to request personalized career, course and
-                    college recommendations. When a connected service is unavailable, the page keeps your profile
-                    and shows a clear retry or empty state instead of displaying invented recommendation data.
-                </span>
-            </div>
         </main>
-    </div>
 
-    <!-- ==================== TOAST ==================== -->
-    <div class="toast" id="toast" role="status" aria-live="polite">
-        <div class="toast-icon" id="toastIcon">
-            <i class="fa-solid fa-circle-check"></i>
-        </div>
-        <div>
-            <strong id="toastTitle">Ready</strong>
-            <p id="toastText"></p>
-        </div>
-    </div>
+        <!-- ==================== LOADING ==================== -->
 
-    <!-- ==================== LOADING OVERLAY ==================== -->
-    <div class="overlay" id="loadingOverlay" aria-hidden="true">
-        <div class="loading-card">
-            <div class="spinner"></div>
-            <p id="loadingText">Loading your dashboard…</p>
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <p id="loadingText">Loading your dashboard…</p>
+            </div>
+        </div>
+
+        <!-- ==================== TOAST ==================== -->
+
+        <div class="toast" id="toast">
+            <div class="toast-icon" id="toastIcon">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+
+            <div>
+                <strong id="toastTitle">CareerAdvisor</strong>
+                <p id="toastText"></p>
+            </div>
         </div>
     </div>
 
     <script>
-        /* =========================================================
-           API CONFIGURATION
-           ========================================================= */
+
+
+        /* ==================== CONFIGURATION ==================== */
+
         const API_BASE_URL = "http://localhost:8081";
         const PROFILE_API = `${API_BASE_URL}/api/student/profile`;
-        const RECOMMENDATION_APIS = {
-            careers: `${API_BASE_URL}/api/recommendation/careers`,
-            courses: `${API_BASE_URL}/api/recommendation/courses`,
-            colleges: `${API_BASE_URL}/api/recommendation/colleges`
-        };
-
-        const PROFILE_FIELDS = [
-            "className",
-            "stream",
-            "percentage",
-            "favoriteSubjects",
-            "strongSubjects",
-            "weakSubjects",
-            "interests",
-            "skills",
-            "careerInterest",
-            "targetCareer",
-            "preferredCourse",
-            "collegeType",
-            "budgetRange",
-            "hostelRequired",
-            "city",
-            "state",
-            "preferredLocation"
-        ];
-
-        /* =========================================================
-           DOM REFERENCES
-           ========================================================= */
-        const account = document.getElementById("account");
+        const PROFILE_FIELDS = ["className", "stream", "percentage", "favoriteSubjects", "strongSubjects", "weakSubjects", "interests", "skills", "careerInterest", "targetCareer", "preferredCourse", "collegeType", "budgetRange", "hostelRequired", "city", "state", "preferredLocation"];
+        const navTriggers = document.querySelectorAll(".nav-trigger");
+        const account = document.getElementById("accountTrigger").closest(".account");
         const accountTrigger = document.getElementById("accountTrigger");
+        const accountMenu = document.querySelector(".account-menu");
         const mobileMenuBtn = document.getElementById("mobileMenuBtn");
         const mobileNav = document.getElementById("mobileNav");
-        const notificationBtn = document.getElementById("notificationBtn");
-        const logoutBtn = document.getElementById("logoutBtn");
-        const toast = document.getElementById("toast");
-        const toastIcon = document.getElementById("toastIcon");
-        const toastTitle = document.getElementById("toastTitle");
-        const toastText = document.getElementById("toastText");
         const loadingOverlay = document.getElementById("loadingOverlay");
         const loadingText = document.getElementById("loadingText");
-
         let toastTimer = null;
 
-        /* =========================================================
-           AUTHENTICATION
-           ========================================================= */
-        function getToken() {
-            return localStorage.getItem("token");
-        }
+        /* ==================== AUTH HELPERS ==================== */
 
+        function getToken() {
+            return localStorage.getItem("token") || ""
+        }
         function getStoredUser() {
             try {
-                return JSON.parse(localStorage.getItem("user") || "null");
+                return JSON.parse(localStorage.getItem("user") || "null")
             } catch {
-                return null;
+                return null
             }
         }
-
         function requireStudent() {
             const token = getToken();
             const user = getStoredUser();
             const role = String(user?.role || "").toUpperCase();
-
             if (!token || !user || role !== "STUDENT") {
                 window.location.href = "../login.html";
-                return false;
+                return false
             }
-
-            return true;
+            return true
         }
-
         function authHeaders() {
             return {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${getToken()}`
-            };
+                Accept: "application/json", "Content-Type": "application/json", Authorization: `Bearer ${getToken()}`
+            }
+        }
+        function setLoading(show, message = "Loading your dashboard…") {
+            loadingText.textContent = message;
+            loadingOverlay.classList.toggle("show", show)
+        }
+        function showToast(type, title, message) {
+            const toast = document.getElementById("toast");
+            const icon = document.getElementById("toastIcon");
+            document.getElementById("toastTitle").textContent = title;
+            document.getElementById("toastText").textContent = message;
+            toast.className = `toast ${type} show`;
+            icon.innerHTML = type === "success" ? '<i class="fa-solid fa-circle-check"></i>' : type === "error" ? '<i class="fa-solid fa-circle-exclamation"></i>' : '<i class="fa-solid fa-circle-info"></i>';
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove("show"), 4300)
+        }
+        function setText(id, value, mutedIfEmpty = true) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const finalValue = value === undefined || value === null || String(value).trim() === "" ? "Not added" : String(value);
+            el.textContent = finalValue;
+            el.classList.toggle("muted", mutedIfEmpty && (finalValue === "Not added" || finalValue === "—"))
+        }
+        function cleanValue(value) {
+            if (Array.isArray(value)) return value.filter(v => v !== null && v !== undefined && String(v).trim() !== "").join(", ");
+            return value === null || value === undefined ? "" : String(value).trim()
+        }
+        function isFilled(value) {
+            if (value === null || value === undefined) return false;
+            if (typeof value === "boolean") return true;
+            if (typeof value === "number") return Number.isFinite(value);
+            if (Array.isArray(value)) return value.length > 0;
+            return String(value).trim() !== ""
+        }
+        function calculateProfileCompletion(profile) {
+            if (!profile || typeof profile !== "object") return 0;
+            const completed = PROFILE_FIELDS.filter(field => isFilled(profile[field])).length;
+            return Math.round((completed / PROFILE_FIELDS.length) * 100)
         }
 
-        /* =========================================================
-           HEADER / ACCOUNT UI
-           ========================================================= */
+        /* ==================== UI HELPERS ==================== */
+
         function updateUserHeader() {
             const user = getStoredUser();
-            const name = user?.name || user?.fullName || "Student";
-            const initials = name
-                .trim()
-                .split(/\s+/)
-                .filter(Boolean)
-                .slice(0, 2)
-                .map((part) => part[0])
-                .join("")
-                .toUpperCase() || "S";
-            const firstName = name.trim().split(/\s+/)[0] || "Student";
-
-            document.getElementById("heroUserName").textContent = firstName;
-            document.getElementById("topName").textContent = name;
-            document.getElementById("topAvatar").textContent = initials;
+            const name = cleanValue(user?.name || user?.fullName) || "Student";
+            const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map(x => x[0]).join("").toUpperCase() || "S";
+            document.getElementById("accountName").textContent = name;
+            document.getElementById("accountAvatar").textContent = initials;
+            document.getElementById("heroUserName").textContent = name.split(/\s+/)[0] || "Student"
+        }
+        function updateProfileUI(profile) {
+            const value = calculateProfileCompletion(profile);
+            document.getElementById("profilePercent").textContent = `${value}%`;
+            document.getElementById("profileProgressBar").style.width = `${value}%`;
+            document.getElementById("statusProfile").textContent = `${value}%`;
+            const note = value >= 100 ? "Profile details are complete and saved." : value >= 70 ? "Most key details are available. Review the remaining fields." : "Add more academic, interest and preference details to strengthen your profile.";
+            document.getElementById("profileProgressNote").textContent = note;
+            document.getElementById("statusProfileNote").textContent = note;
+            document.getElementById("profileStatusBadge").textContent = value >= 100 ? "Complete" : "Live";
+            const profileStep = document.getElementById("journeyProfile");
+            const profileState = document.getElementById("journeyProfileState");
+            if (value >= 100) {
+                profileStep.classList.remove("active");
+                profileStep.classList.add("done");
+                profileState.innerHTML = '<i class="fa-solid fa-circle-check"></i> Complete';
+            } else {
+                profileStep.classList.add("active");
+                profileStep.classList.remove("done");
+                profileState.innerHTML = '<i class="fa-regular fa-circle"></i> In progress';
+            }
+        }
+        function updateAssessmentUI() {
+            const done = localStorage.getItem("assessmentCompleted") === "true";
+            const badge = document.getElementById("assessmentStatusBadge");
+            const main = document.getElementById("statusAssessment");
+            const step = document.getElementById("journeyAssessment");
+            const state = document.getElementById("journeyAssessmentState");
+            const task = document.getElementById("taskAssessment");
+            if (done) {
+                badge.textContent = "Complete";
+                main.textContent = "Completed";
+                step.classList.add("done");
+                state.innerHTML = '<i class="fa-solid fa-circle-check"></i> Complete';
+                task.classList.add("done");
+                task.querySelector(".task-state").textContent = "Complete"
+            } else {
+                badge.textContent = "Pending";
+                main.textContent = "Not started";
+                step.classList.remove("done");
+                state.innerHTML = '<i class="fa-regular fa-circle"></i> Pending';
+                task.classList.remove("done");
+                task.classList.add("current");
+                task.querySelector(".task-state").textContent = "Pending"
+            }
+        }
+        function buildSnapshot(profile) {
+            setText("snapshotStream", cleanValue(profile?.stream));
+            setText("snapshotClass", cleanValue(profile?.className));
+            setText("snapshotTarget", cleanValue(profile?.targetCareer || profile?.careerInterest));
+            setText("snapshotCourse", cleanValue(profile?.preferredCourse));
+            const loc = [cleanValue(profile?.city), cleanValue(profile?.state)].filter(Boolean).join(", ") || cleanValue(profile?.preferredLocation);
+            setText("snapshotLocation", loc);
+            setText("snapshotBudget", cleanValue(profile?.budgetRange))
+        }
+        function updateContinue(value) {
+            const done = value >= 100;
+            const assessmentDone = localStorage.getItem("assessmentCompleted") === "true";
+            const icon = document.getElementById("continueIcon").firstElementChild;
+            const title = document.getElementById("continueTitle");
+            const text = document.getElementById("continueText");
+            const meta = document.getElementById("continueMeta");
+            const secondary = document.getElementById("continueSecondary");
+            const button = document.getElementById("continueBtn");
+            const guidance = document.getElementById("guidanceBtn");
+            if (!done) {
+                icon.className = "fa-solid fa-user-pen";
+                title.textContent = "Complete your profile";
+                text.textContent = "Finish the remaining profile fields before moving ahead.";
+                meta.textContent = "Profile setup";
+                secondary.textContent = `${value}% complete`;
+                button.href = "student-profile.html";
+                button.innerHTML = 'Open Profile <i class="fa-solid fa-arrow-right"></i>';
+                guidance.href = "student-profile.html";
+                guidance.innerHTML = 'Continue Profile <i class="fa-solid fa-arrow-right"></i>'
+            } else if (!assessmentDone) {
+                icon.className = "fa-solid fa-clipboard-check";
+                title.textContent = "Take your career assessment";
+                text.textContent = "Your profile is ready. The next useful step is the assessment before you explore deeper career guidance.";
+                meta.textContent = "Next step";
+                secondary.textContent = "Profile complete";
+                button.href = "student-assessment.html";
+                button.innerHTML = 'Start Assessment <i class="fa-solid fa-arrow-right"></i>';
+                guidance.href = "student-assessment.html";
+                guidance.innerHTML = 'Start Assessment <i class="fa-solid fa-arrow-right"></i>'
+            } else {
+                icon.className = "fa-solid fa-compass";
+                title.textContent = "Explore your options";
+                text.textContent = "Your profile and assessment are ready. Visit Careers, Courses and Colleges to review the results for your profile.";
+                meta.textContent = "Explore";
+                secondary.textContent = "Assessment complete";
+                button.href = "student-careers.html";
+                button.innerHTML = 'Explore Careers <i class="fa-solid fa-arrow-right"></i>';
+                guidance.href = "student-careers.html";
+                guidance.innerHTML = 'Explore Careers <i class="fa-solid fa-arrow-right"></i>'
+            }
+        }
+        function updateTasks(value) {
+            const profileTask = document.getElementById("taskProfile");
+            const profileState = profileTask.querySelector(".task-state");
+            if (value >= 100) {
+                profileTask.classList.add("done");
+                profileTask.classList.remove("current");
+                profileState.textContent = "Complete"
+            } else {
+                profileTask.classList.add("current");
+                profileTask.classList.remove("done");
+                profileState.textContent = "In progress"
+            }
         }
 
-        function openAccountMenu() {
-            const isOpen = account.classList.toggle("open");
-            accountTrigger.setAttribute("aria-expanded", String(isOpen));
+        /* ==================== DATA LOADING ==================== */
+
+        async function fetchJson(url, options = {}) {
+            let response;
+            try {
+                response = await fetch(url, { ...options, headers: { ...authHeaders(), ...(options.headers || {}) } })
+            } catch {
+                const e = new Error("Unable to connect to Spring Boot.");
+                e.status = 0;
+                throw e
+            }
+            const raw = await response.text();
+            let data = null;
+            try {
+                data = raw ? JSON.parse(raw) : null
+            } catch {
+                data = raw
+            }
+            if (!response.ok) {
+                const message = typeof data === "string" ? data : data?.message || data?.error || `Request failed (${response.status})`;
+                const e = new Error(message);
+                e.status = response.status;
+                throw e
+            }
+            return data
         }
+
+        /* ==================== NAVIGATION ==================== */
 
         function closeMenus() {
+            document.querySelectorAll(".nav-item.open").forEach((item) => {
+                item.classList.remove("open");
+                item.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+            });
+
             account.classList.remove("open");
             accountTrigger.setAttribute("aria-expanded", "false");
             mobileNav.classList.remove("show");
             mobileMenuBtn.setAttribute("aria-expanded", "false");
-            document.querySelectorAll(".nav-item.open").forEach((item) => item.classList.remove("open"));
         }
 
-        /* =========================================================
-           FEEDBACK UI
-           ========================================================= */
-        function setLoading(show, message = "Loading your dashboard…") {
-            loadingText.textContent = message;
-            loadingOverlay.classList.toggle("show", show);
-            loadingOverlay.setAttribute("aria-hidden", String(!show));
-        }
+        navTriggers.forEach((trigger) => {
+            trigger.addEventListener("click", (event) => {
+                event.stopPropagation();
 
-        function showToast(type, title, message) {
-            clearTimeout(toastTimer);
-            toast.className = `toast ${type} show`;
-            toastIcon.innerHTML = `<i class="fa-solid ${type === "success" ? "fa-circle-check" : "fa-circle-exclamation"}"></i>`;
-            toastTitle.textContent = title;
-            toastText.textContent = message;
-            toastTimer = setTimeout(() => toast.classList.remove("show"), 4300);
-        }
+                const item = trigger.closest(".nav-item");
+                const willOpen = !item.classList.contains("open");
 
-        /* =========================================================
-           PROFILE PROGRESS
-           ========================================================= */
-        function clamp(value, min = 0, max = 100) {
-            return Math.max(min, Math.min(max, value));
-        }
-
-        function calculateProfileCompletion(profile) {
-            const filled = PROFILE_FIELDS.filter((field) => {
-                const value = profile?.[field];
-                return value !== null && value !== undefined && String(value).trim() !== "";
-            }).length;
-
-            return Math.round((filled / PROFILE_FIELDS.length) * 100);
-        }
-
-        function updateRoadmapProgress(profilePercent) {
-            let progress = 0;
-
-            if (profilePercent >= 100) {
-                progress = 50;
-            } else if (profilePercent >= 50) {
-                progress = 25;
-            }
-
-            document.getElementById("statRoadmap").textContent = `${progress}%`;
-        }
-
-        function updateProgress(percent) {
-            const value = clamp(Number(percent) || 0);
-
-            document.getElementById("profilePercent").textContent = `${value}%`;
-            document.getElementById("statProfile").textContent = `${value}%`;
-            document.getElementById("ringValue").textContent = `${value}%`;
-            document.getElementById("profileProgressBar").style.width = `${value}%`;
-            document.getElementById("overviewProgress").style.width = `${value}%`;
-            document.getElementById("profileRing").style.setProperty("--progress", `${value}%`);
-
-            const chip = document.getElementById("profileStatChip");
-            const note = document.getElementById("profileProgressNote");
-            const title = document.getElementById("overviewTitle");
-            const text = document.getElementById("overviewText");
-
-            if (value >= 80) {
-                chip.textContent = "Strong";
-                note.textContent = "Your profile has enough information for stronger personalization.";
-            } else if (value >= 50) {
-                chip.textContent = "In progress";
-                note.textContent = "Add a few more details to improve recommendation quality.";
-            } else {
-                chip.textContent = "Needs attention";
-                note.textContent = "Complete more profile fields before relying on personalized matches.";
-            }
-
-            if (value === 100) {
-                title.textContent = "Your profile is ready for personalization";
-                text.textContent = "Your saved academic, interest, skill and preference details are ready to power personalized recommendations.";
-            } else {
-                title.textContent = "Complete your student profile";
-                text.textContent = "Add your academic details, interests, skills, goals and preferences to improve recommendation accuracy.";
-            }
-
-            updateRoadmapProgress(value);
-        }
-
-        /* =========================================================
-           RECOMMENDATION DATA HELPERS
-           ========================================================= */
-        function normalizeRecommendationResponse(data) {
-            if (Array.isArray(data)) return data;
-            if (Array.isArray(data?.recommendations)) return data.recommendations;
-            if (Array.isArray(data?.data)) return data.data;
-            if (Array.isArray(data?.results)) return data.results;
-            return [];
-        }
-
-        function pick(object, keys, fallback = "") {
-            for (const key of keys) {
-                const value = object?.[key];
-                if (value !== undefined && value !== null && String(value).trim() !== "") {
-                    return value;
-                }
-            }
-            return fallback;
-        }
-
-        function recommendationName(item) {
-            return String(pick(item, [
-                "name",
-                "title",
-                "course_name",
-                "courseName",
-                "career",
-                "career_name",
-                "college",
-                "college_name",
-                "institution",
-                "collegeName"
-            ], "Recommendation"));
-        }
-
-        function recommendationDescription(item, type) {
-            const fallback = type === "career"
-                ? "Explore this career path and review the details before making study decisions."
-                : type === "course"
-                    ? "Review eligibility, duration and learning outcomes for this course."
-                    : "Review the college profile, eligibility and location before applying.";
-
-            return String(pick(item, ["description", "summary", "details", "overview"], fallback));
-        }
-
-        function recommendationScore(item) {
-            const raw = pick(item, [
-                "score",
-                "match_score",
-                "matchScore",
-                "compatibility",
-                "percentage",
-                "match"
-            ], null);
-
-            if (raw === null) return "";
-
-            const number = Number(String(raw).replace("%", ""));
-            return Number.isFinite(number) ? String(Math.round(number)) : String(raw);
-        }
-
-        function recommendationIcon(type, item) {
-            if (type === "career") return pick(item, ["icon"], "fa-code");
-            if (type === "course") return pick(item, ["icon"], "fa-graduation-cap");
-            return pick(item, ["icon"], "fa-building-columns");
-        }
-
-        function formatScoreBadge(score) {
-            if (!score) return "";
-            return `<span class="match-badge"><i class="fa-solid fa-bolt"></i>${escapeHtml(score)} score</span>`;
-        }
-
-        function escapeHtml(value) {
-            return String(value).replace(/[&<>'"]/g, (char) => ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                "'": "&#39;",
-                '"': "&quot;"
-            }[char]));
-        }
-
-        function escapeAttribute(value) {
-            return String(value).replace(/[^a-zA-Z0-9_\-\s]/g, "") || "fa-graduation-cap";
-        }
-
-        /* =========================================================
-           EMPTY / ERROR STATES
-           ========================================================= */
-        function renderEmpty(container, title, text, link, label) {
-            const action = link
-                ? `<a class="btn btn-secondary empty-action" href="${escapeHtml(link)}">${escapeHtml(label || "Explore")} <i class="fa-solid fa-arrow-right"></i></a>`
-                : "";
-
-            container.innerHTML = `
-                <div class="empty-card">
-                    <div class="empty-icon"><i class="fa-solid fa-circle-info"></i></div>
-                    <strong>${escapeHtml(title)}</strong>
-                    <p>${escapeHtml(text)}</p>
-                    ${action}
-                </div>
-            `;
-        }
-
-        /* =========================================================
-           RECOMMENDATION RENDERERS
-           ========================================================= */
-        function renderCareers(items) {
-            const grid = document.getElementById("careerGrid");
-            const stat = document.getElementById("statCareers");
-            const chip = document.getElementById("careerStatChip");
-            const note = document.getElementById("careerNote");
-
-            if (!items.length) {
-                stat.textContent = "0";
-                chip.textContent = "Complete profile";
-                renderEmpty(
-                    grid,
-                    "No career matches yet",
-                    "Complete more profile details or take the career assessment to unlock personalized career recommendations.",
-                    "assessment.html",
-                    "Take Assessment"
-                );
-                note.textContent = "Add more profile information to improve personalization.";
-                return;
-            }
-
-            stat.textContent = String(items.length);
-            chip.textContent = "Ready";
-            note.textContent = "Personalized using the profile currently saved in your account.";
-
-            grid.innerHTML = items.slice(0, 3).map((item) => {
-                const score = recommendationScore(item);
-                const icon = escapeAttribute(recommendationIcon("career", item));
-                const badge = score
-                    ? formatScoreBadge(score)
-                    : `<span class="match-badge"><i class="fa-solid fa-sparkles"></i>Profile match</span>`;
-
-                return `
-                    <article class="career-card">
-                        <div class="career-icon">
-                            <i class="fa-solid ${icon}"></i>
-                        </div>
-                        <h4>${escapeHtml(recommendationName(item))}</h4>
-                        <p>${escapeHtml(recommendationDescription(item, "career"))}</p>
-                        ${badge}
-                    </article>
-                `;
-            }).join("");
-        }
-
-        function renderCourses(items) {
-            const list = document.getElementById("courseList");
-
-            if (!items.length) {
-                renderEmpty(
-                    list,
-                    "No course matches yet",
-                    "Complete your profile to request course recommendations from the recommendation service.",
-                    "student-profile.html",
-                    "Update Profile"
-                );
-                return;
-            }
-
-            list.innerHTML = items.slice(0, 4).map((item) => {
-                const score = recommendationScore(item);
-                const duration = pick(item, ["duration", "duration_years", "course_duration", "courseDuration"], "Course details available");
-                const icon = escapeAttribute(pick(item, ["icon"], "fa-graduation-cap"));
-
-                return `
-                    <div class="course-row">
-                        <div class="course-logo">
-                            <i class="fa-solid ${icon}"></i>
-                        </div>
-                        <div class="course-info">
-                            <strong>${escapeHtml(recommendationName(item))}</strong>
-                            <span>${escapeHtml(String(duration))}</span>
-                        </div>
-                        ${score ? `<span class="score-pill">${escapeHtml(score)} score</span>` : ""}
-                    </div>
-                `;
-            }).join("");
-        }
-
-        function renderColleges(items) {
-            const list = document.getElementById("collegeList");
-            const stat = document.getElementById("statColleges");
-            const chip = document.getElementById("collegeStatChip");
-
-            stat.textContent = String(items.length);
-
-            if (!items.length) {
-                chip.textContent = "Complete profile";
-                renderEmpty(
-                    list,
-                    "No college matches yet",
-                    "Add your location, college type and budget preferences to improve government-college matching.",
-                    "student-profile.html",
-                    "Update Profile"
-                );
-                return;
-            }
-
-            chip.textContent = "Ready";
-
-            list.innerHTML = items.slice(0, 3).map((item) => {
-                const score = recommendationScore(item);
-                const city = pick(item, ["city"], "");
-                const state = pick(item, ["state"], "");
-                const location = [city, state].filter(Boolean).join(", ") || pick(item, ["location", "address"], "Location details available");
-                const type = pick(item, ["college_type", "collegeType", "type"], "College");
-
-                return `
-                    <article class="college-card">
-                        <div class="college-top">
-                            <div class="college-icon">
-                                <i class="fa-solid fa-building-columns"></i>
-                            </div>
-                            <div>
-                                <h4>${escapeHtml(recommendationName(item))}</h4>
-                                <p>${escapeHtml(String(location))}</p>
-                            </div>
-                        </div>
-                        <div class="college-meta">
-                            <span class="meta-pill">${escapeHtml(String(type))}</span>
-                            ${score ? `<span class="meta-pill match">${escapeHtml(score)} score</span>` : ""}
-                        </div>
-                    </article>
-                `;
-            }).join("");
-        }
-
-        /* =========================================================
-           API HELPER
-           ========================================================= */
-        async function fetchJson(url, options = {}) {
-            let response;
-
-            try {
-                response = await fetch(url, {
-                    ...options,
-                    headers: {
-                        ...authHeaders(),
-                        ...(options.headers || {})
+                document.querySelectorAll(".nav-item.open").forEach((other) => {
+                    if (other !== item) {
+                        other.classList.remove("open");
+                        other.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
                     }
                 });
-            } catch (error) {
-                const networkError = new Error("Unable to connect to the server.");
-                networkError.status = 0;
-                throw networkError;
+
+                item.classList.toggle("open", willOpen);
+                trigger.setAttribute("aria-expanded", String(willOpen));
+            });
+        });
+
+        accountTrigger.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            const open = !account.classList.contains("open");
+            account.classList.toggle("open", open);
+            accountTrigger.setAttribute("aria-expanded", String(open));
+
+            document.querySelectorAll(".nav-item.open").forEach((item) => {
+                item.classList.remove("open");
+                item.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+            });
+        });
+
+        mobileMenuBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            const open = !mobileNav.classList.contains("show");
+            mobileNav.classList.toggle("show", open);
+            mobileMenuBtn.setAttribute("aria-expanded", String(open));
+            account.classList.remove("open");
+            accountTrigger.setAttribute("aria-expanded", "false");
+        });
+
+        accountMenu.addEventListener("click", (event) => {
+            event.stopPropagation();
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!event.target.closest(".nav-item")) {
+                document.querySelectorAll(".nav-item.open").forEach((item) => {
+                    item.classList.remove("open");
+                    item.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+                });
             }
 
-            const rawText = await response.text();
-            let data = null;
-
-            try {
-                data = rawText ? JSON.parse(rawText) : null;
-            } catch {
-                data = rawText;
+            if (!event.target.closest(".account")) {
+                account.classList.remove("open");
+                accountTrigger.setAttribute("aria-expanded", "false");
             }
 
-            if (!response.ok) {
-                const message = typeof data === "string"
-                    ? data
-                    : data?.message || data?.error || `Request failed (${response.status})`;
-                const error = new Error(message);
-                error.status = response.status;
-                throw error;
+            if (!event.target.closest(".mobile-nav") && !event.target.closest("#mobileMenuBtn")) {
+                mobileNav.classList.remove("show");
+                mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 900) {
+                mobileNav.classList.remove("show");
+                mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        document.getElementById("notificationBtn").addEventListener("click", () => {
+            showToast(
+                "info",
+                "CareerAdvisor",
+                "Your saved profile is used on the Careers, Courses and Colleges pages."
+            );
+        });
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "../login.html";
+        });
+
+
+
+        /* ==================== START ==================== */
+
+        async function loadDashboard() {
+            if (!requireStudent()) {
+                return;
             }
 
-            return data;
-        }
+            updateUserHeader();
+            setLoading(true);
 
-        /* =========================================================
-           PROFILE LOADING
-           ========================================================= */
-        async function loadProfile() {
             try {
                 const profile = await fetchJson(PROFILE_API);
                 const completion = calculateProfileCompletion(profile);
-                updateProgress(completion);
-                return profile;
-            } catch (error) {
-                updateProgress(0);
-                document.getElementById("profileProgressNote").textContent =
-                    "Your profile could not be loaded. Check the server and try again.";
-                throw error;
-            }
-        }
 
-        /* =========================================================
-           RECOMMENDATION LOADING
-           ========================================================= */
-        async function loadRecommendations(profile) {
-            const payload = { ...profile };
-            const requests = [
-                fetchJson(RECOMMENDATION_APIS.careers, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                }),
-                fetchJson(RECOMMENDATION_APIS.courses, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                }),
-                fetchJson(RECOMMENDATION_APIS.colleges, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                })
-            ];
+                updateProfileUI(profile);
+                buildSnapshot(profile);
+                updateAssessmentUI();
+                updateContinue(completion);
+                updateTasks(completion);
 
-            const results = await Promise.allSettled(requests);
-            const [careerResult, courseResult, collegeResult] = results;
+                const heroPrimary = document.getElementById("heroPrimary");
+                heroPrimary.href = "student-profile.html";
+                heroPrimary.innerHTML = '<i class="fa-solid fa-user-pen"></i>Complete Profile';
 
-            const careers = careerResult.status === "fulfilled"
-                ? normalizeRecommendationResponse(careerResult.value)
-                : [];
-            const courses = courseResult.status === "fulfilled"
-                ? normalizeRecommendationResponse(courseResult.value)
-                : [];
-            const colleges = collegeResult.status === "fulfilled"
-                ? normalizeRecommendationResponse(collegeResult.value)
-                : [];
-
-            renderCareers(careers);
-            renderCourses(courses);
-            renderColleges(colleges);
-
-            const failedNames = [];
-            if (careerResult.status === "rejected") failedNames.push("careers");
-            if (courseResult.status === "rejected") failedNames.push("courses");
-            if (collegeResult.status === "rejected") failedNames.push("colleges");
-
-            if (failedNames.length) {
-                showToast(
-                    "error",
-                    "Some recommendations are unavailable",
-                    `The ${failedNames.join(", ")} recommendation service did not respond. Other dashboard sections remain available.`
-                );
-            } else {
                 showToast(
                     "success",
-                    "Dashboard updated",
-                    "Your latest profile was used for personalized recommendations."
+                    "Dashboard ready",
+                    "Your saved profile was loaded from Spring Boot successfully."
                 );
-            }
-        }
-
-        /* =========================================================
-           DASHBOARD BOOTSTRAP
-           ========================================================= */
-        async function loadDashboard() {
-            if (!requireStudent()) return;
-
-            updateUserHeader();
-            setLoading(true, "Loading your dashboard…");
-
-            try {
-                const profile = await loadProfile();
-                await loadRecommendations(profile);
             } catch (error) {
-                renderEmpty(
-                    document.getElementById("careerGrid"),
-                    "Profile data unavailable",
-                    "Your profile could not be loaded from Spring Boot. Check that the backend is running on port 8081.",
-                    "student-profile.html",
-                    "Open Profile"
-                );
-
-                renderEmpty(
-                    document.getElementById("courseList"),
-                    "Recommendations unavailable",
-                    "Course recommendations need the saved profile and running recommendation service.",
-                    "student-profile.html",
-                    "Open Profile"
-                );
-
-                renderEmpty(
-                    document.getElementById("collegeList"),
-                    "Recommendations unavailable",
-                    "College recommendations need the saved profile and running recommendation service.",
-                    "student-profile.html",
-                    "Open Profile"
-                );
-
-                if (error.status === 401 || error.status === 403) {
+                if (error.status === 401) {
                     localStorage.removeItem("token");
                     localStorage.removeItem("user");
                     window.location.href = "../login.html";
                     return;
                 }
 
-                showToast(
-                    "error",
-                    "Unable to load dashboard",
-                    "Please make sure Spring Boot is running and you are signed in as a student."
-                );
+                if (error.status === 403) {
+                    showToast(
+                        "error",
+                        "Profile access denied",
+                        "Your login session is active, but the backend did not permit the profile request. Check the Spring Boot security configuration."
+                    );
+                } else {
+                    showToast(
+                        "error",
+                        "Dashboard connection issue",
+                        "Spring Boot could not return your profile. Make sure the backend is running on port 8081."
+                    );
+                }
             } finally {
                 setLoading(false);
             }
         }
 
-        /* =========================================================
-           EVENT HANDLERS
-           ========================================================= */
-        document.querySelectorAll(".nav-trigger").forEach((trigger) => {
-            trigger.addEventListener("click", (event) => {
-                if (window.innerWidth > 820) return;
-
-                event.stopPropagation();
-                const item = trigger.closest(".nav-item");
-
-                document.querySelectorAll(".nav-item.open").forEach((other) => {
-                    if (other !== item) other.classList.remove("open");
-                });
-
-                item.classList.toggle("open");
-            });
-        });
-
-        accountTrigger.addEventListener("click", (event) => {
-            event.stopPropagation();
-            openAccountMenu();
-        });
-
-        mobileMenuBtn.addEventListener("click", (event) => {
-            event.stopPropagation();
-            const isOpen = mobileNav.classList.toggle("show");
-            mobileMenuBtn.setAttribute("aria-expanded", String(isOpen));
-            account.classList.remove("open");
-            accountTrigger.setAttribute("aria-expanded", "false");
-        });
-
-        notificationBtn.addEventListener("click", () => {
-            showToast(
-                "success",
-                "CareerAdvisor",
-                "Use the Next Actions section to continue your profile, assessment and scholarship tasks."
-            );
-        });
-
-        logoutBtn.addEventListener("click", () => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            window.location.href = "../login.html";
-        });
-
-        document.addEventListener("click", (event) => {
-            if (!account.contains(event.target) && !mobileNav.contains(event.target)) {
-                closeMenus();
-            }
-        });
-
-        window.addEventListener("resize", () => {
-            if (window.innerWidth > 820) {
-                mobileNav.classList.remove("show");
-                mobileMenuBtn.setAttribute("aria-expanded", "false");
-            }
-        });
-
-        /* =========================================================
-           START DASHBOARD
-           ========================================================= */
         loadDashboard();
+
+
     </script>
 </body>
 

@@ -4,13 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Student profile for One-Stop Career & Education Advisor">
+    <meta name="description" content="CareerAdvisor student profile">
     <title>My Profile | CareerAdvisor</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <style>
         :root {
             --purple: #8B5CF6;
@@ -22,25 +24,32 @@
             --amber: #F59E0B;
             --bg: #FAFAFE;
             --surface: #FFFFFF;
-            --surface-soft: #F5F3FF;
-            --text: #172033;
-            --text-soft: #525B6D;
-            --muted: #7B8190;
-            --border: #E7E4F4;
-            --border-strong: #D9D3EE;
-            --gradient: linear-gradient(135deg, #8B5CF6, #3B82F6);
-            --shadow: 0 18px 44px rgba(76, 57, 145, .09);
-            --shadow-soft: 0 12px 32px rgba(76, 57, 145, .07);
+            --surface-soft: #F7F5FF;
+            --surface-blue: #F6F9FF;
+            --text: #182238;
+            --text-soft: #4F5A70;
+            --muted: #7B8496;
+            --muted-light: #9AA2B2;
+            --border: #E5E1F1;
+            --border-soft: #EEEAF7;
+            --border-strong: #D7D1E9;
+            --gradient: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+            --gradient-soft: linear-gradient(135deg, #FBF9FF 0%, #F6FAFF 100%);
+            --shadow: 0 18px 48px rgba(76, 57, 145, .08);
+            --shadow-hover: 0 22px 48px rgba(76, 57, 145, .12);
+            --nav-height: 78px;
+            --page-padding: 24px;
+            --section-gap: 20px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
-            padding: 0
+            padding: 0;
         }
 
         html {
-            scroll-behavior: smooth
+            scroll-behavior: smooth;
         }
 
         body {
@@ -48,37 +57,45 @@
             min-height: 100vh;
             font-family: "Space Grotesk", sans-serif;
             color: var(--text);
-            background: var(--bg);
+            background:
+                radial-gradient(circle at 10% 4%, rgba(139, 92, 246, .11), transparent 24%),
+                radial-gradient(circle at 92% 72%, rgba(59, 130, 246, .09), transparent 26%),
+                var(--bg);
             overflow-x: hidden;
         }
 
         body::-webkit-scrollbar {
-            width: 0
+            width: 7px;
         }
 
-        body {
-            scrollbar-width: none
+        body::-webkit-scrollbar-track {
+            background: #F4F2FA;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #D4CCEA;
+            border-radius: 999px;
         }
 
         button,
         input,
         select,
         textarea {
-            font: inherit
+            font: inherit;
         }
 
         button {
-            border: 0
+            border: 0;
         }
 
         a {
+            color: inherit;
             text-decoration: none;
-            color: inherit
         }
 
         .page-shell {
             min-height: 100vh;
-            position: relative
+            position: relative;
         }
 
         .page-shell::before {
@@ -86,12 +103,12 @@
             position: fixed;
             inset: 0;
             z-index: -3;
-            background-image:
-                linear-gradient(rgba(139, 92, 246, .04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(59, 130, 246, .04) 1px, transparent 1px);
-            background-size: 38px 38px;
-            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .72), transparent 94%);
             pointer-events: none;
+            background-image:
+                linear-gradient(rgba(139, 92, 246, .028) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, .028) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .72), transparent 95%);
         }
 
         .ambient {
@@ -107,247 +124,253 @@
             content: "";
             position: absolute;
             border-radius: 50%;
-            filter: blur(20px);
-            animation: ambientMove 10s ease-in-out infinite alternate;
+            filter: blur(26px);
+            animation: floatAmbient 12s ease-in-out infinite alternate;
         }
 
         .ambient::before {
-            width: 430px;
-            height: 430px;
-            left: -170px;
-            top: -180px;
-            background: radial-gradient(circle, rgba(139, 92, 246, .18), transparent 70%);
+            width: 460px;
+            height: 460px;
+            left: -220px;
+            top: 80px;
+            background: radial-gradient(circle, rgba(139, 92, 246, .13), transparent 70%);
         }
 
         .ambient::after {
-            width: 490px;
-            height: 490px;
-            right: -210px;
-            bottom: -230px;
-            background: radial-gradient(circle, rgba(59, 130, 246, .16), transparent 70%);
-            animation-delay: 1.5s;
+            width: 520px;
+            height: 520px;
+            right: -250px;
+            bottom: -220px;
+            background: radial-gradient(circle, rgba(59, 130, 246, .12), transparent 70%);
+            animation-delay: 1.2s;
         }
+
+        /* ==================== NAVBAR ==================== */
 
         .navbar {
             position: sticky;
             top: 0;
-            z-index: 80;
-            height: 76px;
-            display: flex;
+            z-index: 100;
+            min-height: var(--nav-height);
+            display: grid;
+            grid-template-columns: minmax(260px, 1fr) auto minmax(260px, 1fr);
             align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 0 30px;
-            background: rgba(255, 255, 255, .93);
+            gap: 24px;
+            padding: 0 28px;
+            background: rgba(255, 255, 255, .94);
             border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(18px);
-            box-shadow: 0 7px 25px rgba(76, 57, 145, .05);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 28px rgba(76, 57, 145, .05);
         }
 
         .brand {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 11px;
-            flex: none;
+            gap: 12px;
+            justify-self: start;
         }
 
         .brand-mark {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             display: grid;
             place-items: center;
             border-radius: 14px;
-            background: var(--gradient);
             color: #fff;
-            box-shadow: 0 10px 24px rgba(99, 102, 241, .20);
-            animation: brandFloat 4s ease-in-out infinite;
+            background: var(--gradient);
+            box-shadow: 0 12px 26px rgba(99, 102, 241, .20);
+            animation: softFloat 4s ease-in-out infinite;
         }
 
         .brand-mark i {
-            font-size: 17px
+            font-size: 18px;
         }
 
         .brand-name {
-            font-size: 20px;
+            font-size: 21px;
+            line-height: 1;
             font-weight: 700;
-            letter-spacing: -.5px;
+            letter-spacing: -.6px;
         }
 
         .brand-sub {
-            margin-top: 2px;
-            color: #9A9EAD;
-            font-size: 9px;
-            font-weight: 600;
-            letter-spacing: .6px;
+            margin-top: 5px;
+            color: #939AAA;
+            font-size: 10px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: .75px;
         }
 
         .nav-wrap {
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 1;
         }
 
         .nav {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
-        .nav-item {
-            position: relative
-        }
-
+        .nav-link,
         .nav-trigger {
-            display: flex;
+            min-height: 42px;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 9px;
-            padding: 10px 15px;
+            padding: 0 15px;
             border: 1px solid transparent;
-            border-radius: 11px;
+            border-radius: 12px;
             background: transparent;
-            color: #606879;
-            font-size: 14px;
+            color: #606A7D;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: .22s;
+            transition: .22s ease;
         }
 
+        .nav-link:hover,
+        .nav-link.active,
         .nav-trigger:hover,
         .nav-item.open .nav-trigger {
             color: var(--purple-dark);
-            background: #F7F4FF;
-            border-color: #ECE7FA;
+            background: #F6F2FF;
+            border-color: #E9E3F7;
+        }
+
+        .nav-item {
+            position: relative;
         }
 
         .nav-trigger i {
-            font-size: 8px;
-            color: #9B9FAE
+            font-size: 10px;
+            color: #9199AA;
+            transition: transform .2s ease;
+        }
+
+        .nav-item.open .nav-trigger i {
+            transform: rotate(180deg);
+            color: var(--purple);
         }
 
         .dropdown {
             position: absolute;
             top: calc(100% + 11px);
-            left: 50%;
-            width: 225px;
-            padding: 9px;
-            transform: translate(-50%, -8px);
+            left: 0;
+            width: 240px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 22px 52px rgba(76, 57, 145, .14);
+            backdrop-filter: blur(20px);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            background: rgba(255, 255, 255, .98);
-            box-shadow: 0 18px 45px rgba(76, 57, 145, .13);
-            backdrop-filter: blur(18px);
-            transition: .2s;
+            transform: translateY(-8px);
+            transition: .2s ease;
         }
 
-        .nav-item:hover .dropdown,
         .nav-item.open .dropdown {
-            transform: translate(-50%, 0);
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
+            transform: translateY(0);
         }
 
         .dropdown-title {
-            padding: 7px 9px 8px;
-            color: #A0A4B0;
-            font-size: 9px;
+            padding: 8px 10px 9px;
+            color: #9AA2B1;
+            font-size: 10px;
             font-weight: 800;
+            letter-spacing: 1.1px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .dropdown-link {
             display: flex;
             align-items: center;
-            gap: 9px;
-            padding: 9px;
-            border-radius: 9px;
-            color: #657080;
-            font-size: 12px;
-            font-weight: 600;
-            transition: .18s;
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            transition: .18s ease;
         }
 
         .dropdown-link i {
-            width: 16px;
+            width: 18px;
+            color: #8D96A7;
             text-align: center;
-            color: #8C93A1;
         }
 
-        .dropdown-link:hover,
-        .dropdown-link.active {
-            background: #F6F3FF;
+        .dropdown-link:hover {
             color: var(--purple-dark);
+            background: #F7F3FF;
         }
 
-        .dropdown-link.active i {
-            color: var(--purple)
-        }
-
-        .nav-note {
-            margin-left: auto;
+        .dropdown-link:hover i {
             color: var(--purple);
-            font-size: 8px;
-            font-weight: 700;
         }
 
         .account-area {
             display: flex;
             align-items: center;
-            gap: 7px;
-            flex: none;
+            justify-self: end;
+            gap: 9px;
         }
 
         .icon-btn {
             position: relative;
-            width: 38px;
-            height: 38px;
+            width: 42px;
+            height: 42px;
             display: grid;
             place-items: center;
             border: 1px solid var(--border);
-            border-radius: 11px;
+            border-radius: 12px;
+            color: #697488;
             background: #fff;
-            color: #6D7485;
             cursor: pointer;
-            transition: .2s;
+            transition: .2s ease;
         }
 
         .icon-btn:hover {
             color: var(--purple-dark);
             background: #F8F6FF;
-            border-color: #DDD7F2;
+            border-color: #DCD5ED;
             transform: translateY(-1px);
         }
 
         .notification-dot {
             position: absolute;
-            right: 7px;
+            right: 8px;
             top: 7px;
             width: 7px;
             height: 7px;
             border: 2px solid #fff;
             border-radius: 50%;
-            background: var(--blue);
+            background: var(--red);
         }
 
         .account {
-            position: relative
+            position: relative;
         }
 
         .account-trigger {
+            min-height: 48px;
             display: flex;
             align-items: center;
-            gap: 9px;
-            padding: 5px 7px;
+            gap: 10px;
+            padding: 5px 8px 5px 5px;
             border: 1px solid transparent;
-            border-radius: 12px;
+            border-radius: 14px;
             background: transparent;
             cursor: pointer;
-            transition: .2s;
+            transition: .2s ease;
         }
 
         .account-trigger:hover,
@@ -357,44 +380,46 @@
         }
 
         .account-avatar {
-            width: 35px;
-            height: 35px;
+            width: 39px;
+            height: 39px;
             display: grid;
             place-items: center;
-            border-radius: 11px;
-            background: linear-gradient(135deg, #EDE6FF, #E5F0FF);
+            border-radius: 12px;
             color: var(--purple-dark);
-            font-size: 11px;
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            font-size: 12px;
             font-weight: 800;
         }
 
         .account-copy {
-            text-align: left
+            min-width: 105px;
+            text-align: left;
         }
 
         .account-name {
             display: block;
-            color: var(--text);
-            font-size: 12px;
-            font-weight: 700;
-            max-width: 125px;
-            white-space: nowrap;
+            max-width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .account-role {
             display: block;
-            margin-top: 2px;
-            color: #9A9EAD;
-            font-size: 8px;
-            font-weight: 600;
+            margin-top: 3px;
+            color: #939AAA;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .35px;
         }
 
         .account-arrow {
-            font-size: 8px;
-            color: #9AA0AE;
-            transition: .2s;
+            color: #9AA2B0;
+            font-size: 9px;
+            transition: .2s ease;
         }
 
         .account.open .account-arrow {
@@ -404,625 +429,643 @@
 
         .account-menu {
             position: absolute;
+            top: calc(100% + 10px);
             right: 0;
-            top: calc(100% + 9px);
-            width: 190px;
+            width: 205px;
             padding: 8px;
-            transform: translateY(-8px);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            background: #fff;
-            box-shadow: 0 18px 44px rgba(76, 57, 145, .13);
-            transition: .2s;
+            transform: translateY(-7px);
+            transition: .2s ease;
         }
 
         .account.open .account-menu {
-            transform: translateY(0);
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
+            transform: translateY(0);
         }
 
         .account-menu a,
         .account-menu button {
+            width: 100%;
             display: flex;
             align-items: center;
-            gap: 9px;
-            width: 100%;
-            padding: 9px;
-            border-radius: 9px;
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
             background: transparent;
-            color: #667081;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
             text-align: left;
+            cursor: pointer;
         }
 
-        .account-menu a:hover,
-        .account-menu button:hover {
-            background: #F6F3FF;
+        .account-menu a:hover {
             color: var(--purple-dark);
+            background: #F7F3FF;
         }
 
         .account-menu .logout {
-            color: #B42318
+            margin-top: 3px;
+            color: #C53030;
         }
 
         .account-menu .logout:hover {
-            background: #FFF5F3;
-            color: #A21B11;
+            background: #FFF4F2;
         }
 
         .mobile-menu {
             display: none;
-            width: 38px;
-            height: 38px;
+            width: 42px;
+            height: 42px;
             border: 1px solid var(--border);
-            border-radius: 11px;
+            border-radius: 12px;
+            color: #697488;
             background: #fff;
-            color: #6D7485;
             cursor: pointer;
         }
 
         .mobile-nav {
-            display: none
+            display: none;
         }
 
+        /* ==================== PAGE ==================== */
+
         .content {
-            width: min(1240px, calc(100% - 60px));
+            width: calc(100% - (var(--page-padding) * 2));
             margin: 0 auto;
-            padding: 27px 0 44px;
+            padding: 26px 0 48px;
         }
 
         .breadcrumb {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 17px;
-            color: #9A9EAD;
-            font-size: 10px;
+            margin-bottom: 18px;
+            color: #969EAE;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .breadcrumb i {
+            font-size: 7px;
         }
 
         .breadcrumb strong {
-            color: var(--text)
+            color: var(--text);
         }
 
-        .hero {
+        /* ==================== PROFILE HEADER ==================== */
+
+        .profile-header {
             position: relative;
             overflow: hidden;
-            margin-bottom: 18px;
-            padding: 28px;
-            border: 1px solid rgba(139, 92, 246, .18);
-            border-radius: 22px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(248, 246, 255, .96));
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 330px;
+            gap: 28px;
+            align-items: center;
+            padding: 30px;
+            border: 1px solid rgba(139, 92, 246, .16);
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(248, 247, 255, .98));
             box-shadow: var(--shadow);
             animation: fadeUp .55s ease both;
         }
 
-        .hero::before {
+        .profile-header::before {
             content: "";
             position: absolute;
-            width: 310px;
-            height: 310px;
-            right: -130px;
-            top: -170px;
-            border: 1px solid rgba(139, 92, 246, .10);
+            width: 420px;
+            height: 420px;
+            right: -170px;
+            top: -230px;
             border-radius: 50%;
-            box-shadow: 0 0 0 30px rgba(139, 92, 246, .025), 0 0 0 65px rgba(139, 92, 246, .018);
+            border: 1px solid rgba(139, 92, 246, .08);
+            box-shadow: 0 0 0 34px rgba(139, 92, 246, .025), 0 0 0 78px rgba(139, 92, 246, .012);
         }
 
-        .hero::after {
-            content: "";
-            position: absolute;
-            width: 170px;
-            height: 170px;
-            left: 44%;
-            bottom: -110px;
-            border-radius: 50%;
-            background: rgba(59, 130, 246, .10);
-            filter: blur(42px);
-        }
-
-        .hero-content {
+        .profile-header-content,
+        .profile-score {
             position: relative;
             z-index: 1;
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) 320px;
-            gap: 25px;
-            align-items: center;
         }
 
         .eyebrow {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            padding: 7px 10px;
+            gap: 8px;
+            padding: 8px 11px;
             border: 1px solid #E7E0FA;
             border-radius: 999px;
-            background: #FAF8FF;
             color: var(--purple-dark);
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: .7px;
+            background: #FAF8FF;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .75px;
             text-transform: uppercase;
         }
 
-        .hero h1 {
-            margin: 12px 0 8px;
-            font-size: 33px;
-            line-height: 1.12;
-            letter-spacing: -1px;
+        .profile-header h1 {
+            margin-top: 14px;
+            font-size: clamp(30px, 3vw, 43px);
+            line-height: 1.1;
+            letter-spacing: -1.2px;
         }
 
-        .hero h1 span {
+        .profile-header h1 span {
+            color: transparent;
             background: var(--gradient);
             -webkit-background-clip: text;
             background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
-        .hero p {
-            max-width: 720px;
-            color: var(--muted);
-            font-size: 11.5px;
-            line-height: 1.75;
+        .profile-header p {
+            max-width: 780px;
+            margin-top: 10px;
+            color: var(--text-soft);
+            font-size: 14px;
+            line-height: 1.7;
         }
 
-        .completion-card {
-            padding: 18px;
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            background: rgba(255, 255, 255, .80);
-            box-shadow: var(--shadow-soft);
-            backdrop-filter: blur(14px);
-        }
-
-        .completion-head {
+        .profile-identity {
             display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .identity-pill {
+            display: inline-flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            color: #657080;
-            font-size: 10px;
+            gap: 7px;
+            padding: 7px 10px;
+            border: 1px solid var(--border-soft);
+            border-radius: 999px;
+            color: #646F82;
+            background: rgba(255, 255, 255, .82);
+            font-size: 11px;
             font-weight: 700;
         }
 
-        .completion-head strong {
-            color: var(--purple-dark);
-            font-size: 26px;
+        .identity-pill i {
+            color: var(--purple);
         }
 
-        .progress-track {
-            height: 9px;
-            margin-top: 10px;
+        .profile-score {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .82);
+            backdrop-filter: blur(12px);
+        }
+
+        .score-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .score-kicker {
+            color: #7A8497;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .score-value {
+            color: var(--purple-dark);
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .score-track {
+            height: 10px;
+            margin-top: 17px;
             overflow: hidden;
             border-radius: 999px;
-            background: #ECEAF5;
+            background: #EDEAF6;
         }
 
-        .progress-bar {
+        .score-fill {
             width: 0;
             height: 100%;
             border-radius: inherit;
             background: linear-gradient(90deg, var(--purple), var(--blue), var(--cyan));
-            box-shadow: 0 0 18px rgba(79, 124, 255, .30);
-            transition: width .8s cubic-bezier(.22, 1, .36, 1);
+            box-shadow: 0 0 18px rgba(79, 124, 255, .24);
+            transition: width .9s cubic-bezier(.22, 1, .36, 1);
         }
 
-        .completion-note {
-            margin-top: 9px;
-            color: #8B919E;
-            font-size: 9px;
-            line-height: 1.55;
+        .score-note {
+            margin-top: 10px;
+            color: #8992A2;
+            font-size: 11px;
+            line-height: 1.5;
         }
 
-        .recommendation-hints {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 7px;
-            margin-top: 13px;
-        }
-
-        .hint {
-            padding: 8px 9px;
-            border: 1px solid #ECE8F7;
-            border-radius: 10px;
-            background: #FCFBFF;
-        }
-
-        .hint strong {
-            display: block;
-            color: #565F70;
-            font-size: 8.5px;
-        }
-
-        .hint span {
-            display: block;
-            margin-top: 2px;
-            color: #9298A4;
-            font-size: 7.5px;
-            line-height: 1.35;
-        }
+        /* ==================== FORM ==================== */
 
         .profile-form {
+            margin-top: var(--section-gap);
             display: grid;
-            gap: 16px;
+            gap: var(--section-gap);
         }
 
-        .section-card {
-            padding: 22px;
+        .form-section {
+            overflow: hidden;
             border: 1px solid var(--border);
-            border-radius: 19px;
-            background: rgba(255, 255, 255, .96);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, .97);
             box-shadow: var(--shadow);
-            animation: fadeUp .65s ease both;
+            animation: fadeUp .6s ease both;
         }
 
-        .section-card:nth-child(2) {
-            animation-delay: .06s
+        .form-section-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 22px 26px;
+            border-bottom: 1px solid #EFEBF6;
         }
 
-        .section-card:nth-child(3) {
-            animation-delay: .12s
-        }
-
-        .section-card:nth-child(4) {
-            animation-delay: .18s
-        }
-
-        .section-header {
+        .form-section-title {
             display: flex;
             align-items: center;
-            gap: 11px;
-            margin-bottom: 18px;
+            gap: 12px;
         }
 
         .section-icon {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             display: grid;
             place-items: center;
-            flex: 0 0 40px;
+            flex: none;
             border-radius: 12px;
-            background: #F0ECFF;
             color: var(--purple-dark);
-            box-shadow: 0 7px 20px rgba(139, 92, 246, .07);
+            background: #F0ECFF;
         }
 
-        .section-card:nth-child(2) .section-icon {
-            background: #EAF3FF;
+        .form-section:nth-child(2) .section-icon {
             color: var(--blue);
+            background: #EAF3FF;
         }
 
-        .section-card:nth-child(3) .section-icon {
-            background: #EAFBF2;
+        .form-section:nth-child(3) .section-icon {
             color: #17985D;
+            background: #E8FBF4;
         }
 
-        .section-card:nth-child(4) .section-icon {
-            background: #FFF5E7;
+        .form-section:nth-child(4) .section-icon {
             color: #D47B00;
+            background: #FFF5E7;
         }
 
-        .section-header h2 {
-            font-size: 15px;
-            letter-spacing: -.2px;
+        .form-section-title h2 {
+            font-size: 20px;
+            line-height: 1.2;
         }
 
-        .section-header p {
-            margin-top: 3px;
+        .form-section-title p {
+            margin-top: 4px;
             color: var(--muted);
-            font-size: 9.5px;
-            line-height: 1.45;
+            font-size: 12px;
+            line-height: 1.5;
         }
 
-        .section-signal {
-            margin: -7px 0 16px 51px;
-            color: #8E95A3;
-            font-size: 8.5px;
-            line-height: 1.5;
+        .section-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #697488;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .state-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22C55E;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, .08);
+        }
+
+        .state-dot.saving {
+            background: var(--blue);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, .08);
+        }
+
+        .state-dot.error {
+            background: var(--red);
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, .08);
+        }
+
+        .form-section-body {
+            padding: 25px 26px 27px;
         }
 
         .form-grid {
             display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .form-grid.two {
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 14px;
+        }
+
+        .field {
+            min-width: 0;
         }
 
         .field.full {
-            grid-column: 1/-1
+            grid-column: 1 / -1;
         }
 
-        .field label {
+        .field-label {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            margin: 0 0 7px 2px;
-            color: #5E6676;
+            margin-bottom: 7px;
+            color: #39445A;
+            font-size: 12px;
+            font-weight: 750;
+        }
+
+        .field-helper {
+            margin-top: 6px;
+            color: #9AA2B1;
             font-size: 10px;
-            font-weight: 700;
+            line-height: 1.45;
         }
 
-        .field label span {
-            color: #A0A4AE;
-            font-size: 8px;
-            font-weight: 600;
-        }
-
-        .control {
-            position: relative
-        }
-
-        .control>i {
-            position: absolute;
-            left: 13px;
-            top: 50%;
-            z-index: 1;
-            color: #9AA0AE;
-            transform: translateY(-50%);
-            pointer-events: none;
-            transition: .2s;
-        }
-
-        input,
-        select,
-        textarea {
+        .field input,
+        .field select,
+        .field textarea {
             width: 100%;
-            outline: none;
-            color: var(--text);
             border: 1px solid var(--border);
             border-radius: 12px;
+            outline: none;
+            color: var(--text);
             background: #FCFBFF;
-            transition: .22s;
-            font-size: 11px;
+            font-size: 13px;
+            transition: .2s ease;
         }
 
-        input,
-        select {
-            height: 47px;
-            padding: 0 14px 0 39px;
+        .field input,
+        .field select {
+            height: 46px;
+            padding: 0 13px;
         }
 
-        textarea {
-            min-height: 104px;
+        .field textarea {
+            min-height: 108px;
+            padding: 13px;
             resize: vertical;
-            padding: 13px 14px 13px 39px;
             line-height: 1.55;
         }
 
-        select {
-            appearance: none;
-            padding-right: 38px;
+        .field input::placeholder,
+        .field textarea::placeholder {
+            color: #A8AFBC;
         }
 
-        select option {
-            color: var(--text);
+        .field input:hover,
+        .field select:hover,
+        .field textarea:hover {
+            border-color: #D9D2EB;
+            background: #FFFEFF;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: #BDA9F2;
             background: #fff;
-        }
-
-        .select-arrow {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            color: #989DAB;
-            transform: translateY(-50%);
-            pointer-events: none;
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: #A6ABB7
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: rgba(139, 92, 246, .60);
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(139, 92, 246, .08), 0 8px 22px rgba(99, 102, 241, .06);
-        }
-
-        .control:focus-within>i {
-            color: var(--purple)
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, .08);
         }
 
         .field.invalid input,
         .field.invalid select,
         .field.invalid textarea {
-            border-color: rgba(239, 68, 68, .65);
+            border-color: #F2A6A6;
             box-shadow: 0 0 0 4px rgba(239, 68, 68, .06);
         }
 
-        .field-error {
-            display: none;
-            margin: 5px 2px 0;
-            color: #B42318;
-            font-size: 8.5px;
+        .percent-input {
+            position: relative;
+        }
+
+        .percent-input input {
+            padding-right: 40px;
+        }
+
+        .percent-suffix {
+            position: absolute;
+            top: 50%;
+            right: 13px;
+            transform: translateY(-50%);
+            color: #8992A2;
+            font-size: 12px;
+            font-weight: 700;
+            pointer-events: none;
+        }
+
+        .choice-group {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+        }
+
+        .choice {
+            position: relative;
+        }
+
+        .choice input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .choice label {
+            min-height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #687286;
+            background: #FCFBFF;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .choice input:checked+label {
+            color: var(--purple-dark);
+            background: #F6F1FF;
+            border-color: #CBB9F4;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, .06);
+        }
+
+        .choice label:hover {
+            color: var(--purple-dark);
+            border-color: #D8D0EA;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .summary-card {
+            min-width: 0;
+            padding: 16px;
+            border: 1px solid var(--border-soft);
+            border-radius: 15px;
+            background: #FCFBFF;
+        }
+
+        .summary-label {
+            color: #98A0AF;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .9px;
+            text-transform: uppercase;
+        }
+
+        .summary-value {
+            margin-top: 7px;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.45;
+            overflow-wrap: anywhere;
+        }
+
+        .summary-value.muted {
+            color: #A1A8B5;
             font-weight: 600;
         }
 
-        .field.invalid .field-error {
-            display: block
-        }
-
-        .char-count {
-            margin-top: 5px;
-            color: #A0A4AE;
-            font-size: 8.5px;
-            text-align: right;
-        }
-
-        .field-hint {
-            margin-top: 5px;
-            color: #969CAA;
-            font-size: 8px;
-            line-height: 1.45;
-        }
-
-        .input-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 7px;
-        }
-
-        .input-tag {
-            padding: 4px 7px;
-            border: 1px solid #ECE8F7;
-            border-radius: 999px;
-            background: #FAF8FF;
-            color: #7C6FA6;
-            font-size: 7.5px;
-            font-weight: 700;
-        }
-
-        .action-bar {
+        .form-footer {
             position: sticky;
-            bottom: 13px;
+            bottom: 12px;
             z-index: 20;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 14px;
-            padding: 12px 14px;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: rgba(255, 255, 255, .90);
-            box-shadow: 0 18px 44px rgba(76, 57, 145, .12);
-            backdrop-filter: blur(16px);
+            gap: 16px;
+            padding: 16px 18px;
+            border: 1px solid rgba(221, 214, 239, .95);
+            border-radius: 17px;
+            background: rgba(255, 255, 255, .95);
+            box-shadow: 0 20px 48px rgba(76, 57, 145, .13);
+            backdrop-filter: blur(18px);
         }
 
         .save-state {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #7B8190;
-            font-size: 9.5px;
-            font-weight: 600;
+            min-width: 0;
+            color: #747E90;
+            font-size: 11px;
+            font-weight: 650;
         }
 
-        .state-dot {
-            width: 8px;
-            height: 8px;
-            flex: 0 0 8px;
-            border-radius: 50%;
-            background: var(--green);
-            box-shadow: 0 0 13px rgba(34, 197, 94, .55);
-        }
-
-        .state-dot.saving {
-            background: var(--amber);
-            box-shadow: 0 0 13px rgba(245, 158, 11, .48);
-        }
-
-        .state-dot.error {
-            background: var(--red);
-            box-shadow: 0 0 13px rgba(239, 68, 68, .45);
-        }
-
-        .actions {
+        .footer-actions {
             display: flex;
-            gap: 8px;
+            align-items: center;
+            gap: 9px;
         }
 
         .btn {
-            min-height: 41px;
+            min-height: 44px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
-            padding: 0 15px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 700;
+            gap: 8px;
+            padding: 0 16px;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 750;
             cursor: pointer;
-            transition: .22s;
+            transition: .22s ease;
         }
 
         .btn:hover {
-            transform: translateY(-1px)
-        }
-
-        .btn:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            border: 1px solid var(--border);
-            background: #F8F7FC;
-            color: #6B7280;
+            transform: translateY(-2px);
         }
 
         .btn-primary {
             color: #fff;
             background: var(--gradient);
-            box-shadow: 0 9px 20px rgba(99, 102, 241, .20);
+            box-shadow: 0 11px 24px rgba(99, 102, 241, .21);
         }
 
-        .error-banner {
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-            padding: 12px 14px;
-            margin-top: 14px;
-            border: 1px solid #F0D5D1;
-            border-radius: 12px;
-            background: #FFF8F7;
-            color: #A23A30;
-            font-size: 9.5px;
+        .btn-secondary {
+            color: #5E6880;
+            background: #F8F7FC;
+            border: 1px solid var(--border);
         }
 
-        .error-banner.show {
-            display: flex
+        .btn-secondary:hover {
+            color: var(--purple-dark);
+            background: #F5F1FF;
+            border-color: #DCD4EE;
         }
 
-        .retry-btn {
-            padding: 8px 10px;
-            border: 1px solid #EBC9C5;
-            border-radius: 9px;
-            background: #fff;
-            color: #A23A30;
-            font-size: 9px;
-            font-weight: 700;
-            cursor: pointer;
+        .btn:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .overlay {
-            display: none;
+        /* ==================== OVERLAYS ==================== */
+
+        .loading-overlay {
             position: fixed;
             inset: 0;
-            z-index: 150;
+            z-index: 200;
+            display: none;
             place-items: center;
-            background: rgba(18, 21, 38, .18);
-            backdrop-filter: blur(6px);
+            background: rgba(18, 21, 38, .12);
+            backdrop-filter: blur(7px);
         }
 
-        .overlay.show {
-            display: grid
+        .loading-overlay.show {
+            display: grid;
         }
 
         .loading-card {
-            min-width: 235px;
-            padding: 23px;
+            min-width: 260px;
+            padding: 25px;
             text-align: center;
             border: 1px solid var(--border);
-            border-radius: 17px;
+            border-radius: 18px;
             background: #fff;
             box-shadow: 0 25px 70px rgba(76, 57, 145, .18);
         }
 
         .spinner {
-            width: 34px;
-            height: 34px;
-            margin: 0 auto 11px;
+            width: 35px;
+            height: 35px;
+            margin: 0 auto 12px;
             border: 3px solid #ECEAF5;
             border-top-color: var(--purple);
             border-right-color: var(--blue);
@@ -1032,129 +1075,102 @@
 
         .loading-card p {
             color: #596173;
-            font-size: 11px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 650;
         }
 
         .toast {
             position: fixed;
-            right: 20px;
-            top: 92px;
-            z-index: 160;
-            width: min(360px, calc(100vw - 30px));
+            top: 94px;
+            right: 24px;
+            z-index: 210;
+            width: min(400px, calc(100vw - 36px));
             display: flex;
-            gap: 10px;
-            padding: 13px;
+            gap: 11px;
+            padding: 14px;
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 15px;
             background: #fff;
-            box-shadow: 0 18px 48px rgba(15, 23, 42, .14);
-            transform: translateX(125%);
+            box-shadow: 0 20px 52px rgba(15, 23, 42, .14);
             opacity: 0;
-            transition: .3s;
+            transform: translateX(120%);
+            pointer-events: none;
+            transition: .3s ease;
         }
 
         .toast.show {
-            transform: translateX(0);
             opacity: 1;
+            transform: translateX(0);
         }
 
         .toast-icon {
-            width: 31px;
-            height: 31px;
+            width: 32px;
+            height: 32px;
             display: grid;
             place-items: center;
             flex: none;
             border-radius: 9px;
-            background: rgba(139, 92, 246, .09);
             color: var(--purple-dark);
+            background: rgba(139, 92, 246, .09);
         }
 
         .toast.success .toast-icon {
-            background: rgba(34, 197, 94, .09);
             color: var(--green);
+            background: rgba(34, 197, 94, .09);
         }
 
         .toast.error .toast-icon {
-            background: rgba(239, 68, 68, .08);
             color: var(--red);
+            background: rgba(239, 68, 68, .08);
         }
 
         .toast strong {
             display: block;
-            margin-bottom: 3px;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         .toast p {
+            margin-top: 4px;
             color: var(--muted);
-            font-size: 9.5px;
+            font-size: 10.5px;
             line-height: 1.5;
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px)
+        /* ==================== RESPONSIVE ==================== */
+
+        @media (max-width: 1180px) {
+            .navbar {
+                grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+                gap: 14px;
+                padding: 0 20px;
             }
 
-            to {
-                opacity: 1;
-                transform: none
-            }
-        }
-
-        @keyframes brandFloat {
-
-            0%,
-            100% {
-                transform: translateY(0)
+            .nav-link,
+            .nav-trigger {
+                padding: 0 12px;
+                font-size: 14px;
             }
 
-            50% {
-                transform: translateY(-3px)
-            }
-        }
-
-        @keyframes ambientMove {
-            from {
-                transform: translate3d(0, 0, 0) scale(1)
+            .profile-header {
+                grid-template-columns: minmax(0, 1fr) 300px;
             }
 
-            to {
-                transform: translate3d(28px, 20px, 0) scale(1.07)
+            .form-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg)
-            }
-        }
-
-        @media(max-width:1040px) {
-            .hero-content {
-                grid-template-columns: 1fr 285px
-            }
-
-            .recommendation-hints {
-                grid-template-columns: 1fr
-            }
-        }
-
-        @media(max-width:900px) {
-            .content {
-                width: min(calc(100% - 36px), 920px)
-            }
-
-            .hero-content {
-                grid-template-columns: 1fr
-            }
-        }
-
-        @media(max-width:820px) {
+        @media (max-width: 980px) {
             .nav-wrap {
-                display: none
+                display: none;
+            }
+
+            .navbar {
+                grid-template-columns: 1fr auto;
             }
 
             .mobile-menu {
@@ -1163,30 +1179,127 @@
             }
 
             .account-copy {
-                display: none
+                display: none;
+            }
+
+            .profile-header {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-score {
+                max-width: 520px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            :root {
+                --page-padding: 14px;
+                --section-gap: 17px;
             }
 
             .navbar {
-                padding: 0 18px
+                min-height: 70px;
+                padding: 0 14px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
+
+            .brand-sub {
+                display: none;
+            }
+
+            .icon-btn,
+            .mobile-menu {
+                width: 39px;
+                height: 39px;
+            }
+
+            .account-avatar {
+                width: 36px;
+                height: 36px;
+            }
+
+            .content {
+                padding-top: 20px;
+                padding-bottom: 32px;
+            }
+
+            .breadcrumb {
+                margin-bottom: 14px;
+                font-size: 10px;
+            }
+
+            .profile-header {
+                padding: 22px;
+                border-radius: 20px;
+            }
+
+            .profile-header h1 {
+                font-size: 31px;
+            }
+
+            .profile-header p {
+                font-size: 13px;
+            }
+
+            .form-section-header {
+                padding: 18px;
+            }
+
+            .form-section-body {
+                padding: 18px;
+            }
+
+            .form-grid,
+            .form-grid.two,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .form-footer {
+                position: static;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .footer-actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-actions .btn {
+                width: 100%;
             }
 
             .mobile-nav {
                 position: absolute;
-                left: 12px;
-                right: 12px;
+                left: 10px;
+                right: 10px;
                 top: calc(100% + 9px);
                 display: none;
                 padding: 10px;
                 border: 1px solid var(--border);
                 border-radius: 18px;
                 background: rgba(255, 255, 255, .98);
-                box-shadow: 0 18px 48px rgba(76, 57, 145, .14);
+                box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
                 backdrop-filter: blur(18px);
             }
 
             .mobile-nav.show {
                 display: block;
-                animation: fadeUp .22s ease;
+                animation: fadeUp .22s ease both;
             }
 
             .mobile-group {
@@ -1197,7 +1310,7 @@
             }
 
             .mobile-group+.mobile-group {
-                margin-top: 8px
+                margin-top: 8px;
             }
 
             .mobile-group-title {
@@ -1207,7 +1320,7 @@
                 padding: 11px;
                 color: #566071;
                 font-size: 12px;
-                font-weight: 700;
+                font-weight: 750;
             }
 
             .mobile-links {
@@ -1217,117 +1330,47 @@
             }
 
             .mobile-links a {
-                padding: 8px;
-                border-radius: 8px;
-                color: #6A7281;
+                padding: 9px;
+                border-radius: 9px;
+                color: #687286;
                 font-size: 11px;
-                font-weight: 600;
+                font-weight: 650;
             }
 
-            .mobile-links a:hover {
-                background: #F6F3FF;
+            .mobile-links a:hover,
+            .mobile-links a.active {
                 color: var(--purple-dark);
-            }
-
-            .content {
-                width: calc(100% - 28px);
-                padding-top: 22px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr
-            }
-
-            .field.full {
-                grid-column: auto
+                background: #F6F2FF;
             }
         }
 
-        @media(max-width:560px) {
-            .navbar {
-                height: 68px;
-                padding: 0 12px;
+        @media (max-width: 520px) {
+            .profile-identity {
+                display: grid;
+                grid-template-columns: 1fr;
             }
 
-            .brand-name {
-                font-size: 17px
+            .identity-pill {
+                justify-content: flex-start;
             }
 
-            .brand-sub {
-                display: none
+            .footer-actions {
+                grid-template-columns: 1fr;
             }
 
-            .brand-mark {
-                width: 39px;
-                height: 39px;
-                border-radius: 12px;
-            }
-
-            .account-area .icon-btn {
-                width: 35px;
-                height: 35px;
-            }
-
-            .content {
-                width: calc(100% - 20px);
-                padding-top: 18px;
-            }
-
-            .breadcrumb {
-                font-size: 9px;
-                margin-bottom: 13px;
-            }
-
-            .hero {
-                padding: 20px;
-                border-radius: 19px;
-            }
-
-            .hero h1 {
-                font-size: 27px
-            }
-
-            .hero p {
-                font-size: 10.5px
-            }
-
-            .section-card {
-                padding: 17px;
-                border-radius: 17px;
-            }
-
-            .section-signal {
-                margin-left: 51px
-            }
-
-            .action-bar {
-                align-items: stretch;
-                flex-direction: column;
-                bottom: 9px;
-            }
-
-            .actions {
-                width: 100%
-            }
-
-            .actions .btn {
-                flex: 1
-            }
-
-            .error-banner {
-                align-items: flex-start;
-                flex-direction: column;
+            .choice-group {
+                grid-template-columns: 1fr 1fr;
             }
 
             .toast {
                 left: 14px;
                 right: 14px;
-                top: 80px;
+                top: 82px;
                 width: auto;
             }
         }
 
-        @media(prefers-reduced-motion:reduce) {
+        @media (prefers-reduced-motion: reduce) {
 
             *,
             *::before,
@@ -1337,86 +1380,129 @@
                 scroll-behavior: auto !important;
             }
         }
+
+        /* ==================== ANIMATIONS ==================== */
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes softFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes floatAmbient {
+            from {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            to {
+                transform: translate3d(24px, 16px, 0) scale(1.06);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="page-shell">
         <div class="ambient"></div>
+
+        <!-- ==================== NAVBAR ==================== -->
+
         <header class="navbar">
             <div class="brand">
-                <div class="brand-mark"><i class="fa-solid fa-compass"></i></div>
+                <div class="brand-mark">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+
                 <div>
                     <div class="brand-name">CareerAdvisor</div>
                     <div class="brand-sub">STUDENT PORTAL</div>
                 </div>
             </div>
 
-            <nav class="nav-wrap">
+            <nav class="nav-wrap" aria-label="Student navigation">
                 <div class="nav">
-                    <div class="nav-item">
-                        <button class="nav-trigger" type="button">
-                            Student <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                        <div class="dropdown">
-                            <div class="dropdown-title">Student</div>
-                            <a class="dropdown-link" href="student-dashboard.html">
-                                <i class="fa-solid fa-chart-pie"></i>Dashboard
-                            </a>
-                            <a class="dropdown-link active" href="student-profile.html">
-                                <i class="fa-solid fa-user"></i>My Profile
-                                <span class="nav-note">Current</span>
-                            </a>
-                            <a class="dropdown-link" href="student-assessment.html">
-                                <i class="fa-solid fa-clipboard-check"></i>Assessment
-                            </a>
-                            <a class="dropdown-link" href="student-recommendations.html">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i>Recommendations
-                            </a>
-                        </div>
-                    </div>
+                    <a class="nav-link" href="student-dashboard.html">Dashboard</a>
+                    <a class="nav-link active" href="student-profile.html">Profile</a>
+                    <a class="nav-link" href="student-assessment.html">Assessment</a>
 
                     <div class="nav-item">
-                        <button class="nav-trigger" type="button">
-                            Explore <i class="fa-solid fa-chevron-down"></i>
+                        <button class="nav-trigger" type="button" aria-expanded="false">
+                            Explore
+                            <i class="fa-solid fa-chevron-down"></i>
                         </button>
+
                         <div class="dropdown">
                             <div class="dropdown-title">Explore</div>
                             <a class="dropdown-link" href="student-careers.html">
-                                <i class="fa-solid fa-briefcase"></i>Careers
+                                <i class="fa-solid fa-briefcase"></i>
+                                Careers
                             </a>
                             <a class="dropdown-link" href="student-courses.html">
-                                <i class="fa-solid fa-book-open"></i>Courses
+                                <i class="fa-solid fa-book-open"></i>
+                                Courses
                             </a>
                             <a class="dropdown-link" href="student-colleges.html">
-                                <i class="fa-solid fa-building-columns"></i>Colleges
+                                <i class="fa-solid fa-building-columns"></i>
+                                Colleges
                             </a>
                             <a class="dropdown-link" href="student-skill-gap.html">
-                                <i class="fa-solid fa-chart-simple"></i>Skill Gap
+                                <i class="fa-solid fa-chart-simple"></i>
+                                Skill Gap
                             </a>
                             <a class="dropdown-link" href="student-career-roadmap.html">
-                                <i class="fa-solid fa-route"></i>Career Roadmap
+                                <i class="fa-solid fa-route"></i>
+                                Career Roadmap
                             </a>
                         </div>
                     </div>
 
                     <div class="nav-item">
-                        <button class="nav-trigger" type="button">
-                            Resources <i class="fa-solid fa-chevron-down"></i>
+                        <button class="nav-trigger" type="button" aria-expanded="false">
+                            Resources
+                            <i class="fa-solid fa-chevron-down"></i>
                         </button>
+
                         <div class="dropdown">
                             <div class="dropdown-title">Resources</div>
                             <a class="dropdown-link" href="scholarships.html">
-                                <i class="fa-solid fa-graduation-cap"></i>Scholarships
+                                <i class="fa-solid fa-award"></i>
+                                Scholarships
                             </a>
                             <a class="dropdown-link" href="entrance-exams.html">
-                                <i class="fa-solid fa-file-pen"></i>Entrance Exams
+                                <i class="fa-solid fa-file-signature"></i>
+                                Entrance Exams
                             </a>
                             <a class="dropdown-link" href="learning-resources.html">
-                                <i class="fa-solid fa-lightbulb"></i>Learning Resources
+                                <i class="fa-solid fa-laptop-code"></i>
+                                Learning Resources
                             </a>
                             <a class="dropdown-link" href="application-tracker.html">
-                                <i class="fa-solid fa-list-check"></i>Application Tracker
+                                <i class="fa-solid fa-list-check"></i>
+                                Application Tracker
                             </a>
                         </div>
                     </div>
@@ -1424,49 +1510,61 @@
             </nav>
 
             <div class="account-area">
-                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-label="Open navigation">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <button class="icon-btn" id="notificationBtn" type="button" title="Notifications">
+                <button class="icon-btn" id="notificationBtn" type="button" aria-label="Notifications">
                     <i class="fa-regular fa-bell"></i>
                     <span class="notification-dot"></span>
                 </button>
+
                 <div class="account" id="account">
                     <button class="account-trigger" id="accountTrigger" type="button" aria-expanded="false">
-                        <div class="account-avatar" id="topAvatar">S</div>
-                        <div class="account-copy">
-                            <span class="account-name" id="topName">Student</span>
-                            <span class="account-role">STUDENT ACCOUNT</span>
-                        </div>
-                        <i class="account-arrow fa-solid fa-chevron-down"></i>
+                        <span class="account-avatar" id="accountAvatar">S</span>
+
+                        <span class="account-copy">
+                            <span class="account-name" id="accountName">Student</span>
+                            <span class="account-role">STUDENT</span>
+                        </span>
+
+                        <i class="fa-solid fa-chevron-down account-arrow"></i>
                     </button>
+
                     <div class="account-menu">
                         <a href="student-profile.html">
-                            <i class="fa-solid fa-user"></i>My Profile
+                            <i class="fa-regular fa-user"></i>
+                            My Profile
                         </a>
-                        <button type="button" id="logoutBtn" class="logout">
-                            <i class="fa-solid fa-right-from-bracket"></i>Logout
+                        <button class="logout" id="logoutBtn" type="button">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Logout
                         </button>
                     </div>
                 </div>
+
+                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-expanded="false"
+                    aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
 
             <div class="mobile-nav" id="mobileNav">
                 <div class="mobile-group">
                     <div class="mobile-group-title">
-                        Main <i class="fa-solid fa-layer-group"></i>
+                        Student
+                        <i class="fa-solid fa-user-graduate"></i>
                     </div>
+
                     <div class="mobile-links">
                         <a href="student-dashboard.html">Dashboard</a>
-                        <a href="student-profile.html">My Profile</a>
+                        <a class="active" href="student-profile.html">Profile</a>
                         <a href="student-assessment.html">Assessment</a>
-                        <a href="student-recommendations.html">Recommendations</a>
                     </div>
                 </div>
+
                 <div class="mobile-group">
                     <div class="mobile-group-title">
-                        Explore <i class="fa-solid fa-compass"></i>
+                        Explore
+                        <i class="fa-solid fa-compass"></i>
                     </div>
+
                     <div class="mobile-links">
                         <a href="student-careers.html">Careers</a>
                         <a href="student-courses.html">Courses</a>
@@ -1475,10 +1573,13 @@
                         <a href="student-career-roadmap.html">Career Roadmap</a>
                     </div>
                 </div>
+
                 <div class="mobile-group">
                     <div class="mobile-group-title">
-                        Resources <i class="fa-solid fa-book-open"></i>
+                        Resources
+                        <i class="fa-solid fa-book-open"></i>
                     </div>
+
                     <div class="mobile-links">
                         <a href="scholarships.html">Scholarships</a>
                         <a href="entrance-exams.html">Entrance Exams</a>
@@ -1489,353 +1590,433 @@
             </div>
         </header>
 
+        <!-- ==================== MAIN CONTENT ==================== -->
+
         <main class="content">
             <div class="breadcrumb">
                 <span>Student Portal</span>
-                <i class="fa-solid fa-chevron-right" style="font-size:7px"></i>
+                <i class="fa-solid fa-chevron-right"></i>
                 <strong>My Profile</strong>
             </div>
 
-            <section class="hero">
-                <div class="hero-content">
-                    <div>
-                        <div class="eyebrow">
-                            <i class="fa-solid fa-sparkles"></i>
-                            Personalized Student Profile
-                        </div>
-                        <h1>Build a profile for <span>smarter recommendations.</span></h1>
-                        <p>
-                            Your stream, subjects, interests, skills, career goals and college preferences
-                            help CareerAdvisor match you with relevant careers, courses and colleges.
-                        </p>
+            <!-- ==================== PROFILE HEADER ==================== -->
+
+            <section class="profile-header">
+                <div class="profile-header-content">
+                    <div class="eyebrow">
+                        <i class="fa-solid fa-user-pen"></i>
+                        Student Profile
                     </div>
 
-                    <div class="completion-card">
-                        <div class="completion-head">
-                            <span>Recommendation readiness</span>
-                            <strong id="progressValue">0%</strong>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-bar" id="progressBar"></div>
-                        </div>
-                        <div class="completion-note" id="progressNote">
-                            Complete the key recommendation fields for better matching.
-                        </div>
-                        <div class="recommendation-hints">
-                            <div class="hint">
-                                <strong>Career</strong>
-                                <span>Stream, interests, skills and goals</span>
-                            </div>
-                            <div class="hint">
-                                <strong>Course</strong>
-                                <span>Subjects, stream, interests and skills</span>
-                            </div>
-                            <div class="hint">
-                                <strong>College</strong>
-                                <span>Course, type, budget and location</span>
-                            </div>
-                        </div>
+                    <h1>Keep your profile <span>up to date.</span></h1>
+
+                    <p>
+                        Update your academic details, interests, skills, career goals and college preferences. These
+                        details are saved to your student profile and used by the recommendation modules.
+                    </p>
+
+                    <div class="profile-identity">
+                        <span class="identity-pill">
+                            <i class="fa-regular fa-user"></i>
+                            <span id="headerUserName">Student</span>
+                        </span>
+                        <span class="identity-pill">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            Student Account
+                        </span>
+                        <span class="identity-pill">
+                            <i class="fa-solid fa-lock"></i>
+                            Private profile
+                        </span>
                     </div>
+                </div>
+
+                <div class="profile-score">
+                    <div class="score-head">
+                        <div>
+                            <div class="score-kicker">Profile completion</div>
+                            <div class="score-note">Fill the available fields to build a stronger recommendation
+                                profile.</div>
+                        </div>
+                        <strong class="score-value" id="progressValue">0%</strong>
+                    </div>
+
+                    <div class="score-track">
+                        <div class="score-fill" id="progressBar"></div>
+                    </div>
+
+                    <div class="score-note" id="progressNote">Loading your profile...</div>
                 </div>
             </section>
 
+            <!-- ==================== PROFILE FORM ==================== -->
+
             <form class="profile-form" id="profileForm" novalidate>
-                <section class="section-card">
-                    <div class="section-header">
-                        <div class="section-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                        <div>
-                            <h2>Academic Details</h2>
-                            <p>Provide the academic information used for recommendation matching.</p>
+                <!-- ==================== ACADEMICS ==================== -->
+
+                <section class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-title">
+                            <div class="section-icon">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+
+                            <div>
+                                <h2>Academic Details</h2>
+                                <p>Your current class, stream and academic performance.</p>
+                            </div>
+                        </div>
+
+                        <div class="section-status">
+                            <span class="state-dot"></span>
+                            Saved to profile
                         </div>
                     </div>
-                    <div class="section-signal">
-                        Use Science, Commerce or Arts to stay aligned with the current career and course recommendation
-                        dataset.
-                    </div>
 
-                    <div class="form-grid">
-                        <div class="field">
-                            <label for="className">Class / Qualification</label>
-                            <div class="control">
-                                <i class="fa-solid fa-school"></i>
+                    <div class="form-section-body">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label class="field-label" for="className">Class</label>
                                 <select id="className">
                                     <option value="">Select class</option>
                                     <option value="10th">10th</option>
                                     <option value="11th">11th</option>
                                     <option value="12th">12th</option>
-                                    <option value="Diploma">Diploma</option>
-                                    <option value="Undergraduate">Undergraduate</option>
+                                    <option value="Graduate">Graduate</option>
                                     <option value="Postgraduate">Postgraduate</option>
-                                    <option value="Other">Other</option>
                                 </select>
-                                <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
                             </div>
-                            <div class="field-error">Please select your class or qualification.</div>
-                        </div>
 
-                        <div class="field">
-                            <label for="stream">Stream</label>
-                            <div class="control">
-                                <i class="fa-solid fa-layer-group"></i>
+                            <div class="field">
+                                <label class="field-label" for="stream">Stream</label>
                                 <select id="stream">
                                     <option value="">Select stream</option>
                                     <option value="Science">Science</option>
+                                    <option value="Science (PCM)">Science (PCM)</option>
+                                    <option value="Science (PCB)">Science (PCB)</option>
                                     <option value="Commerce">Commerce</option>
                                     <option value="Arts">Arts</option>
-                                    <option value="Vocational">Vocational</option>
+                                    <option value="Humanities">Humanities</option>
                                     <option value="Diploma">Diploma</option>
                                     <option value="Other">Other</option>
                                 </select>
-                                <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
                             </div>
-                            <div class="field-error">Please select your stream.</div>
-                        </div>
 
-                        <div class="field">
-                            <label for="percentage">Percentage <span>0–100</span></label>
-                            <div class="control">
-                                <i class="fa-solid fa-percent"></i>
-                                <input id="percentage" type="number" min="0" max="100" step="0.01"
-                                    placeholder="e.g. 85.50">
-                            </div>
-                            <div class="field-error">Percentage must be between 0 and 100.</div>
-                        </div>
-
-                        <div class="field">
-                            <label for="favoriteSubjects">Favorite Subjects</label>
-                            <div class="control">
-                                <i class="fa-solid fa-heart"></i>
-                                <input id="favoriteSubjects" maxlength="250"
-                                    placeholder="e.g. Mathematics, Computer Science">
-                            </div>
-                            <div class="field-hint">Separate multiple subjects with commas.</div>
-                        </div>
-
-                        <div class="field">
-                            <label for="strongSubjects">Strong Subjects</label>
-                            <div class="control">
-                                <i class="fa-solid fa-arrow-trend-up"></i>
-                                <input id="strongSubjects" maxlength="250" placeholder="e.g. Mathematics, Physics">
-                            </div>
-                            <div class="field-hint">Use subject names that match your academic background.</div>
-                        </div>
-
-                        <div class="field">
-                            <label for="weakSubjects">Weak Subjects</label>
-                            <div class="control">
-                                <i class="fa-solid fa-arrow-trend-down"></i>
-                                <input id="weakSubjects" maxlength="250" placeholder="e.g. Chemistry, English">
-                            </div>
-                            <div class="field-hint">Optional, used for future skill-gap personalization.</div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="section-card">
-                    <div class="section-header">
-                        <div class="section-icon"><i class="fa-solid fa-compass"></i></div>
-                        <div>
-                            <h2>Interests & Career</h2>
-                            <p>Tell the system what you enjoy and which direction you want to explore.</p>
-                        </div>
-                    </div>
-                    <div class="section-signal">
-                        Interests and skills are direct matching signals in the current recommendation engine.
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="field full">
-                            <label for="interests">Interests</label>
-                            <div class="control">
-                                <i class="fa-solid fa-palette"></i>
-                                <textarea id="interests" maxlength="500"
-                                    placeholder="e.g. Technology, Computers, Data, Business, Healthcare"></textarea>
-                            </div>
-                            <div class="char-count"><span id="interestsCount">0</span>/500</div>
-                            <div class="field-hint">Separate multiple interests with commas.</div>
-                        </div>
-
-                        <div class="field full">
-                            <label for="skills">Skills</label>
-                            <div class="control">
-                                <i class="fa-solid fa-bolt"></i>
-                                <textarea id="skills" maxlength="500"
-                                    placeholder="e.g. Programming, Problem Solving, Python, Excel"></textarea>
-                            </div>
-                            <div class="char-count"><span id="skillsCount">0</span>/500</div>
-                            <div class="field-hint">Separate multiple skills with commas.</div>
-                        </div>
-
-                        <div class="field">
-                            <label for="careerInterest">Career Interest</label>
-                            <div class="control">
-                                <i class="fa-solid fa-magnifying-glass-chart"></i>
-                                <input id="careerInterest" maxlength="250" placeholder="e.g. Software Development">
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <label for="targetCareer">Target Career</label>
-                            <div class="control">
-                                <i class="fa-solid fa-bullseye"></i>
-                                <input id="targetCareer" maxlength="250" placeholder="e.g. Software Developer">
+                            <div class="field">
+                                <label class="field-label" for="percentage">Percentage</label>
+                                <div class="percent-input">
+                                    <input id="percentage" type="number" min="0" max="100" step="0.01"
+                                        placeholder="e.g. 82.5">
+                                    <span class="percent-suffix">%</span>
+                                </div>
+                                <div class="field-helper">Enter a value between 0 and 100.</div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="section-card">
-                    <div class="section-header">
-                        <div class="section-icon"><i class="fa-solid fa-building-columns"></i></div>
-                        <div>
-                            <h2>Course & College Preferences</h2>
-                            <p>Set preferences that influence course and college matching.</p>
-                        </div>
-                    </div>
-                    <div class="section-signal">
-                        Course, college type, budget and location are used by the current college recommendation logic.
-                    </div>
+                <!-- ==================== SUBJECTS ==================== -->
 
-                    <div class="form-grid">
-                        <div class="field">
-                            <label for="preferredCourse">Preferred Course</label>
-                            <div class="control">
+                <section class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-title">
+                            <div class="section-icon">
                                 <i class="fa-solid fa-book-open"></i>
-                                <input id="preferredCourse" maxlength="250" placeholder="e.g. B.Tech Computer Science">
+                            </div>
+
+                            <div>
+                                <h2>Subjects</h2>
+                                <p>Add the subjects that describe your strengths and areas to improve.</p>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="field">
-                            <label for="collegeType">College Type</label>
-                            <div class="control">
-                                <i class="fa-solid fa-landmark"></i>
+                    <div class="form-section-body">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label class="field-label" for="favoriteSubjects">Favorite Subjects</label>
+                                <textarea id="favoriteSubjects"
+                                    placeholder="Mathematics, Physics, Computer Science"></textarea>
+                                <div class="field-helper">Separate multiple subjects with commas.</div>
+                            </div>
+
+                            <div class="field">
+                                <label class="field-label" for="strongSubjects">Strong Subjects</label>
+                                <textarea id="strongSubjects" placeholder="Mathematics, Computer Science"></textarea>
+                                <div class="field-helper">Subjects you are currently confident in.</div>
+                            </div>
+
+                            <div class="field">
+                                <label class="field-label" for="weakSubjects">Weak Subjects</label>
+                                <textarea id="weakSubjects" placeholder="Chemistry, Physics"></textarea>
+                                <div class="field-helper">Subjects where you would like more support.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== INTERESTS & SKILLS ==================== -->
+
+                <section class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-title">
+                            <div class="section-icon">
+                                <i class="fa-solid fa-lightbulb"></i>
+                            </div>
+
+                            <div>
+                                <h2>Interests &amp; Skills</h2>
+                                <p>Tell us what you enjoy and what you can already do.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section-body">
+                        <div class="form-grid two">
+                            <div class="field">
+                                <label class="field-label" for="interests">Interests</label>
+                                <textarea id="interests" maxlength="800"
+                                    placeholder="Web Development, Artificial Intelligence, Technology"></textarea>
+                                <div class="field-helper"><span id="interestsCount">0</span>/800 characters. Separate
+                                    multiple interests with commas.</div>
+                            </div>
+
+                            <div class="field">
+                                <label class="field-label" for="skills">Skills</label>
+                                <textarea id="skills" maxlength="800"
+                                    placeholder="Java, Python, Communication, Problem Solving"></textarea>
+                                <div class="field-helper"><span id="skillsCount">0</span>/800 characters. Separate
+                                    multiple skills with commas.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== CAREER PREFERENCES ==================== -->
+
+                <section class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-title">
+                            <div class="section-icon">
+                                <i class="fa-solid fa-route"></i>
+                            </div>
+
+                            <div>
+                                <h2>Career Preferences</h2>
+                                <p>Set the direction you are currently interested in exploring.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section-body">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label class="field-label" for="careerInterest">Career Interest</label>
+                                <input id="careerInterest" type="text" placeholder="e.g. Software Development">
+                            </div>
+
+                            <div class="field">
+                                <label class="field-label" for="targetCareer">Target Career</label>
+                                <input id="targetCareer" type="text" placeholder="e.g. Full Stack Developer">
+                            </div>
+
+                            <div class="field">
+                                <label class="field-label" for="preferredCourse">Preferred Course</label>
+                                <input id="preferredCourse" type="text" placeholder="e.g. B.Tech Computer Science">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== COLLEGE PREFERENCES ==================== -->
+
+                <section class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-title">
+                            <div class="section-icon">
+                                <i class="fa-solid fa-building-columns"></i>
+                            </div>
+
+                            <div>
+                                <h2>College Preferences</h2>
+                                <p>Use your preferred college type, budget and hostel requirement.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section-body">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label class="field-label" for="collegeType">College Type</label>
                                 <select id="collegeType">
-                                    <option value="">No preference</option>
+                                    <option value="">Select college type</option>
                                     <option value="Government">Government</option>
                                     <option value="Private">Private</option>
+                                    <option value="Autonomous">Autonomous</option>
+                                    <option value="Any">Any</option>
                                 </select>
-                                <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
                             </div>
-                            <div class="field-hint">Leave as No preference to avoid filtering by type.</div>
-                        </div>
 
-                        <div class="field">
-                            <label for="budgetRange">Budget Range</label>
-                            <div class="control">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                            <div class="field">
+                                <label class="field-label" for="budgetRange">Budget Range</label>
                                 <select id="budgetRange">
-                                    <option value="">No preference</option>
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
+                                    <option value="">Select budget range</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                    <option value="₹0 - ₹50,000">₹0 - ₹50,000</option>
+                                    <option value="₹50,000 - ₹1 Lakh">₹50,000 - ₹1 Lakh</option>
+                                    <option value="₹1 Lakh - ₹2.5 Lakh">₹1 Lakh - ₹2.5 Lakh</option>
+                                    <option value="₹2.5 Lakh+">₹2.5 Lakh+</option>
                                 </select>
-                                <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
                             </div>
-                            <div class="field-hint">These values match the current dataset budget categories.</div>
-                        </div>
 
-                        <div class="field">
-                            <label for="hostelRequired">Hostel Required</label>
-                            <div class="control">
-                                <i class="fa-solid fa-bed"></i>
-                                <select id="hostelRequired">
-                                    <option value="">No preference</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                                <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+                            <div class="field">
+                                <label class="field-label">Hostel Required</label>
+                                <div class="choice-group">
+                                    <div class="choice">
+                                        <input type="radio" name="hostelRequired" id="hostelYes" value="Yes">
+                                        <label for="hostelYes">Yes</label>
+                                    </div>
+                                    <div class="choice">
+                                        <input type="radio" name="hostelRequired" id="hostelNo" value="No">
+                                        <label for="hostelNo">No</label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="field-hint">The current college dataset does not yet filter by hostel
-                                availability.</div>
                         </div>
                     </div>
                 </section>
 
-                <section class="section-card">
-                    <div class="section-header">
-                        <div class="section-icon"><i class="fa-solid fa-location-dot"></i></div>
-                        <div>
-                            <h2>Location Details</h2>
-                            <p>Use location preferences to improve college matching.</p>
+                <!-- ==================== LOCATION ==================== -->
+
+                <section class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-title">
+                            <div class="section-icon">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+
+                            <div>
+                                <h2>Location Details</h2>
+                                <p>Add where you are currently based and where you would prefer to study.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="section-signal">
-                        Preferred city and state can influence the current college filtering and score.
-                    </div>
 
-                    <div class="form-grid">
-                        <div class="field">
-                            <label for="city">Current City</label>
-                            <div class="control">
-                                <i class="fa-solid fa-city"></i>
-                                <input id="city" maxlength="150" placeholder="e.g. Indore">
+                    <div class="form-section-body">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label class="field-label" for="city">City</label>
+                                <input id="city" type="text" placeholder="e.g. Indore">
                             </div>
-                        </div>
 
-                        <div class="field">
-                            <label for="state">State</label>
-                            <div class="control">
-                                <i class="fa-solid fa-map"></i>
-                                <input id="state" maxlength="150" placeholder="e.g. Madhya Pradesh">
+                            <div class="field">
+                                <label class="field-label" for="state">State</label>
+                                <input id="state" type="text" placeholder="e.g. Madhya Pradesh">
                             </div>
-                        </div>
 
-                        <div class="field full">
-                            <label for="preferredLocation">Preferred Study Location</label>
-                            <div class="control">
-                                <i class="fa-solid fa-location-crosshairs"></i>
-                                <input id="preferredLocation" maxlength="250" placeholder="e.g. Indore, Bhopal, Ujjain">
+                            <div class="field">
+                                <label class="field-label" for="preferredLocation">Preferred Location</label>
+                                <input id="preferredLocation" type="text" placeholder="e.g. Indore, Bhopal, Pune">
                             </div>
-                            <div class="field-hint">Enter one or more cities separated by commas. Leave empty for no
-                                location filter.</div>
                         </div>
                     </div>
                 </section>
 
-                <div class="action-bar">
+                <!-- ==================== PROFILE SUMMARY ==================== -->
+
+                <section class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-title">
+                            <div class="section-icon">
+                                <i class="fa-solid fa-list-check"></i>
+                            </div>
+
+                            <div>
+                                <h2>Profile Summary</h2>
+                                <p>A quick view of the information currently entered above.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section-body">
+                        <div class="summary-grid">
+                            <div class="summary-card">
+                                <div class="summary-label">Academic</div>
+                                <div class="summary-value muted" id="summaryAcademic">Not added yet</div>
+                            </div>
+
+                            <div class="summary-card">
+                                <div class="summary-label">Career</div>
+                                <div class="summary-value muted" id="summaryCareer">Not added yet</div>
+                            </div>
+
+                            <div class="summary-card">
+                                <div class="summary-label">Course</div>
+                                <div class="summary-value muted" id="summaryCourse">Not added yet</div>
+                            </div>
+
+                            <div class="summary-card">
+                                <div class="summary-label">Location</div>
+                                <div class="summary-value muted" id="summaryLocation">Not added yet</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== SAVE ACTIONS ==================== -->
+
+                <div class="form-footer">
                     <div class="save-state">
-                        <span class="state-dot" id="stateDot"></span>
-                        <span id="saveStatus">Your profile is ready to update.</span>
+                        <span class="state-dot" id="saveStateDot"></span>
+                        <span id="saveStatus">Loading your profile...</span>
                     </div>
-                    <div class="actions">
-                        <button class="btn btn-secondary" id="resetBtn" type="button">
-                            <i class="fa-solid fa-rotate-left"></i>Reset
+
+                    <div class="footer-actions">
+                        <button class="btn btn-secondary" type="button" id="resetBtn">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            Reset
                         </button>
-                        <button class="btn btn-primary" id="saveBtn" type="submit">
+                        <button class="btn btn-primary" type="submit" id="saveBtn">
                             <i class="fa-solid fa-floppy-disk"></i>
-                            <span>Save Profile</span>
+                            Save Profile
                         </button>
                     </div>
                 </div>
             </form>
-
-            <div class="error-banner" id="errorBanner">
-                <span id="errorText"></span>
-                <button class="retry-btn" id="retryBtn" type="button">
-                    <i class="fa-solid fa-rotate"></i>Retry
-                </button>
-            </div>
         </main>
-    </div>
 
-    <div class="overlay" id="loading">
-        <div class="loading-card">
-            <div class="spinner"></div>
-            <p id="loadingText">Loading profile...</p>
+        <!-- ==================== LOADING ==================== -->
+
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <p id="loadingText">Loading your profile...</p>
+            </div>
         </div>
-    </div>
 
-    <div class="toast" id="toast" role="status" aria-live="polite">
-        <div class="toast-icon" id="toastIcon"></div>
-        <div>
-            <strong id="toastTitle"></strong>
-            <p id="toastText"></p>
+        <!-- ==================== TOAST ==================== -->
+
+        <div class="toast" id="toast">
+            <div class="toast-icon" id="toastIcon">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+
+            <div>
+                <strong id="toastTitle">CareerAdvisor</strong>
+                <p id="toastText"></p>
+            </div>
         </div>
     </div>
 
     <script>
+        /* ==================== CONFIGURATION ==================== */
+
         const API_BASE_URL = "http://localhost:8081";
         const PROFILE_API = `${API_BASE_URL}/api/student/profile`;
+        const TOKEN_KEY = "token";
+        const USER_KEY = "user";
 
         const FIELD_IDS = [
             "className",
@@ -1857,71 +2038,75 @@
             "preferredLocation"
         ];
 
-        const RECOMMENDATION_FIELDS = [
-            "stream",
-            "strongSubjects",
-            "interests",
-            "skills",
-            "careerInterest",
-            "targetCareer",
-            "preferredCourse",
-            "collegeType",
-            "budgetRange",
-            "city",
-            "state",
-            "preferredLocation"
-        ];
-
-        const form = document.getElementById("profileForm");
-        const saveBtn = document.getElementById("saveBtn");
-        const resetBtn = document.getElementById("resetBtn");
-        const loading = document.getElementById("loading");
-        const loadingText = document.getElementById("loadingText");
-        const toast = document.getElementById("toast");
-        const toastIcon = document.getElementById("toastIcon");
-        const toastTitle = document.getElementById("toastTitle");
-        const toastText = document.getElementById("toastText");
-        const progressBar = document.getElementById("progressBar");
-        const progressValue = document.getElementById("progressValue");
-        const progressNote = document.getElementById("progressNote");
-        const saveStatus = document.getElementById("saveStatus");
-        const stateDot = document.getElementById("stateDot");
-        const errorBanner = document.getElementById("errorBanner");
-        const errorText = document.getElementById("errorText");
-        const retryBtn = document.getElementById("retryBtn");
-        const account = document.getElementById("account");
-        const accountTrigger = document.getElementById("accountTrigger");
-        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
-        const mobileNav = document.getElementById("mobileNav");
-        const notificationBtn = document.getElementById("notificationBtn");
-        const logoutBtn = document.getElementById("logoutBtn");
+        const elements = {
+            form: document.getElementById("profileForm"),
+            saveBtn: document.getElementById("saveBtn"),
+            resetBtn: document.getElementById("resetBtn"),
+            loadingOverlay: document.getElementById("loadingOverlay"),
+            loadingText: document.getElementById("loadingText"),
+            toast: document.getElementById("toast"),
+            toastIcon: document.getElementById("toastIcon"),
+            toastTitle: document.getElementById("toastTitle"),
+            toastText: document.getElementById("toastText"),
+            progressBar: document.getElementById("progressBar"),
+            progressValue: document.getElementById("progressValue"),
+            progressNote: document.getElementById("progressNote"),
+            saveStatus: document.getElementById("saveStatus"),
+            saveStateDot: document.getElementById("saveStateDot"),
+            headerUserName: document.getElementById("headerUserName"),
+            accountName: document.getElementById("accountName"),
+            accountAvatar: document.getElementById("accountAvatar"),
+            account: document.getElementById("account"),
+            accountTrigger: document.getElementById("accountTrigger"),
+            logoutBtn: document.getElementById("logoutBtn"),
+            notificationBtn: document.getElementById("notificationBtn"),
+            mobileMenuBtn: document.getElementById("mobileMenuBtn"),
+            mobileNav: document.getElementById("mobileNav"),
+            summaryAcademic: document.getElementById("summaryAcademic"),
+            summaryCareer: document.getElementById("summaryCareer"),
+            summaryCourse: document.getElementById("summaryCourse"),
+            summaryLocation: document.getElementById("summaryLocation"),
+            interestsCount: document.getElementById("interestsCount"),
+            skillsCount: document.getElementById("skillsCount")
+        };
 
         let originalProfile = {};
-        let profileLoaded = false;
         let toastTimer;
 
+        /* ==================== AUTH ==================== */
+
         function getToken() {
-            return localStorage.getItem("token");
+            return localStorage.getItem(TOKEN_KEY);
         }
 
         function getStoredUser() {
             try {
-                return JSON.parse(localStorage.getItem("user") || "null");
+                return JSON.parse(localStorage.getItem(USER_KEY) || "null");
             } catch {
                 return null;
             }
         }
 
-        function requireStudent() {
-            const user = getStoredUser();
+        function getAuthHeaders() {
             const token = getToken();
+
+            return token
+                ? { Authorization: `Bearer ${token}` }
+                : {};
+        }
+
+        function requireStudent() {
+            const token = getToken();
+            const user = getStoredUser();
 
             if (!token || !user) {
                 window.location.href = "../login.html";
                 return false;
             }
 
-            if (String(user.role || "").toUpperCase() !== "STUDENT") {
+            const role = String(user.role || "STUDENT").toUpperCase();
+
+            if (role !== "STUDENT") {
                 window.location.href = "../login.html";
                 return false;
             }
@@ -1929,16 +2114,9 @@
             return true;
         }
 
-        function getAuthHeaders() {
-            return {
-                Accept: "application/json",
-                Authorization: `Bearer ${getToken()}`
-            };
-        }
-
         function updateUserHeader() {
             const user = getStoredUser();
-            const name = user?.name || user?.fullName || user?.email || "Student";
+            const name = user?.name || user?.fullName || "Student";
             const initials = name
                 .split(/\s+/)
                 .filter(Boolean)
@@ -1947,40 +2125,22 @@
                 .join("")
                 .toUpperCase();
 
-            document.getElementById("topName").textContent = name;
-            document.getElementById("topAvatar").textContent = initials || "S";
+            elements.accountName.textContent = name;
+            elements.accountAvatar.textContent = initials || "S";
+            elements.headerUserName.textContent = name;
         }
 
-        function setLoading(isLoading, message = "Please wait...") {
-            loadingText.textContent = message;
-            loading.classList.toggle("show", isLoading);
-            saveBtn.disabled = isLoading;
-            resetBtn.disabled = isLoading;
+        function clearSessionAndLogin() {
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem(USER_KEY);
+            showToast("error", "Session expired", "Please login again.");
+
+            setTimeout(() => {
+                window.location.href = "../login.html";
+            }, 900);
         }
 
-        function showToast(type, title, message) {
-            clearTimeout(toastTimer);
-            toast.className = `toast ${type} show`;
-            toastIcon.className = `toast-icon fa-solid ${type === "success" ? "fa-circle-check" : "fa-circle-exclamation"
-                }`;
-            toastTitle.textContent = title;
-            toastText.textContent = message;
-            toastTimer = setTimeout(() => toast.classList.remove("show"), 4200);
-        }
-
-        function setSaveState(type, message) {
-            stateDot.className = "state-dot";
-
-            if (type === "saving") {
-                stateDot.classList.add("saving");
-            }
-
-            if (type === "error") {
-                stateDot.classList.add("error");
-            }
-
-            saveStatus.textContent = message;
-        }
+        /* ==================== FORM HELPERS ==================== */
 
         function getValue(id) {
             const element = document.getElementById(id);
@@ -1995,38 +2155,15 @@
             }
         }
 
-        function updateProgress() {
-            const completedRecommendationFields = RECOMMENDATION_FIELDS.filter(id => getValue(id) !== "").length;
-            const progress = Math.round(
-                (completedRecommendationFields / RECOMMENDATION_FIELDS.length) * 100
-            );
-
-            progressBar.style.width = `${progress}%`;
-            progressValue.textContent = `${progress}%`;
-
-            if (progress === 100) {
-                progressNote.textContent =
-                    "Your core recommendation profile is complete and ready for personalized matching.";
-            } else if (progress >= 70) {
-                progressNote.textContent =
-                    "Great progress. Complete the remaining recommendation fields for stronger matching.";
-            } else if (progress >= 40) {
-                progressNote.textContent =
-                    "Good start. Add more career, skill and preference information to improve matching.";
-            } else {
-                progressNote.textContent =
-                    "Complete the key recommendation fields to improve matching quality.";
-            }
-
-            return progress;
+        function getHostelValue() {
+            const selected = document.querySelector("input[name='hostelRequired']:checked");
+            return selected ? selected.value : "";
         }
 
-        function updateCharacterCount(id, counterId) {
-            const counter = document.getElementById(counterId);
-
-            if (counter) {
-                counter.textContent = getValue(id).length;
-            }
+        function setHostelValue(value) {
+            document.querySelectorAll("input[name='hostelRequired']").forEach(input => {
+                input.checked = String(input.value).toLowerCase() === String(value ?? "").toLowerCase();
+            });
         }
 
         function buildPayload() {
@@ -2046,7 +2183,7 @@
                 preferredCourse: getValue("preferredCourse"),
                 collegeType: getValue("collegeType"),
                 budgetRange: getValue("budgetRange"),
-                hostelRequired: getValue("hostelRequired"),
+                hostelRequired: getHostelValue(),
                 city: getValue("city"),
                 state: getValue("state"),
                 preferredLocation: getValue("preferredLocation")
@@ -2055,19 +2192,83 @@
 
         function populateProfile(profile) {
             FIELD_IDS.forEach(id => setValue(id, profile?.[id]));
+            setHostelValue(profile?.hostelRequired);
 
-            updateCharacterCount("interests", "interestsCount");
-            updateCharacterCount("skills", "skillsCount");
+            originalProfile = buildPayload();
+            updateProgress();
+            updateCharacterCounts();
+            updateSummary();
+        }
 
-            originalProfile = {};
-
+        function applyOriginalProfile() {
             FIELD_IDS.forEach(id => {
-                originalProfile[id] = getValue(id);
+                setValue(id, originalProfile?.[id]);
             });
 
-            profileLoaded = true;
+            setHostelValue(originalProfile?.hostelRequired);
             updateProgress();
+            updateCharacterCounts();
+            updateSummary();
         }
+
+        /* ==================== PROFILE PROGRESS ==================== */
+
+        function updateProgress() {
+            const payload = buildPayload();
+            let completed = 0;
+
+            FIELD_IDS.forEach(id => {
+                const value = id === "hostelRequired" ? payload.hostelRequired : payload[id];
+
+                if (value !== null && value !== undefined && String(value).trim() !== "") {
+                    completed += 1;
+                }
+            });
+
+            const percentage = Math.round((completed / FIELD_IDS.length) * 100);
+
+            elements.progressBar.style.width = `${percentage}%`;
+            elements.progressValue.textContent = `${percentage}%`;
+
+            if (percentage === 100) {
+                elements.progressNote.textContent = "Your profile is complete and ready for personalized recommendations.";
+            } else if (percentage >= 70) {
+                elements.progressNote.textContent = "Great progress. Complete the remaining fields for stronger matching.";
+            } else if (percentage >= 40) {
+                elements.progressNote.textContent = "Good start. Add more information to improve recommendation quality.";
+            } else {
+                elements.progressNote.textContent = "Complete the key profile fields to improve recommendation quality.";
+            }
+        }
+
+        function updateCharacterCounts() {
+            elements.interestsCount.textContent = getValue("interests").length;
+            elements.skillsCount.textContent = getValue("skills").length;
+        }
+
+        /* ==================== SUMMARY ==================== */
+
+        function setSummary(element, value) {
+            element.textContent = value || "Not added yet";
+            element.classList.toggle("muted", !value);
+        }
+
+        function updateSummary() {
+            const payload = buildPayload();
+            const academic = [payload.className, payload.stream].filter(Boolean).join(" • ");
+            const academicWithPercentage = payload.percentage !== null && payload.percentage !== ""
+                ? `${academic || "Academic profile"} • ${payload.percentage}%`
+                : academic;
+            const career = payload.targetCareer || payload.careerInterest;
+            const location = [payload.city, payload.state].filter(Boolean).join(", ");
+
+            setSummary(elements.summaryAcademic, academicWithPercentage);
+            setSummary(elements.summaryCareer, career);
+            setSummary(elements.summaryCourse, payload.preferredCourse);
+            setSummary(elements.summaryLocation, location || payload.preferredLocation);
+        }
+
+        /* ==================== VALIDATION ==================== */
 
         function clearValidation() {
             document.querySelectorAll(".field.invalid").forEach(field => {
@@ -2089,17 +2290,26 @@
 
                 if (!Number.isFinite(value) || value < 0 || value > 100) {
                     markInvalid("percentage");
-                    showToast(
-                        "error",
-                        "Check your details",
-                        "Percentage must be between 0 and 100."
-                    );
+                    showToast("error", "Check your details", "Percentage must be between 0 and 100.");
                     document.getElementById("percentage").focus();
                     return false;
                 }
             }
 
             return true;
+        }
+
+        /* ==================== API ==================== */
+
+        async function parseResponse(response) {
+            const contentType = response.headers.get("content-type") || "";
+
+            if (contentType.includes("application/json")) {
+                return response.json();
+            }
+
+            const text = await response.text();
+            return text ? { message: text } : null;
         }
 
         function getResponseMessage(data, status) {
@@ -2126,28 +2336,6 @@
             return "Something went wrong. Please try again.";
         }
 
-        async function parseResponse(response) {
-            const contentType = response.headers.get("content-type") || "";
-
-            if (contentType.includes("application/json")) {
-                return response.json();
-            }
-
-            const text = await response.text();
-
-            return text ? { message: text } : null;
-        }
-
-        function handleSessionExpiry() {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            showToast("error", "Session expired", "Please login again.");
-
-            setTimeout(() => {
-                window.location.href = "../login.html";
-            }, 900);
-        }
-
         async function loadProfile() {
             if (!requireStudent()) {
                 return;
@@ -2156,12 +2344,14 @@
             updateUserHeader();
             setLoading(true, "Loading your profile...");
             setSaveState("saving", "Loading profile from server...");
-            errorBanner.classList.remove("show");
 
             try {
                 const response = await fetch(PROFILE_API, {
                     method: "GET",
-                    headers: getAuthHeaders(),
+                    headers: {
+                        ...getAuthHeaders(),
+                        Accept: "application/json"
+                    },
                     cache: "no-store"
                 });
 
@@ -2175,31 +2365,20 @@
 
                 if (response.status === 404) {
                     populateProfile({});
-                    setSaveState(
-                        "success",
-                        "No profile found. Complete your profile and save it."
-                    );
+                    setSaveState("success", "No profile found. Complete your profile and save it.");
                     return;
                 }
 
                 if (response.status === 401) {
-                    handleSessionExpiry();
+                    clearSessionAndLogin();
                     return;
                 }
 
-                const message = getResponseMessage(data, response.status);
-                errorText.textContent = message;
-                errorBanner.classList.add("show");
-                showToast("error", "Unable to load profile", message);
-                setSaveState("error", "Could not load profile from server.");
-            } catch {
-                const message =
-                    "Unable to connect Server. Make sure Spring Boot is running on port 8081.";
-
-                errorText.textContent = message;
-                errorBanner.classList.add("show");
-                showToast("error", "Backend connection failed", message);
+                setSaveState("error", "Could not load your profile.");
+                showToast("error", "Unable to load profile", getResponseMessage(data, response.status));
+            } catch (error) {
                 setSaveState("error", "Backend is currently unavailable.");
+                showToast("error", "Backend connection failed", "Make sure Spring Boot is running on port 8081.");
             } finally {
                 setLoading(false);
             }
@@ -2213,165 +2392,186 @@
             }
 
             setLoading(true, "Saving your profile...");
-            setSaveState("saving", "Saving profile to database...");
+            setSaveState("saving", "Saving changes...");
 
             try {
-                const payload = buildPayload();
-
                 const response = await fetch(PROFILE_API, {
                     method: "POST",
                     headers: {
+                        ...getAuthHeaders(),
                         "Content-Type": "application/json",
-                        ...getAuthHeaders()
+                        Accept: "application/json"
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(buildPayload())
                 });
 
                 const data = await parseResponse(response);
 
                 if (response.ok) {
-                    populateProfile(data || payload);
+                    populateProfile(data || buildPayload());
                     setSaveState("success", "Profile saved successfully.");
-                    showToast(
-                        "success",
-                        "Profile saved",
-                        "Your student profile has been updated successfully."
-                    );
+                    showToast("success", "Profile saved", "Your student profile has been updated successfully.");
                     return;
                 }
 
                 if (response.status === 401) {
-                    handleSessionExpiry();
+                    clearSessionAndLogin();
                     return;
                 }
 
-                const message = getResponseMessage(data, response.status);
-
-                showToast("error", "Unable to save profile", message);
-                setSaveState(
-                    "error",
-                    "Save failed. Please check the details and try again."
-                );
-            } catch {
-                const message =
-                    "Unable to connect Server. Make sure Spring Boot is running on port 8081.";
-
-                showToast("error", "Backend connection failed", message);
+                setSaveState("error", "Save failed. Please try again.");
+                showToast("error", "Unable to save profile", getResponseMessage(data, response.status));
+            } catch (error) {
                 setSaveState("error", "Backend is currently unavailable.");
+                showToast("error", "Backend connection failed", "Make sure Spring Boot is running on port 8081.");
             } finally {
                 setLoading(false);
             }
         }
 
-        function resetForm() {
-            FIELD_IDS.forEach(id => {
-                setValue(id, profileLoaded ? originalProfile[id] : "");
-            });
+        /* ==================== UI STATE ==================== */
 
-            clearValidation();
-            updateCharacterCount("interests", "interestsCount");
-            updateCharacterCount("skills", "skillsCount");
-            updateProgress();
-            setSaveState("success", "Changes have been reset.");
+        function setLoading(show, message = "Please wait...") {
+            elements.loadingText.textContent = message;
+            elements.loadingOverlay.classList.toggle("show", show);
+            elements.saveBtn.disabled = show;
+            elements.resetBtn.disabled = show;
         }
 
-        function toggleAccountMenu() {
-            const open = !account.classList.contains("open");
+        function setSaveState(type, message) {
+            elements.saveStateDot.className = "state-dot";
 
-            account.classList.toggle("open", open);
-            accountTrigger.setAttribute("aria-expanded", String(open));
+            if (type === "saving") {
+                elements.saveStateDot.classList.add("saving");
+            }
+
+            if (type === "error") {
+                elements.saveStateDot.classList.add("error");
+            }
+
+            elements.saveStatus.textContent = message;
         }
+
+        function showToast(type, title, message) {
+            clearTimeout(toastTimer);
+            elements.toast.className = `toast ${type} show`;
+            elements.toastIcon.innerHTML = `<i class="fa-solid ${type === "success" ? "fa-circle-check" : "fa-circle-exclamation"}"></i>`;
+            elements.toastTitle.textContent = title;
+            elements.toastText.textContent = message;
+
+            toastTimer = setTimeout(() => {
+                elements.toast.classList.remove("show");
+            }, 4200);
+        }
+
+        /* ==================== NAVIGATION ==================== */
 
         function closeMenus() {
-            account.classList.remove("open");
-            accountTrigger.setAttribute("aria-expanded", "false");
-            mobileNav.classList.remove("show");
+            elements.account.classList.remove("open");
+            elements.accountTrigger.setAttribute("aria-expanded", "false");
+            elements.mobileNav.classList.remove("show");
+            elements.mobileMenuBtn.setAttribute("aria-expanded", "false");
+            document.querySelectorAll(".nav-item.open").forEach(item => item.classList.remove("open"));
+            document.querySelectorAll(".nav-trigger").forEach(trigger => trigger.setAttribute("aria-expanded", "false"));
         }
 
         document.querySelectorAll(".nav-trigger").forEach(trigger => {
             trigger.addEventListener("click", event => {
-                if (window.innerWidth > 820) {
-                    return;
-                }
-
                 event.stopPropagation();
-                const item = trigger.closest(".nav-item");
 
-                document.querySelectorAll(".nav-item.open").forEach(openItem => {
-                    if (openItem !== item) {
-                        openItem.classList.remove("open");
-                    }
+                const item = trigger.closest(".nav-item");
+                const isOpen = item.classList.contains("open");
+
+                document.querySelectorAll(".nav-item.open").forEach(other => {
+                    other.classList.remove("open");
                 });
 
-                item.classList.toggle("open");
+                document.querySelectorAll(".nav-trigger").forEach(other => {
+                    other.setAttribute("aria-expanded", "false");
+                });
+
+                if (!isOpen) {
+                    item.classList.add("open");
+                    trigger.setAttribute("aria-expanded", "true");
+                }
             });
         });
 
-        accountTrigger.addEventListener("click", event => {
+        elements.accountTrigger.addEventListener("click", event => {
             event.stopPropagation();
-            toggleAccountMenu();
+            const open = !elements.account.classList.contains("open");
+            elements.account.classList.toggle("open", open);
+            elements.accountTrigger.setAttribute("aria-expanded", String(open));
         });
 
-        mobileMenuBtn.addEventListener("click", event => {
+        elements.mobileMenuBtn.addEventListener("click", event => {
             event.stopPropagation();
-            mobileNav.classList.toggle("show");
-            account.classList.remove("open");
+            const open = !elements.mobileNav.classList.contains("show");
+            elements.mobileNav.classList.toggle("show", open);
+            elements.mobileMenuBtn.setAttribute("aria-expanded", String(open));
+            elements.account.classList.remove("open");
+            elements.accountTrigger.setAttribute("aria-expanded", "false");
         });
 
-        document.addEventListener("click", event => {
-            if (!account.contains(event.target)) {
-                account.classList.remove("open");
-            }
-
-            if (!mobileNav.contains(event.target) && event.target !== mobileMenuBtn) {
-                mobileNav.classList.remove("show");
-            }
+        elements.notificationBtn.addEventListener("click", () => {
+            showToast("success", "CareerAdvisor", "Your profile information is used across the career, course and college modules.");
         });
 
-        notificationBtn.addEventListener("click", () => {
-            showToast(
-                "success",
-                "Notifications",
-                "Your CareerAdvisor notifications are ready."
-            );
-        });
-
-        logoutBtn.addEventListener("click", () => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
+        elements.logoutBtn.addEventListener("click", () => {
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem(USER_KEY);
             window.location.href = "../login.html";
         });
 
-        retryBtn.addEventListener("click", loadProfile);
+        document.addEventListener("click", event => {
+            if (!elements.account.contains(event.target) && !elements.mobileNav.contains(event.target)) {
+                closeMenus();
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 980) {
+                elements.mobileNav.classList.remove("show");
+                elements.mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        /* ==================== FORM EVENTS ==================== */
 
         FIELD_IDS.forEach(id => {
             const element = document.getElementById(id);
 
-            if (!element) {
-                return;
-            }
+            if (element) {
+                element.addEventListener("input", () => {
+                    updateProgress();
+                    updateSummary();
+                    updateCharacterCounts();
+                });
 
-            element.addEventListener("input", updateProgress);
-            element.addEventListener("change", updateProgress);
-            element.addEventListener("input", () => {
-                element.closest(".field")?.classList.remove("invalid");
+                element.addEventListener("change", () => {
+                    updateProgress();
+                    updateSummary();
+                });
+            }
+        });
+
+        document.querySelectorAll("input[name='hostelRequired']").forEach(input => {
+            input.addEventListener("change", () => {
+                updateProgress();
+                updateSummary();
             });
         });
 
-        document
-            .getElementById("interests")
-            .addEventListener("input", () =>
-                updateCharacterCount("interests", "interestsCount")
-            );
+        elements.form.addEventListener("submit", saveProfile);
 
-        document
-            .getElementById("skills")
-            .addEventListener("input", () =>
-                updateCharacterCount("skills", "skillsCount")
-            );
+        elements.resetBtn.addEventListener("click", () => {
+            applyOriginalProfile();
+            clearValidation();
+            setSaveState("success", "Changes reset to the last saved profile.");
+            showToast("success", "Profile reset", "Your unsaved changes have been removed.");
+        });
 
-        form.addEventListener("submit", saveProfile);
-        resetBtn.addEventListener("click", resetForm);
+        /* ==================== START ==================== */
 
         loadProfile();
     </script>
