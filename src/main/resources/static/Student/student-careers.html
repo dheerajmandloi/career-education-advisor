@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Personalized career recommendations for students">
     <title>Career Recommendations | CareerAdvisor</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <style>
         :root {
             --purple: #8B5CF6;
@@ -20,25 +22,37 @@
             --green: #22C55E;
             --red: #EF4444;
             --amber: #F59E0B;
+
             --bg: #FAFAFE;
             --surface: #FFFFFF;
-            --surface-soft: #F5F3FF;
-            --text: #172033;
-            --muted: #7B8190;
-            --border: #E7E4F4;
-            --gradient: linear-gradient(135deg, #8B5CF6, #3B82F6);
-            --shadow: 0 18px 44px rgba(76, 57, 145, .09);
-            --shadow-soft: 0 12px 32px rgba(76, 57, 145, .07)
+            --soft: #F7F5FF;
+            --blue-soft: #F4F8FF;
+
+            --text: #182238;
+            --text-soft: #4F5A70;
+            --muted: #7B8496;
+            --muted-light: #9AA2B2;
+
+            --border: #E5E1F1;
+            --border-soft: #EEEAF7;
+            --shadow: 0 18px 48px rgba(76, 57, 145, .08);
+            --shadow-hover: 0 24px 54px rgba(76, 57, 145, .13);
+
+            --gradient: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+            --gradient-soft: linear-gradient(135deg, #FCFAFF 0%, #F4F8FF 100%);
+            --nav-height: 78px;
+            --page-padding: 24px;
+            --section-gap: 24px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
-            padding: 0
+            padding: 0;
         }
 
         html {
-            scroll-behavior: smooth
+            scroll-behavior: smooth;
         }
 
         body {
@@ -46,274 +60,260 @@
             min-height: 100vh;
             font-family: "Space Grotesk", sans-serif;
             color: var(--text);
-            background: var(--bg);
-            overflow-x: hidden
+            background:
+                radial-gradient(circle at 8% 3%, rgba(139, 92, 246, .11), transparent 24%),
+                radial-gradient(circle at 94% 74%, rgba(59, 130, 246, .09), transparent 27%),
+                var(--bg);
+            overflow-x: hidden;
         }
 
-        body::-webkit-scrollbar {
-            width: 0
-        }
-
-        body {
-            scrollbar-width: none
-        }
-
-        button,
-        input {
-            font: inherit
-        }
-
-        button {
-            border: 0
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit
-        }
-
-        .page-shell {
-            min-height: 100vh;
-            position: relative
-        }
-
-        .page-shell:before {
+        body::before {
             content: "";
             position: fixed;
             inset: 0;
             z-index: -3;
-            background-image: linear-gradient(rgba(139, 92, 246, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, .04) 1px, transparent 1px);
-            background-size: 38px 38px;
-            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .72), transparent 94%);
-            pointer-events: none
-        }
-
-        .ambient {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
             pointer-events: none;
-            overflow: hidden
+            background-image:
+                linear-gradient(rgba(139, 92, 246, .025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, .025) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .8), transparent 95%);
         }
 
-        .ambient:before,
-        .ambient:after {
+        body::after {
             content: "";
-            position: absolute;
+            position: fixed;
+            width: 460px;
+            height: 460px;
+            top: 150px;
+            left: -250px;
+            z-index: -2;
             border-radius: 50%;
-            filter: blur(20px);
-            animation: ambientMove 10s ease-in-out infinite alternate
+            background: radial-gradient(circle, rgba(139, 92, 246, .13), transparent 68%);
+            filter: blur(24px);
+            pointer-events: none;
+            animation: ambientFloat 11s ease-in-out infinite alternate;
         }
 
-        .ambient:before {
-            width: 430px;
-            height: 430px;
-            left: -170px;
-            top: -180px;
-            background: radial-gradient(circle, rgba(139, 92, 246, .18), transparent 70%)
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
         }
 
-        .ambient:after {
-            width: 490px;
-            height: 490px;
-            right: -210px;
-            bottom: -230px;
-            background: radial-gradient(circle, rgba(59, 130, 246, .16), transparent 70%);
-            animation-delay: 1.5s
+        button {
+            border: 0;
         }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ==================== NAVBAR ==================== */
 
         .navbar {
             position: sticky;
             top: 0;
-            z-index: 80;
-            height: 76px;
-            display: flex;
+            z-index: 100;
+            min-height: var(--nav-height);
+            display: grid;
+            grid-template-columns: minmax(260px, 1fr) auto minmax(260px, 1fr);
             align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 0 30px;
-            background: rgba(255, 255, 255, .93);
+            gap: 24px;
+            padding: 0 28px;
+            background: rgba(255, 255, 255, .94);
             border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(18px);
-            box-shadow: 0 7px 25px rgba(76, 57, 145, .05)
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 28px rgba(76, 57, 145, .05);
         }
 
         .brand {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 11px;
-            flex: none
+            gap: 12px;
+            justify-self: start;
         }
 
         .brand-mark {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             display: grid;
             place-items: center;
             border-radius: 14px;
-            background: var(--gradient);
             color: #fff;
-            box-shadow: 0 10px 24px rgba(99, 102, 241, .2);
-            animation: brandFloat 4s ease-in-out infinite
+            background: var(--gradient);
+            box-shadow: 0 12px 26px rgba(99, 102, 241, .2);
+            animation: softFloat 4s ease-in-out infinite;
         }
 
         .brand-mark i {
-            font-size: 17px
+            font-size: 18px;
         }
 
         .brand-name {
-            font-size: 19px;
+            font-size: 21px;
+            line-height: 1;
             font-weight: 700;
-            letter-spacing: -.5px
+            letter-spacing: -.6px;
         }
 
         .brand-sub {
-            margin-top: 2px;
-            color: #9A9EAD;
-            font-size: 9px;
-            font-weight: 600;
-            letter-spacing: .6px
+            margin-top: 5px;
+            color: #939AAA;
+            font-size: 10px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: .75px;
         }
 
         .nav-wrap {
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 1
         }
 
         .nav {
             display: flex;
             align-items: center;
-            gap: 6px
+            gap: 5px;
         }
 
-        .nav-item {
-            position: relative
-        }
-
+        .nav-link,
         .nav-trigger {
-            display: flex;
+            min-height: 42px;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 9px;
-            padding: 10px 15px;
+            padding: 0 15px;
             border: 1px solid transparent;
-            border-radius: 11px;
+            border-radius: 12px;
             background: transparent;
-            color: #606879;
-            font-size: 14px;
+            color: #606A7D;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: .22s
+            transition: .22s ease;
         }
 
+        .nav-link:hover,
+        .nav-link.active,
         .nav-trigger:hover,
-        .nav-item.open .nav-trigger {
+        .nav-item.open .nav-trigger,
+        .nav-trigger.current {
             color: var(--purple-dark);
-            background: #F7F4FF;
-            border-color: #ECE7FA
+            background: #F6F2FF;
+            border-color: #E9E3F7;
         }
 
         .nav-trigger i {
-            font-size: 8px;
-            color: #9B9FAE
+            font-size: 10px;
+            color: #9199AA;
+            transition: transform .2s ease;
+        }
+
+        .nav-item.open .nav-trigger i {
+            transform: rotate(180deg);
+            color: var(--purple);
+        }
+
+        .nav-item {
+            position: relative;
         }
 
         .dropdown {
             position: absolute;
             top: calc(100% + 11px);
             left: 0;
-            width: 220px;
-            padding: 9px;
+            width: 240px;
+            padding: 10px;
             border: 1px solid var(--border);
-            border-radius: 15px;
+            border-radius: 16px;
             background: rgba(255, 255, 255, .98);
-            box-shadow: 0 18px 45px rgba(76, 57, 145, .13);
+            box-shadow: 0 22px 52px rgba(76, 57, 145, .14);
+            backdrop-filter: blur(20px);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
             transform: translateY(-8px);
-            transition: .2s;
-            backdrop-filter: blur(18px)
+            transition: .2s ease;
         }
 
-        .nav-item:hover .dropdown,
         .nav-item.open .dropdown {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            transform: translateY(0)
+            transform: translateY(0);
         }
 
         .dropdown-title {
-            padding: 7px 9px 8px;
-            color: #A0A4B0;
-            font-size: 8px;
+            padding: 8px 10px 9px;
+            color: #9AA2B1;
+            font-size: 10px;
             font-weight: 800;
+            letter-spacing: 1.1px;
             text-transform: uppercase;
-            letter-spacing: 1px
         }
 
         .dropdown-link {
             display: flex;
             align-items: center;
-            gap: 9px;
-            padding: 9px;
-            border-radius: 9px;
-            color: #657080;
-            font-size: 12px;
-            font-weight: 600;
-            transition: .18s
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            transition: .18s ease;
         }
 
         .dropdown-link i {
-            width: 15px;
+            width: 18px;
+            color: #8D96A7;
             text-align: center;
-            color: #8C93A1
         }
 
         .dropdown-link:hover,
         .dropdown-link.active {
-            background: #F6F3FF;
-            color: var(--purple-dark)
+            color: var(--purple-dark);
+            background: #F7F3FF;
         }
 
-        .dropdown-link.active i {
-            color: var(--purple)
-        }
-
-        .nav-note {
-            margin-left: auto;
+        .dropdown-link.active i,
+        .dropdown-link:hover i {
             color: var(--purple);
-            font-size: 8px
         }
 
         .account-area {
             display: flex;
             align-items: center;
-            gap: 7px;
-            flex: none
+            justify-self: end;
+            gap: 9px;
         }
 
-        .icon-btn {
+        .icon-btn,
+        .mobile-menu {
             position: relative;
-            width: 37px;
-            height: 37px;
+            width: 42px;
+            height: 42px;
             display: grid;
             place-items: center;
             border: 1px solid var(--border);
-            border-radius: 11px;
+            border-radius: 12px;
+            color: #697488;
             background: #fff;
-            color: #6D7485;
             cursor: pointer;
-            transition: .2s
+            transition: .2s ease;
         }
 
-        .icon-btn:hover {
+        .icon-btn:hover,
+        .mobile-menu:hover {
             color: var(--purple-dark);
             background: #F8F6FF;
-            border-color: #DDD7F2;
-            transform: translateY(-1px)
+            border-color: #DCD5ED;
+            transform: translateY(-1px);
         }
 
         .notification-dot {
@@ -324,904 +324,1129 @@
             height: 7px;
             border: 2px solid #fff;
             border-radius: 50%;
-            background: var(--blue)
+            background: var(--red);
         }
 
         .account {
-            position: relative
+            position: relative;
         }
 
         .account-trigger {
+            min-height: 48px;
             display: flex;
             align-items: center;
-            gap: 9px;
-            padding: 5px 7px;
+            gap: 10px;
+            padding: 5px 8px 5px 5px;
             border: 1px solid transparent;
-            border-radius: 12px;
+            border-radius: 14px;
             background: transparent;
             cursor: pointer;
-            transition: .2s
+            transition: .2s ease;
         }
 
         .account-trigger:hover,
         .account.open .account-trigger {
             background: #F8F7FC;
-            border-color: var(--border)
+            border-color: var(--border);
         }
 
         .account-avatar {
-            width: 35px;
-            height: 35px;
+            width: 39px;
+            height: 39px;
             display: grid;
             place-items: center;
-            border-radius: 11px;
-            background: linear-gradient(135deg, #EDE6FF, #E5F0FF);
+            border-radius: 12px;
             color: var(--purple-dark);
-            font-size: 11px;
-            font-weight: 800
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            font-size: 12px;
+            font-weight: 800;
         }
 
         .account-copy {
-            text-align: left
+            min-width: 105px;
+            text-align: left;
         }
 
         .account-name {
             display: block;
-            color: var(--text);
-            font-size: 12px;
-            font-weight: 700;
-            max-width: 125px;
-            white-space: nowrap;
+            max-width: 150px;
             overflow: hidden;
-            text-overflow: ellipsis
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .account-role {
             display: block;
-            margin-top: 2px;
-            color: #9A9EAD;
-            font-size: 8px;
-            font-weight: 600
+            margin-top: 3px;
+            color: #939AAA;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .35px;
         }
 
         .account-arrow {
-            font-size: 8px;
-            color: #9AA0AE;
-            transition: .2s
+            color: #9AA2B0;
+            font-size: 9px;
+            transition: .2s ease;
         }
 
         .account.open .account-arrow {
             transform: rotate(180deg);
-            color: var(--purple)
+            color: var(--purple);
         }
 
         .account-menu {
             position: absolute;
+            top: calc(100% + 10px);
             right: 0;
-            top: calc(100% + 9px);
-            width: 190px;
+            width: 205px;
             padding: 8px;
-            transform: translateY(-8px);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            background: #fff;
-            box-shadow: 0 18px 44px rgba(76, 57, 145, .13);
-            transition: .2s
+            transform: translateY(-7px);
+            transition: .2s ease;
         }
 
         .account.open .account-menu {
-            transform: translateY(0);
             opacity: 1;
             visibility: visible;
-            pointer-events: auto
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
         .account-menu a,
         .account-menu button {
+            width: 100%;
             display: flex;
             align-items: center;
-            gap: 9px;
-            width: 100%;
-            padding: 9px;
-            border-radius: 9px;
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
             background: transparent;
-            color: #667081;
-            font-size: 10px;
-            font-weight: 600;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            text-align: left;
             cursor: pointer;
-            text-align: left
         }
 
-        .account-menu a:hover,
-        .account-menu button:hover {
-            background: #F6F3FF;
-            color: var(--purple-dark)
+        .account-menu a:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
         }
 
         .account-menu .logout {
-            color: #B42318
+            margin-top: 3px;
+            color: #C53030;
         }
 
         .account-menu .logout:hover {
-            background: #FFF5F3;
-            color: #A21B11
+            background: #FFF4F2;
         }
 
         .mobile-menu {
             display: none;
-            width: 38px;
-            height: 38px;
-            border: 1px solid var(--border);
-            border-radius: 11px;
-            background: #fff;
-            color: #6D7485;
-            cursor: pointer
         }
 
         .mobile-nav {
-            display: none
+            display: none;
         }
 
+        /* ==================== PAGE FRAME ==================== */
+
         .content {
-            width: min(1240px, calc(100% - 60px));
+            width: calc(100% - (var(--page-padding) * 2));
             margin: 0 auto;
-            padding: 27px 0 50px
+            padding: 26px 0 52px;
         }
 
         .breadcrumb {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #9A9EAD;
-            font-size: 10px;
-            margin-bottom: 17px
+            margin-bottom: 18px;
+            color: #969EAE;
+            font-size: 12px;
+            font-weight: 600;
         }
 
         .breadcrumb strong {
-            color: var(--text)
+            color: var(--text);
         }
+
+        .section {
+            width: 100%;
+            margin-top: var(--section-gap);
+        }
+
+        .section-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--purple-dark);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .9px;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            margin-top: 6px;
+            font-size: clamp(23px, 2.2vw, 30px);
+            line-height: 1.15;
+            letter-spacing: -.65px;
+        }
+
+        .section-sub {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .section-action {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            color: var(--purple-dark);
+            background: #fff;
+            font-size: 13px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .section-action:hover {
+            border-color: #D8D0EB;
+            background: #F8F5FF;
+            transform: translateY(-1px);
+        }
+
+        /* ==================== DISCOVERY HEADER ==================== */
 
         .hero {
             position: relative;
             overflow: hidden;
-            margin-bottom: 18px;
-            padding: 28px;
-            border: 1px solid rgba(139, 92, 246, .18);
-            border-radius: 22px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(248, 246, 255, .96));
+            padding: 34px;
+            border: 1px solid rgba(139, 92, 246, .16);
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(248, 247, 255, .96));
             box-shadow: var(--shadow);
-            animation: fadeUp .55s ease both
+            animation: fadeUp .55s ease both;
         }
 
-        .hero:before {
+        .hero::before {
             content: "";
             position: absolute;
-            width: 330px;
-            height: 330px;
-            right: -150px;
-            top: -185px;
+            width: 430px;
+            height: 430px;
+            top: -245px;
+            right: -120px;
             border: 1px solid rgba(139, 92, 246, .1);
             border-radius: 50%;
-            box-shadow: 0 0 0 32px rgba(139, 92, 246, .025), 0 0 0 70px rgba(139, 92, 246, .018)
-        }
-
-        .hero:after {
-            content: "";
-            position: absolute;
-            width: 190px;
-            height: 190px;
-            left: 44%;
-            bottom: -130px;
-            border-radius: 50%;
-            background: rgba(59, 130, 246, .1);
-            filter: blur(45px)
+            box-shadow:
+                0 0 0 36px rgba(139, 92, 246, .025),
+                0 0 0 78px rgba(139, 92, 246, .014);
         }
 
         .hero-grid {
             position: relative;
             z-index: 1;
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 330px;
-            gap: 25px;
-            align-items: center
+            grid-template-columns: minmax(0, 1.5fr) minmax(330px, .75fr);
+            gap: 32px;
+            align-items: center;
         }
 
         .eyebrow {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            padding: 7px 10px;
+            gap: 8px;
+            padding: 8px 11px;
             border: 1px solid #E7E0FA;
             border-radius: 999px;
-            background: #FAF8FF;
             color: var(--purple-dark);
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: .7px;
-            text-transform: uppercase
+            background: #FAF8FF;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .75px;
+            text-transform: uppercase;
         }
 
         .hero h1 {
-            margin: 12px 0 8px;
-            font-size: 32px;
-            line-height: 1.12;
-            letter-spacing: -1px
+            margin-top: 16px;
+            max-width: 900px;
+            font-size: clamp(34px, 3.5vw, 52px);
+            line-height: 1.04;
+            letter-spacing: -1.6px;
         }
 
         .hero h1 span {
+            color: transparent;
             background: var(--gradient);
             -webkit-background-clip: text;
             background-clip: text;
-            -webkit-text-fill-color: transparent
         }
 
-        .hero p {
-            max-width: 740px;
-            color: var(--muted);
-            font-size: 11.5px;
-            line-height: 1.75
+        .hero-copy {
+            max-width: 830px;
+            margin-top: 13px;
+            color: var(--text-soft);
+            font-size: 16px;
+            line-height: 1.75;
         }
 
         .hero-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 17px
+            gap: 10px;
+            margin-top: 20px;
         }
 
         .btn {
-            min-height: 41px;
+            min-height: 44px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
-            padding: 0 15px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 700;
+            gap: 8px;
+            padding: 0 16px;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 750;
             cursor: pointer;
-            transition: .22s
+            transition: .22s ease;
         }
 
         .btn:hover {
-            transform: translateY(-1px)
+            transform: translateY(-2px);
         }
 
         .btn-primary {
             color: #fff;
             background: var(--gradient);
-            box-shadow: 0 9px 20px rgba(99, 102, 241, .2)
+            box-shadow: 0 11px 24px rgba(99, 102, 241, .21);
         }
 
         .btn-secondary {
-            border: 1px solid var(--border);
+            color: #5E6880;
             background: #F8F7FC;
-            color: #6B7280
-        }
-
-        .btn:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-            transform: none
-        }
-
-        .hero-panel {
-            padding: 19px;
             border: 1px solid var(--border);
-            border-radius: 18px;
-            background: rgba(255, 255, 255, .8);
-            box-shadow: var(--shadow-soft);
-            backdrop-filter: blur(15px)
         }
 
-        .hero-panel-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px
+        .btn-secondary:hover {
+            color: var(--purple-dark);
+            background: #F5F1FF;
+            border-color: #DCD4EE;
         }
 
-        .hero-panel-label {
-            font-size: 9px;
-            font-weight: 700;
-            color: #7E8492;
-            text-transform: uppercase;
-            letter-spacing: .7px
-        }
+        /* ==================== PROFILE CONTEXT ==================== */
 
-        .hero-panel-value {
-            font-size: 25px;
-            font-weight: 700;
-            color: var(--purple-dark)
-        }
-
-        .hero-progress {
-            height: 9px;
-            overflow: hidden;
-            border-radius: 999px;
-            background: #ECEAF5;
-            margin-top: 10px
-        }
-
-        .hero-progress span {
-            display: block;
-            height: 100%;
-            width: 0;
-            border-radius: inherit;
-            background: linear-gradient(90deg, var(--purple), var(--blue), var(--cyan));
-            box-shadow: 0 0 18px rgba(79, 124, 255, .3);
-            transition: width .8s cubic-bezier(.22, 1, .36, 1)
-        }
-
-        .hero-panel-note {
-            margin-top: 9px;
-            color: #8B919E;
-            font-size: 9px;
-            line-height: 1.5
-        }
-
-        .snapshot {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 18px
-        }
-
-        .stat {
-            padding: 16px;
+        .profile-context {
+            padding: 23px;
             border: 1px solid var(--border);
-            border-radius: 17px;
-            background: rgba(255, 255, 255, .95);
-            box-shadow: var(--shadow-soft);
-            animation: fadeUp .65s ease both
-        }
-
-        .stat-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px
-        }
-
-        .stat-icon {
-            width: 35px;
-            height: 35px;
-            display: grid;
-            place-items: center;
-            border-radius: 11px;
-            background: #F0ECFF;
-            color: var(--purple-dark)
-        }
-
-        .stat:nth-child(2) .stat-icon {
-            background: #EAF3FF;
-            color: var(--blue)
-        }
-
-        .stat:nth-child(3) .stat-icon {
-            background: #E8FBF4;
-            color: #17985D
-        }
-
-        .stat:nth-child(4) .stat-icon {
-            background: #FFF5E7;
-            color: #D47B00
-        }
-
-        .stat-value {
-            margin-top: 12px;
-            font-size: 23px;
-            font-weight: 700;
-            letter-spacing: -.5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis
-        }
-
-        .stat-label {
-            margin-top: 3px;
-            color: #848B98;
-            font-size: 9px;
-            font-weight: 600
-        }
-
-        .layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 18px
-        }
-
-        .panel {
-            border: 1px solid var(--border);
-            border-radius: 19px;
-            background: rgba(255, 255, 255, .95);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .84);
             box-shadow: var(--shadow);
-            overflow: hidden;
-            animation: fadeUp .7s ease both
+            backdrop-filter: blur(14px);
         }
 
-        .panel-head {
+        .context-head {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
             gap: 14px;
-            padding: 17px 18px 14px;
-            border-bottom: 1px solid #F0EEF7
         }
 
-        .panel-title {
-            font-size: 13px;
+        .context-title {
+            font-size: 17px;
+            font-weight: 750;
+        }
+
+        .context-sub {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .completion {
+            color: var(--purple-dark);
+            font-size: 28px;
+            line-height: 1;
             font-weight: 700;
-            letter-spacing: -.2px
         }
 
-        .panel-sub {
-            margin-top: 3px;
-            color: #8B919E;
-            font-size: 9px;
-            line-height: 1.45
+        .progress-track {
+            height: 9px;
+            margin-top: 15px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #EDEAF6;
         }
 
-        .panel-link {
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--purple), var(--blue), var(--cyan));
+            box-shadow: 0 0 18px rgba(79, 124, 255, .24);
+            transition: width .9s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .profile-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 16px;
+        }
+
+        .chip {
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            color: var(--purple-dark);
-            font-size: 9px;
+            max-width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #EAE5F4;
+            border-radius: 999px;
+            color: #687286;
+            background: #FCFBFF;
+            font-size: 10px;
             font-weight: 700;
-            white-space: nowrap
         }
 
-        .panel-link:hover {
-            text-decoration: underline
+        .chip strong {
+            color: var(--text);
         }
 
-        .panel-body {
-            padding: 18px
+        .chip i {
+            color: var(--purple);
         }
 
-        .career-list {
+        .context-note {
+            margin-top: 13px;
+            color: #8B93A2;
+            font-size: 10.5px;
+            line-height: 1.5;
+        }
+
+        /* ==================== TOP MATCH ==================== */
+
+        .top-match {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px
+            grid-template-columns: minmax(0, 1.55fr) 310px;
+            gap: 0;
+            overflow: hidden;
+            border: 1px solid #DDD4F0;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #FFFFFF, #FAF8FF);
+            box-shadow: var(--shadow);
         }
 
-        .career-card {
+        .match-main {
             position: relative;
-            min-height: 190px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: linear-gradient(150deg, #fff, #FCFAFF);
-            transition: .22s;
-            overflow: hidden
+            padding: 28px;
+            overflow: hidden;
         }
 
-        .career-card:before {
+        .match-main::after {
             content: "";
             position: absolute;
-            width: 130px;
-            height: 130px;
-            right: -60px;
-            top: -60px;
+            width: 180px;
+            height: 180px;
+            right: -90px;
+            top: -90px;
             border-radius: 50%;
-            background: rgba(139, 92, 246, .05)
+            background: rgba(139, 92, 246, .07);
         }
 
-        .career-card:hover {
-            transform: translateY(-3px);
-            border-color: #D8CEF6;
-            box-shadow: 0 14px 28px rgba(76, 57, 145, .1)
+        .match-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 9px;
+            border-radius: 999px;
+            color: #15844F;
+            background: #EFFBF4;
+            font-size: 10px;
+            font-weight: 800;
         }
 
-        .career-icon {
-            width: 37px;
-            height: 37px;
-            display: grid;
-            place-items: center;
-            border-radius: 11px;
-            background: #F0ECFF;
-            color: var(--purple-dark)
+        .match-title {
+            margin-top: 12px;
+            font-size: clamp(26px, 3vw, 38px);
+            line-height: 1.05;
+            letter-spacing: -.9px;
         }
 
-        .career-name {
-            margin-top: 11px;
+        .match-description {
+            max-width: 760px;
+            margin-top: 9px;
+            color: var(--muted);
             font-size: 13px;
-            font-weight: 700
+            line-height: 1.6;
         }
 
-        .career-course {
-            margin-top: 5px;
-            color: #8A919E;
-            font-size: 8.8px;
-            line-height: 1.5;
-            min-height: 42px
+        .match-courses {
+            margin-top: 18px;
         }
 
-        .career-bottom {
+        .small-label {
+            color: #9199A8;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .course-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .course-chip {
+            padding: 7px 10px;
+            border: 1px solid #E7E0F5;
+            border-radius: 9px;
+            color: #5F6980;
+            background: #FFFFFF;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .match-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 20px;
+        }
+
+        .score-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 28px;
+            border-left: 1px solid #E9E4F3;
+            background: linear-gradient(180deg, #F9F7FF, #F5F9FF);
+        }
+
+        .score-caption {
+            color: #9098A8;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .85px;
+            text-transform: uppercase;
+        }
+
+        .score-number {
+            margin-top: 6px;
+            color: var(--purple-dark);
+            font-size: 47px;
+            line-height: .95;
+            font-weight: 700;
+            letter-spacing: -1.2px;
+        }
+
+        .score-note {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.45;
+        }
+
+        .rank-line {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
-            margin-top: 13px
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 14px;
+            border-top: 1px solid #E9E4F3;
+            color: #70798B;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .rank-badge {
+            color: var(--purple-dark);
+            background: #F0ECFF;
+            padding: 6px 9px;
+            border-radius: 999px;
+        }
+
+        /* ==================== CAREER LIST ==================== */
+
+        .career-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .career-card {
+            display: grid;
+            grid-template-columns: 52px minmax(0, 1fr) auto;
+            gap: 16px;
+            align-items: center;
+            padding: 17px;
+            border: 1px solid var(--border-soft);
+            border-radius: 17px;
+            background: #fff;
+            transition: .22s ease;
+        }
+
+        .career-card:hover {
+            transform: translateY(-2px);
+            border-color: #DAD1EE;
+            box-shadow: 0 14px 28px rgba(76, 57, 145, .07);
+        }
+
+        .career-icon {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+            font-size: 19px;
+        }
+
+        .career-card:nth-child(2) .career-icon {
+            color: var(--blue);
+            background: #EAF3FF;
+        }
+
+        .career-card:nth-child(3) .career-icon {
+            color: #17985D;
+            background: #E8FBF4;
+        }
+
+        .career-card:nth-child(4) .career-icon {
+            color: #D47B00;
+            background: #FFF5E7;
+        }
+
+        .career-card:nth-child(5) .career-icon {
+            color: #A443C4;
+            background: #F7ECFF;
+        }
+
+        .career-name {
+            font-size: 16px;
+            font-weight: 750;
+        }
+
+        .career-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 5px;
+        }
+
+        .career-meta span {
+            color: #7C8596;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .career-meta .dot {
+            color: #C4BDCF;
+        }
+
+        .career-score {
+            min-width: 92px;
+            text-align: right;
         }
 
         .score-badge {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            padding: 6px 8px;
+            gap: 6px;
+            padding: 6px 9px;
             border-radius: 999px;
-            background: #F0FBF5;
-            color: #148553;
-            font-size: 8px;
-            font-weight: 800
+            color: var(--purple-dark);
+            background: #F4F0FF;
+            font-size: 10px;
+            font-weight: 800;
         }
 
-        .view-btn {
+        .score-rank {
+            margin-top: 7px;
+            color: #9AA2B0;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* ==================== SIGNALS ==================== */
+
+        .signal-panel {
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .97);
+            box-shadow: var(--shadow);
+        }
+
+        .signal-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 17px;
+        }
+
+        .signal-card {
+            min-height: 100px;
+            padding: 15px;
+            border: 1px solid var(--border-soft);
+            border-radius: 15px;
+            background: #FCFBFF;
+            transition: .2s ease;
+        }
+
+        .signal-card:hover {
+            transform: translateY(-2px);
+            border-color: #DDD5F0;
+            background: #FAF8FF;
+        }
+
+        .signal-icon {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .signal-card:nth-child(2) .signal-icon {
+            color: var(--blue);
+            background: #EAF3FF;
+        }
+
+        .signal-card:nth-child(3) .signal-icon {
+            color: #17985D;
+            background: #E8FBF4;
+        }
+
+        .signal-card:nth-child(4) .signal-icon {
+            color: #D47B00;
+            background: #FFF5E7;
+        }
+
+        .signal-card strong {
+            display: block;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .signal-card span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10.5px;
+            line-height: 1.45;
+        }
+
+        /* ==================== COMPARE ==================== */
+
+        .compare-panel {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: var(--shadow);
+        }
+
+        .compare-head {
+            padding: 20px 24px;
+            border-bottom: 1px solid #EFEBF6;
+        }
+
+        .compare-table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 660px;
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #F0EDF6;
+            vertical-align: top;
+        }
+
+        th {
+            color: #8B93A4;
+            background: #FCFBFF;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .75px;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #596477;
+            font-size: 12px;
+        }
+
+        td strong {
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        tr:last-child td {
+            border-bottom: 0;
+        }
+
+        /* ==================== NEXT STEPS ==================== */
+
+        .next-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .next-card {
+            min-height: 170px;
+            display: flex;
+            flex-direction: column;
+            padding: 19px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: var(--shadow);
+            transition: .22s ease;
+        }
+
+        .next-card:hover {
+            transform: translateY(-3px);
+            border-color: #DDD5F0;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .next-icon {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .next-card:nth-child(2) .next-icon {
+            color: var(--blue);
+            background: #EAF3FF;
+        }
+
+        .next-card:nth-child(3) .next-icon {
+            color: #17985D;
+            background: #E8FBF4;
+        }
+
+        .next-card h3 {
+            margin-top: 13px;
+            font-size: 15px;
+        }
+
+        .next-card p {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 11.5px;
+            line-height: 1.55;
+        }
+
+        .next-link {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            margin-top: auto;
+            padding-top: 14px;
             color: var(--purple-dark);
-            font-size: 8.5px;
-            font-weight: 700
+            font-size: 11px;
+            font-weight: 800;
         }
 
-        .profile-panel {
-            padding: 18px;
-            background: linear-gradient(150deg, #FAF8FF, #F4F8FF)
+        /* ==================== REFINE ==================== */
+
+        .refine {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 24px;
+            border: 1px solid #E6DFF3;
+            border-radius: 20px;
+            background: var(--gradient-soft);
         }
 
-        .profile-panel h3 {
-            margin-top: 2px;
-            font-size: 16px;
-            line-height: 1.25
-        }
-
-        .profile-panel p {
-            margin-top: 7px;
-            color: #798191;
-            font-size: 9.5px;
-            line-height: 1.65
-        }
-
-        .signal-list {
-            display: grid;
-            gap: 8px;
-            margin-top: 16px
-        }
-
-        .signal {
+        .refine-left {
             display: flex;
             align-items: flex-start;
-            gap: 8px;
-            color: #687182;
-            font-size: 9px;
-            line-height: 1.45
+            gap: 13px;
+            min-width: 0;
         }
 
-        .signal i {
-            margin-top: 2px;
-            color: var(--green)
-        }
-
-        .profile-chip-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 13px
-        }
-
-        .chip {
-            padding: 5px 8px;
-            border-radius: 999px;
-            background: #fff;
-            border: 1px solid #ECE8F8;
-            color: #6E7685;
-            font-size: 8px;
-            font-weight: 700
-        }
-
-        .chip.primary {
-            background: #F1ECFF;
+        .refine-icon {
+            width: 46px;
+            height: 46px;
+            flex: none;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
             color: var(--purple-dark);
-            border-color: #E4DCF9
+            background: #F0ECFF;
         }
+
+        .refine h3 {
+            font-size: 18px;
+        }
+
+        .refine p {
+            max-width: 850px;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        /* ==================== STATES ==================== */
 
         .state {
-            padding: 34px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 260px;
+            padding: 28px;
             text-align: center;
-            border: 1px dashed #DCD6EE;
-            border-radius: 15px;
-            background: #FCFBFF
+            border: 1px dashed #DCD5EA;
+            border-radius: 18px;
+            background: #FCFBFF;
         }
 
         .state-icon {
-            width: 42px;
-            height: 42px;
+            width: 52px;
+            height: 52px;
             display: grid;
             place-items: center;
-            margin: 0 auto 9px;
-            border-radius: 13px;
+            border-radius: 15px;
+            color: var(--purple-dark);
             background: #F0ECFF;
-            color: var(--purple-dark)
+            font-size: 18px;
         }
 
         .state h3 {
-            font-size: 11px
+            margin-top: 14px;
+            font-size: 17px;
         }
 
         .state p {
-            margin: 6px auto 12px;
-            max-width: 410px;
-            color: #8A919E;
-            font-size: 9px;
-            line-height: 1.55
+            max-width: 590px;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
         }
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 16px
-        }
-
-        .info-item {
-            padding: 11px;
-            border: 1px solid #F0EEF7;
-            border-radius: 13px;
-            background: #FCFBFF
-        }
-
-        .info-item span {
-            display: block;
-            color: #9A9EAD;
-            font-size: 8px;
-            font-weight: 600
-        }
-
-        .info-item strong {
-            display: block;
-            margin-top: 4px;
-            font-size: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis
-        }
-
-        .note {
-            display: flex;
-            align-items: flex-start;
-            gap: 9px;
-            margin-top: 16px;
-            padding: 13px 15px;
-            border: 1px solid #E9E3F8;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #FCFAFF, #F8FBFF);
-            color: #7B8190;
-            font-size: 8.8px;
-            line-height: 1.5
-        }
-
-        .note i {
-            margin-top: 1px;
-            color: var(--purple-dark)
+        .state .btn {
+            margin-top: 17px;
         }
 
         .overlay {
-            display: none;
             position: fixed;
             inset: 0;
-            z-index: 150;
+            z-index: 200;
+            display: none;
             place-items: center;
-            background: rgba(18, 21, 38, .16);
-            backdrop-filter: blur(6px)
+            background: rgba(18, 21, 38, .1);
+            backdrop-filter: blur(7px);
         }
 
         .overlay.show {
-            display: grid
+            display: grid;
         }
 
         .loading-card {
-            min-width: 235px;
-            padding: 23px;
+            min-width: 280px;
+            padding: 24px;
             text-align: center;
             border: 1px solid var(--border);
-            border-radius: 17px;
+            border-radius: 18px;
             background: #fff;
-            box-shadow: 0 25px 70px rgba(76, 57, 145, .18)
+            box-shadow: 0 25px 70px rgba(76, 57, 145, .18);
         }
 
         .spinner {
-            width: 34px;
-            height: 34px;
-            margin: 0 auto 11px;
+            width: 35px;
+            height: 35px;
+            margin: 0 auto 12px;
             border: 3px solid #ECEAF5;
             border-top-color: var(--purple);
             border-right-color: var(--blue);
             border-radius: 50%;
-            animation: spin .8s linear infinite
+            animation: spin .8s linear infinite;
         }
 
         .loading-card p {
             color: #596173;
-            font-size: 11px;
-            font-weight: 600
+            font-size: 12px;
+            font-weight: 650;
         }
 
         .toast {
             position: fixed;
-            right: 20px;
-            top: 92px;
-            z-index: 160;
-            width: min(370px, calc(100vw - 30px));
+            top: 94px;
+            right: 24px;
+            z-index: 210;
+            width: min(420px, calc(100vw - 36px));
             display: flex;
-            gap: 10px;
-            padding: 13px;
+            gap: 11px;
+            padding: 14px;
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 15px;
             background: #fff;
-            box-shadow: 0 18px 48px rgba(15, 23, 42, .14);
-            transform: translateX(125%);
+            box-shadow: 0 20px 52px rgba(15, 23, 42, .14);
             opacity: 0;
-            transition: .3s
+            transform: translateX(120%);
+            transition: .3s ease;
         }
 
         .toast.show {
+            opacity: 1;
             transform: translateX(0);
-            opacity: 1
         }
 
         .toast-icon {
-            width: 31px;
-            height: 31px;
+            width: 32px;
+            height: 32px;
             display: grid;
             place-items: center;
             flex: none;
             border-radius: 9px;
+            color: var(--purple-dark);
             background: rgba(139, 92, 246, .09);
-            color: var(--purple-dark)
-        }
-
-        .toast.success .toast-icon {
-            background: rgba(34, 197, 94, .09);
-            color: var(--green)
         }
 
         .toast.error .toast-icon {
+            color: var(--red);
             background: rgba(239, 68, 68, .08);
-            color: var(--red)
         }
 
         .toast strong {
             display: block;
-            margin-bottom: 3px;
-            font-size: 11px
+            font-size: 12px;
         }
 
         .toast p {
+            margin-top: 4px;
             color: var(--muted);
-            font-size: 9.5px;
-            line-height: 1.5
+            font-size: 10.5px;
+            line-height: 1.5;
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px)
+        /* ==================== RESPONSIVE ==================== */
+
+        @media (max-width: 1240px) {
+            .navbar {
+                grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+                gap: 14px;
+                padding: 0 20px;
             }
 
-            to {
-                opacity: 1;
-                transform: none
-            }
-        }
-
-        @keyframes brandFloat {
-
-            0%,
-            100% {
-                transform: translateY(0)
+            .nav-link,
+            .nav-trigger {
+                padding: 0 12px;
+                font-size: 14px;
             }
 
-            50% {
-                transform: translateY(-3px)
-            }
-        }
-
-        @keyframes ambientMove {
-            from {
-                transform: translate3d(0, 0, 0) scale(1)
+            .hero-grid,
+            .top-match {
+                grid-template-columns: 1fr;
             }
 
-            to {
-                transform: translate3d(28px, 20px, 0) scale(1.07)
+            .score-side {
+                border-top: 1px solid #E9E4F3;
+                border-left: 0;
+            }
+
+            .signal-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg)
-            }
-        }
-
-        @media(max-width:1040px) {
-            .snapshot {
-                grid-template-columns: repeat(2, 1fr)
+        @media (max-width: 1050px) {
+            .navbar {
+                grid-template-columns: 1fr auto;
             }
 
-            .hero-grid {
-                grid-template-columns: 1fr 290px
-            }
-
-            .career-list {
-                grid-template-columns: 1fr
-            }
-        }
-
-        @media(max-width:900px) {
-            .content {
-                width: min(100% - 36px, 920px)
-            }
-
-            .hero-grid {
-                grid-template-columns: 1fr
-            }
-
-            .layout {
-                grid-template-columns: 1fr
-            }
-        }
-
-        @media(max-width:820px) {
             .nav-wrap {
-                display: none
+                display: none;
             }
 
             .mobile-menu {
                 display: grid;
-                place-items: center
             }
 
             .account-copy {
-                display: none
-            }
-
-            .navbar {
-                padding: 0 18px
+                display: none;
             }
 
             .mobile-nav {
                 position: absolute;
-                left: 12px;
-                right: 12px;
+                left: 10px;
+                right: 10px;
                 top: calc(100% + 9px);
                 display: none;
                 padding: 10px;
                 border: 1px solid var(--border);
                 border-radius: 18px;
                 background: rgba(255, 255, 255, .98);
-                box-shadow: 0 18px 48px rgba(76, 57, 145, .14);
-                backdrop-filter: blur(18px)
+                box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+                backdrop-filter: blur(18px);
             }
 
             .mobile-nav.show {
                 display: block;
-                animation: fadeUp .22s ease
+                animation: fadeUp .22s ease both;
             }
 
             .mobile-group {
                 border: 1px solid #F0EEF7;
                 border-radius: 13px;
                 background: #FCFBFF;
-                overflow: hidden
+                overflow: hidden;
             }
 
             .mobile-group+.mobile-group {
-                margin-top: 8px
+                margin-top: 8px;
             }
 
             .mobile-group-title {
@@ -1231,128 +1456,203 @@
                 padding: 11px;
                 color: #566071;
                 font-size: 12px;
-                font-weight: 700
+                font-weight: 750;
             }
 
             .mobile-links {
                 display: grid;
                 gap: 2px;
-                padding: 0 6px 6px
+                padding: 0 6px 6px;
             }
 
             .mobile-links a {
-                padding: 8px;
-                border-radius: 8px;
-                color: #6A7281;
+                padding: 9px;
+                border-radius: 9px;
+                color: #687286;
                 font-size: 11px;
-                font-weight: 600
+                font-weight: 650;
             }
 
-            .mobile-links a:hover {
-                background: #F6F3FF;
-                color: var(--purple-dark)
-            }
-
-            .content {
-                width: calc(100% - 28px);
-                padding-top: 22px
+            .mobile-links a:hover,
+            .mobile-links a.active {
+                color: var(--purple-dark);
+                background: #F6F2FF;
             }
         }
 
-        @media(max-width:560px) {
+        @media (max-width: 760px) {
+            :root {
+                --page-padding: 14px;
+                --section-gap: 19px;
+            }
+
             .navbar {
-                height: 68px;
-                padding: 0 12px
+                min-height: 70px;
+                padding: 0 14px;
             }
 
             .brand-name {
-                font-size: 17px
-            }
-
-            .brand-sub {
-                display: none
+                font-size: 18px;
             }
 
             .brand-mark {
-                width: 39px;
-                height: 39px;
-                border-radius: 12px
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
             }
 
-            .account-area .icon-btn {
-                width: 35px;
-                height: 35px
+            .brand-sub {
+                display: none;
+            }
+
+            .icon-btn,
+            .mobile-menu {
+                width: 39px;
+                height: 39px;
+            }
+
+            .account-avatar {
+                width: 36px;
+                height: 36px;
             }
 
             .content {
-                width: calc(100% - 20px);
-                padding-top: 18px
-            }
-
-            .breadcrumb {
-                font-size: 9px;
-                margin-bottom: 13px
+                padding-top: 20px;
+                padding-bottom: 34px;
             }
 
             .hero {
-                padding: 20px;
-                border-radius: 19px
+                padding: 23px;
+                border-radius: 20px;
             }
 
             .hero h1 {
-                font-size: 26px
+                font-size: 34px;
             }
 
-            .hero p {
-                font-size: 10.5px
+            .hero-copy {
+                font-size: 14px;
             }
 
+            .profile-context,
+            .match-main,
+            .score-side,
+            .signal-panel,
+            .refine {
+                padding: 20px;
+            }
+
+            .career-card {
+                grid-template-columns: 46px minmax(0, 1fr);
+            }
+
+            .career-icon {
+                width: 46px;
+                height: 46px;
+            }
+
+            .career-score {
+                grid-column: 2;
+                text-align: left;
+                min-width: 0;
+                margin-top: 2px;
+            }
+
+            .career-list {
+                grid-template-columns: 1fr;
+            }
+
+            .next-grid,
+            .signal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .refine {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .refine .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 520px) {
             .hero-actions {
-                flex-direction: column
+                flex-direction: column;
             }
 
             .hero-actions .btn {
-                width: 100%
+                width: 100%;
             }
 
-            .snapshot {
-                gap: 10px
-            }
-
-            .stat {
-                padding: 13px
-            }
-
-            .stat-value {
-                font-size: 20px
-            }
-
-            .panel-head,
-            .panel-body {
-                padding-left: 15px;
-                padding-right: 15px
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr
+            .score-number {
+                font-size: 41px;
             }
 
             .toast {
                 left: 14px;
                 right: 14px;
-                top: 80px;
-                width: auto
+                top: 82px;
+                width: auto;
             }
         }
 
-        @media(prefers-reduced-motion:reduce) {
+        @media (prefers-reduced-motion: reduce) {
 
             *,
-            *:before,
-            *:after {
+            *::before,
+            *::after {
                 animation: none !important;
                 transition: none !important;
-                scroll-behavior: auto !important
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes softFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes ambientFloat {
+            from {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            to {
+                transform: translate3d(26px, 17px, 0) scale(1.06);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
             }
         }
     </style>
@@ -1360,240 +1660,489 @@
 
 <body>
     <div class="page-shell">
-        <div class="ambient"></div>
+        <!-- ==================== NAVBAR ==================== -->
+
         <header class="navbar">
             <div class="brand">
-                <div class="brand-mark"><i class="fa-solid fa-compass"></i></div>
+                <div class="brand-mark">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+
                 <div>
                     <div class="brand-name">CareerAdvisor</div>
                     <div class="brand-sub">STUDENT PORTAL</div>
                 </div>
             </div>
-            <nav class="nav-wrap">
+
+            <nav class="nav-wrap" aria-label="Student navigation">
                 <div class="nav">
+                    <a class="nav-link" href="student-dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="student-profile.html">Profile</a>
+                    <a class="nav-link" href="student-assessment.html">Assessment</a>
+
                     <div class="nav-item">
-                        <button class="nav-trigger" type="button">Student <i
-                                class="fa-solid fa-chevron-down"></i></button>
-                        <div class="dropdown">
-                            <div class="dropdown-title">Student</div>
-                            <a class="dropdown-link" href="student-dashboard.html"><i
-                                    class="fa-solid fa-chart-pie"></i>Dashboard</a>
-                            <a class="dropdown-link" href="student-profile.html"><i class="fa-solid fa-user"></i>My
-                                Profile</a>
-                            <a class="dropdown-link" href="student-assessment.html"><i
-                                    class="fa-solid fa-clipboard-check"></i>Assessment</a>
-                            <a class="dropdown-link" href="student-recommendations.html"><i
-                                    class="fa-solid fa-wand-magic-sparkles"></i>Recommendations</a>
-                        </div>
-                    </div>
-                    <div class="nav-item">
-                        <button class="nav-trigger" type="button">Explore <i
-                                class="fa-solid fa-chevron-down"></i></button>
+                        <button class="nav-trigger current" type="button" aria-expanded="false">
+                            Explore
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+
                         <div class="dropdown">
                             <div class="dropdown-title">Explore</div>
-                            <a class="dropdown-link active" href="student-careers.html"><i
-                                    class="fa-solid fa-briefcase"></i>Careers<span class="nav-note">Current</span></a>
-                            <a class="dropdown-link" href="student-courses.html"><i
-                                    class="fa-solid fa-book-open"></i>Courses</a>
-                            <a class="dropdown-link" href="student-colleges.html"><i
-                                    class="fa-solid fa-building-columns"></i>Colleges</a>
-                            <a class="dropdown-link" href="student-skill-gap.html"><i
-                                    class="fa-solid fa-chart-simple"></i>Skill
-                                Gap</a>
-                            <a class="dropdown-link" href="student-career-roadmap.html"><i
-                                    class="fa-solid fa-route"></i>Career
-                                Roadmap</a>
+                            <a class="dropdown-link active" href="student-careers.html">
+                                <i class="fa-solid fa-briefcase"></i>
+                                Careers
+                            </a>
+                            <a class="dropdown-link" href="student-courses.html">
+                                <i class="fa-solid fa-book-open"></i>
+                                Courses
+                            </a>
+                            <a class="dropdown-link" href="student-colleges.html">
+                                <i class="fa-solid fa-building-columns"></i>
+                                Colleges
+                            </a>
+                            <a class="dropdown-link" href="student-skill-gap.html">
+                                <i class="fa-solid fa-chart-simple"></i>
+                                Skill Gap
+                            </a>
+                            <a class="dropdown-link" href="student-career-roadmap.html">
+                                <i class="fa-solid fa-route"></i>
+                                Career Roadmap
+                            </a>
                         </div>
                     </div>
+
                     <div class="nav-item">
-                        <button class="nav-trigger" type="button">Resources <i
-                                class="fa-solid fa-chevron-down"></i></button>
+                        <button class="nav-trigger" type="button" aria-expanded="false">
+                            Resources
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+
                         <div class="dropdown">
                             <div class="dropdown-title">Resources</div>
-                            <a class="dropdown-link" href="scholarships.html"><i
-                                    class="fa-solid fa-graduation-cap"></i>Scholarships</a>
-                            <a class="dropdown-link" href="entrance-exams.html"><i
-                                    class="fa-solid fa-file-pen"></i>Entrance Exams</a>
-                            <a class="dropdown-link" href="learning-resources.html"><i
-                                    class="fa-solid fa-lightbulb"></i>Learning Resources</a>
-                            <a class="dropdown-link" href="application-tracker.html"><i
-                                    class="fa-solid fa-list-check"></i>Application Tracker</a>
+                            <a class="dropdown-link" href="scholarships.html">
+                                <i class="fa-solid fa-award"></i>
+                                Scholarships
+                            </a>
+                            <a class="dropdown-link" href="entrance-exams.html">
+                                <i class="fa-solid fa-file-signature"></i>
+                                Entrance Exams
+                            </a>
+                            <a class="dropdown-link" href="learning-resources.html">
+                                <i class="fa-solid fa-laptop-code"></i>
+                                Learning Resources
+                            </a>
+                            <a class="dropdown-link" href="application-tracker.html">
+                                <i class="fa-solid fa-list-check"></i>
+                                Application Tracker
+                            </a>
                         </div>
                     </div>
                 </div>
             </nav>
+
             <div class="account-area">
-                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-label="Open navigation"><i
-                        class="fa-solid fa-bars"></i></button>
-                <button class="icon-btn" id="notificationBtn" type="button" title="Notifications"><i
-                        class="fa-regular fa-bell"></i><span class="notification-dot"></span></button>
+                <button class="icon-btn" id="notificationBtn" type="button" aria-label="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+
                 <div class="account" id="account">
                     <button class="account-trigger" id="accountTrigger" type="button" aria-expanded="false">
-                        <div class="account-avatar" id="topAvatar">S</div>
-                        <div class="account-copy"><span class="account-name" id="topName">Student</span><span
-                                class="account-role">STUDENT ACCOUNT</span></div>
-                        <i class="account-arrow fa-solid fa-chevron-down"></i>
+                        <span class="account-avatar" id="accountAvatar">S</span>
+
+                        <span class="account-copy">
+                            <span class="account-name" id="accountName">Student</span>
+                            <span class="account-role">STUDENT</span>
+                        </span>
+
+                        <i class="fa-solid fa-chevron-down account-arrow"></i>
                     </button>
+
                     <div class="account-menu">
-                        <a href="student-profile.html"><i class="fa-solid fa-user"></i>My Profile</a>
-                        <button type="button" id="logoutBtn" class="logout"><i
-                                class="fa-solid fa-right-from-bracket"></i>Logout</button>
+                        <a href="student-profile.html">
+                            <i class="fa-regular fa-user"></i>
+                            My Profile
+                        </a>
+                        <button class="logout" id="logoutBtn" type="button">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Logout
+                        </button>
                     </div>
                 </div>
+
+                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-expanded="false"
+                    aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
+
             <div class="mobile-nav" id="mobileNav">
                 <div class="mobile-group">
-                    <div class="mobile-group-title">Main <i class="fa-solid fa-layer-group"></i></div>
-                    <div class="mobile-links"><a href="student-dashboard.html">Dashboard</a><a
-                            href="student-profile.html">My Profile</a><a href="student-assessment.html">Assessment</a><a
-                            href="student-recommendations.html">Recommendations</a></div>
+                    <div class="mobile-group-title">
+                        Student
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+
+                    <div class="mobile-links">
+                        <a href="student-dashboard.html">Dashboard</a>
+                        <a href="student-profile.html">Profile</a>
+                        <a href="student-assessment.html">Assessment</a>
+                    </div>
                 </div>
+
                 <div class="mobile-group">
-                    <div class="mobile-group-title">Explore <i class="fa-solid fa-compass"></i></div>
-                    <div class="mobile-links"><a href="student-careers.html">Careers</a><a
-                            href="student-courses.html">Courses</a><a href="student-colleges.html">Colleges</a><a
-                            href="student-skill-gap.html">Skill Gap</a><a href="student-career-roadmap.html">Career
-                            Roadmap</a></div>
+                    <div class="mobile-group-title">
+                        Explore
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+
+                    <div class="mobile-links">
+                        <a class="active" href="student-careers.html">Careers</a>
+                        <a href="student-courses.html">Courses</a>
+                        <a href="student-colleges.html">Colleges</a>
+                        <a href="student-skill-gap.html">Skill Gap</a>
+                        <a href="student-career-roadmap.html">Career Roadmap</a>
+                    </div>
                 </div>
+
                 <div class="mobile-group">
-                    <div class="mobile-group-title">Resources <i class="fa-solid fa-book-open"></i></div>
-                    <div class="mobile-links"><a href="scholarships.html">Scholarships</a><a
-                            href="entrance-exams.html">Entrance Exams</a><a href="learning-resources.html">Learning
-                            Resources</a><a href="application-tracker.html">Application Tracker</a></div>
+                    <div class="mobile-group-title">
+                        Resources
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+
+                    <div class="mobile-links">
+                        <a href="scholarships.html">Scholarships</a>
+                        <a href="entrance-exams.html">Entrance Exams</a>
+                        <a href="learning-resources.html">Learning Resources</a>
+                        <a href="application-tracker.html">Application Tracker</a>
+                    </div>
                 </div>
             </div>
         </header>
+
+        <!-- ==================== PAGE CONTENT ==================== -->
+
         <main class="content">
-            <div class="breadcrumb"><span>Student Portal</span><i class="fa-solid fa-chevron-right"
-                    style="font-size:7px"></i><strong>Career Recommendations</strong></div>
+            <div class="breadcrumb">
+                <span>Student Portal</span>
+                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+                <strong>Career Recommendations</strong>
+            </div>
+
+            <!-- ==================== CAREER DISCOVERY ==================== -->
+
             <section class="hero">
                 <div class="hero-grid">
                     <div>
-                        <div class="eyebrow"><i class="fa-solid fa-wand-magic-sparkles"></i>Personalized Career Guidance
+                        <div class="eyebrow">
+                            <i class="fa-solid fa-briefcase"></i>
+                            Career Discovery
                         </div>
-                        <h1>Career paths matched to <span id="heroUserName">your profile</span>.</h1>
-                        <p>These recommendations are generated from the student profile saved in CareerAdvisor and
-                            returned by the Spring Boot recommendation API.</p>
-                        <div class="hero-actions"><button class="btn btn-primary" id="refreshBtn" type="button"><i
-                                    class="fa-solid fa-rotate"></i>Refresh Recommendations</button><a
-                                class="btn btn-secondary" href="student-profile.html"><i
-                                    class="fa-solid fa-user-pen"></i>Update Profile</a></div>
+
+                        <h1>
+                            Career options based on <span>your profile.</span>
+                        </h1>
+
+                        <p class="hero-copy">
+                            Your saved academic details, subjects, interests and skills are sent through the connected
+                            recommendation engine to find career paths that match your current profile.
+                        </p>
+
+                        <div class="hero-actions">
+                            <button class="btn btn-primary" type="button" id="refreshBtn">
+                                <i class="fa-solid fa-rotate"></i>
+                                Refresh Recommendations
+                            </button>
+                            <a class="btn btn-secondary" href="student-profile.html">
+                                <i class="fa-solid fa-user-pen"></i>
+                                Update Profile
+                            </a>
+                        </div>
                     </div>
-                    <div class="hero-panel">
-                        <div class="hero-panel-head"><span class="hero-panel-label">Top career score</span><strong
-                                class="hero-panel-value" id="topScore">—</strong></div>
-                        <div class="hero-progress"><span id="topScoreBar"></span></div>
-                        <div class="hero-panel-note" id="scoreNote">Waiting for your personalized recommendation result.
+
+                    <aside class="profile-context">
+                        <div class="context-head">
+                            <div>
+                                <div class="context-title">Your profile</div>
+                                <div class="context-sub">Details currently used for matching.</div>
+                            </div>
+                            <strong class="completion" id="profilePercent">0%</strong>
                         </div>
+
+                        <div class="progress-track">
+                            <div class="progress-bar" id="profileProgressBar"></div>
+                        </div>
+
+                        <div class="profile-chips" id="profileChips">
+                            <span class="chip">Loading profile…</span>
+                        </div>
+
+                        <p class="context-note" id="profileNote">
+                            Your profile is loaded from the student service before recommendations are requested.
+                        </p>
+                    </aside>
+                </div>
+            </section>
+
+            <!-- ==================== TOP MATCH ==================== -->
+
+            <section class="section" id="topMatchSection">
+                <div class="section-head">
+                    <div>
+                        <div class="section-label">
+                            <i class="fa-solid fa-bullseye"></i>
+                            Top result
+                        </div>
+                        <h2 class="section-title">Your top career match</h2>
+                        <p class="section-sub">The highest-ranked career returned by the connected recommendation
+                            engine.</p>
+                    </div>
+                </div>
+
+                <div id="topMatchContainer">
+                    <div class="state">
+                        <div class="state-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                        <h3>Generating your career result</h3>
+                        <p>Your saved profile is being checked against the connected career dataset.</p>
                     </div>
                 </div>
             </section>
-            <section class="snapshot">
-                <div class="stat">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-briefcase"></i></div>
+
+            <!-- ==================== RECOMMENDED CAREERS ==================== -->
+
+            <section class="section">
+                <div class="section-head">
+                    <div>
+                        <div class="section-label">
+                            <i class="fa-solid fa-ranking-star"></i>
+                            Personalized results
+                        </div>
+                        <h2 class="section-title">Recommended Careers</h2>
+                        <p class="section-sub">These are the career options returned for your current profile, ordered
+                            by the engine's raw score.</p>
                     </div>
-                    <div class="stat-value" id="careerCount">—</div>
-                    <div class="stat-label">Career recommendations</div>
                 </div>
-                <div class="stat">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-bullseye"></i></div>
+
+                <div class="career-list" id="careerList">
+                    <div class="state">
+                        <div class="state-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                        <h3>Loading recommendations</h3>
+                        <p>Fetching your profile and requesting career results.</p>
                     </div>
-                    <div class="stat-value" id="targetCareer">—</div>
-                    <div class="stat-label">Your target career</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div>
-                    </div>
-                    <div class="stat-value" id="streamValue">—</div>
-                    <div class="stat-label">Academic stream</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-percent"></i></div>
-                    </div>
-                    <div class="stat-value" id="profilePercent">—</div>
-                    <div class="stat-label">Profile completion</div>
                 </div>
             </section>
-            <section class="layout">
-                <div class="panel">
-                    <div class="panel-head">
+
+            <!-- ==================== PROFILE SIGNALS ==================== -->
+
+            <section class="section">
+                <div class="signal-panel">
+                    <div class="section-label">
+                        <i class="fa-solid fa-sliders"></i>
+                        Recommendation signals
+                    </div>
+
+                    <h2 class="section-title">What the engine uses</h2>
+                    <p class="section-sub">
+                        The current career scorer uses academic stream, subject signals, interests and skills when
+                        ranking careers.
+                    </p>
+
+                    <div class="signal-grid">
+                        <article class="signal-card">
+                            <div class="signal-icon"><i class="fa-solid fa-layer-group"></i></div>
+                            <strong>Academic stream</strong>
+                            <span id="signalStream">Loading…</span>
+                        </article>
+
+                        <article class="signal-card">
+                            <div class="signal-icon"><i class="fa-solid fa-book-open"></i></div>
+                            <strong>Subject signals</strong>
+                            <span id="signalSubjects">Loading…</span>
+                        </article>
+
+                        <article class="signal-card">
+                            <div class="signal-icon"><i class="fa-solid fa-compass"></i></div>
+                            <strong>Interests</strong>
+                            <span id="signalInterests">Loading…</span>
+                        </article>
+
+                        <article class="signal-card">
+                            <div class="signal-icon"><i class="fa-solid fa-code"></i></div>
+                            <strong>Skills</strong>
+                            <span id="signalSkills">Loading…</span>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== CAREER COMPARISON ==================== -->
+
+            <section class="section">
+                <div class="compare-panel">
+                    <div class="compare-head">
+                        <div class="section-label">
+                            <i class="fa-solid fa-table-columns"></i>
+                            Compare options
+                        </div>
+                        <h2 class="section-title">Compare your recommended careers</h2>
+                        <p class="section-sub">Use the returned scores and course information to compare the options
+                            without relying on a single result.</p>
+                    </div>
+
+                    <div class="compare-table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Career</th>
+                                    <th>Engine score</th>
+                                    <th>Related courses</th>
+                                    <th>Rank</th>
+                                </tr>
+                            </thead>
+                            <tbody id="compareBody">
+                                <tr>
+                                    <td colspan="4">Loading career comparison…</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== RELATED COURSES ==================== -->
+
+            <section class="section">
+                <div class="section-head">
+                    <div>
+                        <div class="section-label">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            Continue exploring
+                        </div>
+                        <h2 class="section-title">Related courses</h2>
+                        <p class="section-sub">Courses connected to your recommended career paths. Explore the Courses
+                            page for full course recommendations.</p>
+                    </div>
+
+                    <a class="section-action" href="student-courses.html">
+                        Explore Courses
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="next-grid" id="relatedCourses">
+                    <div class="next-card">
+                        <div class="next-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                        <h3>Loading courses</h3>
+                        <p>Reading course relationships returned by the career recommendation engine.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== NEXT STEPS ==================== -->
+
+            <section class="section">
+                <div class="section-head">
+                    <div>
+                        <div class="section-label">
+                            <i class="fa-solid fa-route"></i>
+                            Next steps
+                        </div>
+                        <h2 class="section-title">What you can do next</h2>
+                        <p class="section-sub">Use your career results as the starting point for the rest of your
+                            education plan.</p>
+                    </div>
+                </div>
+
+                <div class="next-grid">
+                    <article class="next-card">
+                        <div class="next-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <h3>Check suitable courses</h3>
+                        <p>Compare courses connected to the career paths shown here.</p>
+                        <a class="next-link" href="student-courses.html">
+                            Explore Courses
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+                    <article class="next-card">
+                        <div class="next-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                        <h3>Review your skill gap</h3>
+                        <p>See which skills may need more attention for your selected direction.</p>
+                        <a class="next-link" href="student-skill-gap.html">
+                            Open Skill Gap
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+                    <article class="next-card">
+                        <div class="next-icon"><i class="fa-solid fa-route"></i></div>
+                        <h3>Build your roadmap</h3>
+                        <p>Turn a selected career direction into practical study and skill steps.</p>
+                        <a class="next-link" href="student-career-roadmap.html">
+                            Open Roadmap
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ==================== REFINE PROFILE ==================== -->
+
+            <section class="section">
+                <div class="refine">
+                    <div class="refine-left">
+                        <div class="refine-icon">
+                            <i class="fa-solid fa-user-pen"></i>
+                        </div>
+
                         <div>
-                            <div class="panel-title">Recommended Careers</div>
-                            <div class="panel-sub">Top career matches returned by the current recommendation engine
-                            </div>
-                        </div><button class="panel-link" id="refreshLink" type="button">Refresh <i
-                                class="fa-solid fa-rotate"></i></button>
-                    </div>
-                    <div class="panel-body">
-                        <div class="career-list" id="careerList">
-                            <div class="state">
-                                <div class="state-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
-                                <h3>Loading recommendations</h3>
-                                <p>Fetching your saved profile and requesting personalized career results.</p>
-                            </div>
+                            <h3>Keep your profile up to date</h3>
+                            <p>
+                                Your career results depend on the information currently saved in your profile. Updating
+                                your subjects, interests and skills can change the recommendations shown here.
+                            </p>
                         </div>
                     </div>
-                </div>
-                <div class="panel">
-                    <div class="profile-panel">
-                        <div class="eyebrow"><i class="fa-solid fa-sliders"></i>Recommendation Signals</div>
-                        <h3>What the engine is using</h3>
-                        <p>The current career recommendation engine compares your profile against career dataset
-                            attributes such as stream, subjects, interests and skills.</p>
-                        <div class="signal-list">
-                            <div class="signal"><i class="fa-solid fa-check"></i><span>Academic stream match</span>
-                            </div>
-                            <div class="signal"><i class="fa-solid fa-check"></i><span>Subject relevance</span></div>
-                            <div class="signal"><i class="fa-solid fa-check"></i><span>Interest relevance</span></div>
-                            <div class="signal"><i class="fa-solid fa-check"></i><span>Skill relevance</span></div>
-                        </div>
-                        <div class="profile-chip-wrap" id="signalChips"></div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="panel-title">Profile Snapshot</div>
-                        <div class="panel-sub">Saved values currently sent through the recommendation flow</div>
-                        <div class="info-grid">
-                            <div class="info-item"><span>Career interest</span><strong id="careerInterest">—</strong>
-                            </div>
-                            <div class="info-item"><span>Target career</span><strong id="targetCareerSmall">—</strong>
-                            </div>
-                            <div class="info-item"><span>Strong subjects</span><strong id="strongSubjects">—</strong>
-                            </div>
-                            <div class="info-item"><span>Skills</span><strong id="skillsValue">—</strong></div>
-                            <div class="info-item"><span>Preferred course</span><strong id="preferredCourse">—</strong>
-                            </div>
-                            <div class="info-item"><span>Preferred location</span><strong
-                                    id="preferredLocation">—</strong></div>
-                        </div>
-                    </div>
+
+                    <a class="btn btn-primary" href="student-profile.html">
+                        Update Profile
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
                 </div>
             </section>
-            <div class="note"><i class="fa-solid fa-circle-info"></i><span>The current recommendation service returns a
-                    raw weighted score rather than a normalized percentage. This page therefore shows the score without
-                    labeling it as a percentage.</span></div>
         </main>
-    </div>
-    <div class="overlay" id="loadingOverlay">
-        <div class="loading-card">
-            <div class="spinner"></div>
-            <p id="loadingText">Loading recommendations...</p>
+
+        <!-- ==================== LOADING ==================== -->
+
+        <div class="overlay" id="loadingOverlay" aria-hidden="true">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <p id="loadingText">Loading recommendations...</p>
+            </div>
+        </div>
+
+        <!-- ==================== TOAST ==================== -->
+
+        <div class="toast" id="toast" role="status" aria-live="polite">
+            <div class="toast-icon" id="toastIcon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+            <div>
+                <strong id="toastTitle">CareerAdvisor</strong>
+                <p id="toastText"></p>
+            </div>
         </div>
     </div>
-    <div class="toast" id="toast" role="status" aria-live="polite">
-        <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-circle-check"></i></div>
-        <div><strong id="toastTitle">Ready</strong>
-            <p id="toastText"></p>
-        </div>
-    </div>
+
     <script>
+        /* ==================== API CONFIGURATION ==================== */
+
         const API_BASE_URL = "http://localhost:8081";
         const PROFILE_API = `${API_BASE_URL}/api/student/profile`;
         const CAREER_API = `${API_BASE_URL}/api/recommendation/careers`;
-        const REQUEST_TIMEOUT = 10000;
+        const REQUEST_TIMEOUT = 15000;
 
         const account = document.getElementById("account");
         const accountTrigger = document.getElementById("accountTrigger");
@@ -1602,8 +2151,18 @@
         const notificationBtn = document.getElementById("notificationBtn");
         const logoutBtn = document.getElementById("logoutBtn");
         const refreshBtn = document.getElementById("refreshBtn");
-        const refreshLink = document.getElementById("refreshLink");
         const careerList = document.getElementById("careerList");
+        const topMatchContainer = document.getElementById("topMatchContainer");
+        const profilePercent = document.getElementById("profilePercent");
+        const profileProgressBar = document.getElementById("profileProgressBar");
+        const profileChips = document.getElementById("profileChips");
+        const profileNote = document.getElementById("profileNote");
+        const signalStream = document.getElementById("signalStream");
+        const signalSubjects = document.getElementById("signalSubjects");
+        const signalInterests = document.getElementById("signalInterests");
+        const signalSkills = document.getElementById("signalSkills");
+        const compareBody = document.getElementById("compareBody");
+        const relatedCourses = document.getElementById("relatedCourses");
         const loadingOverlay = document.getElementById("loadingOverlay");
         const loadingText = document.getElementById("loadingText");
         const toast = document.getElementById("toast");
@@ -1612,6 +2171,9 @@
         const toastText = document.getElementById("toastText");
 
         let toastTimer = null;
+        let latestCareers = [];
+
+        /* ==================== AUTHENTICATION ==================== */
 
         function getToken() {
             return localStorage.getItem("token");
@@ -1630,6 +2192,19 @@
             localStorage.removeItem("user");
         }
 
+        function requireStudent() {
+            const token = getToken();
+            const user = getStoredUser();
+            const role = String(user?.role || "").toUpperCase();
+
+            if (!token || !user || role !== "STUDENT") {
+                window.location.href = "../login.html";
+                return false;
+            }
+
+            return true;
+        }
+
         function authHeaders() {
             return {
                 Accept: "application/json",
@@ -1638,32 +2213,23 @@
             };
         }
 
-        function updateHeader(user = getStoredUser()) {
+        function updateHeader() {
+            const user = getStoredUser();
             const name = user?.name || user?.fullName || "Student";
-            const parts = name.trim().split(/\s+/).filter(Boolean);
-            const firstName = parts[0] || "Student";
-            const initials = parts.slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "S";
+            const initials = name
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part.charAt(0))
+                .join("")
+                .toUpperCase() || "S";
 
-            document.getElementById("heroUserName").textContent = firstName;
-            document.getElementById("topName").textContent = name;
-            document.getElementById("topAvatar").textContent = initials;
+            document.getElementById("accountName").textContent = name;
+            document.getElementById("accountAvatar").textContent = initials;
         }
 
-        function setLoading(show, message = "Loading recommendations...") {
-            loadingText.textContent = message;
-            loadingOverlay.classList.toggle("show", show);
-            loadingOverlay.setAttribute("aria-hidden", String(!show));
-            refreshBtn.disabled = show;
-        }
-
-        function showToast(type, title, message) {
-            clearTimeout(toastTimer);
-            toast.className = `toast ${type} show`;
-            toastIcon.innerHTML = `<i class="fa-solid ${type === "success" ? "fa-circle-check" : "fa-circle-exclamation"}"></i>`;
-            toastTitle.textContent = title;
-            toastText.textContent = message;
-            toastTimer = setTimeout(() => toast.classList.remove("show"), 4200);
-        }
+        /* ==================== COMMON HELPERS ==================== */
 
         function escapeHtml(value) {
             return String(value ?? "")
@@ -1674,42 +2240,109 @@
                 .replaceAll("'", "&#039;");
         }
 
-        function splitValues(value) {
-            if (Array.isArray(value)) {
-                return value.filter(Boolean).map(String);
-            }
-
-            if (typeof value !== "string") {
-                return [];
-            }
-
-            return value
-                .split(",")
-                .map((item) => item.trim())
-                .filter(Boolean);
-        }
-
         function normalizeScore(value) {
             const score = Number(value);
             return Number.isFinite(score) ? score : 0;
         }
 
-        function iconForCareer(name) {
-            const value = String(name || "").toLowerCase();
+        function splitValues(value) {
+            if (Array.isArray(value)) {
+                return value.flatMap(item => splitValues(item));
+            }
 
-            if (value.includes("data")) return "fa-chart-line";
-            if (value.includes("design")) return "fa-pen-ruler";
-            if (value.includes("marketing")) return "fa-bullhorn";
-            if (value.includes("doctor") || value.includes("nurse") || value.includes("pharmac")) return "fa-user-doctor";
-            if (value.includes("engineer")) return "fa-gears";
-            if (value.includes("security")) return "fa-shield-halved";
-            if (value.includes("writer")) return "fa-pen-nib";
-            if (value.includes("account") || value.includes("finance")) return "fa-chart-pie";
+            if (value === null || value === undefined) {
+                return [];
+            }
 
-            return "fa-code";
+            return String(value)
+                .split(/[;,]/)
+                .map(item => item.trim())
+                .filter(Boolean);
         }
 
-        function calculateProfileCompletion(profile) {
+        function uniqueValues(values) {
+            const seen = new Set();
+            return values.filter(value => {
+                const key = value.toLowerCase();
+                if (seen.has(key)) {
+                    return false;
+                }
+                seen.add(key);
+                return true;
+            });
+        }
+
+        function careerName(item) {
+            return String(
+                item?.career_name ??
+                item?.careerName ??
+                item?.name ??
+                item?.title ??
+                "Career"
+            );
+        }
+
+        function careerCourses(item) {
+            return uniqueValues(
+                splitValues(item?.related_courses ?? item?.relatedCourses ?? item?.courses)
+            );
+        }
+
+        function iconForCareer(name) {
+            const value = name.toLowerCase();
+
+            if (value.includes("software") || value.includes("developer") || value.includes("program")) {
+                return "fa-code";
+            }
+
+            if (value.includes("data") || value.includes("analyst") || value.includes("scientist")) {
+                return "fa-chart-line";
+            }
+
+            if (value.includes("doctor") || value.includes("medical") || value.includes("health")) {
+                return "fa-user-doctor";
+            }
+
+            if (value.includes("designer") || value.includes("ui") || value.includes("ux")) {
+                return "fa-pen-ruler";
+            }
+
+            if (value.includes("engineer")) {
+                return "fa-gears";
+            }
+
+            if (value.includes("teacher") || value.includes("education")) {
+                return "fa-chalkboard-user";
+            }
+
+            if (value.includes("finance") || value.includes("account")) {
+                return "fa-chart-column";
+            }
+
+            return "fa-briefcase";
+        }
+
+        function getRecommendations(data) {
+            if (Array.isArray(data)) {
+                return data;
+            }
+
+            if (Array.isArray(data?.recommendations)) {
+                return data.recommendations;
+            }
+
+            if (Array.isArray(data?.results)) {
+                return data.results;
+            }
+
+            if (Array.isArray(data?.data)) {
+                return data.data;
+            }
+
+            return [];
+        }
+
+        function calculateCompletion(profile) {
             const fields = [
                 "className",
                 "stream",
@@ -1730,7 +2363,7 @@
                 "preferredLocation"
             ];
 
-            const filled = fields.filter((field) => {
+            const filled = fields.filter(field => {
                 const value = profile?.[field];
                 return value !== null && value !== undefined && String(value).trim() !== "";
             }).length;
@@ -1738,128 +2371,284 @@
             return Math.round((filled / fields.length) * 100);
         }
 
-        function setProfileSnapshot(profile) {
-            const completion = calculateProfileCompletion(profile);
-            const chips = [];
+        function setLoading(show, message) {
+            loadingText.textContent = message || "Loading recommendations...";
+            loadingOverlay.classList.toggle("show", show);
+            refreshBtn.disabled = show;
+        }
 
-            document.getElementById("streamValue").textContent = profile?.stream || "—";
-            document.getElementById("careerInterest").textContent = profile?.careerInterest || "Not set";
-            document.getElementById("targetCareer").textContent = profile?.targetCareer || "Not set";
-            document.getElementById("targetCareerSmall").textContent = profile?.targetCareer || "Not set";
-            document.getElementById("strongSubjects").textContent = profile?.strongSubjects || "Not set";
-            document.getElementById("skillsValue").textContent = profile?.skills || "Not set";
-            document.getElementById("preferredCourse").textContent = profile?.preferredCourse || "Not set";
-            document.getElementById("preferredLocation").textContent = profile?.preferredLocation || profile?.city || "Not set";
-            document.getElementById("profilePercent").textContent = `${completion}%`;
+        function showToast(type, title, message) {
+            clearTimeout(toastTimer);
+            toast.className = `toast ${type === "error" ? "error" : ""} show`;
+            toastIcon.innerHTML = `<i class="fa-solid ${type === "error" ? "fa-circle-exclamation" : "fa-circle-check"}"></i>`;
+            toastTitle.textContent = title;
+            toastText.textContent = message;
 
-            if (profile?.stream) {
-                chips.push(`<span class="chip primary">${escapeHtml(profile.stream)}</span>`);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 4300);
+        }
+
+        /* ==================== PROFILE MAPPING ==================== */
+
+        function recommendationPayload(profile) {
+            const favoriteSubjects = splitValues(profile?.favoriteSubjects);
+            const strongSubjects = splitValues(profile?.strongSubjects);
+            const interests = splitValues(profile?.interests);
+            const skills = splitValues(profile?.skills);
+
+            return {
+                ...profile,
+                subjects: uniqueValues([
+                    ...favoriteSubjects,
+                    ...strongSubjects
+                ]).join(", "),
+                interests: interests.join(", "),
+                skills: skills.join(", ")
+            };
+        }
+
+        function setProfileView(profile) {
+            const completion = calculateCompletion(profile);
+            const subjects = uniqueValues([
+                ...splitValues(profile?.favoriteSubjects),
+                ...splitValues(profile?.strongSubjects)
+            ]);
+            const interests = splitValues(profile?.interests);
+            const skills = splitValues(profile?.skills);
+
+            profilePercent.textContent = `${completion}%`;
+            profileProgressBar.style.width = `${completion}%`;
+
+            profileChips.innerHTML = "";
+
+            const chips = [
+                ["fa-graduation-cap", profile?.className || "Class not set"],
+                ["fa-layer-group", profile?.stream || "Stream not set"],
+                ["fa-bullseye", profile?.targetCareer || profile?.careerInterest || "Career goal not set"],
+                ["fa-location-dot", profile?.preferredLocation || profile?.city || "Location not set"]
+            ];
+
+            chips.forEach(([icon, value]) => {
+                profileChips.insertAdjacentHTML(
+                    "beforeend",
+                    `<span class="chip"><i class="fa-solid ${icon}"></i>${escapeHtml(value)}</span>`
+                );
+            });
+
+            if (completion >= 80) {
+                profileNote.textContent = "Your profile has enough information for stronger career matching.";
+            } else if (completion >= 50) {
+                profileNote.textContent = "Add a few more details to give the recommendation engine better context.";
+            } else {
+                profileNote.textContent = "Complete more profile fields before relying on the recommendations.";
             }
 
-            splitValues(profile?.interests).slice(0, 3).forEach((item) => {
-                chips.push(`<span class="chip">${escapeHtml(item)}</span>`);
-            });
-
-            splitValues(profile?.skills).slice(0, 3).forEach((item) => {
-                chips.push(`<span class="chip">${escapeHtml(item)}</span>`);
-            });
-
-            document.getElementById("signalChips").innerHTML = chips.join("") || '<span class="chip">Complete your profile</span>';
+            signalStream.textContent = profile?.stream || "Not provided";
+            signalSubjects.textContent = subjects.length ? subjects.slice(0, 4).join(", ") : "Not provided";
+            signalInterests.textContent = interests.length ? interests.slice(0, 4).join(", ") : "Not provided";
+            signalSkills.textContent = skills.length ? skills.slice(0, 4).join(", ") : "Not provided";
         }
 
-        function getRecommendations(data) {
-            if (Array.isArray(data?.recommendations)) return data.recommendations;
-            if (Array.isArray(data?.results)) return data.results;
-            if (Array.isArray(data?.data)) return data.data;
-            return [];
-        }
+        /* ==================== TOP MATCH ==================== */
 
-        function renderEmpty(title, message) {
-            careerList.innerHTML = `
-        <div class="state" style="grid-column:1/-1">
-            <div class="state-icon"><i class="fa-solid fa-compass"></i></div>
-            <h3>${escapeHtml(title)}</h3>
-            <p>${escapeHtml(message)}</p>
-            <a class="btn btn-primary" href="student-profile.html">
-                <i class="fa-solid fa-user-pen"></i>
-                Complete Profile
-            </a>
-        </div>
-    `;
-
-            document.getElementById("careerCount").textContent = "0";
-            document.getElementById("topScore").textContent = "—";
-            document.getElementById("topScoreBar").style.width = "0";
-            document.getElementById("scoreNote").textContent = "No recommendation result was returned.";
-        }
-
-        function renderError(message) {
-            careerList.innerHTML = `
-        <div class="state" style="grid-column:1/-1">
-            <div class="state-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-            <h3>Could not load recommendations</h3>
-            <p>${escapeHtml(message)}</p>
-            <button class="btn btn-primary" type="button" id="retryInside">
-                <i class="fa-solid fa-rotate"></i>
-                Try Again
-            </button>
-        </div>
-    `;
-
-            document.getElementById("retryInside")?.addEventListener("click", loadCareerRecommendations);
-        }
-
-        function renderCareers(recommendations) {
-            if (!recommendations.length) {
-                renderEmpty(
-                    "No career recommendations yet",
-                    "Complete your profile with stream, subjects, interests and skills so the recommendation engine has useful signals."
-                );
+        function renderTopMatch(items) {
+            if (!items.length) {
+                topMatchContainer.innerHTML = `
+                    <div class="state">
+                        <div class="state-icon"><i class="fa-solid fa-compass"></i></div>
+                        <h3>No career result returned</h3>
+                        <p>Complete more profile details and try the recommendation request again.</p>
+                        <a class="btn btn-primary" href="student-profile.html">
+                            <i class="fa-solid fa-user-pen"></i>
+                            Update Profile
+                        </a>
+                    </div>
+                `;
                 return;
             }
 
-            const items = [...recommendations].sort((a, b) =>
+            const item = items[0];
+            const name = careerName(item);
+            const score = normalizeScore(item?.score ?? item?.matchScore);
+            const courses = careerCourses(item);
+
+            topMatchContainer.innerHTML = `
+                <article class="top-match">
+                    <div class="match-main">
+                        <span class="match-tag">
+                            <i class="fa-solid fa-check"></i>
+                            Highest ranked result
+                        </span>
+
+                        <h3 class="match-title">${escapeHtml(name)}</h3>
+
+                        <p class="match-description">
+                            This career received the highest raw score from the connected recommendation engine for your current student profile.
+                        </p>
+
+                        <div class="match-courses">
+                            <div class="small-label">Related courses</div>
+                            <div class="course-chips">
+                                ${courses.length
+                    ? courses.slice(0, 4).map(course => `<span class="course-chip">${escapeHtml(course)}</span>`).join("")
+                    : `<span class="course-chip">Course information not available</span>`}
+                            </div>
+                        </div>
+
+                        <div class="match-actions">
+                            <a class="btn btn-primary" href="student-courses.html">
+                                Explore Courses
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a class="btn btn-secondary" href="#signals">
+                                See Recommendation Signals
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="score-side">
+                        <div class="score-caption">Engine score</div>
+                        <div class="score-number">${escapeHtml(score)}</div>
+                        <div class="score-note">Raw weighted score returned by the recommendation engine. It is not a percentage.</div>
+
+                        <div class="rank-line">
+                            <span>Career rank</span>
+                            <span class="rank-badge">#1</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        /* ==================== CAREER LIST ==================== */
+
+        function renderCareers(items) {
+            latestCareers = [...items].sort((a, b) =>
                 normalizeScore(b?.score ?? b?.matchScore) - normalizeScore(a?.score ?? a?.matchScore)
-            );
+            ).slice(0, 5);
 
-            const topItem = items[0];
-            const topScore = normalizeScore(topItem?.score ?? topItem?.matchScore);
-            const topCareer = topItem?.career_name ?? topItem?.careerName ?? topItem?.name ?? "Career";
+            renderTopMatch(latestCareers);
 
-            document.getElementById("careerCount").textContent = items.length;
-            document.getElementById("topScore").textContent = topScore;
-            document.getElementById("topScoreBar").style.width = `${Math.min(100, Math.max(0, topScore))}%`;
-            document.getElementById("scoreNote").textContent = `Top result: ${topCareer}`;
+            if (!latestCareers.length) {
+                careerList.innerHTML = `
+                    <div class="state">
+                        <div class="state-icon"><i class="fa-solid fa-compass"></i></div>
+                        <h3>No career recommendations yet</h3>
+                        <p>The recommendation engine did not return a career result for the current profile.</p>
+                        <a class="btn btn-primary" href="student-profile.html">
+                            <i class="fa-solid fa-user-pen"></i>
+                            Update Profile
+                        </a>
+                    </div>
+                `;
+                renderComparison([]);
+                renderRelatedCourses([]);
+                return;
+            }
 
-            careerList.innerHTML = items.map((item) => {
-                const name = item?.career_name ?? item?.careerName ?? item?.name ?? "Career";
+            careerList.innerHTML = latestCareers.map((item, index) => {
+                const name = careerName(item);
                 const score = normalizeScore(item?.score ?? item?.matchScore);
-                const courses = splitValues(item?.related_courses ?? item?.relatedCourses);
-                const courseText = courses.length
-                    ? courses.slice(0, 3).join(" • ")
-                    : "Related course information is not available.";
+                const courses = careerCourses(item);
+                const icon = iconForCareer(name);
 
                 return `
-            <article class="career-card">
-                <div class="career-icon">
-                    <i class="fa-solid ${iconForCareer(name)}"></i>
-                </div>
-                <div class="career-name">${escapeHtml(name)}</div>
-                <div class="career-course">${escapeHtml(courseText)}</div>
-                <div class="career-bottom">
-                    <span class="score-badge">
-                        <i class="fa-solid fa-bolt"></i>
-                        Score ${score}
-                    </span>
-                    <span class="view-btn">
-                        Recommended for you
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </span>
-                </div>
-            </article>
-        `;
+                    <article class="career-card">
+                        <div class="career-icon">
+                            <i class="fa-solid ${icon}"></i>
+                        </div>
+
+                        <div>
+                            <div class="career-name">${escapeHtml(name)}</div>
+                            <div class="career-meta">
+                                <span>${courses.length ? `Related courses: ${escapeHtml(courses.slice(0, 3).join(" • "))}` : "Related courses not available"}</span>
+                                <span class="dot">•</span>
+                                <span>Career recommendation</span>
+                            </div>
+                        </div>
+
+                        <div class="career-score">
+                            <span class="score-badge">
+                                <i class="fa-solid fa-bolt"></i>
+                                Score ${escapeHtml(score)}
+                            </span>
+                            <div class="score-rank">Rank #${index + 1}</div>
+                        </div>
+                    </article>
+                `;
+            }).join("");
+
+            renderComparison(latestCareers);
+            renderRelatedCourses(latestCareers);
+        }
+
+        /* ==================== COMPARISON ==================== */
+
+        function renderComparison(items) {
+            if (!items.length) {
+                compareBody.innerHTML = `
+                    <tr>
+                        <td colspan="4">No comparison data available.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            compareBody.innerHTML = items.map((item, index) => {
+                const name = careerName(item);
+                const score = normalizeScore(item?.score ?? item?.matchScore);
+                const courses = careerCourses(item);
+
+                return `
+                    <tr>
+                        <td><strong>${escapeHtml(name)}</strong></td>
+                        <td>${escapeHtml(score)}</td>
+                        <td>${escapeHtml(courses.length ? courses.slice(0, 3).join(" • ") : "Not available")}</td>
+                        <td>#${index + 1}</td>
+                    </tr>
+                `;
             }).join("");
         }
+
+        /* ==================== RELATED COURSES ==================== */
+
+        function renderRelatedCourses(items) {
+            const allCourses = uniqueValues(
+                items.flatMap(item => careerCourses(item))
+            ).slice(0, 6);
+
+            if (!allCourses.length) {
+                relatedCourses.innerHTML = `
+                    <article class="next-card">
+                        <div class="next-icon"><i class="fa-solid fa-book-open"></i></div>
+                        <h3>Explore course options</h3>
+                        <p>Open the Courses page to see course recommendations based on your full student profile.</p>
+                        <a class="next-link" href="student-courses.html">
+                            Explore Courses
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+                `;
+                return;
+            }
+
+            relatedCourses.innerHTML = allCourses.slice(0, 3).map((course, index) => `
+                <article class="next-card">
+                    <div class="next-icon">
+                        <i class="fa-solid ${index === 0 ? "fa-graduation-cap" : index === 1 ? "fa-laptop-code" : "fa-book-open"}"></i>
+                    </div>
+                    <h3>${escapeHtml(course)}</h3>
+                    <p>This course appears in the career paths returned for your current profile.</p>
+                    <a class="next-link" href="student-courses.html">
+                        View Course Recommendations
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </article>
+            `).join("");
+        }
+
+        /* ==================== NETWORK ==================== */
 
         async function fetchJson(url, options = {}, label = "Request") {
             const controller = new AbortController();
@@ -1868,34 +2657,40 @@
             try {
                 const response = await fetch(url, {
                     ...options,
-                    signal: controller.signal
+                    signal: controller.signal,
+                    headers: {
+                        ...authHeaders(),
+                        ...(options.headers || {})
+                    }
                 });
 
-                const text = await response.text();
-                let data = {};
+                const rawText = await response.text();
+                let data = null;
 
-                if (text) {
+                if (rawText) {
                     try {
-                        data = JSON.parse(text);
+                        data = JSON.parse(rawText);
                     } catch {
-                        data = { message: text };
+                        data = { message: rawText };
                     }
                 }
 
                 if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        clearAuth();
-                        window.location.href = "../login.html";
-                        throw new Error("Your login session has expired.");
-                    }
-
-                    throw new Error(data?.message || data?.error || `${label} failed (${response.status})`);
+                    const error = new Error(
+                        data?.message ||
+                        data?.error ||
+                        `${label} failed (${response.status})`
+                    );
+                    error.status = response.status;
+                    throw error;
                 }
 
                 return data;
             } catch (error) {
                 if (error.name === "AbortError") {
-                    throw new Error(`${label} timed out. Make sure Spring Boot and the Python recommendation service are running.`);
+                    throw new Error(
+                        `${label} timed out. Make sure Spring Boot is running on port 8081 and the Python recommendation engine is running on port 8000.`
+                    );
                 }
 
                 throw error;
@@ -1905,77 +2700,155 @@
         }
 
         async function loadCareerRecommendations() {
-            if (!getToken()) {
-                window.location.href = "../login.html";
+            if (!requireStudent()) {
                 return;
             }
 
-            setLoading(true, "Loading your saved profile...");
+            setLoading(true, "Loading your saved student profile...");
 
             try {
                 const profile = await fetchJson(
                     PROFILE_API,
-                    {
-                        method: "GET",
-                        headers: authHeaders()
-                    },
+                    { method: "GET" },
                     "Student profile request"
                 );
 
-                setProfileSnapshot(profile);
+                setProfileView(profile || {});
                 updateHeader();
+
                 setLoading(true, "Generating personalized career recommendations...");
+
+                const payload = recommendationPayload(profile || {});
 
                 const result = await fetchJson(
                     CAREER_API,
                     {
                         method: "POST",
-                        headers: authHeaders(),
-                        body: JSON.stringify(profile)
+                        body: JSON.stringify(payload)
                     },
                     "Career recommendation request"
                 );
 
                 renderCareers(getRecommendations(result));
+
                 showToast(
                     "success",
                     "Recommendations updated",
-                    "Career recommendations were generated from your saved profile."
+                    "Career results were generated from your latest saved profile."
                 );
             } catch (error) {
-                if (getToken()) {
-                    renderError(error.message || "Unable to load career recommendations.");
+                if (error.status === 401) {
+                    clearAuth();
+                    showToast("error", "Session expired", "Please login again.");
+                    setTimeout(() => {
+                        window.location.href = "../login.html";
+                    }, 800);
+                    return;
+                }
+
+                if (error.status === 403) {
+                    showToast("error", "Access denied", "Your student account is not allowed to use the career recommendation service.");
+                } else {
                     showToast(
                         "error",
                         "Recommendation service unavailable",
                         error.message || "Please try again."
                     );
                 }
+
+                topMatchContainer.innerHTML = `
+                    <div class="state">
+                        <div class="state-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <h3>Could not load career recommendations</h3>
+                        <p>${escapeHtml(error.message || "Please check the connected services and try again.")}</p>
+                        <button class="btn btn-primary" type="button" id="retryCareerBtn">
+                            <i class="fa-solid fa-rotate"></i>
+                            Try Again
+                        </button>
+                    </div>
+                `;
+
+                careerList.innerHTML = `
+                    <div class="state">
+                        <div class="state-icon"><i class="fa-solid fa-plug-circle-xmark"></i></div>
+                        <h3>Career results are unavailable</h3>
+                        <p>Check Spring Boot on port 8081 and the Python recommendation engine on port 8000, then try again.</p>
+                        <button class="btn btn-primary" type="button" id="retryCareerListBtn">
+                            <i class="fa-solid fa-rotate"></i>
+                            Try Again
+                        </button>
+                    </div>
+                `;
+
+                renderComparison([]);
+                renderRelatedCourses([]);
+
+                document.getElementById("retryCareerBtn")?.addEventListener("click", loadCareerRecommendations);
+                document.getElementById("retryCareerListBtn")?.addEventListener("click", loadCareerRecommendations);
             } finally {
                 setLoading(false);
-                refreshBtn.disabled = false;
             }
         }
 
-        accountTrigger.addEventListener("click", (event) => {
+        /* ==================== NAVIGATION ==================== */
+
+        document.querySelectorAll(".nav-trigger").forEach(trigger => {
+            trigger.addEventListener("click", event => {
+                event.stopPropagation();
+
+                const item = trigger.closest(".nav-item");
+                const isOpen = item.classList.contains("open");
+
+                document.querySelectorAll(".nav-item.open").forEach(other => {
+                    if (other !== item) {
+                        other.classList.remove("open");
+                        other.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+                    }
+                });
+
+                item.classList.toggle("open", !isOpen);
+                trigger.setAttribute("aria-expanded", String(!isOpen));
+            });
+        });
+
+        accountTrigger.addEventListener("click", event => {
             event.stopPropagation();
             const isOpen = account.classList.toggle("open");
             accountTrigger.setAttribute("aria-expanded", String(isOpen));
         });
 
-        document.addEventListener("click", (event) => {
+        mobileMenuBtn.addEventListener("click", event => {
+            event.stopPropagation();
+            mobileNav.classList.toggle("show");
+            mobileMenuBtn.setAttribute("aria-expanded", String(mobileNav.classList.contains("show")));
+            account.classList.remove("open");
+        });
+
+        document.addEventListener("click", event => {
+            document.querySelectorAll(".nav-item.open").forEach(item => {
+                if (!item.contains(event.target)) {
+                    item.classList.remove("open");
+                    item.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+                }
+            });
+
             if (!account.contains(event.target)) {
                 account.classList.remove("open");
                 accountTrigger.setAttribute("aria-expanded", "false");
             }
-        });
 
-        mobileMenuBtn.addEventListener("click", () => {
-            mobileNav.classList.toggle("show");
+            if (!mobileNav.contains(event.target) && event.target !== mobileMenuBtn) {
+                mobileNav.classList.remove("show");
+                mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
         });
 
         notificationBtn.addEventListener("click", () => {
-            showToast("success", "Notifications", "Notification center will be connected to the notification module.");
+            showToast(
+                "success",
+                "CareerAdvisor",
+                "Your career results are generated from the profile saved in your student account."
+            );
         });
 
         logoutBtn.addEventListener("click", () => {
@@ -1985,10 +2858,7 @@
 
         refreshBtn.addEventListener("click", loadCareerRecommendations);
 
-        refreshLink.addEventListener("click", (event) => {
-            event.preventDefault();
-            loadCareerRecommendations();
-        });
+        /* ==================== PAGE START ==================== */
 
         updateHeader();
         loadCareerRecommendations();
