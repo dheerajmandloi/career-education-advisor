@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Personalized career recommendations for students">
+    <meta name="description" content="Personalized course recommendations for students">
     <title>Course Recommendations | CareerAdvisor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <style>
         :root {
             --purple: #8B5CF6;
@@ -19,26 +20,27 @@
             --cyan: #06B6D4;
             --green: #22C55E;
             --red: #EF4444;
-            --amber: #F59E0B;
             --bg: #FAFAFE;
             --surface: #FFFFFF;
-            --surface-soft: #F5F3FF;
-            --text: #172033;
-            --muted: #7B8190;
-            --border: #E7E4F4;
-            --gradient: linear-gradient(135deg, #8B5CF6, #3B82F6);
-            --shadow: 0 18px 44px rgba(76, 57, 145, .09);
-            --shadow-soft: 0 12px 32px rgba(76, 57, 145, .07)
+            --soft: #F6F3FF;
+            --text: #182238;
+            --text-soft: #536078;
+            --muted: #7D8799;
+            --border: #E6E2F1;
+            --border-soft: #EEEAF7;
+            --gradient: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+            --shadow: 0 18px 46px rgba(76, 57, 145, .08);
+            --shadow-hover: 0 22px 48px rgba(76, 57, 145, .12);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
-            padding: 0
+            padding: 0;
         }
 
         html {
-            scroll-behavior: smooth
+            scroll-behavior: smooth;
         }
 
         body {
@@ -46,274 +48,264 @@
             min-height: 100vh;
             font-family: "Space Grotesk", sans-serif;
             color: var(--text);
-            background: var(--bg);
-            overflow-x: hidden
+            background:
+                radial-gradient(circle at 8% 4%, rgba(139, 92, 246, .09), transparent 26%),
+                radial-gradient(circle at 95% 78%, rgba(59, 130, 246, .08), transparent 28%),
+                var(--bg);
+            overflow-x: hidden;
         }
 
-        body::-webkit-scrollbar {
-            width: 0
-        }
-
-        body {
-            scrollbar-width: none
-        }
-
-        button,
-        input {
-            font: inherit
-        }
-
-        button {
-            border: 0
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit
-        }
-
-        .page-shell {
-            min-height: 100vh;
-            position: relative
-        }
-
-        .page-shell:before {
+        body::before {
             content: "";
             position: fixed;
             inset: 0;
             z-index: -3;
-            background-image: linear-gradient(rgba(139, 92, 246, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, .04) 1px, transparent 1px);
-            background-size: 38px 38px;
-            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .72), transparent 94%);
-            pointer-events: none
-        }
-
-        .ambient {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
             pointer-events: none;
-            overflow: hidden
+            background-image:
+                linear-gradient(rgba(139, 92, 246, .026) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, .026) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .72), transparent 95%);
         }
 
-        .ambient:before,
-        .ambient:after {
+        body::after {
             content: "";
-            position: absolute;
+            position: fixed;
+            width: 440px;
+            height: 440px;
+            left: -230px;
+            top: 170px;
+            z-index: -2;
             border-radius: 50%;
-            filter: blur(20px);
-            animation: ambientMove 10s ease-in-out infinite alternate
+            background: radial-gradient(circle, rgba(139, 92, 246, .12), transparent 69%);
+            filter: blur(22px);
+            pointer-events: none;
+            animation: ambientFloat 11s ease-in-out infinite alternate;
         }
 
-        .ambient:before {
-            width: 430px;
-            height: 430px;
-            left: -170px;
-            top: -180px;
-            background: radial-gradient(circle, rgba(139, 92, 246, .18), transparent 70%)
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
         }
 
-        .ambient:after {
-            width: 490px;
-            height: 490px;
-            right: -210px;
-            bottom: -230px;
-            background: radial-gradient(circle, rgba(59, 130, 246, .16), transparent 70%);
-            animation-delay: 1.5s
+        button {
+            border: 0;
         }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .page-shell {
+            min-height: 100vh;
+        }
+
+        /* ==================== NAVBAR ==================== */
 
         .navbar {
             position: sticky;
             top: 0;
-            z-index: 80;
-            height: 76px;
-            display: flex;
+            z-index: 100;
+            min-height: 76px;
+            display: grid;
+            grid-template-columns: minmax(250px, 1fr) auto minmax(250px, 1fr);
             align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 0 30px;
-            background: rgba(255, 255, 255, .93);
+            gap: 24px;
+            padding: 0 28px;
+            background: rgba(255, 255, 255, .94);
             border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(18px);
-            box-shadow: 0 7px 25px rgba(76, 57, 145, .05)
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 28px rgba(76, 57, 145, .05);
         }
 
         .brand {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 11px;
-            flex: none
+            gap: 12px;
+            justify-self: start;
         }
 
         .brand-mark {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             display: grid;
             place-items: center;
             border-radius: 14px;
-            background: var(--gradient);
             color: #fff;
-            box-shadow: 0 10px 24px rgba(99, 102, 241, .2);
-            animation: brandFloat 4s ease-in-out infinite
+            background: var(--gradient);
+            box-shadow: 0 12px 26px rgba(99, 102, 241, .2);
+            animation: softFloat 4s ease-in-out infinite;
         }
 
         .brand-mark i {
-            font-size: 17px
+            font-size: 18px;
         }
 
         .brand-name {
-            font-size: 19px;
+            font-size: 21px;
+            line-height: 1;
             font-weight: 700;
-            letter-spacing: -.5px
+            letter-spacing: -.6px;
         }
 
         .brand-sub {
-            margin-top: 2px;
-            color: #9A9EAD;
-            font-size: 9px;
-            font-weight: 600;
-            letter-spacing: .6px
+            margin-top: 5px;
+            color: #939AAA;
+            font-size: 10px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: .75px;
         }
 
         .nav-wrap {
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 1
         }
 
         .nav {
             display: flex;
             align-items: center;
-            gap: 6px
+            gap: 5px;
         }
 
-        .nav-item {
-            position: relative
-        }
-
+        .nav-link,
         .nav-trigger {
-            display: flex;
+            min-height: 42px;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 9px;
-            padding: 10px 15px;
+            padding: 0 15px;
             border: 1px solid transparent;
-            border-radius: 11px;
+            border-radius: 12px;
             background: transparent;
-            color: #606879;
-            font-size: 14px;
+            color: #606A7D;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: .22s
+            transition: .22s ease;
         }
 
+        .nav-link:hover,
+        .nav-link.active,
         .nav-trigger:hover,
-        .nav-item.open .nav-trigger {
+        .nav-item.open .nav-trigger,
+        .nav-trigger.current {
             color: var(--purple-dark);
-            background: #F7F4FF;
-            border-color: #ECE7FA
+            background: #F6F2FF;
+            border-color: #E9E3F7;
         }
 
         .nav-trigger i {
-            font-size: 8px;
-            color: #9B9FAE
+            font-size: 10px;
+            color: #9199AA;
+            transition: transform .2s ease;
+        }
+
+        .nav-item.open .nav-trigger i {
+            transform: rotate(180deg);
+            color: var(--purple);
+        }
+
+        .nav-item {
+            position: relative;
         }
 
         .dropdown {
             position: absolute;
             top: calc(100% + 11px);
             left: 0;
-            width: 220px;
-            padding: 9px;
+            width: 240px;
+            padding: 10px;
             border: 1px solid var(--border);
-            border-radius: 15px;
+            border-radius: 16px;
             background: rgba(255, 255, 255, .98);
-            box-shadow: 0 18px 45px rgba(76, 57, 145, .13);
+            box-shadow: 0 22px 52px rgba(76, 57, 145, .14);
+            backdrop-filter: blur(20px);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
             transform: translateY(-8px);
-            transition: .2s;
-            backdrop-filter: blur(18px)
+            transition: .2s ease;
         }
 
-        .nav-item:hover .dropdown,
         .nav-item.open .dropdown {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            transform: translateY(0)
+            transform: translateY(0);
         }
 
         .dropdown-title {
-            padding: 7px 9px 8px;
-            color: #A0A4B0;
-            font-size: 8px;
+            padding: 8px 10px 9px;
+            color: #9AA2B1;
+            font-size: 10px;
             font-weight: 800;
+            letter-spacing: 1.1px;
             text-transform: uppercase;
-            letter-spacing: 1px
         }
 
         .dropdown-link {
             display: flex;
             align-items: center;
-            gap: 9px;
-            padding: 9px;
-            border-radius: 9px;
-            color: #657080;
-            font-size: 12px;
-            font-weight: 600;
-            transition: .18s
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            transition: .18s ease;
         }
 
         .dropdown-link i {
-            width: 15px;
+            width: 18px;
+            color: #8D96A7;
             text-align: center;
-            color: #8C93A1
         }
 
         .dropdown-link:hover,
         .dropdown-link.active {
-            background: #F6F3FF;
-            color: var(--purple-dark)
+            color: var(--purple-dark);
+            background: #F7F3FF;
         }
 
-        .dropdown-link.active i {
-            color: var(--purple)
-        }
-
-        .nav-note {
-            margin-left: auto;
+        .dropdown-link.active i,
+        .dropdown-link:hover i {
             color: var(--purple);
-            font-size: 8px
         }
 
         .account-area {
             display: flex;
             align-items: center;
-            gap: 7px;
-            flex: none
+            justify-self: end;
+            gap: 9px;
         }
 
-        .icon-btn {
+        .icon-btn,
+        .mobile-menu {
             position: relative;
-            width: 37px;
-            height: 37px;
+            width: 42px;
+            height: 42px;
             display: grid;
             place-items: center;
             border: 1px solid var(--border);
-            border-radius: 11px;
+            border-radius: 12px;
+            color: #697488;
             background: #fff;
-            color: #6D7485;
             cursor: pointer;
-            transition: .2s
+            transition: .2s ease;
         }
 
-        .icon-btn:hover {
+        .icon-btn:hover,
+        .mobile-menu:hover {
             color: var(--purple-dark);
             background: #F8F6FF;
-            border-color: #DDD7F2;
-            transform: translateY(-1px)
+            border-color: #DCD5ED;
+            transform: translateY(-1px);
         }
 
         .notification-dot {
@@ -324,1074 +316,692 @@
             height: 7px;
             border: 2px solid #fff;
             border-radius: 50%;
-            background: var(--blue)
+            background: var(--red);
         }
 
         .account {
-            position: relative
+            position: relative;
         }
 
         .account-trigger {
+            min-height: 48px;
             display: flex;
             align-items: center;
-            gap: 9px;
-            padding: 5px 7px;
+            gap: 10px;
+            padding: 5px 8px 5px 5px;
             border: 1px solid transparent;
-            border-radius: 12px;
+            border-radius: 14px;
             background: transparent;
             cursor: pointer;
-            transition: .2s
+            transition: .2s ease;
         }
 
         .account-trigger:hover,
         .account.open .account-trigger {
             background: #F8F7FC;
-            border-color: var(--border)
+            border-color: var(--border);
         }
 
         .account-avatar {
-            width: 35px;
-            height: 35px;
+            width: 39px;
+            height: 39px;
             display: grid;
             place-items: center;
-            border-radius: 11px;
-            background: linear-gradient(135deg, #EDE6FF, #E5F0FF);
+            border-radius: 12px;
             color: var(--purple-dark);
-            font-size: 11px;
-            font-weight: 800
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            font-size: 12px;
+            font-weight: 800;
         }
 
         .account-copy {
-            text-align: left
+            min-width: 105px;
+            text-align: left;
         }
 
         .account-name {
             display: block;
-            color: var(--text);
-            font-size: 12px;
-            font-weight: 700;
-            max-width: 125px;
-            white-space: nowrap;
+            max-width: 150px;
             overflow: hidden;
-            text-overflow: ellipsis
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .account-role {
             display: block;
-            margin-top: 2px;
-            color: #9A9EAD;
-            font-size: 8px;
-            font-weight: 600
+            margin-top: 3px;
+            color: #939AAA;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .35px;
         }
 
         .account-arrow {
-            font-size: 8px;
-            color: #9AA0AE;
-            transition: .2s
+            color: #9AA2B0;
+            font-size: 9px;
+            transition: .2s ease;
         }
 
         .account.open .account-arrow {
             transform: rotate(180deg);
-            color: var(--purple)
+            color: var(--purple);
         }
 
         .account-menu {
             position: absolute;
+            top: calc(100% + 10px);
             right: 0;
-            top: calc(100% + 9px);
-            width: 190px;
+            width: 205px;
             padding: 8px;
-            transform: translateY(-8px);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            background: #fff;
-            box-shadow: 0 18px 44px rgba(76, 57, 145, .13);
-            transition: .2s
+            transform: translateY(-7px);
+            transition: .2s ease;
         }
 
         .account.open .account-menu {
-            transform: translateY(0);
             opacity: 1;
             visibility: visible;
-            pointer-events: auto
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
         .account-menu a,
         .account-menu button {
+            width: 100%;
             display: flex;
             align-items: center;
-            gap: 9px;
-            width: 100%;
-            padding: 9px;
-            border-radius: 9px;
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
             background: transparent;
-            color: #667081;
-            font-size: 10px;
-            font-weight: 600;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            text-align: left;
             cursor: pointer;
-            text-align: left
         }
 
         .account-menu a:hover,
         .account-menu button:hover {
-            background: #F6F3FF;
-            color: var(--purple-dark)
+            color: var(--purple-dark);
+            background: #F7F3FF;
         }
 
         .account-menu .logout {
-            color: #B42318
+            margin-top: 3px;
+            color: #C53030;
         }
 
         .account-menu .logout:hover {
-            background: #FFF5F3;
-            color: #A21B11
+            background: #FFF4F2;
         }
 
-        .mobile-menu {
-            display: none;
-            width: 38px;
-            height: 38px;
-            border: 1px solid var(--border);
-            border-radius: 11px;
-            background: #fff;
-            color: #6D7485;
-            cursor: pointer
-        }
-
+        .mobile-menu,
         .mobile-nav {
-            display: none
+            display: none;
         }
+
+        /* ==================== PAGE ==================== */
 
         .content {
-            width: min(1240px, calc(100% - 60px));
+            width: min(1180px, calc(100% - 48px));
             margin: 0 auto;
-            padding: 27px 0 50px
+            padding: 28px 0 56px;
+        }
+
+        .page-title {
+            margin-top: 8px;
+            text-align: center;
+            font-size: clamp(30px, 3.4vw, 43px);
+            line-height: 1.08;
+            letter-spacing: -1px;
+        }
+
+        .page-subtitle {
+            max-width: 760px;
+            margin: 10px auto 28px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.65;
         }
 
         .breadcrumb {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #9A9EAD;
-            font-size: 10px;
-            margin-bottom: 17px
+            color: #969EAE;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
 
         .breadcrumb strong {
-            color: var(--text)
+            color: var(--text);
         }
 
-        .hero {
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 18px;
-            padding: 28px;
-            border: 1px solid rgba(139, 92, 246, .18);
+        .section-card {
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
             border-radius: 22px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(248, 246, 255, .96));
+            background: rgba(255, 255, 255, .96);
             box-shadow: var(--shadow);
-            animation: fadeUp .55s ease both
+            overflow: hidden;
+            animation: fadeUp .5s ease both;
         }
 
-        .hero:before {
-            content: "";
-            position: absolute;
-            width: 330px;
-            height: 330px;
-            right: -150px;
-            top: -185px;
-            border: 1px solid rgba(139, 92, 246, .1);
-            border-radius: 50%;
-            box-shadow: 0 0 0 32px rgba(139, 92, 246, .025), 0 0 0 70px rgba(139, 92, 246, .018)
+        .recommendation-section {
+            padding: 38px 36px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .99), rgba(248, 247, 255, .97));
         }
 
-        .hero:after {
-            content: "";
-            position: absolute;
-            width: 190px;
-            height: 190px;
-            left: 44%;
-            bottom: -130px;
-            border-radius: 50%;
-            background: rgba(59, 130, 246, .1);
-            filter: blur(45px)
-        }
-
-        .hero-grid {
-            position: relative;
-            z-index: 1;
+        .recommendation-icon {
+            width: 68px;
+            height: 68px;
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 330px;
-            gap: 25px;
-            align-items: center
-        }
-
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 7px 10px;
-            border: 1px solid #E7E0FA;
-            border-radius: 999px;
-            background: #FAF8FF;
-            color: var(--purple-dark);
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: .7px;
-            text-transform: uppercase
-        }
-
-        .hero h1 {
-            margin: 12px 0 8px;
-            font-size: 32px;
-            line-height: 1.12;
-            letter-spacing: -1px
-        }
-
-        .hero h1 span {
+            place-items: center;
+            margin: 0 auto 18px;
+            border-radius: 20px;
+            color: #fff;
             background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent
+            box-shadow: 0 14px 30px rgba(99, 102, 241, .2);
+            animation: softFloat 4s ease-in-out infinite;
         }
 
-        .hero p {
-            max-width: 740px;
+        .recommendation-icon i {
+            font-size: 28px;
+        }
+
+        .recommendation-section h2 {
+            font-size: clamp(23px, 2.2vw, 30px);
+            letter-spacing: -.6px;
+        }
+
+        .recommendation-section p {
+            max-width: 730px;
+            margin: 11px auto 0;
             color: var(--muted);
-            font-size: 11.5px;
-            line-height: 1.75
+            font-size: 14px;
+            line-height: 1.7;
         }
 
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 17px
-        }
-
-        .btn {
-            min-height: 41px;
+        .recommend-btn {
+            margin-top: 22px;
+            min-height: 48px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
-            padding: 0 15px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: .22s
-        }
-
-        .btn:hover {
-            transform: translateY(-1px)
-        }
-
-        .btn-primary {
+            gap: 8px;
+            padding: 0 24px;
+            border-radius: 13px;
             color: #fff;
             background: var(--gradient);
-            box-shadow: 0 9px 20px rgba(99, 102, 241, .2)
+            box-shadow: 0 12px 26px rgba(99, 102, 241, .22);
+            font-size: 14px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: .22s ease;
         }
 
-        .btn-secondary {
-            border: 1px solid var(--border);
-            background: #F8F7FC;
-            color: #6B7280
+        .recommend-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(99, 102, 241, .26);
         }
 
-        .btn:disabled {
-            opacity: .6;
+        .recommend-btn:disabled {
+            opacity: .62;
             cursor: not-allowed;
-            transform: none
+            transform: none;
         }
 
-        .hero-panel {
-            padding: 19px;
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            background: rgba(255, 255, 255, .8);
-            box-shadow: var(--shadow-soft);
-            backdrop-filter: blur(15px)
-        }
-
-        .hero-panel-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px
-        }
-
-        .hero-panel-label {
-            font-size: 9px;
-            font-weight: 700;
-            color: #7E8492;
-            text-transform: uppercase;
-            letter-spacing: .7px
-        }
-
-        .hero-panel-value {
-            font-size: 25px;
-            font-weight: 700;
-            color: var(--purple-dark)
-        }
-
-        .hero-progress {
-            height: 9px;
-            overflow: hidden;
-            border-radius: 999px;
-            background: #ECEAF5;
-            margin-top: 10px
-        }
-
-        .hero-progress span {
-            display: block;
-            height: 100%;
-            width: 0;
-            border-radius: inherit;
-            background: linear-gradient(90deg, var(--purple), var(--blue), var(--cyan));
-            box-shadow: 0 0 18px rgba(79, 124, 255, .3);
-            transition: width .8s cubic-bezier(.22, 1, .36, 1)
-        }
-
-        .hero-panel-note {
-            margin-top: 9px;
-            color: #8B919E;
-            font-size: 9px;
-            line-height: 1.5
-        }
-
-        .snapshot {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 18px
-        }
-
-        .stat {
-            padding: 16px;
-            border: 1px solid var(--border);
-            border-radius: 17px;
-            background: rgba(255, 255, 255, .95);
-            box-shadow: var(--shadow-soft);
-            animation: fadeUp .65s ease both
-        }
-
-        .stat-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px
-        }
-
-        .stat-icon {
-            width: 35px;
-            height: 35px;
-            display: grid;
-            place-items: center;
-            border-radius: 11px;
-            background: #F0ECFF;
-            color: var(--purple-dark)
-        }
-
-        .stat:nth-child(2) .stat-icon {
-            background: #EAF3FF;
-            color: var(--blue)
-        }
-
-        .stat:nth-child(3) .stat-icon {
-            background: #E8FBF4;
-            color: #17985D
-        }
-
-        .stat:nth-child(4) .stat-icon {
-            background: #FFF5E7;
-            color: #D47B00
-        }
-
-        .stat-value {
-            margin-top: 12px;
-            font-size: 23px;
-            font-weight: 700;
-            letter-spacing: -.5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis
-        }
-
-        .stat-label {
-            margin-top: 3px;
-            color: #848B98;
-            font-size: 9px;
-            font-weight: 600
-        }
-
-        .layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 18px
-        }
-
-        .panel {
-            border: 1px solid var(--border);
-            border-radius: 19px;
-            background: rgba(255, 255, 255, .95);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            animation: fadeUp .7s ease both
-        }
-
-        .panel-head {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 14px;
-            padding: 17px 18px 14px;
-            border-bottom: 1px solid #F0EEF7
-        }
-
-        .panel-title {
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: -.2px
-        }
-
-        .panel-sub {
-            margin-top: 3px;
-            color: #8B919E;
-            font-size: 9px;
-            line-height: 1.45
-        }
-
-        .panel-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--purple-dark);
-            font-size: 9px;
-            font-weight: 700;
-            white-space: nowrap
-        }
-
-        .panel-link:hover {
-            text-decoration: underline
-        }
-
-        .panel-body {
-            padding: 18px
-        }
-
-        .career-list {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px
-        }
-
-        .career-card {
-            position: relative;
-            min-height: 190px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: linear-gradient(150deg, #fff, #FCFAFF);
-            transition: .22s;
-            overflow: hidden
-        }
-
-        .career-card:before {
-            content: "";
-            position: absolute;
-            width: 130px;
-            height: 130px;
-            right: -60px;
-            top: -60px;
-            border-radius: 50%;
-            background: rgba(139, 92, 246, .05)
-        }
-
-        .career-card:hover {
-            transform: translateY(-3px);
-            border-color: #D8CEF6;
-            box-shadow: 0 14px 28px rgba(76, 57, 145, .1)
-        }
-
-        .career-icon {
-            width: 37px;
-            height: 37px;
-            display: grid;
-            place-items: center;
-            border-radius: 11px;
-            background: #F0ECFF;
-            color: var(--purple-dark)
-        }
-
-        .career-name {
-            margin-top: 11px;
-            font-size: 13px;
-            font-weight: 700
-        }
-
-        .career-course {
-            margin-top: 5px;
-            color: #8A919E;
-            font-size: 8.8px;
-            line-height: 1.5;
-            min-height: 42px
-        }
-
-        .career-bottom {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            margin-top: 13px
-        }
-
-        .score-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 6px 8px;
-            border-radius: 999px;
-            background: #F0FBF5;
-            color: #148553;
-            font-size: 8px;
-            font-weight: 800
-        }
-
-        .view-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--purple-dark);
-            font-size: 8.5px;
-            font-weight: 700
-        }
-
-        .profile-panel {
-            padding: 18px;
-            background: linear-gradient(150deg, #FAF8FF, #F4F8FF)
-        }
-
-        .profile-panel h3 {
-            margin-top: 2px;
-            font-size: 16px;
-            line-height: 1.25
-        }
-
-        .profile-panel p {
-            margin-top: 7px;
-            color: #798191;
-            font-size: 9.5px;
-            line-height: 1.65
-        }
-
-        .signal-list {
-            display: grid;
-            gap: 8px;
-            margin-top: 16px
-        }
-
-        .signal {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            color: #687182;
-            font-size: 9px;
-            line-height: 1.45
-        }
-
-        .signal i {
-            margin-top: 2px;
-            color: var(--green)
-        }
-
-        .profile-chip-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 13px
-        }
-
-        .chip {
-            padding: 5px 8px;
-            border-radius: 999px;
-            background: #fff;
-            border: 1px solid #ECE8F8;
-            color: #6E7685;
-            font-size: 8px;
-            font-weight: 700
-        }
-
-        .chip.primary {
-            background: #F1ECFF;
-            color: var(--purple-dark);
-            border-color: #E4DCF9
-        }
-
-        .state {
-            padding: 34px 18px;
-            text-align: center;
-            border: 1px dashed #DCD6EE;
-            border-radius: 15px;
-            background: #FCFBFF
-        }
-
-        .state-icon {
-            width: 42px;
-            height: 42px;
-            display: grid;
-            place-items: center;
-            margin: 0 auto 9px;
-            border-radius: 13px;
-            background: #F0ECFF;
-            color: var(--purple-dark)
-        }
-
-        .state h3 {
-            font-size: 11px
-        }
-
-        .state p {
-            margin: 6px auto 12px;
-            max-width: 410px;
-            color: #8A919E;
-            font-size: 9px;
-            line-height: 1.55
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 16px
-        }
-
-        .info-item {
-            padding: 11px;
-            border: 1px solid #F0EEF7;
-            border-radius: 13px;
-            background: #FCFBFF
-        }
-
-        .info-item span {
-            display: block;
-            color: #9A9EAD;
-            font-size: 8px;
-            font-weight: 600
-        }
-
-        .info-item strong {
-            display: block;
-            margin-top: 4px;
-            font-size: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis
-        }
-
-        .note {
-            display: flex;
-            align-items: flex-start;
-            gap: 9px;
+        .status {
+            min-height: 22px;
             margin-top: 16px;
-            padding: 13px 15px;
-            border: 1px solid #E9E3F8;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #FCFAFF, #F8FBFF);
-            color: #7B8190;
-            font-size: 8.8px;
-            line-height: 1.5
+            font-size: 13px;
+            font-weight: 650;
         }
 
-        .note i {
-            margin-top: 1px;
-            color: var(--purple-dark)
+        .status.success {
+            color: #15915A;
         }
 
-        .overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 150;
-            place-items: center;
-            background: rgba(18, 21, 38, .16);
-            backdrop-filter: blur(6px)
+        .status.error {
+            color: #C53030;
         }
 
-        .overlay.show {
-            display: grid
+        .status.loading {
+            color: var(--purple-dark);
         }
 
-        .loading-card {
-            min-width: 235px;
-            padding: 23px;
-            text-align: center;
-            border: 1px solid var(--border);
-            border-radius: 17px;
-            background: #fff;
-            box-shadow: 0 25px 70px rgba(76, 57, 145, .18)
+        /* ==================== PROFILE ==================== */
+
+        .profile-section {
+            padding: 30px;
         }
 
-        .spinner {
-            width: 34px;
-            height: 34px;
-            margin: 0 auto 11px;
-            border: 3px solid #ECEAF5;
-            border-top-color: var(--purple);
-            border-right-color: var(--blue);
-            border-radius: 50%;
-            animation: spin .8s linear infinite
-        }
-
-        .loading-card p {
-            color: #596173;
-            font-size: 11px;
-            font-weight: 600
-        }
-
-        .toast {
-            position: fixed;
-            right: 20px;
-            top: 92px;
-            z-index: 160;
-            width: min(370px, calc(100vw - 30px));
+        .section-head {
             display: flex;
-            gap: 10px;
-            padding: 13px;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            background: #fff;
-            box-shadow: 0 18px 48px rgba(15, 23, 42, .14);
-            transform: translateX(125%);
-            opacity: 0;
-            transition: .3s
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 22px;
         }
 
-        .toast.show {
-            transform: translateX(0);
-            opacity: 1
+        .section-head h2,
+        .results-head h2 {
+            font-size: 25px;
+            letter-spacing: -.6px;
         }
 
-        .toast-icon {
-            width: 31px;
-            height: 31px;
-            display: grid;
-            place-items: center;
-            flex: none;
-            border-radius: 9px;
-            background: rgba(139, 92, 246, .09);
-            color: var(--purple-dark)
-        }
-
-        .toast.success .toast-icon {
-            background: rgba(34, 197, 94, .09);
-            color: var(--green)
-        }
-
-        .toast.error .toast-icon {
-            background: rgba(239, 68, 68, .08);
-            color: var(--red)
-        }
-
-        .toast strong {
-            display: block;
-            margin-bottom: 3px;
-            font-size: 11px
-        }
-
-        .toast p {
+        .section-head p,
+        .results-head p {
+            margin-top: 5px;
             color: var(--muted);
-            font-size: 9.5px;
-            line-height: 1.5
+            font-size: 13px;
         }
 
+        .edit-profile {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--purple-dark);
+            font-size: 13px;
+            font-weight: 750;
+            white-space: nowrap;
+        }
 
-        .course-list {
+        .edit-profile:hover {
+            text-decoration: underline;
+        }
+
+        .profile-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px
+            gap: 12px;
+        }
+
+        .profile-item {
+            min-width: 0;
+            padding: 15px 16px;
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            background: #FCFBFF;
+            transition: .2s ease;
+        }
+
+        .profile-item:hover {
+            border-color: #DED6F0;
+            background: #FAF8FF;
+            transform: translateY(-1px);
+        }
+
+        .profile-label {
+            margin-bottom: 6px;
+            color: #9299A8;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .55px;
+            text-transform: uppercase;
+        }
+
+        .profile-value {
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        /* ==================== RESULTS ==================== */
+
+        .results-section {
+            display: none;
+            margin-bottom: 24px;
+            animation: fadeUp .45s ease both;
+        }
+
+        .results-head {
+            margin-bottom: 16px;
+        }
+
+        .recommendations {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
         }
 
         .course-card {
-            position: relative;
-            min-height: 310px;
-            padding: 17px;
+            padding: 24px;
             border: 1px solid var(--border);
-            border-radius: 16px;
-            background: linear-gradient(150deg, #fff, #FCFAFF);
-            overflow: hidden;
-            transition: .22s
-        }
-
-        .course-card:before {
-            content: "";
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            right: -74px;
-            top: -74px;
-            border-radius: 50%;
-            background: rgba(59, 130, 246, .055)
+            border-left: 4px solid var(--purple);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: var(--shadow-soft);
+            transition: .22s ease;
         }
 
         .course-card:hover {
             transform: translateY(-3px);
-            border-color: #D8CEF6;
-            box-shadow: 0 14px 28px rgba(76, 57, 145, .1)
+            box-shadow: var(--shadow-hover);
+            border-color: #DCD3EE;
         }
 
-        .course-card-top {
+        .rank {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 999px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .course-card h3 {
+            margin-top: 14px;
+            font-size: 20px;
+            line-height: 1.25;
+            letter-spacing: -.3px;
+        }
+
+        .score {
+            margin-top: 10px;
+            color: #5E687A;
+            font-size: 14px;
+        }
+
+        .score strong {
+            color: var(--purple-dark);
+            font-size: 17px;
+        }
+
+        .career-title {
+            margin-top: 18px;
+            margin-bottom: 9px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .career-list {
             display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px
+            flex-wrap: wrap;
+            gap: 7px;
         }
 
-        .course-icon {
-            width: 39px;
-            height: 39px;
+        .career-tag {
+            padding: 7px 10px;
+            border: 1px solid #EBE7F5;
+            border-radius: 8px;
+            color: #626D80;
+            background: #F8F7FC;
+            font-size: 11px;
+            font-weight: 650;
+        }
+
+        .explanation {
+            margin-top: 17px;
+            padding: 15px;
+            border-left: 3px solid var(--blue);
+            border-radius: 10px;
+            background: linear-gradient(135deg, #F8FAFF, #FAF8FF);
+            color: #657084;
+            font-size: 12px;
+            line-height: 1.65;
+        }
+
+        .explanation-title {
+            margin-bottom: 6px;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .empty-result {
+            grid-column: 1 / -1;
+            padding: 38px 24px;
+            text-align: center;
+            border: 1px dashed #D9D2EA;
+            border-radius: 18px;
+            background: #FCFBFF;
+        }
+
+        .empty-result i {
+            display: grid;
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            place-items: center;
+            border-radius: 14px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .empty-result h3 {
+            font-size: 17px;
+        }
+
+        .empty-result p {
+            max-width: 540px;
+            margin: 6px auto 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .empty-result a {
+            display: inline-flex;
+            margin-top: 15px;
+        }
+
+        /* ==================== HOW IT WORKS ==================== */
+
+        .info-box {
+            padding: 26px 28px;
+            border: 1px solid #E4DEF0;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #F5F8FF, #F8F5FF);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .info-box h3 {
+            font-size: 19px;
+        }
+
+        .info-box p {
+            margin-top: 8px;
+            color: #677185;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .info-flow {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .flow-step {
+            padding: 7px 10px;
+            border: 1px solid #E4DEF0;
+            border-radius: 999px;
+            background: #fff;
+            color: #616B7D;
+            font-size: 10px;
+            font-weight: 750;
+        }
+
+        .flow-arrow {
+            color: var(--purple);
+            font-size: 11px;
+        }
+
+        /* ==================== STATES ==================== */
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: none;
+            place-items: center;
+            background: rgba(18, 21, 38, .1);
+            backdrop-filter: blur(7px);
+        }
+
+        .overlay.show {
+            display: grid;
+        }
+
+        .loading-card {
+            min-width: 280px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 25px 70px rgba(76, 57, 145, .18);
+        }
+
+        .spinner {
+            width: 35px;
+            height: 35px;
+            margin: 0 auto 12px;
+            border: 3px solid #ECEAF5;
+            border-top-color: var(--purple);
+            border-right-color: var(--blue);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        .loading-card p {
+            color: #596173;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .toast {
+            position: fixed;
+            top: 94px;
+            right: 24px;
+            z-index: 210;
+            width: min(420px, calc(100vw - 36px));
+            display: flex;
+            gap: 11px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 20px 52px rgba(15, 23, 42, .14);
+            opacity: 0;
+            transform: translateX(120%);
+            transition: .3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            width: 32px;
+            height: 32px;
             display: grid;
             place-items: center;
-            border-radius: 11px;
-            background: #F0ECFF;
+            flex: none;
+            border-radius: 9px;
             color: var(--purple-dark);
-            flex: none
+            background: rgba(139, 92, 246, .09);
         }
 
-        .course-rank {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 6px 8px;
-            border-radius: 999px;
-            background: #F8F6FF;
-            border: 1px solid #ECE7FA;
-            color: #7662AE;
-            font-size: 8px;
-            font-weight: 800
+        .toast.error .toast-icon {
+            color: var(--red);
+            background: rgba(239, 68, 68, .08);
         }
 
-        .course-name {
-            margin-top: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            line-height: 1.3
-        }
-
-        .course-meta-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 8px;
-            margin-top: 14px
-        }
-
-        .course-meta {
-            padding: 9px;
-            border: 1px solid #F0EEF7;
-            border-radius: 11px;
-            background: #FCFBFF
-        }
-
-        .course-meta span {
+        .toast strong {
             display: block;
-            color: #9A9EAD;
-            font-size: 7.5px;
-            font-weight: 700
+            font-size: 12px;
         }
 
-        .course-meta strong {
-            display: block;
+        .toast p {
             margin-top: 4px;
-            font-size: 9px;
-            line-height: 1.35
+            color: var(--muted);
+            font-size: 10.5px;
+            line-height: 1.5;
         }
 
-        .course-section {
-            margin-top: 13px
-        }
+        /* ==================== RESPONSIVE ==================== */
 
-        .course-section-label {
-            color: #8A919E;
-            font-size: 8px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: .5px
-        }
+        @media (max-width: 1100px) {
+            .navbar {
+                grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+                gap: 14px;
+                padding: 0 20px;
+            }
 
-        .course-section-text {
-            margin-top: 4px;
-            color: #5F6878;
-            font-size: 8.8px;
-            line-height: 1.5
-        }
-
-        .course-bottom {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 14px
-        }
-
-        .course-score {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 6px 9px;
-            border-radius: 999px;
-            background: #F0FBF5;
-            color: #148553;
-            font-size: 8px;
-            font-weight: 800
-        }
-
-        .course-score i {
-            font-size: 8px
-        }
-
-        .course-explanation {
-            margin-top: 11px;
-            padding: 10px 11px;
-            border: 1px solid #EAE4F7;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #FCFAFF, #F8FBFF);
-            color: #747C8C;
-            font-size: 8.4px;
-            line-height: 1.5
-        }
-
-        .course-explanation strong {
-            color: #5F55A7
-        }
-
-        .active-mobile {
-            background: #F6F3FF;
-            color: var(--purple-dark) !important
-        }
-
-        @media(max-width:1040px) {
-            .course-list {
-                grid-template-columns: 1fr
+            .nav-link,
+            .nav-trigger {
+                padding: 0 12px;
+                font-size: 14px;
             }
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px)
+        @media (max-width: 920px) {
+            .navbar {
+                grid-template-columns: 1fr auto;
             }
 
-            to {
-                opacity: 1;
-                transform: none
-            }
-        }
-
-        @keyframes brandFloat {
-
-            0%,
-            100% {
-                transform: translateY(0)
-            }
-
-            50% {
-                transform: translateY(-3px)
-            }
-        }
-
-        @keyframes ambientMove {
-            from {
-                transform: translate3d(0, 0, 0) scale(1)
-            }
-
-            to {
-                transform: translate3d(28px, 20px, 0) scale(1.07)
-            }
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg)
-            }
-        }
-
-        @media(max-width:1040px) {
-            .snapshot {
-                grid-template-columns: repeat(2, 1fr)
-            }
-
-            .hero-grid {
-                grid-template-columns: 1fr 290px
-            }
-
-            .career-list {
-                grid-template-columns: 1fr
-            }
-        }
-
-        @media(max-width:900px) {
-            .content {
-                width: min(100% - 36px, 920px)
-            }
-
-            .hero-grid {
-                grid-template-columns: 1fr
-            }
-
-            .layout {
-                grid-template-columns: 1fr
-            }
-        }
-
-        @media(max-width:820px) {
             .nav-wrap {
-                display: none
+                display: none;
             }
 
             .mobile-menu {
                 display: grid;
-                place-items: center
             }
 
             .account-copy {
-                display: none
-            }
-
-            .navbar {
-                padding: 0 18px
+                display: none;
             }
 
             .mobile-nav {
                 position: absolute;
-                left: 12px;
-                right: 12px;
+                left: 10px;
+                right: 10px;
                 top: calc(100% + 9px);
                 display: none;
                 padding: 10px;
                 border: 1px solid var(--border);
                 border-radius: 18px;
                 background: rgba(255, 255, 255, .98);
-                box-shadow: 0 18px 48px rgba(76, 57, 145, .14);
-                backdrop-filter: blur(18px)
+                box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+                backdrop-filter: blur(18px);
             }
 
             .mobile-nav.show {
                 display: block;
-                animation: fadeUp .22s ease
+                animation: fadeUp .22s ease both;
             }
 
             .mobile-group {
                 border: 1px solid #F0EEF7;
                 border-radius: 13px;
                 background: #FCFBFF;
-                overflow: hidden
+                overflow: hidden;
             }
 
             .mobile-group+.mobile-group {
-                margin-top: 8px
+                margin-top: 8px;
             }
 
             .mobile-group-title {
@@ -1401,129 +1011,188 @@
                 padding: 11px;
                 color: #566071;
                 font-size: 12px;
-                font-weight: 700
+                font-weight: 750;
             }
 
             .mobile-links {
                 display: grid;
                 gap: 2px;
-                padding: 0 6px 6px
+                padding: 0 6px 6px;
             }
 
             .mobile-links a {
-                padding: 8px;
-                border-radius: 8px;
-                color: #6A7281;
+                padding: 9px;
+                border-radius: 9px;
+                color: #687286;
                 font-size: 11px;
-                font-weight: 600
+                font-weight: 650;
             }
 
-            .mobile-links a:hover,
-            .mobile-links a.active-mobile {
-                background: #F6F3FF;
-                color: var(--purple-dark)
+            .mobile-links a.active,
+            .mobile-links a:hover {
+                color: var(--purple-dark);
+                background: #F6F2FF;
             }
 
             .content {
-                width: calc(100% - 28px);
-                padding-top: 22px
+                width: calc(100% - 36px);
+            }
+
+            .recommendations,
+            .profile-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        @media(max-width:560px) {
+        @media (max-width: 620px) {
             .navbar {
-                height: 68px;
-                padding: 0 12px
+                min-height: 70px;
+                padding: 0 14px;
             }
 
             .brand-name {
-                font-size: 17px
+                font-size: 18px;
             }
 
             .brand-sub {
-                display: none
+                display: none;
             }
 
             .brand-mark {
-                width: 39px;
-                height: 39px;
-                border-radius: 12px
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
             }
 
-            .account-area .icon-btn {
-                width: 35px;
-                height: 35px
+            .icon-btn,
+            .mobile-menu {
+                width: 39px;
+                height: 39px;
+            }
+
+            .account-avatar {
+                width: 36px;
+                height: 36px;
             }
 
             .content {
-                width: calc(100% - 20px);
-                padding-top: 18px
+                width: calc(100% - 24px);
+                padding-top: 20px;
             }
 
-            .breadcrumb {
-                font-size: 9px;
-                margin-bottom: 13px
+            .page-title {
+                font-size: 30px;
             }
 
-            .hero {
+            .page-subtitle {
+                font-size: 13px;
+                margin-bottom: 22px;
+            }
+
+            .recommendation-section {
+                padding: 28px 18px;
+            }
+
+            .recommendation-icon {
+                width: 60px;
+                height: 60px;
+                border-radius: 18px;
+            }
+
+            .recommendation-icon i {
+                font-size: 24px;
+            }
+
+            .recommendation-section p {
+                font-size: 13px;
+            }
+
+            .recommend-btn {
+                width: 100%;
+            }
+
+            .profile-section {
+                padding: 22px 18px;
+            }
+
+            .section-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .section-head h2,
+            .results-head h2 {
+                font-size: 22px;
+            }
+
+            .profile-grid {
+                gap: 10px;
+            }
+
+            .course-card {
                 padding: 20px;
-                border-radius: 19px
             }
 
-            .hero h1 {
-                font-size: 26px
-            }
-
-            .hero p {
-                font-size: 10.5px
-            }
-
-            .hero-actions {
-                flex-direction: column
-            }
-
-            .hero-actions .btn {
-                width: 100%
-            }
-
-            .snapshot {
-                gap: 10px
-            }
-
-            .stat {
-                padding: 13px
-            }
-
-            .stat-value {
-                font-size: 20px
-            }
-
-            .panel-head,
-            .panel-body {
-                padding-left: 15px;
-                padding-right: 15px
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr
+            .info-box {
+                padding: 22px 18px;
             }
 
             .toast {
                 left: 14px;
                 right: 14px;
-                top: 80px;
-                width: auto
+                top: 82px;
+                width: auto;
             }
         }
 
-        @media(prefers-reduced-motion:reduce) {
+        @media (prefers-reduced-motion: reduce) {
 
             *,
-            *:before,
-            *:after {
+            *::before,
+            *::after {
                 animation: none !important;
                 transition: none !important;
-                scroll-behavior: auto !important
+                scroll-behavior: auto !important;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes softFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes ambientFloat {
+            from {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            to {
+                transform: translate3d(26px, 17px, 0) scale(1.06);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
             }
         }
     </style>
@@ -1531,7 +1200,6 @@
 
 <body>
     <div class="page-shell">
-        <div class="ambient"></div>
         <header class="navbar">
             <div class="brand">
                 <div class="brand-mark"><i class="fa-solid fa-compass"></i></div>
@@ -1540,260 +1208,306 @@
                     <div class="brand-sub">STUDENT PORTAL</div>
                 </div>
             </div>
-            <nav class="nav-wrap">
+
+            <nav class="nav-wrap" aria-label="Student navigation">
                 <div class="nav">
+                    <a class="nav-link" href="student-dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="student-profile.html">Profile</a>
+                    <a class="nav-link" href="student-assessment.html">Assessment</a>
+
                     <div class="nav-item">
-                        <button class="nav-trigger" type="button">Student <i
-                                class="fa-solid fa-chevron-down"></i></button>
-                        <div class="dropdown">
-                            <div class="dropdown-title">Student</div>
-                            <a class="dropdown-link" href="student-dashboard.html"><i
-                                    class="fa-solid fa-chart-pie"></i>Dashboard</a>
-                            <a class="dropdown-link" href="student-profile.html"><i class="fa-solid fa-user"></i>My
-                                Profile</a>
-                            <a class="dropdown-link" href="student-assessment.html"><i
-                                    class="fa-solid fa-clipboard-check"></i>Assessment</a>
-                            <a class="dropdown-link" href="student-recommendations.html"><i
-                                    class="fa-solid fa-wand-magic-sparkles"></i>Recommendations</a>
-                        </div>
-                    </div>
-                    <div class="nav-item">
-                        <button class="nav-trigger" type="button">Explore <i
-                                class="fa-solid fa-chevron-down"></i></button>
+                        <button class="nav-trigger current" type="button" aria-expanded="false">
+                            Explore
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
                         <div class="dropdown">
                             <div class="dropdown-title">Explore</div>
-                            <a class="dropdown-link" href="student-careers.html"><i
-                                    class="fa-solid fa-briefcase"></i>Careers</a>
-                            <a class="dropdown-link active" href="student-courses.html"><i
-                                    class="fa-solid fa-book-open"></i>Courses<span class="nav-note">Current</span></a>
-                            <a class="dropdown-link" href="student-colleges.html"><i
-                                    class="fa-solid fa-building-columns"></i>Colleges</a>
-                            <a class="dropdown-link" href="student-skill-gap.html"><i
-                                    class="fa-solid fa-chart-simple"></i>Skill
-                                Gap</a>
-                            <a class="dropdown-link" href="student-career-roadmap.html"><i
-                                    class="fa-solid fa-route"></i>Career
-                                Roadmap</a>
+                            <a class="dropdown-link" href="student-careers.html">
+                                <i class="fa-solid fa-briefcase"></i>Careers
+                            </a>
+                            <a class="dropdown-link active" href="student-courses.html">
+                                <i class="fa-solid fa-book-open"></i>Courses
+                            </a>
+                            <a class="dropdown-link" href="student-colleges.html">
+                                <i class="fa-solid fa-building-columns"></i>Colleges
+                            </a>
+                            <a class="dropdown-link" href="student-skill-gap.html">
+                                <i class="fa-solid fa-chart-simple"></i>Skill Gap
+                            </a>
+                            <a class="dropdown-link" href="student-career-roadmap.html">
+                                <i class="fa-solid fa-route"></i>Career Roadmap
+                            </a>
                         </div>
                     </div>
+
                     <div class="nav-item">
-                        <button class="nav-trigger" type="button">Resources <i
-                                class="fa-solid fa-chevron-down"></i></button>
+                        <button class="nav-trigger" type="button" aria-expanded="false">
+                            Resources
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
                         <div class="dropdown">
                             <div class="dropdown-title">Resources</div>
-                            <a class="dropdown-link" href="scholarships.html"><i
-                                    class="fa-solid fa-graduation-cap"></i>Scholarships</a>
-                            <a class="dropdown-link" href="entrance-exams.html"><i
-                                    class="fa-solid fa-file-pen"></i>Entrance Exams</a>
-                            <a class="dropdown-link" href="learning-resources.html"><i
-                                    class="fa-solid fa-lightbulb"></i>Learning Resources</a>
-                            <a class="dropdown-link" href="application-tracker.html"><i
-                                    class="fa-solid fa-list-check"></i>Application Tracker</a>
+                            <a class="dropdown-link" href="scholarships.html">
+                                <i class="fa-solid fa-award"></i>Scholarships
+                            </a>
+                            <a class="dropdown-link" href="entrance-exams.html">
+                                <i class="fa-solid fa-file-signature"></i>Entrance Exams
+                            </a>
+                            <a class="dropdown-link" href="learning-resources.html">
+                                <i class="fa-solid fa-laptop-code"></i>Learning Resources
+                            </a>
+                            <a class="dropdown-link" href="application-tracker.html">
+                                <i class="fa-solid fa-list-check"></i>Application Tracker
+                            </a>
                         </div>
                     </div>
                 </div>
             </nav>
+
             <div class="account-area">
-                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-label="Open navigation"><i
-                        class="fa-solid fa-bars"></i></button>
-                <button class="icon-btn" id="notificationBtn" type="button" title="Notifications"><i
-                        class="fa-regular fa-bell"></i><span class="notification-dot"></span></button>
+                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-expanded="false"
+                    aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <button class="icon-btn" id="notificationBtn" type="button" aria-label="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+
                 <div class="account" id="account">
                     <button class="account-trigger" id="accountTrigger" type="button" aria-expanded="false">
-                        <div class="account-avatar" id="topAvatar">S</div>
-                        <div class="account-copy"><span class="account-name" id="topName">Student</span><span
-                                class="account-role">STUDENT ACCOUNT</span></div>
-                        <i class="account-arrow fa-solid fa-chevron-down"></i>
+                        <span class="account-avatar" id="topAvatar">S</span>
+                        <span class="account-copy">
+                            <span class="account-name" id="topName">Student</span>
+                            <span class="account-role">STUDENT</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-down account-arrow"></i>
                     </button>
+
                     <div class="account-menu">
-                        <a href="student-profile.html"><i class="fa-solid fa-user"></i>My Profile</a>
-                        <button type="button" id="logoutBtn" class="logout"><i
-                                class="fa-solid fa-right-from-bracket"></i>Logout</button>
+                        <a href="student-profile.html">
+                            <i class="fa-regular fa-user"></i>My Profile
+                        </a>
+                        <button class="logout" id="logoutBtn" type="button">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>Logout
+                        </button>
                     </div>
                 </div>
             </div>
+
             <div class="mobile-nav" id="mobileNav">
                 <div class="mobile-group">
-                    <div class="mobile-group-title">Main <i class="fa-solid fa-layer-group"></i></div>
-                    <div class="mobile-links"><a href="student-dashboard.html">Dashboard</a><a
-                            href="student-profile.html">My Profile</a><a href="student-assessment.html">Assessment</a><a
-                            href="student-recommendations.html">Recommendations</a></div>
+                    <div class="mobile-group-title">
+                        Student
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <div class="mobile-links">
+                        <a href="student-dashboard.html">Dashboard</a>
+                        <a href="student-profile.html">Profile</a>
+                        <a href="student-assessment.html">Assessment</a>
+                    </div>
                 </div>
+
                 <div class="mobile-group">
-                    <div class="mobile-group-title">Explore <i class="fa-solid fa-compass"></i></div>
-                    <div class="mobile-links"><a href="student-careers.html">Careers</a><a class="active-mobile"
-                            href="student-courses.html">Courses</a><a href="student-colleges.html">Colleges</a><a
-                            href="student-skill-gap.html">Skill Gap</a><a href="student-career-roadmap.html">Career
-                            Roadmap</a></div>
+                    <div class="mobile-group-title">
+                        Explore
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+                    <div class="mobile-links">
+                        <a href="student-careers.html">Careers</a>
+                        <a class="active" href="student-courses.html">Courses</a>
+                        <a href="student-colleges.html">Colleges</a>
+                        <a href="student-skill-gap.html">Skill Gap</a>
+                        <a href="student-career-roadmap.html">Career Roadmap</a>
+                    </div>
                 </div>
+
                 <div class="mobile-group">
-                    <div class="mobile-group-title">Resources <i class="fa-solid fa-book-open"></i></div>
-                    <div class="mobile-links"><a href="scholarships.html">Scholarships</a><a
-                            href="entrance-exams.html">Entrance Exams</a><a href="learning-resources.html">Learning
-                            Resources</a><a href="application-tracker.html">Application Tracker</a></div>
+                    <div class="mobile-group-title">
+                        Resources
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <div class="mobile-links">
+                        <a href="scholarships.html">Scholarships</a>
+                        <a href="entrance-exams.html">Entrance Exams</a>
+                        <a href="learning-resources.html">Learning Resources</a>
+                        <a href="application-tracker.html">Application Tracker</a>
+                    </div>
                 </div>
             </div>
         </header>
+
         <main class="content">
-            <div class="breadcrumb"><span>Student Portal</span><i class="fa-solid fa-chevron-right"
-                    style="font-size:7px"></i><strong>Course Recommendations</strong></div>
-            <section class="hero">
-                <div class="hero-grid">
+            <div class="breadcrumb">
+                <span>Student Portal</span>
+                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+                <strong>Course Recommendations</strong>
+            </div>
+
+            <h1 class="page-title">Course Recommendation</h1>
+            <p class="page-subtitle">Discover courses that match your interests, skills and career goals.</p>
+
+            <!-- ==================== 1. COURSE RECOMMENDATION ==================== -->
+
+            <section class="section-card recommendation-section">
+                <div class="recommendation-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+
+                <h2>Personalized Course Recommendations</h2>
+                <p>
+                    Your academic profile, subjects, interests, skills and career goals are used to suggest suitable
+                    courses from the connected recommendation service.
+                </p>
+
+                <button id="recommendBtn" class="recommend-btn" type="button">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Get My Recommendations
+                </button>
+
+                <div id="status" class="status" role="status" aria-live="polite"></div>
+            </section>
+
+            <!-- ==================== 2. YOUR PROFILE ==================== -->
+
+            <section class="section-card profile-section">
+                <div class="section-head">
                     <div>
-                        <div class="eyebrow"><i class="fa-solid fa-graduation-cap"></i>Personalized Course Guidance
-                        </div>
-                        <h1>Courses matched to <span id="heroUserName">your profile</span>.</h1>
-                        <p>These course recommendations use your saved academic profile and are generated through the
-                            Spring Boot recommendation API connected to the Python recommendation engine.</p>
-                        <div class="hero-actions">
-                            <button class="btn btn-primary" id="refreshBtn" type="button"><i
-                                    class="fa-solid fa-rotate"></i>Refresh Recommendations</button>
-                            <a class="btn btn-secondary" href="student-profile.html"><i
-                                    class="fa-solid fa-user-pen"></i>Update Profile</a>
-                        </div>
+                        <h2>Your Profile</h2>
+                        <p>Your saved information used for course recommendations.</p>
                     </div>
-                    <div class="hero-panel">
-                        <div class="hero-panel-head"><span class="hero-panel-label">Top course score</span><strong
-                                class="hero-panel-value" id="topScore">—</strong></div>
-                        <div class="hero-progress"><span id="topScoreBar"></span></div>
-                        <div class="hero-panel-note" id="scoreNote">Waiting for your personalized course recommendation
-                            result.</div>
+
+                    <a href="student-profile.html" class="edit-profile">
+                        Edit Profile
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="profile-grid">
+                    <div class="profile-item">
+                        <div class="profile-label">Stream</div>
+                        <div class="profile-value" id="stream">Loading...</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Percentage</div>
+                        <div class="profile-value" id="percentage">Loading...</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Favorite Subjects</div>
+                        <div class="profile-value" id="favoriteSubjects">Loading...</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Strong Subjects</div>
+                        <div class="profile-value" id="strongSubjects">Loading...</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Interests</div>
+                        <div class="profile-value" id="interests">Loading...</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Skills</div>
+                        <div class="profile-value" id="skills">Loading...</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Career Interest</div>
+                        <div class="profile-value" id="careerInterest">Loading...</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Target Career</div>
+                        <div class="profile-value" id="targetCareer">Loading...</div>
                     </div>
                 </div>
             </section>
-            <section class="snapshot">
-                <div class="stat">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-book-open"></i></div>
-                    </div>
-                    <div class="stat-value" id="courseCount">—</div>
-                    <div class="stat-label">Course recommendations</div>
+
+            <!-- ==================== 3. RECOMMENDED COURSES ==================== -->
+
+            <section class="results-section" id="resultsSection">
+                <div class="results-head">
+                    <h2>Recommended Courses</h2>
+                    <p>Courses returned by the recommendation engine for your saved profile.</p>
                 </div>
-                <div class="stat">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-bullseye"></i></div>
-                    </div>
-                    <div class="stat-value" id="preferredCourseValue">—</div>
-                    <div class="stat-label">Your preferred course</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div>
-                    </div>
-                    <div class="stat-value" id="streamValue">—</div>
-                    <div class="stat-label">Academic stream</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-top">
-                        <div class="stat-icon"><i class="fa-solid fa-percent"></i></div>
-                    </div>
-                    <div class="stat-value" id="profilePercent">—</div>
-                    <div class="stat-label">Profile completion</div>
+
+                <div class="recommendations" id="recommendationsContainer"></div>
+            </section>
+
+            <!-- ==================== 4. HOW IT WORKS ==================== -->
+
+            <section class="info-box">
+                <h3>How does this work?</h3>
+                <p>
+                    Your saved profile is sent to the recommendation service. The service compares your academic
+                    background, subjects, interests and skills with available course information and returns the courses
+                    that match those profile signals.
+                </p>
+
+                <div class="info-flow">
+                    <span class="flow-step">Your Profile</span>
+                    <i class="fa-solid fa-arrow-right flow-arrow"></i>
+                    <span class="flow-step">Spring Boot</span>
+                    <i class="fa-solid fa-arrow-right flow-arrow"></i>
+                    <span class="flow-step">Recommendation Engine</span>
+                    <i class="fa-solid fa-arrow-right flow-arrow"></i>
+                    <span class="flow-step">Course Results</span>
                 </div>
             </section>
-            <section class="layout">
-                <div class="panel">
-                    <div class="panel-head">
-                        <div>
-                            <div class="panel-title">Recommended Courses</div>
-                            <div class="panel-sub">Top course matches returned by the current recommendation engine
-                            </div>
-                        </div>
-                        <button class="panel-link" id="refreshLink" type="button">Refresh <i
-                                class="fa-solid fa-rotate"></i></button>
-                    </div>
-                    <div class="panel-body">
-                        <div class="course-list" id="courseList">
-                            <div class="state" style="grid-column:1/-1">
-                                <div class="state-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
-                                <h3>Loading recommendations</h3>
-                                <p>Fetching your saved profile and requesting personalized course results.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel">
-                    <div class="profile-panel">
-                        <div class="eyebrow"><i class="fa-solid fa-sliders"></i>Recommendation Signals</div>
-                        <h3>What the engine is using</h3>
-                        <p>The current course recommendation engine compares your profile against course attributes such
-                            as stream, strong subjects, interests and skills.</p>
-                        <div class="signal-list">
-                            <div class="signal"><i class="fa-solid fa-check"></i><span>Academic stream match</span>
-                            </div>
-                            <div class="signal"><i class="fa-solid fa-check"></i><span>Subject relevance</span></div>
-                            <div class="signal"><i class="fa-solid fa-check"></i><span>Interest relevance</span></div>
-                            <div class="signal"><i class="fa-solid fa-check"></i><span>Skill relevance</span></div>
-                        </div>
-                        <div class="profile-chip-wrap" id="signalChips"></div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="panel-title">Profile Snapshot</div>
-                        <div class="panel-sub">Saved values used to build the course recommendation request</div>
-                        <div class="info-grid">
-                            <div class="info-item"><span>Favorite subjects</span><strong
-                                    id="favoriteSubjects">—</strong></div>
-                            <div class="info-item"><span>Strong subjects</span><strong id="strongSubjects">—</strong>
-                            </div>
-                            <div class="info-item"><span>Interests</span><strong id="interestsValue">—</strong></div>
-                            <div class="info-item"><span>Skills</span><strong id="skillsValue">—</strong></div>
-                            <div class="info-item"><span>Preferred course</span><strong id="preferredCourse">—</strong>
-                            </div>
-                            <div class="info-item"><span>Budget range</span><strong id="budgetRange">—</strong></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <div class="note"><i class="fa-solid fa-circle-info"></i><span>The current recommendation service returns a
-                    raw weighted score rather than a normalized percentage. The score shown on this page is the engine's
-                    raw value and is not presented as a percentage.</span></div>
         </main>
     </div>
-    <div class="overlay" id="loadingOverlay">
+
+    <div class="overlay" id="loadingOverlay" aria-hidden="true">
         <div class="loading-card">
             <div class="spinner"></div>
             <p id="loadingText">Loading course recommendations...</p>
         </div>
     </div>
+
     <div class="toast" id="toast" role="status" aria-live="polite">
-        <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-circle-check"></i></div>
-        <div><strong id="toastTitle">Ready</strong>
+        <div class="toast-icon" id="toastIcon">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div>
+            <strong id="toastTitle">Ready</strong>
             <p id="toastText"></p>
         </div>
     </div>
-    <div class="overlay" id="loadingOverlay">
-        <div class="loading-card">
-            <div class="spinner"></div>
-            <p id="loadingText">Loading recommendations...</p>
-        </div>
-    </div>
-    <div class="toast" id="toast" role="status" aria-live="polite">
-        <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-circle-check"></i></div>
-        <div><strong id="toastTitle">Ready</strong>
-            <p id="toastText"></p>
-        </div>
-    </div>
+
     <script>
+        /* ==================== API ==================== */
+
         const API_BASE_URL = "http://localhost:8081";
         const PROFILE_API = `${API_BASE_URL}/api/student/profile`;
-        const COURSE_API = `${API_BASE_URL}/api/recommendation/courses`;
+        const RECOMMENDATION_API = `${API_BASE_URL}/api/recommendation/courses`;
         const REQUEST_TIMEOUT = 12000;
+
+        /* ==================== DOM ==================== */
+
         const account = document.getElementById("account");
         const accountTrigger = document.getElementById("accountTrigger");
         const mobileMenuBtn = document.getElementById("mobileMenuBtn");
         const mobileNav = document.getElementById("mobileNav");
         const notificationBtn = document.getElementById("notificationBtn");
         const logoutBtn = document.getElementById("logoutBtn");
-        const refreshBtn = document.getElementById("refreshBtn");
-        const refreshLink = document.getElementById("refreshLink");
-        const courseList = document.getElementById("courseList");
+        const recommendBtn = document.getElementById("recommendBtn");
+        const recommendationsContainer = document.getElementById("recommendationsContainer");
+        const resultsSection = document.getElementById("resultsSection");
         const loadingOverlay = document.getElementById("loadingOverlay");
         const loadingText = document.getElementById("loadingText");
         const toast = document.getElementById("toast");
         const toastIcon = document.getElementById("toastIcon");
         const toastTitle = document.getElementById("toastTitle");
         const toastText = document.getElementById("toastText");
+
+        let studentProfile = null;
         let toastTimer = null;
+
+        /* ==================== AUTH ==================== */
 
         function getToken() {
             return localStorage.getItem("token");
@@ -1820,21 +1534,35 @@
             };
         }
 
-        function updateHeader(user = getStoredUser()) {
+        function updateUserHeader() {
+            const user = getStoredUser();
             const name = user?.name || user?.fullName || "Student";
-            const parts = name.trim().split(/\s+/).filter(Boolean);
-            const firstName = parts[0] || "Student";
-            const initials = parts.slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "S";
-            document.getElementById("heroUserName").textContent = firstName;
+            const initials = name
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((part) => part[0])
+                .join("")
+                .toUpperCase() || "S";
+
             document.getElementById("topName").textContent = name;
             document.getElementById("topAvatar").textContent = initials;
         }
+
+        /* ==================== UI ==================== */
 
         function setLoading(show, message = "Loading course recommendations...") {
             loadingText.textContent = message;
             loadingOverlay.classList.toggle("show", show);
             loadingOverlay.setAttribute("aria-hidden", String(!show));
-            refreshBtn.disabled = show;
+            recommendBtn.disabled = show;
+        }
+
+        function showStatus(message, type = "") {
+            const status = document.getElementById("status");
+            status.textContent = message;
+            status.className = `status ${type}`.trim();
         }
 
         function showToast(type, title, message) {
@@ -1846,7 +1574,7 @@
             toastTimer = setTimeout(() => toast.classList.remove("show"), 4200);
         }
 
-        function escapeHtml(value) {
+        function escapeHTML(value) {
             return String(value ?? "")
                 .replaceAll("&", "&amp;")
                 .replaceAll("<", "&lt;")
@@ -1857,17 +1585,101 @@
 
         function splitValues(value) {
             if (Array.isArray(value)) {
-                return value.filter((item) => item !== null && item !== undefined && String(item).trim() !== "").map(String).map((item) => item.trim());
+                return value
+                    .filter((item) => item !== null && item !== undefined)
+                    .map(String)
+                    .map((item) => item.trim())
+                    .filter(Boolean);
             }
+
             if (typeof value !== "string") {
                 return [];
             }
-            return value.split(/[;,]/).map((item) => item.trim()).filter(Boolean);
+
+            return value
+                .split(/[;,]/)
+                .map((item) => item.trim())
+                .filter(Boolean);
         }
 
-        function joinValues(value, limit = 5) {
+        function joinValues(value) {
             const values = splitValues(value);
-            return values.length ? values.slice(0, limit).join(" • ") : "Not set";
+            return values.length ? values.join(" • ") : "Not provided";
+        }
+
+        /* ==================== PROFILE ==================== */
+
+        function displayProfile(profile) {
+            document.getElementById("stream").textContent = profile?.stream || "Not provided";
+            document.getElementById("percentage").textContent = profile?.percentage !== null && profile?.percentage !== undefined
+                ? `${profile.percentage}%`
+                : "Not provided";
+            document.getElementById("favoriteSubjects").textContent = joinValues(profile?.favoriteSubjects);
+            document.getElementById("strongSubjects").textContent = joinValues(profile?.strongSubjects);
+            document.getElementById("interests").textContent = joinValues(profile?.interests);
+            document.getElementById("skills").textContent = joinValues(profile?.skills);
+            document.getElementById("careerInterest").textContent = profile?.careerInterest || "Not provided";
+            document.getElementById("targetCareer").textContent = profile?.targetCareer || "Not provided";
+        }
+
+        async function loadProfile() {
+            const token = getToken();
+
+            if (!token) {
+                clearAuth();
+                window.location.href = "../login.html";
+                return false;
+            }
+
+            setLoading(true, "Loading your saved profile...");
+
+            try {
+                const response = await fetch(PROFILE_API, {
+                    method: "GET",
+                    headers: authHeaders()
+                });
+
+                const rawText = await response.text();
+                let data = {};
+
+                if (rawText) {
+                    try {
+                        data = JSON.parse(rawText);
+                    } catch {
+                        data = { message: rawText };
+                    }
+                }
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        clearAuth();
+                        window.location.href = "../login.html";
+                        return false;
+                    }
+
+                    throw new Error(data?.message || data?.error || `Profile request failed (${response.status})`);
+                }
+
+                studentProfile = data;
+                displayProfile(studentProfile);
+                showStatus("Your profile is ready. Get your course recommendations when you are ready.");
+                return true;
+            } catch (error) {
+                showStatus(error.message || "Unable to load your profile.", "error");
+                showToast("error", "Profile unavailable", error.message || "Unable to load your profile.");
+                return false;
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        /* ==================== RECOMMENDATIONS ==================== */
+
+        function getRecommendations(data) {
+            if (Array.isArray(data?.recommendations)) return data.recommendations;
+            if (Array.isArray(data?.results)) return data.results;
+            if (Array.isArray(data)) return data;
+            return [];
         }
 
         function normalizeScore(value) {
@@ -1875,237 +1687,184 @@
             return Number.isFinite(score) ? score : 0;
         }
 
-        function calculateProfileCompletion(profile) {
-            const fields = ["className", "stream", "percentage", "favoriteSubjects", "strongSubjects", "weakSubjects", "interests", "skills", "careerInterest", "targetCareer", "preferredCourse", "collegeType", "budgetRange", "hostelRequired", "city", "state", "preferredLocation"];
-            const filled = fields.filter((field) => {
-                const value = profile?.[field];
-                return value !== null && value !== undefined && String(value).trim() !== "";
-            }).length;
-            return Math.round((filled / fields.length) * 100);
-        }
+        function renderRecommendations(recommendations) {
+            recommendationsContainer.innerHTML = "";
 
-        function updateProfileSnapshot(profile) {
-            const completion = calculateProfileCompletion(profile);
-            document.getElementById("streamValue").textContent = profile?.stream || "—";
-            document.getElementById("preferredCourseValue").textContent = profile?.preferredCourse || "Not set";
-            document.getElementById("profilePercent").textContent = `${completion}%`;
-            document.getElementById("favoriteSubjects").textContent = joinValues(profile?.favoriteSubjects);
-            document.getElementById("strongSubjects").textContent = joinValues(profile?.strongSubjects);
-            document.getElementById("interestsValue").textContent = joinValues(profile?.interests);
-            document.getElementById("skillsValue").textContent = joinValues(profile?.skills);
-            document.getElementById("preferredCourse").textContent = profile?.preferredCourse || "Not set";
-            document.getElementById("budgetRange").textContent = profile?.budgetRange || "Not set";
-
-            const chips = [];
-            if (profile?.stream) chips.push(`<span class="chip primary">${escapeHtml(profile.stream)}</span>`);
-            splitValues(profile?.favoriteSubjects).slice(0, 2).forEach((item) => chips.push(`<span class="chip">${escapeHtml(item)}</span>`));
-            splitValues(profile?.interests).slice(0, 2).forEach((item) => chips.push(`<span class="chip">${escapeHtml(item)}</span>`));
-            splitValues(profile?.skills).slice(0, 2).forEach((item) => chips.push(`<span class="chip">${escapeHtml(item)}</span>`));
-            document.getElementById("signalChips").innerHTML = chips.join("") || '<span class="chip">Complete your profile</span>';
-        }
-
-        function buildRecommendationPayload(profile) {
-            const favoriteSubjects = splitValues(profile?.favoriteSubjects);
-            const strongSubjects = splitValues(profile?.strongSubjects);
-            const subjects = [...new Set([...favoriteSubjects, ...strongSubjects])];
-            return {
-                ...profile,
-                subjects,
-                interests: splitValues(profile?.interests),
-                skills: splitValues(profile?.skills)
-            };
-        }
-
-        function getRecommendations(data) {
-            if (Array.isArray(data?.recommendations)) return data.recommendations;
-            if (Array.isArray(data?.results)) return data.results;
-            if (Array.isArray(data?.data)) return data.data;
-            if (Array.isArray(data)) return data;
-            return [];
-        }
-
-        function courseIcon(courseName) {
-            const value = String(courseName || "").toLowerCase();
-            if (value.includes("computer") || value.includes("bca") || value.includes("information technology")) return "fa-laptop-code";
-            if (value.includes("data") || value.includes("analytics")) return "fa-chart-line";
-            if (value.includes("medical") || value.includes("mbbs") || value.includes("nursing") || value.includes("pharmacy")) return "fa-user-doctor";
-            if (value.includes("mechanical")) return "fa-gears";
-            if (value.includes("civil")) return "fa-building";
-            if (value.includes("electrical")) return "fa-bolt";
-            if (value.includes("design")) return "fa-pen-ruler";
-            if (value.includes("commerce") || value.includes("finance") || value.includes("account")) return "fa-chart-pie";
-            if (value.includes("law")) return "fa-scale-balanced";
-            return "fa-graduation-cap";
-        }
-
-        function renderEmpty(title, message) {
-            courseList.innerHTML = `
-                <div class="state" style="grid-column:1/-1">
-                    <div class="state-icon"><i class="fa-solid fa-book-open"></i></div>
-                    <h3>${escapeHtml(title)}</h3>
-                    <p>${escapeHtml(message)}</p>
-                    <a class="btn btn-primary" href="student-profile.html"><i class="fa-solid fa-user-pen"></i>Complete Profile</a>
-                </div>
-            `;
-            document.getElementById("courseCount").textContent = "0";
-            document.getElementById("topScore").textContent = "—";
-            document.getElementById("topScoreBar").style.width = "0";
-            document.getElementById("scoreNote").textContent = "No course recommendation result was returned.";
-        }
-
-        function renderError(message) {
-            courseList.innerHTML = `
-                <div class="state" style="grid-column:1/-1">
-                    <div class="state-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                    <h3>Could not load course recommendations</h3>
-                    <p>${escapeHtml(message)}</p>
-                    <button class="btn btn-primary" type="button" id="retryInside"><i class="fa-solid fa-rotate"></i>Try Again</button>
-                </div>
-            `;
-            document.getElementById("retryInside")?.addEventListener("click", loadCourseRecommendations);
-        }
-
-        function renderCourses(recommendations) {
             if (!recommendations.length) {
-                renderEmpty("No course recommendations yet", "Complete your profile with stream, subjects, interests and skills so the recommendation engine has useful signals.");
+                recommendationsContainer.innerHTML = `
+                    <div class="empty-result">
+                        <i class="fa-solid fa-book-open"></i>
+                        <h3>No recommendations found</h3>
+                        <p>Try updating your profile with more subjects, interests and skills, then request recommendations again.</p>
+                        <a class="recommend-btn" href="student-profile.html">
+                            <i class="fa-solid fa-user-pen"></i>
+                            Update Profile
+                        </a>
+                    </div>
+                `;
+                resultsSection.style.display = "block";
                 return;
             }
 
-            const items = [...recommendations].sort((a, b) => normalizeScore(b?.score ?? b?.matchScore) - normalizeScore(a?.score ?? a?.matchScore));
-            const topItem = items[0];
-            const topScore = normalizeScore(topItem?.score ?? topItem?.matchScore);
-            const topCourse = topItem?.course_name ?? topItem?.courseName ?? topItem?.name ?? "Course";
+            const items = [...recommendations].sort((a, b) =>
+                normalizeScore(b?.score ?? b?.matchScore) - normalizeScore(a?.score ?? a?.matchScore)
+            );
 
-            document.getElementById("courseCount").textContent = items.length;
-            document.getElementById("topScore").textContent = topScore;
-            document.getElementById("topScoreBar").style.width = `${Math.min(100, Math.max(0, topScore))}%`;
-            document.getElementById("scoreNote").textContent = `Top result: ${topCourse}`;
+            items.forEach((course, index) => {
+                const careerOptions = splitValues(course?.career_options ?? course?.careerOptions);
+                const card = document.createElement("article");
+                card.className = "course-card";
 
-            courseList.innerHTML = items.map((item, index) => {
-                const name = item?.course_name ?? item?.courseName ?? item?.name ?? "Course";
-                const score = normalizeScore(item?.score ?? item?.matchScore);
-                const stream = item?.stream || "Not available";
-                const duration = item?.duration_years ?? item?.durationYears ?? "Not available";
-                const level = item?.education_level ?? item?.educationLevel ?? "Not available";
-                const eligibility = item?.eligibility || "Eligibility details are not available.";
-                const strongSubjects = joinValues(item?.strong_subjects ?? item?.strongSubjects);
-                const careerOptions = joinValues(item?.career_options ?? item?.careerOptions);
-                const explanation = item?.explanation || "This recommendation is based on the profile signals matched by the recommendation engine.";
+                card.innerHTML = `
+                    <span class="rank">#${index + 1}</span>
+                    <h3>${escapeHTML(course?.course_name || course?.courseName || "Unknown Course")}</h3>
+                    <div class="score">
+                        Match Score: <strong>${normalizeScore(course?.score ?? course?.matchScore)}</strong>
+                    </div>
 
-                return `
-                    <article class="course-card">
-                        <div class="course-card-top">
-                            <div class="course-icon"><i class="fa-solid ${courseIcon(name)}"></i></div>
-                            <span class="course-rank"><i class="fa-solid fa-hashtag"></i>${index + 1} Match</span>
-                        </div>
-                        <div class="course-name">${escapeHtml(name)}</div>
-                        <div class="course-meta-grid">
-                            <div class="course-meta"><span>Stream</span><strong>${escapeHtml(stream)}</strong></div>
-                            <div class="course-meta"><span>Duration</span><strong>${escapeHtml(duration)} years</strong></div>
-                            <div class="course-meta"><span>Level</span><strong>${escapeHtml(level)}</strong></div>
-                        </div>
-                        <div class="course-section"><div class="course-section-label">Strong Subjects</div><div class="course-section-text">${escapeHtml(strongSubjects)}</div></div>
-                        <div class="course-section"><div class="course-section-label">Career Options</div><div class="course-section-text">${escapeHtml(careerOptions)}</div></div>
-                        <div class="course-section"><div class="course-section-label">Eligibility</div><div class="course-section-text">${escapeHtml(eligibility)}</div></div>
-                        <div class="course-explanation"><strong>Why this course:</strong> ${escapeHtml(explanation)}</div>
-                        <div class="course-bottom"><span class="course-score"><i class="fa-solid fa-bolt"></i>Score ${score}</span><span class="view-btn">Profile matched <i class="fa-solid fa-arrow-right"></i></span></div>
-                    </article>
+                    <div class="career-title">Possible Career Options</div>
+                    <div class="career-list">
+                        ${careerOptions.length
+                        ? careerOptions.map((career) => `<span class="career-tag">${escapeHTML(career)}</span>`).join("")
+                        : `<span class="career-tag">Not available</span>`}
+                    </div>
+
+                    <div class="explanation">
+                        <div class="explanation-title">Why this course?</div>
+                        ${escapeHTML(course?.explanation || "No explanation available.")}
+                    </div>
                 `;
-            }).join("");
+
+                recommendationsContainer.appendChild(card);
+            });
+
+            resultsSection.style.display = "block";
+            resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
         }
 
-        async function fetchJson(url, options = {}, label = "Request") {
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
-            try {
-                const response = await fetch(url, { ...options, signal: controller.signal });
-                const text = await response.text();
-                let data = {};
-                if (text) {
-                    try { data = JSON.parse(text); } catch { data = { message: text }; }
-                }
-                if (!response.ok) {
-                    if (response.status === 401) {
-                        clearAuth();
-                        window.location.href = "../login.html";
-                        throw new Error("Your login session has expired.");
-                    }
-                    if (response.status === 403) {
-                        throw new Error(data?.message || data?.error || `You are not authorized to access ${label.toLowerCase()}.`);
-                    }
-                    throw new Error(data?.message || data?.error || `${label} failed (${response.status})`);
-                }
-                return data;
-            } catch (error) {
-                if (error.name === "AbortError") {
-                    throw new Error(`${label} timed out. Make sure Spring Boot and the Python recommendation service are running.`);
-                }
-                throw error;
-            } finally {
-                clearTimeout(timeout);
+        async function requestRecommendations() {
+            if (!studentProfile) {
+                const loaded = await loadProfile();
+                if (!loaded) return;
             }
-        }
 
-        async function loadCourseRecommendations() {
-            if (!getToken()) {
+            const token = getToken();
+
+            if (!token) {
+                clearAuth();
                 window.location.href = "../login.html";
                 return;
             }
 
-            setLoading(true, "Loading your saved profile...");
+            setLoading(true, "Generating course recommendations...");
+            showStatus("The recommendation engine is checking your profile.", "loading");
+
             try {
-                const profile = await fetchJson(PROFILE_API, { method: "GET", headers: authHeaders() }, "Student profile request");
-                updateHeader();
-                updateProfileSnapshot(profile);
-                setLoading(true, "Generating personalized course recommendations...");
-                const payload = buildRecommendationPayload(profile);
-                const result = await fetchJson(COURSE_API, { method: "POST", headers: authHeaders(), body: JSON.stringify(payload) }, "Course recommendation request");
-                const recommendations = getRecommendations(result);
-                renderCourses(recommendations);
-                showToast("success", "Recommendations updated", "Course recommendations were generated from your saved profile.");
-            } catch (error) {
-                if (getToken()) {
-                    renderError(error.message || "Unable to load course recommendations.");
-                    showToast("error", "Course recommendations unavailable", error.message || "Please try again.");
+                const response = await fetch(RECOMMENDATION_API, {
+                    method: "POST",
+                    headers: authHeaders(),
+                    body: JSON.stringify(studentProfile)
+                });
+
+                const rawText = await response.text();
+                let data = {};
+
+                if (rawText) {
+                    try {
+                        data = JSON.parse(rawText);
+                    } catch {
+                        data = { message: rawText };
+                    }
                 }
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        clearAuth();
+                        window.location.href = "../login.html";
+                        return;
+                    }
+
+                    if (response.status === 403) {
+                        throw new Error(data?.message || data?.error || "You are not authorized to access course recommendations.");
+                    }
+
+                    throw new Error(data?.message || data?.error || `Recommendation request failed (${response.status})`);
+                }
+
+                const recommendations = getRecommendations(data);
+                renderRecommendations(recommendations);
+                showStatus("Recommendations generated from your saved profile.", "success");
+                showToast("success", "Recommendations ready", "Course suggestions were generated from your saved profile.");
+            } catch (error) {
+                recommendationsContainer.innerHTML = `
+                    <div class="empty-result">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <h3>Unable to generate recommendations</h3>
+                        <p>${escapeHTML(error.message || "Please try again.")}</p>
+                        <button class="recommend-btn" type="button" id="retryRecommendations">
+                            <i class="fa-solid fa-rotate"></i>
+                            Try Again
+                        </button>
+                    </div>
+                `;
+                resultsSection.style.display = "block";
+                document.getElementById("retryRecommendations")?.addEventListener("click", requestRecommendations);
+                showStatus(error.message || "Unable to generate recommendations.", "error");
+                showToast("error", "Recommendation unavailable", error.message || "Please try again.");
             } finally {
                 setLoading(false);
             }
         }
 
-        accountTrigger.addEventListener("click", (event) => {
-            event.stopPropagation();
-            const open = account.classList.toggle("open");
-            accountTrigger.setAttribute("aria-expanded", String(open));
-        });
+        /* ==================== NAVIGATION ==================== */
 
         document.querySelectorAll(".nav-trigger").forEach((trigger) => {
             trigger.addEventListener("click", (event) => {
-                if (window.innerWidth > 820) return;
                 event.stopPropagation();
                 const item = trigger.closest(".nav-item");
+                const isOpen = item.classList.contains("open");
+
                 document.querySelectorAll(".nav-item.open").forEach((other) => {
-                    if (other !== item) other.classList.remove("open");
+                    if (other !== item) {
+                        other.classList.remove("open");
+                        other.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+                    }
                 });
-                item.classList.toggle("open");
+
+                item.classList.toggle("open", !isOpen);
+                trigger.setAttribute("aria-expanded", String(!isOpen));
             });
         });
 
+        accountTrigger.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const isOpen = account.classList.toggle("open");
+            accountTrigger.setAttribute("aria-expanded", String(isOpen));
+        });
+
         document.addEventListener("click", (event) => {
+            if (!event.target.closest(".nav-item")) {
+                document.querySelectorAll(".nav-item.open").forEach((item) => {
+                    item.classList.remove("open");
+                    item.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+                });
+            }
+
             if (!account.contains(event.target)) {
                 account.classList.remove("open");
                 accountTrigger.setAttribute("aria-expanded", "false");
             }
-            if (!mobileNav.contains(event.target) && event.target !== mobileMenuBtn) mobileNav.classList.remove("show");
         });
 
         mobileMenuBtn.addEventListener("click", (event) => {
             event.stopPropagation();
             mobileNav.classList.toggle("show");
+            mobileMenuBtn.setAttribute("aria-expanded", String(mobileNav.classList.contains("show")));
+            account.classList.remove("open");
         });
 
         notificationBtn.addEventListener("click", () => {
-            showToast("success", "Notifications", "Notification center will be connected to the notification module.");
+            showToast("success", "Notifications", "No new notifications right now.");
         });
 
         logoutBtn.addEventListener("click", () => {
@@ -2113,11 +1872,14 @@
             window.location.href = "../login.html";
         });
 
-        refreshBtn.addEventListener("click", loadCourseRecommendations);
-        refreshLink.addEventListener("click", loadCourseRecommendations);
+        recommendBtn.addEventListener("click", requestRecommendations);
 
-        updateHeader();
-        loadCourseRecommendations();
+        /* ==================== PAGE LOAD ==================== */
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            updateUserHeader();
+            await loadProfile();
+        });
     </script>
 </body>
 
