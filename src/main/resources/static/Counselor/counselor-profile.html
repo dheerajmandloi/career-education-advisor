@@ -811,8 +811,18 @@
             line-height: 1.55;
         }
 
-        .profile-textarea-field textarea {
-            min-height: 156px;
+        .professional-experience-grid .profile-textarea-field {
+            min-width: 0;
+        }
+
+        .professional-experience-grid .profile-textarea-field textarea {
+            min-height: 136px;
+            height: 136px;
+            resize: vertical;
+        }
+
+        .professional-experience-grid .experience-years-field {
+            grid-column: 1 / -1;
         }
 
         .form-field input:focus,
@@ -1451,7 +1461,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-field full">
+                            <div class="form-field">
                                 <label for="specialization">
                                     Specialization <span class="required">*</span>
                                 </label>
@@ -1476,11 +1486,14 @@
                             </div>
                         </div>
 
-                        <div class="form-grid">
-                            <div class="form-field">
+                        <div class="form-grid professional-experience-grid">
+
+                            <!-- Experience: full row -->
+                            <div class="form-field experience-years-field">
                                 <label for="experienceYears">
                                     Experience (Years) <span class="required">*</span>
                                 </label>
+
                                 <div class="input-wrap">
                                     <i class="fa-solid fa-calendar-check"></i>
                                     <input type="number" id="experienceYears" placeholder="Example: 5" min="0" max="60"
@@ -1488,21 +1501,31 @@
                                 </div>
                             </div>
 
+                            <!-- Left -->
                             <div class="form-field profile-textarea-field">
                                 <label for="areasOfExpertise">
                                     Areas of Expertise <span class="required">*</span>
                                 </label>
+
                                 <textarea id="areasOfExpertise"
                                     placeholder="Example: Career Guidance, Higher Education, Engineering Careers"
                                     required></textarea>
-                                <p class="field-help">Separate multiple expertise areas with commas.</p>
+
+                                <p class="field-help">
+                                    Separate multiple expertise areas with commas.
+                                </p>
                             </div>
 
+                            <!-- Right -->
                             <div class="form-field profile-textarea-field">
-                                <label for="professionalExperienceDetails">Professional Experience Details</label>
+                                <label for="professionalExperienceDetails">
+                                    Professional Experience Details
+                                </label>
+
                                 <textarea id="professionalExperienceDetails"
                                     placeholder="Describe your professional experience, counseling background and relevant responsibilities."></textarea>
                             </div>
+
                         </div>
                     </section>
 
@@ -1592,7 +1615,6 @@
         const notificationButton = document.getElementById("notificationButton");
 
         const counselorName = document.getElementById("counselorName");
-        const counselorEmail = document.getElementById("counselorEmail");
         const counselorAvatar = document.getElementById("counselorAvatar");
         const heroAvatar = document.getElementById("heroAvatar");
 
@@ -1658,13 +1680,12 @@
 
         function setUserUI(user) {
             const name = user?.name || "Counselor";
-            const email = user?.email || "Counselor account";
-            const initials = getInitials(name);
 
             counselorName.textContent = name;
-            counselorEmail.textContent = email;
-            counselorAvatar.textContent = initials;
-            heroAvatar.textContent = initials;
+
+            // Keep the counselor avatar consistent with the original UI design.
+            counselorAvatar.textContent = "CO";
+            heroAvatar.textContent = "CO";
         }
 
         function normalizeStatus(status) {
@@ -1815,16 +1836,26 @@
         }
 
         function fillForm(profile) {
-            document.getElementById("highestQualification").value = profile?.highestQualification || "";
-            document.getElementById("universityInstitute").value = profile?.universityInstitute || "";
-            document.getElementById("specialization").value = profile?.specialization || "";
-            document.getElementById("experienceYears").value = profile?.experienceYears ?? "";
-            document.getElementById("areasOfExpertise").value = profile?.areasOfExpertise || "";
-            document.getElementById("professionalExperienceDetails").value = profile?.professionalExperienceDetails || "";
-            document.getElementById("qualificationProof").value = profile?.qualificationProof || "";
-            document.getElementById("resume").value = profile?.resume || "";
+            const data = profile || {};
 
-            updateCompletion(profile || {});
+            document.getElementById("highestQualification").value = data.highestQualification || "";
+            document.getElementById("universityInstitute").value = data.universityInstitute || "";
+            document.getElementById("specialization").value = data.specialization || "";
+            document.getElementById("experienceYears").value = data.experienceYears ?? "";
+            document.getElementById("areasOfExpertise").value = data.areasOfExpertise || "";
+            document.getElementById("professionalExperienceDetails").value = data.professionalExperienceDetails || "";
+            document.getElementById("qualificationProof").value = data.qualificationProof || "";
+            document.getElementById("resume").value = data.resume || "";
+
+            // The backend profile response contains the current account status.
+            // Always prefer that value so the UI reflects the database immediately.
+            if (data.status) {
+                counselorUser.status = data.status;
+                localStorage.setItem(USER_KEY, JSON.stringify(counselorUser));
+                setStatusUI(data.status);
+            }
+
+            updateCompletion(data);
         }
 
         function validateForm() {
@@ -1919,6 +1950,14 @@
                 }
 
                 fillForm(data || {});
+
+                // Always use the latest status returned by the backend/DB.
+                if (data?.status) {
+                    counselorUser.status = data.status;
+                    localStorage.setItem(USER_KEY, JSON.stringify(counselorUser));
+                    setStatusUI(data.status);
+                }
+
                 showToast("Counselor profile loaded.");
             } catch (error) {
                 if (error.message === "AUTH_REDIRECT") {
@@ -1955,6 +1994,14 @@
                 }
 
                 fillForm(result || data);
+
+                // Refresh the locally stored status from the backend response when available.
+                if (result?.status) {
+                    counselorUser.status = result.status;
+                    localStorage.setItem(USER_KEY, JSON.stringify(counselorUser));
+                    setStatusUI(result.status);
+                }
+
                 showToast("Profile saved successfully.");
             } catch (error) {
                 if (error.message !== "AUTH_REDIRECT") {
@@ -1996,9 +2043,10 @@
                     throw new Error(result?.message || result?.error || "Failed to submit counselor profile.");
                 }
 
-                counselorUser.status = "PENDING_REVIEW";
+                const updatedStatus = result?.status || "PENDING_REVIEW";
+                counselorUser.status = updatedStatus;
                 localStorage.setItem(USER_KEY, JSON.stringify(counselorUser));
-                setStatusUI(counselorUser.status);
+                setStatusUI(updatedStatus);
                 updateCompletion(data);
                 showToast("Profile submitted for admin review.");
             } catch (error) {
@@ -2126,7 +2174,7 @@
             await loadProfile();
         }
 
-        window.addEventListener("load", () => {
+        document.addEventListener("DOMContentLoaded", () => {
             bootProfilePage();
         }, { once: true });
 
