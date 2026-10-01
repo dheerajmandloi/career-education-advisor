@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Career Assessment</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .options label {
+            background: #f1f3f6;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .options input {
+            margin-right: 5px;
+        }
+
+        .rating {
+            margin-bottom: 20px;
+        }
+
+        .rating label {
+            margin-bottom: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Career Assessment</h1>
+
+        <p class="description">
+            Answer a few questions to get personalized course, college and career recommendations.
+        </p>
+
+        <form id="assessmentForm">
+
+            <!-- ================= ACADEMIC ================= -->
+
+            <div class="section">
+
+                <h2>1. Academic Background</h2>
+
+                <label for="stream">Your Stream</label>
+
+                <select id="stream" name="stream" required>
+                    <option value="">Select Stream</option>
+                    <option value="Science">Science</option>
+                    <option value="Commerce">Commerce</option>
+                    <option value="Arts">Arts</option>
+                </select>
+
+                <label>Strong Subjects</label>
+
+                <div class="options">
+
+                    <label>
+                        <input type="checkbox" name="strongSubjects" value="Mathematics">
+                        Mathematics
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="strongSubjects" value="Physics">
+                        Physics
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="strongSubjects" value="Chemistry">
+                        Chemistry
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="strongSubjects" value="Biology">
+                        Biology
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="strongSubjects" value="Economics">
+                        Economics
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="strongSubjects" value="Accountancy">
+                        Accountancy
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= INTERESTS ================= -->
+
+            <div class="section">
+
+                <h2>2. Your Interests</h2>
+
+                <div class="options">
+
+                    <label>
+                        <input type="checkbox" name="interests" value="Programming">
+                        Programming
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="interests" value="Technology">
+                        Technology
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="interests" value="AI">
+                        Artificial Intelligence
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="interests" value="Business">
+                        Business
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="interests" value="Finance">
+                        Finance
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="interests" value="Healthcare">
+                        Healthcare
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="interests" value="Design">
+                        Design
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="interests" value="Law">
+                        Law
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= SKILLS ================= -->
+
+            <div class="section">
+
+                <h2>3. Your Skills</h2>
+
+                <div class="options">
+
+                    <label>
+                        <input type="checkbox" name="skills" value="Programming">
+                        Programming
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="skills" value="Problem Solving">
+                        Problem Solving
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="skills" value="Logical Thinking">
+                        Logical Thinking
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="skills" value="Communication">
+                        Communication
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="skills" value="Leadership">
+                        Leadership
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="skills" value="Creativity">
+                        Creativity
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= CAREER ================= -->
+
+            <div class="section">
+
+                <h2>4. Career Preference</h2>
+
+                <label for="careerPreference">
+                    Which field interests you the most?
+                </label>
+
+                <select id="careerPreference" name="careerPreference" required>
+
+                    <option value="">Select Career Field</option>
+
+                    <option value="Technology">
+                        Technology
+                    </option>
+
+                    <option value="Healthcare">
+                        Healthcare
+                    </option>
+
+                    <option value="Business">
+                        Business
+                    </option>
+
+                    <option value="Finance">
+                        Finance
+                    </option>
+
+                    <option value="Government">
+                        Government Services
+                    </option>
+
+                    <option value="Research">
+                        Research
+                    </option>
+
+                    <option value="Creative">
+                        Creative Field
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ================= LOCATION ================= -->
+
+            <div class="section">
+
+                <h2>5. College Preferences</h2>
+
+                <label for="preferredLocation">
+                    Preferred Location
+                </label>
+
+                <input type="text" id="preferredLocation" name="preferredLocation"
+                    placeholder="Example: Indore, Bhopal, Madhya Pradesh">
+
+                <label for="budgetRange">
+                    Budget Range
+                </label>
+
+                <select id="budgetRange" name="budgetRange">
+
+                    <option value="">Select Budget</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+
+                </select>
+
+
+                <label for="collegeType">
+                    Preferred College Type
+                </label>
+
+                <select id="collegeType" name="collegeType">
+
+                    <option value="">Select College Type</option>
+                    <option value="Government">Government</option>
+                    <option value="Private">Private</option>
+                    <option value="Any">Any</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ================= SUBMIT ================= -->
+
+            <button type="submit">
+                Get My Recommendations
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <script src="assessment.js"></script>
+
+</body>
+
+</html>

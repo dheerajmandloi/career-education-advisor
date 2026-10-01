@@ -134,6 +134,11 @@
             background: #eff6ff;
         }
 
+        .recommend-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
         /* =========================
            SUCCESS / ERROR
         ========================= */
@@ -327,6 +332,34 @@
         }
 
         /* =========================
+           WHY THIS COLLEGE
+        ========================= */
+
+        .college-explanation {
+            margin-top: 18px;
+            padding: 16px;
+            background: #f8fafc;
+            border-left: 4px solid #2563eb;
+            border-radius: 10px;
+        }
+
+        .college-explanation-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .college-explanation-text {
+            font-size: 13px;
+            line-height: 1.65;
+            color: #4b5563;
+        }
+
+        /* =========================
            PROFILE INFO
         ========================= */
 
@@ -407,9 +440,15 @@
                 grid-template-columns: 1fr;
             }
 
+            .college-info {
+                grid-template-columns: 1fr;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
         }
     </style>
-
 </head>
 
 
@@ -437,7 +476,6 @@
     ========================= -->
 
     <main class="container">
-
 
         <!-- PAGE HEADER -->
 
@@ -472,11 +510,11 @@
             <p>
                 Our recommendation system analyzes your
                 preferred course, college type, budget,
-                and location preferences
-                to suggest suitable colleges.
+                and location preferences to suggest
+                suitable colleges.
             </p>
 
-            <button class="recommend-btn" onclick="getCollegeRecommendations()">
+            <button class="recommend-btn" id="recommendButton" onclick="getCollegeRecommendations()">
 
                 Get My College Recommendations
 
@@ -600,7 +638,7 @@
                 </div>
 
 
-                <!-- LOCATIONS -->
+                <!-- LOCATION -->
 
                 <div class="form-group full-width">
 
@@ -660,6 +698,7 @@
             <h2>
                 Saved Profile Information
             </h2>
+
 
             <div class="profile-grid">
 
@@ -789,7 +828,6 @@
 
     <script>
 
-
         // =========================================
         // API
         // =========================================
@@ -835,8 +873,7 @@
 
             try {
 
-                const token =
-                    getToken();
+                const token = getToken();
 
 
                 if (!token) {
@@ -880,9 +917,7 @@
                     "===== SAVED STUDENT PROFILE ====="
                 );
 
-                console.log(
-                    studentProfile
-                );
+                console.log(studentProfile);
 
 
                 // =================================
@@ -964,14 +999,12 @@
 
             }
 
-
             catch (error) {
 
                 console.error(
                     "PROFILE ERROR:",
                     error
                 );
-
 
                 showError(
                     error.message
@@ -993,6 +1026,11 @@
                     "recommendations"
                 );
 
+            const button =
+                document.getElementById(
+                    "recommendButton"
+                );
+
 
             hideMessages();
 
@@ -1001,14 +1039,24 @@
 
                 <div class="loading">
 
-                    🤖 Analyzing your temporary preferences...
+                    🤖 Analyzing your preferences...
 
                 </div>
 
             `;
 
 
+            button.disabled = true;
+
+            button.textContent =
+                "Generating Recommendations...";
+
+
             try {
+
+                // =================================
+                // CHECK PROFILE
+                // =================================
 
                 if (!studentProfile) {
 
@@ -1021,6 +1069,22 @@
 
                     throw new Error(
                         "Student profile could not be loaded."
+                    );
+
+                }
+
+
+                // =================================
+                // TOKEN
+                // =================================
+
+                const token = getToken();
+
+
+                if (!token) {
+
+                    throw new Error(
+                        "JWT token not found. Please login again."
                     );
 
                 }
@@ -1079,7 +1143,10 @@
                             headers: {
 
                                 "Content-Type":
-                                    "application/json"
+                                    "application/json",
+
+                                "Authorization":
+                                    "Bearer " + token
 
                             },
 
@@ -1100,13 +1167,39 @@
 
                 if (!response.ok) {
 
-                    throw new Error(
+                    let errorMessage =
                         "College API failed. Status: "
-                        + response.status
+                        + response.status;
+
+                    try {
+
+                        const errorData =
+                            await response.json();
+
+                        console.error(
+                            "COLLEGE API ERROR:",
+                            errorData
+                        );
+
+                    }
+                    catch (e) {
+
+                        console.error(
+                            "Could not parse error response."
+                        );
+
+                    }
+
+                    throw new Error(
+                        errorMessage
                     );
 
                 }
 
+
+                // =================================
+                // RESPONSE
+                // =================================
 
                 const data =
                     await response.json();
@@ -1116,13 +1209,11 @@
                     "===== COLLEGE RESPONSE ====="
                 );
 
-                console.log(
-                    data
-                );
+                console.log(data);
 
 
                 displayRecommendations(
-                    data.recommendations
+                    data.recommendations || []
                 );
 
 
@@ -1131,7 +1222,6 @@
                 );
 
             }
-
 
             catch (error) {
 
@@ -1148,6 +1238,15 @@
                     "Unable to generate college recommendations. "
                     + error.message
                 );
+
+            }
+
+            finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Get My College Recommendations";
 
             }
 
@@ -1202,7 +1301,6 @@
             recommendations.forEach(
                 (college, index) => {
 
-
                     const card =
                         document.createElement(
                             "div"
@@ -1213,6 +1311,22 @@
                         "college-result-card";
 
 
+                    /*
+                     * Backend can send either:
+                     *
+                     * why_this_college
+                     * OR
+                     * explanation
+                     *
+                     * We support both.
+                     */
+
+                    const explanation =
+                        college.why_this_college ||
+                        college.explanation ||
+                        "This college matches your selected course and preferences.";
+
+
                     card.innerHTML = `
 
                         <span class="rank">
@@ -1221,13 +1335,17 @@
 
 
                         <h3>
-                            ${college.college_name
-                        || "College"}
+                            ${escapeHtml(
+                        college.college_name ||
+                        "College"
+                    )}
                         </h3>
 
 
                         <div class="college-info">
 
+
+                            <!-- CITY -->
 
                             <div class="info-item">
 
@@ -1236,12 +1354,16 @@
                                 </div>
 
                                 <div class="info-value">
-                                    ${college.city
-                        || "Not Available"}
+                                    ${escapeHtml(
+                        college.city ||
+                        "Not Available"
+                    )}
                                 </div>
 
                             </div>
 
+
+                            <!-- STATE -->
 
                             <div class="info-item">
 
@@ -1250,12 +1372,16 @@
                                 </div>
 
                                 <div class="info-value">
-                                    ${college.state
-                        || "Not Available"}
+                                    ${escapeHtml(
+                        college.state ||
+                        "Not Available"
+                    )}
                                 </div>
 
                             </div>
 
+
+                            <!-- COURSE -->
 
                             <div class="info-item">
 
@@ -1264,12 +1390,16 @@
                                 </div>
 
                                 <div class="info-value">
-                                    ${college.course
-                        || "Not Available"}
+                                    ${escapeHtml(
+                        college.course ||
+                        "Not Available"
+                    )}
                                 </div>
 
                             </div>
 
+
+                            <!-- COLLEGE TYPE -->
 
                             <div class="info-item">
 
@@ -1278,12 +1408,16 @@
                                 </div>
 
                                 <div class="info-value">
-                                    ${college.college_type
-                        || "Not Available"}
+                                    ${escapeHtml(
+                        college.college_type ||
+                        "Not Available"
+                    )}
                                 </div>
 
                             </div>
 
+
+                            <!-- BUDGET -->
 
                             <div class="info-item">
 
@@ -1292,8 +1426,10 @@
                                 </div>
 
                                 <div class="info-value">
-                                    ${college.budget_range
-                        || "Not Available"}
+                                    ${escapeHtml(
+                        college.budget_range ||
+                        "Not Available"
+                    )}
                                 </div>
 
                             </div>
@@ -1302,12 +1438,35 @@
                         </div>
 
 
+                        <!-- MATCH SCORE -->
+
                         <span class="score">
 
                             Match Score:
                             ${college.score ?? 0}
 
                         </span>
+
+
+                        <!-- WHY THIS COLLEGE -->
+
+                        <div class="college-explanation">
+
+                            <div class="college-explanation-title">
+
+                                💡 Why this college?
+
+                            </div>
+
+                            <div class="college-explanation-text">
+
+                                ${escapeHtml(
+                        explanation
+                    )}
+
+                            </div>
+
+                        </div>
 
                     `;
 
@@ -1318,6 +1477,30 @@
 
                 }
             );
+
+        }
+
+
+        // =========================================
+        // ESCAPE HTML
+        // =========================================
+
+        function escapeHtml(value) {
+
+            if (value === null ||
+                value === undefined) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
 
         }
 
@@ -1398,7 +1581,6 @@
 
             }
         );
-
 
     </script>
 

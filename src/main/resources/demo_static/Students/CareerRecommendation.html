@@ -222,10 +222,31 @@
             margin-top: 30px;
         }
 
-        .profile-section h2 {
-            font-size: 22px;
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 22px;
+        }
+
+        .profile-header h2 {
+            font-size: 22px;
             color: #111827;
+        }
+
+        .edit-toggle-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .edit-toggle-btn:hover {
+            background: #1d4ed8;
         }
 
         .profile-grid {
@@ -251,6 +272,84 @@
             font-size: 16px;
             font-weight: 600;
             color: #111827;
+        }
+
+        /* Edit Form Styles */
+
+        .edit-form-container {
+            margin-top: 20px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 20px;
+            display: none;
+        }
+
+        .edit-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .edit-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .edit-field label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .edit-field input {
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .edit-field input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        .edit-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .apply-btn {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .apply-btn:hover {
+            background: #047857;
+        }
+
+        .reset-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .reset-btn:hover {
+            background: #4b5563;
         }
 
         /* Info */
@@ -326,7 +425,8 @@
                 padding: 30px 20px;
             }
 
-            .profile-grid {
+            .profile-grid,
+            .edit-form-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -436,9 +536,10 @@
 
         <section class="profile-section">
 
-            <h2>
-                Your Career Profile
-            </h2>
+            <div class="profile-header">
+                <h2>Your Career Profile</h2>
+                <button class="edit-toggle-btn" onclick="toggleEditForm()">Edit Details</button>
+            </div>
 
 
             <div class="profile-grid">
@@ -533,7 +634,60 @@
 
                 </div>
 
+                <div class="profile-item" id="streamContainer" style="display: none;">
 
+                    <div class="profile-label">
+                        Stream
+                    </div>
+
+                    <div class="profile-value" id="stream">
+
+                        Loading...
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <!-- Inline Edit Form -->
+            <div class="edit-form-container" id="editFormContainer">
+                <div class="edit-form-grid">
+                    <div class="edit-field">
+                        <label for="inputCareerInterest">Career Interest</label>
+                        <input type="text" id="inputCareerInterest">
+                    </div>
+                    <div class="edit-field">
+                        <label for="inputTargetCareer">Target Career</label>
+                        <input type="text" id="inputTargetCareer">
+                    </div>
+                    <div class="edit-field">
+                        <label for="inputInterests">Interests</label>
+                        <input type="text" id="inputInterests">
+                    </div>
+                    <div class="edit-field">
+                        <label for="inputSkills">Skills</label>
+                        <input type="text" id="inputSkills">
+                    </div>
+                    <div class="edit-field">
+                        <label for="inputStrongSubjects">Strong Subjects</label>
+                        <input type="text" id="inputStrongSubjects">
+                    </div>
+                    <div class="edit-field">
+                        <label for="inputPreferredCourse">Preferred Course</label>
+                        <input type="text" id="inputPreferredCourse">
+                    </div>
+                    <div class="edit-field" id="inputStreamField" style="display: none;">
+                        <label for="inputStream">Stream</label>
+                        <input type="text" id="inputStream">
+                    </div>
+                </div>
+                <div class="edit-actions">
+                    <button class="apply-btn" onclick="applyAndGetRecommendations()">Apply & Get
+                        Recommendations</button>
+                    <button class="reset-btn" onclick="resetToSavedProfile()">Reset to Saved Profile</button>
+                </div>
             </div>
 
 
@@ -747,49 +901,9 @@
                 );
 
 
-                // Display Profile
-
-                document.getElementById(
-                    "careerInterest"
-                ).textContent =
-                    studentProfile.careerInterest
-                    || "Not Available";
-
-
-                document.getElementById(
-                    "targetCareer"
-                ).textContent =
-                    studentProfile.targetCareer
-                    || "Not Available";
-
-
-                document.getElementById(
-                    "interests"
-                ).textContent =
-                    studentProfile.interests
-                    || "Not Available";
-
-
-                document.getElementById(
-                    "skills"
-                ).textContent =
-                    studentProfile.skills
-                    || "Not Available";
-
-
-                document.getElementById(
-                    "strongSubjects"
-                ).textContent =
-                    studentProfile.strongSubjects
-                    || "Not Available";
-
-
-                document.getElementById(
-                    "preferredCourse"
-                ).textContent =
-                    studentProfile.preferredCourse
-                    || "Not Available";
-
+                // Display Profile & Populate Form Inputs
+                renderProfileDisplay(studentProfile);
+                populateEditInputs(studentProfile);
 
             }
 
@@ -846,11 +960,113 @@
         }
 
 
+        // Helper to render profile in UI
+        function renderProfileDisplay(profile) {
+            document.getElementById("careerInterest").textContent = profile.careerInterest || "Not Available";
+            document.getElementById("targetCareer").textContent = profile.targetCareer || "Not Available";
+            document.getElementById("interests").textContent = profile.interests || "Not Available";
+            document.getElementById("skills").textContent = profile.skills || "Not Available";
+            document.getElementById("strongSubjects").textContent = profile.strongSubjects || "Not Available";
+            document.getElementById("preferredCourse").textContent = profile.preferredCourse || "Not Available";
+
+            if (profile.hasOwnProperty("stream")) {
+                document.getElementById("streamContainer").style.display = "block";
+                document.getElementById("stream").textContent = profile.stream || "Not Available";
+            } else {
+                document.getElementById("streamContainer").style.display = "none";
+            }
+        }
+
+        // Helper to populate input fields
+        function populateEditInputs(profile) {
+            document.getElementById("inputCareerInterest").value = profile.careerInterest || "";
+            document.getElementById("inputTargetCareer").value = profile.targetCareer || "";
+            document.getElementById("inputInterests").value = profile.interests || "";
+            document.getElementById("inputSkills").value = profile.skills || "";
+            document.getElementById("inputStrongSubjects").value = profile.strongSubjects || "";
+            document.getElementById("inputPreferredCourse").value = profile.preferredCourse || "";
+
+            if (profile.hasOwnProperty("stream")) {
+                document.getElementById("inputStreamField").style.display = "flex";
+                document.getElementById("inputStream").value = profile.stream || "";
+            } else {
+                document.getElementById("inputStreamField").style.display = "none";
+            }
+        }
+
+        // Toggle Edit Form Visibility
+        function toggleEditForm() {
+            const form = document.getElementById("editFormContainer");
+            if (form.style.display === "block") {
+                form.style.display = "none";
+            } else {
+                form.style.display = "block";
+            }
+        }
+
+
         // =========================================
-        // CAREER RECOMMENDATIONS
+        // CAREER RECOMMENDATIONS (DEFAULT)
         // =========================================
 
         async function loadCareerRecommendations() {
+            if (!studentProfile) {
+                await loadStudentProfile();
+            }
+            if (studentProfile) {
+                fetchRecommendationsPayload(studentProfile);
+            }
+        }
+
+
+        // =========================================
+        // APPLY & GET RECOMMENDATIONS (TEMP PROFILE COPY)
+        // =========================================
+
+        async function applyAndGetRecommendations() {
+            if (!studentProfile) {
+                showError("Saved profile is not loaded yet.");
+                return;
+            }
+
+            // Create temporary copy of saved studentProfile
+            const tempProfile = JSON.parse(JSON.stringify(studentProfile));
+
+            // Override with user edited values
+            tempProfile.careerInterest = document.getElementById("inputCareerInterest").value;
+            tempProfile.targetCareer = document.getElementById("inputTargetCareer").value;
+            tempProfile.interests = document.getElementById("inputInterests").value;
+            tempProfile.skills = document.getElementById("inputSkills").value;
+            tempProfile.strongSubjects = document.getElementById("inputStrongSubjects").value;
+            tempProfile.preferredCourse = document.getElementById("inputPreferredCourse").value;
+
+            if (tempProfile.hasOwnProperty("stream")) {
+                tempProfile.stream = document.getElementById("inputStream").value;
+            }
+
+            // Update UI displays temporarily (Without modifying studentProfile object or calling save/update API)
+            renderProfileDisplay(tempProfile);
+
+            // Fetch recommendations using edited temporary payload
+            fetchRecommendationsPayload(tempProfile);
+        }
+
+
+        // =========================================
+        // RESET TO SAVED PROFILE
+        // =========================================
+
+        function resetToSavedProfile() {
+            if (!studentProfile) return;
+
+            // Re-populate inputs & display with original saved profile
+            populateEditInputs(studentProfile);
+            renderProfileDisplay(studentProfile);
+        }
+
+
+        // Shared function to fetch recommendations from CAREER_API
+        async function fetchRecommendationsPayload(payloadObject) {
 
             const container =
                 document.getElementById(
@@ -881,30 +1097,12 @@
 
             try {
 
-                // Make sure profile is available
-
-                if (!studentProfile) {
-
-                    await loadStudentProfile();
-
-                }
-
-
-                if (!studentProfile) {
-
-                    throw new Error(
-                        "Student profile could not be loaded."
-                    );
-
-                }
-
-
                 console.log(
                     "===== CAREER REQUEST ====="
                 );
 
                 console.log(
-                    studentProfile
+                    payloadObject
                 );
 
 
@@ -923,7 +1121,7 @@
 
                             body:
                                 JSON.stringify(
-                                    studentProfile
+                                    payloadObject
                                 )
 
                         }

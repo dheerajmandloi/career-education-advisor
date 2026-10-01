@@ -95,7 +95,6 @@ public class UserService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Check encrypted password
         if (!passwordEncoder.matches(
                 request.getPassword(),
                 user.getPassword())) {
