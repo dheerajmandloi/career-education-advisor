@@ -1,0 +1,2690 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CareerAdvisor student career assessment">
+    <title>Career Assessment | CareerAdvisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        :root {
+            --purple: #8B5CF6;
+            --purple-dark: #7C3AED;
+            --blue: #3B82F6;
+            --cyan: #06B6D4;
+            --green: #22C55E;
+            --red: #EF4444;
+            --amber: #F59E0B;
+            --bg: #FAFAFE;
+            --surface: #FFFFFF;
+            --surface-soft: #F7F5FF;
+            --surface-blue: #F6F9FF;
+            --text: #182238;
+            --text-soft: #4F5A70;
+            --muted: #7B8496;
+            --border: #E5E1F1;
+            --border-soft: #EEEAF7;
+            --gradient: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+            --gradient-soft: linear-gradient(135deg, #FBF9FF 0%, #F6FAFF 100%);
+            --shadow: 0 18px 48px rgba(76, 57, 145, .08);
+            --shadow-hover: 0 22px 48px rgba(76, 57, 145, .12);
+            --nav-height: 78px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            font-family: "Space Grotesk", sans-serif;
+            color: var(--text);
+            background: radial-gradient(circle at 10% 4%, rgba(139, 92, 246, .11), transparent 24%), radial-gradient(circle at 92% 72%, rgba(59, 130, 246, .09), transparent 26%), var(--bg);
+            overflow-x: hidden
+        }
+
+        body::-webkit-scrollbar {
+            width: 7px
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #F4F2FA
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #D4CCEA;
+            border-radius: 999px
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit
+        }
+
+        button {
+            border: 0
+        }
+
+        .page-shell {
+            min-height: 100vh;
+            position: relative
+        }
+
+        .page-shell::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            pointer-events: none;
+            background-image: linear-gradient(rgba(139, 92, 246, .028) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, .028) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .72), transparent 95%)
+        }
+
+        .ambient {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none
+        }
+
+        .ambient::before,
+        .ambient::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(26px);
+            animation: floatAmbient 12s ease-in-out infinite alternate
+        }
+
+        .ambient::before {
+            width: 460px;
+            height: 460px;
+            left: -220px;
+            top: 80px;
+            background: radial-gradient(circle, rgba(139, 92, 246, .13), transparent 70%)
+        }
+
+        .ambient::after {
+            width: 520px;
+            height: 520px;
+            right: -250px;
+            bottom: -220px;
+            background: radial-gradient(circle, rgba(59, 130, 246, .12), transparent 70%);
+            animation-delay: 1.2s
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: var(--nav-height);
+            display: grid;
+            grid-template-columns: minmax(260px, 1fr) auto minmax(260px, 1fr);
+            align-items: center;
+            gap: 24px;
+            padding: 0 28px;
+            background: rgba(255, 255, 255, .94);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 28px rgba(76, 57, 145, .05)
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            justify-self: start
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 12px 26px rgba(99, 102, 241, .20);
+            animation: softFloat 4s ease-in-out infinite
+        }
+
+        .brand-mark i {
+            font-size: 18px
+        }
+
+        .brand-name {
+            font-size: 21px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -.6px
+        }
+
+        .brand-name span {
+            color: var(--purple)
+        }
+
+        .brand-sub {
+            margin-top: 5px;
+            color: #939AAA;
+            font-size: 10px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: .75px
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 5px
+        }
+
+        .nav-link,
+        .nav-trigger {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 0 15px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            background: transparent;
+            color: #606A7D;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .22s ease
+        }
+
+        .nav-link:hover,
+        .nav-link.active,
+        .nav-trigger:hover,
+        .nav-item.open .nav-trigger {
+            color: var(--purple-dark);
+            background: #F6F2FF;
+            border-color: #E9E3F7
+        }
+
+        .nav-trigger i {
+            font-size: 10px;
+            color: #9199AA;
+            transition: transform .2s ease
+        }
+
+        .nav-item.open .nav-trigger i {
+            transform: rotate(180deg);
+            color: var(--purple)
+        }
+
+        .nav-item {
+            position: relative
+        }
+
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 11px);
+            left: 0;
+            width: 240px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 22px 52px rgba(76, 57, 145, .14);
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: .2s ease
+        }
+
+        .nav-item.open .dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0)
+        }
+
+        .dropdown-title {
+            padding: 8px 10px 9px;
+            color: #9AA2B1;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.1px;
+            text-transform: uppercase
+        }
+
+        .dropdown-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            transition: .18s ease
+        }
+
+        .dropdown-link i {
+            width: 18px;
+            color: #8D96A7;
+            text-align: center
+        }
+
+        .dropdown-link:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF
+        }
+
+        .dropdown-link:hover i {
+            color: var(--purple)
+        }
+
+        .account-area {
+            display: flex;
+            align-items: center;
+            justify-self: end;
+            gap: 9px
+        }
+
+        .icon-btn {
+            position: relative;
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #697488;
+            background: #fff;
+            cursor: pointer;
+            transition: .2s ease
+        }
+
+        .icon-btn:hover {
+            color: var(--purple-dark);
+            background: #F8F6FF;
+            border-color: #DCD5ED;
+            transform: translateY(-1px)
+        }
+
+        .notification-dot {
+            position: absolute;
+            right: 8px;
+            top: 7px;
+            width: 7px;
+            height: 7px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: var(--red)
+        }
+
+        .account {
+            position: relative
+        }
+
+        .account-trigger {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 8px 5px 5px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            background: transparent;
+            cursor: pointer;
+            transition: .2s ease
+        }
+
+        .account-trigger:hover,
+        .account.open .account-trigger {
+            background: #F8F7FC;
+            border-color: var(--border)
+        }
+
+        .account-avatar {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--purple-dark);
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            font-size: 12px;
+            font-weight: 800
+        }
+
+        .account-copy {
+            min-width: 105px;
+            text-align: left
+        }
+
+        .account-name {
+            display: block;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700
+        }
+
+        .account-role {
+            display: block;
+            margin-top: 3px;
+            color: #939AAA;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .35px
+        }
+
+        .account-arrow {
+            color: #9AA2B0;
+            font-size: 9px;
+            transition: .2s ease
+        }
+
+        .account.open .account-arrow {
+            transform: rotate(180deg);
+            color: var(--purple)
+        }
+
+        .account-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 205px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-7px);
+            transition: .2s ease
+        }
+
+        .account.open .account-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0)
+        }
+
+        .account-menu a,
+        .account-menu button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
+            background: transparent;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            text-align: left;
+            cursor: pointer
+        }
+
+        .account-menu a:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF
+        }
+
+        .account-menu .logout {
+            margin-top: 3px;
+            color: #C53030
+        }
+
+        .account-menu .logout:hover {
+            background: #FFF4F2
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #697488;
+            background: #fff;
+            cursor: pointer
+        }
+
+        .mobile-nav {
+            display: none
+        }
+
+        .content {
+            width: min(1180px, calc(100% - 48px));
+            margin: 0 auto;
+            padding: 26px 0 50px
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            color: #969EAE;
+            font-size: 11px;
+            font-weight: 600
+        }
+
+        .breadcrumb strong {
+            color: var(--text)
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 30px;
+            border: 1px solid rgba(139, 92, 246, .16);
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .97), rgba(249, 247, 255, .96));
+            box-shadow: var(--shadow);
+            animation: fadeUp .55s ease both
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            top: -250px;
+            right: -130px;
+            border: 1px solid rgba(139, 92, 246, .09);
+            border-radius: 50%;
+            box-shadow: 0 0 0 34px rgba(139, 92, 246, .02), 0 0 0 76px rgba(139, 92, 246, .012)
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 1.55fr) minmax(300px, .75fr);
+            gap: 30px;
+            align-items: center
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 11px;
+            border: 1px solid #E7E0FA;
+            border-radius: 999px;
+            color: var(--purple-dark);
+            background: #FAF8FF;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .75px;
+            text-transform: uppercase
+        }
+
+        .hero h1 {
+            margin-top: 15px;
+            max-width: 800px;
+            font-size: clamp(31px, 3vw, 44px);
+            line-height: 1.08;
+            letter-spacing: -1.2px
+        }
+
+        .hero h1 span {
+            color: transparent;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text
+        }
+
+        .hero p {
+            max-width: 760px;
+            margin-top: 12px;
+            color: var(--text-soft);
+            font-size: 14px;
+            line-height: 1.75
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 18px
+        }
+
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800
+        }
+
+        .meta-pill.purple {
+            color: var(--purple-dark);
+            background: #F0ECFF
+        }
+
+        .meta-pill.blue {
+            color: #2563EB;
+            background: #EAF3FF
+        }
+
+        .assessment-progress {
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            background: rgba(255, 255, 255, .82);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px)
+        }
+
+        .progress-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        .progress-kicker {
+            color: #7A8497;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .7px;
+            text-transform: uppercase
+        }
+
+        .progress-copy {
+            max-width: 210px;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 11.5px;
+            line-height: 1.5
+        }
+
+        .progress-value {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -.7px;
+            color: var(--purple-dark)
+        }
+
+        .progress-track {
+            height: 9px;
+            margin-top: 17px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #EDEAF6
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--purple), var(--blue), var(--cyan));
+            transition: width .45s ease
+        }
+
+        .progress-note {
+            margin-top: 9px;
+            color: #8B93A2;
+            font-size: 10.5px;
+            line-height: 1.5
+        }
+
+        .section {
+            margin-top: 20px
+        }
+
+        .section-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 21px;
+            background: rgba(255, 255, 255, .97);
+            box-shadow: var(--shadow);
+            animation: fadeUp .65s ease both
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 20px 23px;
+            border-bottom: 1px solid #EFEBF6
+        }
+
+        .section-icon {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border-radius: 12px;
+            background: #F0ECFF;
+            color: var(--purple-dark)
+        }
+
+        .section-head h2 {
+            font-size: 17px;
+            letter-spacing: -.25px
+        }
+
+        .section-head p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.5
+        }
+
+        .section-body {
+            padding: 23px
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px
+        }
+
+        .field.full {
+            grid-column: 1/-1
+        }
+
+        .field-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 8px;
+            color: #4E5870;
+            font-size: 11px;
+            font-weight: 800
+        }
+
+        .required {
+            color: var(--red)
+        }
+
+        .field-help {
+            margin-top: 6px;
+            color: #929AAA;
+            font-size: 10px;
+            line-height: 1.45
+        }
+
+        select,
+        input[type=text] {
+            width: 100%;
+            height: 44px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: var(--surface-soft);
+            color: var(--text);
+            padding: 0 13px;
+            font-size: 12px;
+            transition: .2s ease
+        }
+
+        select:focus,
+        input[type=text]:focus {
+            background: #fff;
+            border-color: rgba(139, 92, 246, .35);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, .07)
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px
+        }
+
+        .option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-height: 46px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #FCFBFF;
+            color: #58647A;
+            font-size: 11px;
+            font-weight: 650;
+            cursor: pointer;
+            transition: .18s ease
+        }
+
+        .option:hover {
+            border-color: #D9D0EE;
+            background: #FAF8FF;
+            transform: translateY(-1px)
+        }
+
+        .option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none
+        }
+
+        .option-mark {
+            width: 18px;
+            height: 18px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border: 1.5px solid #C7C0D9;
+            border-radius: 6px;
+            background: #fff;
+            color: #fff;
+            font-size: 9px;
+            transition: .18s ease
+        }
+
+        .option.selected {
+            border-color: #CFC1F2;
+            background: #F8F4FF;
+            color: var(--purple-dark);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, .07)
+        }
+
+        .option.selected .option-mark {
+            border-color: var(--purple);
+            background: var(--purple);
+            transform: scale(1.02)
+        }
+
+        .section-note {
+            margin-top: 16px;
+            padding: 12px 14px;
+            border: 1px solid rgba(59, 130, 246, .12);
+            border-radius: 12px;
+            background: #F3F7FF;
+            color: #49618A;
+            font-size: 10px;
+            line-height: 1.55
+        }
+
+        .form-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            margin-top: 20px;
+            padding: 16px;
+            border: 1px solid rgba(99, 71, 246, .16);
+            border-radius: 17px;
+            background: rgba(255, 255, 255, .88);
+            box-shadow: 0 16px 40px rgba(76, 57, 145, .10);
+            backdrop-filter: blur(16px);
+            position: sticky;
+            bottom: 13px;
+            z-index: 20
+        }
+
+        .footer-copy strong {
+            display: block;
+            font-size: 13px
+        }
+
+        .footer-copy span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10.5px
+        }
+
+        .footer-actions {
+            display: flex;
+            gap: 9px;
+            flex: none
+        }
+
+        .btn {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 15px;
+            border-radius: 11px;
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .22s ease
+        }
+
+        .btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .btn-soft {
+            color: #5E6880;
+            background: #F8F7FC;
+            border: 1px solid var(--border)
+        }
+
+        .btn-soft:hover {
+            color: var(--purple-dark);
+            background: #F5F1FF
+        }
+
+        .btn-primary {
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 11px 24px rgba(99, 102, 241, .21)
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 15px 30px rgba(99, 102, 241, .25)
+        }
+
+        .btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none
+        }
+
+        .results {
+            display: none;
+            margin-top: 20px;
+            padding: 22px;
+            border: 1px solid #E5DDF3;
+            border-radius: 19px;
+            background: var(--gradient-soft);
+            box-shadow: 0 12px 30px rgba(76, 57, 145, .06)
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeUp .45s ease both
+        }
+
+        .results-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px
+        }
+
+        .results-title {
+            font-size: 18px;
+            font-weight: 800
+        }
+
+        .results-sub {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 16px
+        }
+
+        .result-card {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 10px 24px rgba(76, 57, 145, .05)
+        }
+
+        .result-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px
+        }
+
+        .result-icon {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: #F0ECFF;
+            color: var(--purple-dark)
+        }
+
+        .result-card:nth-child(2) .result-icon {
+            background: #EAF3FF;
+            color: #2563EB
+        }
+
+        .result-card:nth-child(3) .result-icon {
+            background: #E8FBF4;
+            color: #15844F
+        }
+
+        .result-label {
+            color: #9199A8;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .8px
+        }
+
+        .result-main {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.4
+        }
+
+        .result-note {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.45
+        }
+
+        .result-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            color: var(--purple-dark);
+            font-size: 10px;
+            font-weight: 800
+        }
+
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: none;
+            place-items: center;
+            background: rgba(18, 21, 38, .12);
+            backdrop-filter: blur(7px)
+        }
+
+        .loading-overlay.show {
+            display: grid
+        }
+
+        .loading-card {
+            min-width: 270px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 25px 70px rgba(76, 57, 145, .18)
+        }
+
+        .spinner {
+            width: 35px;
+            height: 35px;
+            margin: 0 auto 12px;
+            border: 3px solid #ECEAF5;
+            border-top-color: var(--purple);
+            border-right-color: var(--blue);
+            border-radius: 50%;
+            animation: spin .8s linear infinite
+        }
+
+        .loading-card p {
+            color: #596173;
+            font-size: 12px;
+            font-weight: 650
+        }
+
+        .toast {
+            position: fixed;
+            top: 94px;
+            right: 24px;
+            z-index: 210;
+            width: min(410px, calc(100vw - 36px));
+            display: flex;
+            gap: 11px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 20px 52px rgba(15, 23, 42, .14);
+            opacity: 0;
+            transform: translateX(120%);
+            transition: .3s ease
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0)
+        }
+
+        .toast-icon {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border-radius: 9px;
+            color: var(--purple-dark);
+            background: rgba(139, 92, 246, .09)
+        }
+
+        .toast.success .toast-icon {
+            color: var(--green);
+            background: rgba(34, 197, 94, .09)
+        }
+
+        .toast.error .toast-icon {
+            color: var(--red);
+            background: rgba(239, 68, 68, .08)
+        }
+
+        .toast strong {
+            display: block;
+            font-size: 12px
+        }
+
+        .toast p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10.5px;
+            line-height: 1.5
+        }
+
+        .mobile-nav {
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            top: calc(100% + 9px);
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+            backdrop-filter: blur(18px)
+        }
+
+        .mobile-group {
+            border: 1px solid #F0EEF7;
+            border-radius: 13px;
+            background: #FCFBFF;
+            overflow: hidden
+        }
+
+        .mobile-group+.mobile-group {
+            margin-top: 8px
+        }
+
+        .mobile-group-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px;
+            color: #566071;
+            font-size: 12px;
+            font-weight: 750
+        }
+
+        .mobile-links {
+            display: grid;
+            gap: 2px;
+            padding: 0 6px 6px
+        }
+
+        .mobile-links a {
+            padding: 9px;
+            border-radius: 9px;
+            color: #687286;
+            font-size: 11px;
+            font-weight: 650
+        }
+
+        .mobile-links a:hover,
+        .mobile-links a.active {
+            color: var(--purple-dark);
+            background: #F6F2FF
+        }
+
+        @media (max-width:1280px) {
+            .navbar {
+                grid-template-columns: minmax(210px, 1fr) auto minmax(230px, 1fr);
+                gap: 14px;
+                padding: 0 20px
+            }
+
+            .nav-link,
+            .nav-trigger {
+                padding: 0 12px;
+                font-size: 14px
+            }
+        }
+
+        @media (max-width:1050px) {
+            .navbar {
+                grid-template-columns: 1fr auto
+            }
+
+            .nav-wrap {
+                display: none
+            }
+
+            .mobile-menu {
+                display: grid;
+                place-items: center
+            }
+
+            .account-copy {
+                display: none
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        @media (max-width:760px) {
+            .navbar {
+                min-height: 70px;
+                padding: 0 14px
+            }
+
+            .brand-name {
+                font-size: 18px
+            }
+
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px
+            }
+
+            .brand-sub {
+                display: none
+            }
+
+            .account-area {
+                gap: 6px
+            }
+
+            .icon-btn,
+            .mobile-menu {
+                width: 39px;
+                height: 39px
+            }
+
+            .account-avatar {
+                width: 36px;
+                height: 36px
+            }
+
+            .content {
+                width: calc(100% - 28px);
+                padding-top: 20px;
+                padding-bottom: 32px
+            }
+
+            .hero {
+                padding: 22px;
+                border-radius: 20px
+            }
+
+            .hero h1 {
+                font-size: 31px
+            }
+
+            .hero p {
+                font-size: 13px
+            }
+
+            .field-grid {
+                grid-template-columns: 1fr
+            }
+
+            .field.full {
+                grid-column: auto
+            }
+
+            .options {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .section-body {
+                padding: 18px
+            }
+
+            .section-head {
+                padding: 18px
+            }
+
+            .form-footer {
+                align-items: stretch;
+                flex-direction: column;
+                bottom: 10px
+            }
+
+            .footer-actions {
+                width: 100%
+            }
+
+            .footer-actions .btn {
+                flex: 1
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr
+            }
+
+            .results-head {
+                align-items: flex-start;
+                flex-direction: column
+            }
+
+            .mobile-nav {
+                display: none
+            }
+
+            .mobile-nav.show {
+                display: block;
+                animation: fadeUp .22s ease both
+            }
+        }
+
+        @media (max-width:520px) {
+            .hero {
+                padding: 19px
+            }
+
+            .options {
+                grid-template-columns: 1fr
+            }
+
+            .footer-actions {
+                flex-direction: column
+            }
+
+            .footer-actions .btn {
+                width: 100%
+            }
+
+            .toast {
+                left: 14px;
+                right: 14px;
+                top: 82px;
+                width: auto
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes softFloat {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-3px)
+            }
+        }
+
+        @keyframes floatAmbient {
+            from {
+                transform: translate3d(0, 0, 0) scale(1)
+            }
+
+            to {
+                transform: translate3d(24px, 16px, 0) scale(1.06)
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-shell">
+        <div class="ambient"></div>
+        <header class="navbar">
+            <div class="brand">
+                <div class="brand-mark"><i class="fa-solid fa-compass"></i></div>
+                <div>
+                    <div class="brand-name">Career<span>Advisor</span></div>
+                    <div class="brand-sub">STUDENT PORTAL</div>
+                </div>
+            </div>
+            <nav class="nav-wrap" aria-label="Student navigation">
+                <div class="nav">
+                    <a class="nav-link" href="student-dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="student-profile.html">Profile</a>
+                    <a class="nav-link active" href="student-assessment.html">Assessment</a>
+                    <div class="nav-item">
+                        <button class="nav-trigger" type="button" aria-expanded="false">Explore <i
+                                class="fa-solid fa-chevron-down"></i></button>
+                        <div class="dropdown">
+                            <div class="dropdown-title">Explore</div>
+                            <a class="dropdown-link" href="student-careers.html"><i
+                                    class="fa-solid fa-briefcase"></i>Careers</a>
+                            <a class="dropdown-link" href="student-courses.html"><i
+                                    class="fa-solid fa-book-open"></i>Courses</a>
+                            <a class="dropdown-link" href="student-colleges.html"><i
+                                    class="fa-solid fa-building-columns"></i>Colleges</a>
+                            <a class="dropdown-link" href="student-skill-gap.html"><i
+                                    class="fa-solid fa-chart-simple"></i>Skill Gap</a>
+                            <a class="dropdown-link" href="student-career-roadmap.html"><i
+                                    class="fa-solid fa-route"></i>Career Roadmap</a>
+                        </div>
+                    </div>
+                    <div class="nav-item">
+                        <button class="nav-trigger" type="button" aria-expanded="false">Resources <i
+                                class="fa-solid fa-chevron-down"></i></button>
+                        <div class="dropdown">
+                            <div class="dropdown-title">Resources</div>
+                            <a class="dropdown-link" href="scholarships.html"><i
+                                    class="fa-solid fa-award"></i>Scholarships</a>
+                            <a class="dropdown-link" href="entrance-exams.html"><i
+                                    class="fa-solid fa-file-signature"></i>Entrance Exams</a>
+                            <a class="dropdown-link" href="learning-resources.html"><i
+                                    class="fa-solid fa-laptop-code"></i>Learning Resources</a>
+                            <a class="dropdown-link" href="application-tracker.html"><i
+                                    class="fa-solid fa-list-check"></i>Application Tracker</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="account-area">
+                <button class="icon-btn" id="notificationBtn" type="button" aria-label="Notifications"><i
+                        class="fa-regular fa-bell"></i><span class="notification-dot"></span></button>
+                <div class="account">
+                    <button class="account-trigger" id="accountTrigger" type="button" aria-expanded="false">
+                        <span class="account-avatar" id="accountAvatar">S</span>
+                        <span class="account-copy"><span class="account-name" id="accountName">Student</span><span
+                                class="account-role">STUDENT</span></span>
+                        <i class="fa-solid fa-chevron-down account-arrow"></i>
+                    </button>
+                    <div class="account-menu">
+                        <a href="student-profile.html"><i class="fa-regular fa-user"></i>My Profile</a>
+                        <button class="logout" id="logoutBtn" type="button"><i
+                                class="fa-solid fa-arrow-right-from-bracket"></i>Logout</button>
+                    </div>
+                </div>
+                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-expanded="false"
+                    aria-label="Open navigation"><i class="fa-solid fa-bars"></i></button>
+            </div>
+            <div class="mobile-nav" id="mobileNav">
+                <div class="mobile-group">
+                    <div class="mobile-group-title">Student <i class="fa-solid fa-user-graduate"></i></div>
+                    <div class="mobile-links"><a href="student-dashboard.html">Dashboard</a><a
+                            href="student-profile.html">Profile</a><a class="active"
+                            href="student-assessment.html">Assessment</a></div>
+                </div>
+                <div class="mobile-group">
+                    <div class="mobile-group-title">Explore <i class="fa-solid fa-compass"></i></div>
+                    <div class="mobile-links"><a href="student-careers.html">Careers</a><a
+                            href="student-courses.html">Courses</a><a href="student-colleges.html">Colleges</a><a
+                            href="student-skill-gap.html">Skill Gap</a><a href="student-career-roadmap.html">Career
+                            Roadmap</a></div>
+                </div>
+                <div class="mobile-group">
+                    <div class="mobile-group-title">Resources <i class="fa-solid fa-book-open"></i></div>
+                    <div class="mobile-links"><a href="scholarships.html">Scholarships</a><a
+                            href="entrance-exams.html">Entrance Exams</a><a href="learning-resources.html">Learning
+                            Resources</a><a href="application-tracker.html">Application Tracker</a></div>
+                </div>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="breadcrumb"><span>Student Portal</span><i
+                    class="fa-solid fa-chevron-right"></i><strong>Assessment</strong></div>
+
+            <section class="hero">
+                <div class="hero-grid">
+                    <div>
+                        <div class="eyebrow"><i class="fa-solid fa-clipboard-check"></i>Career assessment</div>
+                        <h1>Discover your <span>career direction.</span></h1>
+                        <p>Answer a focused set of questions about your academics, interests, skills and preferences.
+                            Your responses are saved to your student profile and used by the recommendation engine to
+                            generate personalized career, course and college results.</p>
+                        <div class="hero-meta"><span class="meta-pill purple"><i class="fa-solid fa-database"></i>Saved
+                                to your profile</span><span class="meta-pill blue"><i
+                                    class="fa-solid fa-wand-magic-sparkles"></i>Used for recommendations</span></div>
+                    </div>
+                    <div class="assessment-progress">
+                        <div class="progress-head">
+                            <div>
+                                <div class="progress-kicker">Assessment progress</div>
+                                <div class="progress-copy">Complete each section to unlock more relevant
+                                    recommendations.</div>
+                            </div><strong class="progress-value" id="progressValue">0%</strong>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <div class="progress-note" id="progressNote">Start with your academic background.</div>
+                    </div>
+                </div>
+            </section>
+
+            <form id="assessmentForm" novalidate>
+                <section class="section section-card">
+                    <div class="section-head">
+                        <div class="section-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <div>
+                            <h2>1. Academic Background</h2>
+                            <p>Tell us about your stream and the subjects you feel most confident in.</p>
+                        </div>
+                    </div>
+                    <div class="section-body">
+                        <div class="field-grid">
+                            <div class="field full">
+                                <label class="field-label" for="stream">Your Stream <span
+                                        class="required">*</span></label>
+                                <select id="stream" name="stream" required>
+                                    <option value="">Select Stream</option>
+                                    <option value="Science">Science</option>
+                                    <option value="Commerce">Commerce</option>
+                                    <option value="Arts">Arts</option>
+                                </select>
+                            </div>
+                            <div class="field full">
+                                <div class="field-label">Strong Subjects <span class="required">*</span></div>
+                                <div class="options" id="strongSubjectsOptions">
+                                    <label class="option"><input type="checkbox" name="strongSubjects"
+                                            value="Mathematics"><span class="option-mark"><i
+                                                class="fa-solid fa-check"></i></span>Mathematics</label>
+                                    <label class="option"><input type="checkbox" name="strongSubjects"
+                                            value="Physics"><span class="option-mark"><i
+                                                class="fa-solid fa-check"></i></span>Physics</label>
+                                    <label class="option"><input type="checkbox" name="strongSubjects"
+                                            value="Chemistry"><span class="option-mark"><i
+                                                class="fa-solid fa-check"></i></span>Chemistry</label>
+                                    <label class="option"><input type="checkbox" name="strongSubjects"
+                                            value="Biology"><span class="option-mark"><i
+                                                class="fa-solid fa-check"></i></span>Biology</label>
+                                    <label class="option"><input type="checkbox" name="strongSubjects"
+                                            value="Economics"><span class="option-mark"><i
+                                                class="fa-solid fa-check"></i></span>Economics</label>
+                                    <label class="option"><input type="checkbox" name="strongSubjects"
+                                            value="Accountancy"><span class="option-mark"><i
+                                                class="fa-solid fa-check"></i></span>Accountancy</label>
+                                </div>
+                                <p class="field-help">Select the subjects you are strongest in. Choose at least one.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section section-card">
+                    <div class="section-head">
+                        <div class="section-icon" style="background:#EAF3FF;color:#2563EB;"><i
+                                class="fa-solid fa-heart"></i></div>
+                        <div>
+                            <h2>2. Your Interests</h2>
+                            <p>Select the areas you naturally enjoy exploring or learning about.</p>
+                        </div>
+                    </div>
+                    <div class="section-body">
+                        <div class="options" id="interestsOptions">
+                            <label class="option"><input type="checkbox" name="interests" value="Programming"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Programming</label>
+                            <label class="option"><input type="checkbox" name="interests" value="Technology"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Technology</label>
+                            <label class="option"><input type="checkbox" name="interests" value="AI"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Artificial
+                                Intelligence</label>
+                            <label class="option"><input type="checkbox" name="interests" value="Business"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Business</label>
+                            <label class="option"><input type="checkbox" name="interests" value="Finance"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Finance</label>
+                            <label class="option"><input type="checkbox" name="interests" value="Healthcare"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Healthcare</label>
+                            <label class="option"><input type="checkbox" name="interests" value="Design"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Design</label>
+                            <label class="option"><input type="checkbox" name="interests" value="Law"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Law</label>
+                        </div>
+                        <p class="field-help">Choose one or more interests.</p>
+                    </div>
+                </section>
+
+                <section class="section section-card">
+                    <div class="section-head">
+                        <div class="section-icon" style="background:#E8FBF4;color:#15844F;"><i
+                                class="fa-solid fa-bolt"></i></div>
+                        <div>
+                            <h2>3. Your Skills</h2>
+                            <p>Highlight the skills you already use or feel confident practicing.</p>
+                        </div>
+                    </div>
+                    <div class="section-body">
+                        <div class="options" id="skillsOptions">
+                            <label class="option"><input type="checkbox" name="skills" value="Programming"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Programming</label>
+                            <label class="option"><input type="checkbox" name="skills" value="Problem Solving"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Problem Solving</label>
+                            <label class="option"><input type="checkbox" name="skills" value="Logical Thinking"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Logical Thinking</label>
+                            <label class="option"><input type="checkbox" name="skills" value="Communication"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Communication</label>
+                            <label class="option"><input type="checkbox" name="skills" value="Leadership"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Leadership</label>
+                            <label class="option"><input type="checkbox" name="skills" value="Creativity"><span
+                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Creativity</label>
+                        </div>
+                        <p class="field-help">Choose one or more skills.</p>
+                    </div>
+                </section>
+
+                <section class="section section-card">
+                    <div class="section-head">
+                        <div class="section-icon" style="background:#FFF5E7;color:#D47B00;"><i
+                                class="fa-solid fa-compass"></i></div>
+                        <div>
+                            <h2>4. Career Preference</h2>
+                            <p>Choose the broad field you are most interested in exploring.</p>
+                        </div>
+                    </div>
+                    <div class="section-body">
+                        <label class="field-label" for="careerPreference">Which field interests you the most? <span
+                                class="required">*</span></label>
+                        <select id="careerPreference" name="careerPreference" required>
+                            <option value="">Select Career Field</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Business">Business</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Government">Government Services</option>
+                            <option value="Research">Research</option>
+                            <option value="Creative">Creative Field</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section class="section section-card">
+                    <div class="section-head">
+                        <div class="section-icon" style="background:#F0F5FF;color:#5B72D7;"><i
+                                class="fa-solid fa-building-columns"></i></div>
+                        <div>
+                            <h2>5. College Preferences</h2>
+                            <p>These preferences help the college recommendation engine narrow down suitable options.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="section-body">
+                        <div class="field-grid">
+                            <div class="field full">
+                                <label class="field-label" for="preferredLocation">Preferred Location</label>
+                                <input type="text" id="preferredLocation" name="preferredLocation"
+                                    placeholder="Example: Indore, Bhopal, Madhya Pradesh">
+                            </div>
+                            <div class="field">
+                                <label class="field-label" for="budgetRange">Budget Range</label>
+                                <select id="budgetRange" name="budgetRange">
+                                    <option value="">Select Budget</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label class="field-label" for="collegeType">Preferred College Type</label>
+                                <select id="collegeType" name="collegeType">
+                                    <option value="">Select College Type</option>
+                                    <option value="Government">Government</option>
+                                    <option value="Private">Private</option>
+                                    <option value="Any">Any</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="section-note"><i class="fa-solid fa-circle-info"></i> Your assessment responses are
+                            saved to your student profile before recommendations are generated, so the rest of the
+                            CareerAdvisor journey can use the same information.</div>
+                    </div>
+                </section>
+
+                <div class="form-footer">
+                    <div class="footer-copy"><strong>Ready to see your direction?</strong><span>Save your responses and
+                            generate personalized recommendations.</span></div>
+                    <div class="footer-actions"><a class="btn btn-soft" href="student-dashboard.html">Back to
+                            Dashboard</a><button class="btn btn-primary" id="submitButton" type="submit"><i
+                                class="fa-solid fa-wand-magic-sparkles"></i>Get My Recommendations</button></div>
+                </div>
+            </form>
+
+            <section class="results" id="resultsPanel">
+                <div class="results-head">
+                    <div>
+                        <div class="results-title">Your recommendations are ready</div>
+                        <div class="results-sub">These are generated from the profile you just saved and the
+                            recommendation engine response.</div>
+                    </div><a class="btn btn-soft" href="student-careers.html">Open Careers</a>
+                </div>
+                <div class="result-grid">
+                    <article class="result-card">
+                        <div class="result-top">
+                            <div class="result-icon"><i class="fa-solid fa-briefcase"></i></div><span
+                                class="result-label">Career</span>
+                        </div>
+                        <div class="result-main" id="resultCareer">Not available</div>
+                        <div class="result-note" id="resultCareerNote">Career recommendations will appear here.</div><a
+                            class="result-link" href="student-careers.html">View careers <i
+                                class="fa-solid fa-arrow-right"></i></a>
+                    </article>
+                    <article class="result-card">
+                        <div class="result-top">
+                            <div class="result-icon"><i class="fa-solid fa-book-open"></i></div><span
+                                class="result-label">Course</span>
+                        </div>
+                        <div class="result-main" id="resultCourse">Not available</div>
+                        <div class="result-note" id="resultCourseNote">Course recommendations will appear here.</div><a
+                            class="result-link" href="student-courses.html">View courses <i
+                                class="fa-solid fa-arrow-right"></i></a>
+                    </article>
+                    <article class="result-card">
+                        <div class="result-top">
+                            <div class="result-icon"><i class="fa-solid fa-building-columns"></i></div><span
+                                class="result-label">College</span>
+                        </div>
+                        <div class="result-main" id="resultCollege">Not available</div>
+                        <div class="result-note" id="resultCollegeNote">College recommendations will appear here.</div>
+                        <a class="result-link" href="student-colleges.html">View colleges <i
+                                class="fa-solid fa-arrow-right"></i></a>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <p id="loadingText">Loading your assessment…</p>
+            </div>
+        </div>
+        <div class="toast" id="toast">
+            <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-circle-info"></i></div>
+            <div><strong id="toastTitle">CareerAdvisor</strong>
+                <p id="toastText"></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        /* ==================== CONFIGURATION ==================== */
+
+        const API_BASE_URL = "http://localhost:8081";
+
+        const PROFILE_API = `${API_BASE_URL}/api/student/profile`;
+
+        const RECOMMENDATION_API = {
+            careers: `${API_BASE_URL}/api/recommendation/careers`,
+            courses: `${API_BASE_URL}/api/recommendation/courses`,
+            colleges: `${API_BASE_URL}/api/recommendation/colleges`
+        };
+
+        const REQUEST_TIMEOUT = 12000;
+
+
+        /* ==================== DOM REFERENCES ==================== */
+
+        const navTriggers = document.querySelectorAll(".nav-trigger");
+        const account = document.querySelector(".account");
+        const accountTrigger = document.getElementById("accountTrigger");
+        const accountMenu = document.querySelector(".account-menu");
+        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+        const mobileNav = document.getElementById("mobileNav");
+
+        const loadingOverlay = document.getElementById("loadingOverlay");
+        const loadingText = document.getElementById("loadingText");
+
+        const form = document.getElementById("assessmentForm");
+        const submitButton = document.getElementById("submitButton");
+        const resultsPanel = document.getElementById("resultsPanel");
+
+        let toastTimer = null;
+
+
+        /* ==================== AUTH HELPERS ==================== */
+
+        function getToken() {
+            return localStorage.getItem("token") || "";
+        }
+
+        function getUser() {
+            try {
+                return JSON.parse(localStorage.getItem("user") || "null");
+            } catch {
+                return null;
+            }
+        }
+
+        function clearAuth() {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+        }
+
+        function requireStudent() {
+            const token = getToken();
+            const user = getUser();
+            const role = String(user?.role || "").toUpperCase();
+
+            if (!token || !user || role !== "STUDENT") {
+                window.location.href = "../login.html";
+                return false;
+            }
+
+            return true;
+        }
+
+        function authHeaders() {
+            return {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${getToken()}`
+            };
+        }
+
+
+        /* ==================== COMMON UI HELPERS ==================== */
+
+        function setLoading(show, message = "Working on your assessment...") {
+            loadingText.textContent = message;
+            loadingOverlay.classList.toggle("show", show);
+            submitButton.disabled = show;
+        }
+
+        function showToast(type, title, message) {
+            const toast = document.getElementById("toast");
+            const icon = document.getElementById("toastIcon");
+
+            document.getElementById("toastTitle").textContent = title;
+            document.getElementById("toastText").textContent = message;
+
+            toast.className = `toast ${type} show`;
+
+            icon.innerHTML = type === "success"
+                ? '<i class="fa-solid fa-circle-check"></i>'
+                : type === "error"
+                    ? '<i class="fa-solid fa-circle-exclamation"></i>'
+                    : '<i class="fa-solid fa-circle-info"></i>';
+
+            clearTimeout(toastTimer);
+
+            toastTimer = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 4300);
+        }
+
+        function updateHeader() {
+            const user = getUser();
+            const name = String(user?.name || user?.fullName || "Student").trim() || "Student";
+
+            const initials = name
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(value => value[0])
+                .join("")
+                .toUpperCase() || "S";
+
+            document.getElementById("accountName").textContent = name;
+            document.getElementById("accountAvatar").textContent = initials;
+        }
+
+
+        /* ==================== VALUE HELPERS ==================== */
+
+        function cleanValue(value) {
+            if (value === null || value === undefined) {
+                return "";
+            }
+
+            return String(value).trim();
+        }
+
+        function selectedValues(name) {
+            return [...document.querySelectorAll(`input[name="${name}"]:checked`)]
+                .map(input => input.value);
+        }
+
+        function normalizeList(value) {
+            if (Array.isArray(value)) {
+                return value
+                    .map(item => cleanValue(item))
+                    .filter(Boolean);
+            }
+
+            return cleanValue(value)
+                .split(",")
+                .map(item => item.trim())
+                .filter(Boolean);
+        }
+
+        function firstRecommendation(items) {
+            return Array.isArray(items) && items.length ? items[0] : null;
+        }
+
+        function recommendationName(item, keys) {
+            if (!item) {
+                return "No recommendation available";
+            }
+
+            for (const key of keys) {
+                if (cleanValue(item?.[key])) {
+                    return item[key];
+                }
+            }
+
+            return "Recommendation generated";
+        }
+
+        function recommendationScore(item) {
+            if (!item) {
+                return "No result returned";
+            }
+
+            const score = Number(item?.score ?? item?.matchScore);
+
+            if (Number.isFinite(score)) {
+                return `Match score: ${score}`;
+            }
+
+            return "Recommendation generated from your profile";
+        }
+
+
+        /* ==================== ASSESSMENT PROGRESS ==================== */
+
+        function updateProgress() {
+            const required = [
+                document.getElementById("stream").value,
+                selectedValues("strongSubjects").length > 0,
+                selectedValues("interests").length > 0,
+                selectedValues("skills").length > 0,
+                document.getElementById("careerPreference").value,
+                cleanValue(document.getElementById("preferredLocation").value),
+                document.getElementById("budgetRange").value,
+                document.getElementById("collegeType").value
+            ];
+
+            const completed = required.filter(Boolean).length;
+            const percent = Math.round((completed / required.length) * 100);
+
+            document.getElementById("progressValue").textContent = `${percent}%`;
+            document.getElementById("progressBar").style.width = `${percent}%`;
+
+            document.getElementById("progressNote").textContent =
+                percent === 100
+                    ? "Everything is ready. Generate your personalized recommendations."
+                    : `${completed} of ${required.length} assessment items completed.`;
+        }
+
+        function syncOptionStyles() {
+            document.querySelectorAll(".option").forEach(option => {
+                const input = option.querySelector("input");
+                option.classList.toggle("selected", input.checked);
+            });
+        }
+
+
+        /* ==================== API REQUEST HELPER ==================== */
+
+        async function request(url, options = {}, label = "Request") {
+            const controller = new AbortController();
+
+            const timeout = setTimeout(() => {
+                controller.abort();
+            }, REQUEST_TIMEOUT);
+
+            try {
+                let response;
+
+                try {
+                    response = await fetch(url, {
+                        ...options,
+                        signal: controller.signal,
+                        headers: {
+                            ...authHeaders(),
+                            ...(options.headers || {})
+                        },
+                        cache: "no-store"
+                    });
+                } catch {
+                    const error = new Error(
+                        "Unable to connect to Spring Boot. Make sure the backend is running on port 8081."
+                    );
+                    error.status = 0;
+                    throw error;
+                }
+
+                const raw = await response.text();
+                let data = null;
+
+                if (raw) {
+                    try {
+                        data = JSON.parse(raw);
+                    } catch {
+                        data = { message: raw };
+                    }
+                }
+
+                if (!response.ok) {
+                    const error = new Error(
+                        data?.message ||
+                        data?.error ||
+                        `${label} failed (${response.status})`
+                    );
+
+                    error.status = response.status;
+                    throw error;
+                }
+
+                return data;
+
+            } catch (error) {
+                if (error.name === "AbortError") {
+                    const timeoutError = new Error(
+                        `${label} timed out. Make sure Spring Boot and the Python recommendation service are running.`
+                    );
+
+                    timeoutError.status = 0;
+                    throw timeoutError;
+                }
+
+                throw error;
+
+            } finally {
+                clearTimeout(timeout);
+            }
+        }
+
+
+        /* ==================== PROFILE LOAD ==================== */
+
+        async function loadExistingProfile() {
+            if (!requireStudent()) {
+                return null;
+            }
+
+            try {
+                return await request(
+                    PROFILE_API,
+                    { method: "GET" },
+                    "Student profile request"
+                );
+
+            } catch (error) {
+                if (error.status === 404) {
+                    return {};
+                }
+
+                if (error.status === 401) {
+                    clearAuth();
+                    window.location.href = "../login.html";
+                    return null;
+                }
+
+                showToast(
+                    "error",
+                    "Profile unavailable",
+                    error.message || "Saved profile could not be loaded."
+                );
+
+                return null;
+            }
+        }
+
+        function fillFromProfile(profile) {
+            if (!profile) {
+                return;
+            }
+
+            const stream = cleanValue(profile.stream);
+
+            if (stream) {
+                document.getElementById("stream").value = stream;
+            }
+
+            const checkboxGroups = {
+                strongSubjects: profile.strongSubjects,
+                interests: profile.interests,
+                skills: profile.skills
+            };
+
+            Object.entries(checkboxGroups).forEach(([name, values]) => {
+                const list = normalizeList(values);
+
+                document
+                    .querySelectorAll(`input[name="${name}"]`)
+                    .forEach(input => {
+                        input.checked = list.some(
+                            value => value.toLowerCase() === input.value.toLowerCase()
+                        );
+                    });
+            });
+
+            document.getElementById("careerPreference").value =
+                cleanValue(profile.careerInterest) ||
+                cleanValue(profile.targetCareer) ||
+                "";
+
+            document.getElementById("preferredLocation").value =
+                cleanValue(profile.preferredLocation) ||
+                [cleanValue(profile.city), cleanValue(profile.state)]
+                    .filter(Boolean)
+                    .join(", ");
+
+            document.getElementById("budgetRange").value =
+                cleanValue(profile.budgetRange);
+
+            document.getElementById("collegeType").value =
+                cleanValue(profile.collegeType);
+
+            syncOptionStyles();
+            updateProgress();
+        }
+
+
+        /* ==================== PAYLOAD BUILDERS ==================== */
+
+        function getAssessmentData() {
+            return {
+                stream: document.getElementById("stream").value,
+                strongSubjects: selectedValues("strongSubjects"),
+                interests: selectedValues("interests"),
+                skills: selectedValues("skills"),
+                careerPreference: document.getElementById("careerPreference").value,
+                preferredLocation: cleanValue(
+                    document.getElementById("preferredLocation").value
+                ),
+                budgetRange: document.getElementById("budgetRange").value,
+                collegeType: document.getElementById("collegeType").value
+            };
+        }
+
+        function buildProfilePayload(existing, assessment) {
+            let city = existing?.city || "";
+            let state = existing?.state || "";
+
+            if (assessment.preferredLocation && !city && !state) {
+                const parts = assessment.preferredLocation
+                    .split(",")
+                    .map(value => value.trim())
+                    .filter(Boolean);
+
+                city = parts[0] || "";
+                state = parts.slice(1).join(", ") || "";
+            }
+
+            return {
+                className: existing?.className || "",
+                stream: assessment.stream,
+                percentage: existing?.percentage ?? null,
+                favoriteSubjects: existing?.favoriteSubjects || "",
+                strongSubjects: assessment.strongSubjects,
+                weakSubjects: existing?.weakSubjects || "",
+                interests: assessment.interests,
+                skills: assessment.skills,
+                careerInterest: assessment.careerPreference,
+                targetCareer: existing?.targetCareer || assessment.careerPreference,
+                preferredCourse: existing?.preferredCourse || "",
+                collegeType: assessment.collegeType || existing?.collegeType || "",
+                budgetRange: assessment.budgetRange || existing?.budgetRange || "",
+                hostelRequired: existing?.hostelRequired ?? false,
+                city,
+                state,
+                preferredLocation: assessment.preferredLocation
+            };
+        }
+
+        function buildRecommendationPayload(assessment, profile) {
+            return {
+                ...profile,
+                stream: assessment.stream,
+                subjects: assessment.strongSubjects,
+                strongSubjects: assessment.strongSubjects,
+                interests: assessment.interests,
+                skills: assessment.skills,
+                careerInterest: assessment.careerPreference,
+                targetCareer: profile?.targetCareer || assessment.careerPreference,
+                preferredLocation: assessment.preferredLocation,
+                budgetRange: assessment.budgetRange,
+                collegeType: assessment.collegeType,
+                city: profile?.city || "",
+                state: profile?.state || ""
+            };
+        }
+
+
+        /* ==================== RECOMMENDATION HELPERS ==================== */
+
+        function extractRecommendations(data) {
+            if (Array.isArray(data)) {
+                return data;
+            }
+
+            if (Array.isArray(data?.recommendations)) {
+                return data.recommendations;
+            }
+
+            if (Array.isArray(data?.results)) {
+                return data.results;
+            }
+
+            if (Array.isArray(data?.data)) {
+                return data.data;
+            }
+
+            return [];
+        }
+
+        async function getRecommendation(url, label, payload) {
+            try {
+                const data = await request(
+                    url,
+                    {
+                        method: "POST",
+                        body: JSON.stringify(payload)
+                    },
+                    label
+                );
+
+                return {
+                    items: extractRecommendations(data),
+                    error: ""
+                };
+
+            } catch (error) {
+                if (error.status === 401) {
+                    throw error;
+                }
+
+                return {
+                    items: [],
+                    error: error.message || `${label} failed.`
+                };
+            }
+        }
+
+        async function generateRecommendations(profile) {
+            const [careerResult, courseResult] = await Promise.all([
+                getRecommendation(
+                    RECOMMENDATION_API.careers,
+                    "Career recommendation request",
+                    profile
+                ),
+                getRecommendation(
+                    RECOMMENDATION_API.courses,
+                    "Course recommendation request",
+                    profile
+                )
+            ]);
+
+            const careers = careerResult.items;
+            const courses = courseResult.items;
+
+            const topCourse = firstRecommendation(courses);
+            const courseName =
+                topCourse?.course_name ||
+                topCourse?.courseName ||
+                topCourse?.name ||
+                "";
+
+            const collegePayload = {
+                ...profile,
+                course_name: courseName
+            };
+
+            const collegeResult = await getRecommendation(
+                RECOMMENDATION_API.colleges,
+                "College recommendation request",
+                collegePayload
+            );
+
+            return {
+                careers,
+                courses,
+                colleges: collegeResult.items,
+                errors: {
+                    careers: careerResult.error,
+                    courses: courseResult.error,
+                    colleges: collegeResult.error
+                }
+            };
+        }
+
+
+        /* ==================== RESULT RENDERING ==================== */
+
+        function setRecommendationResult(id, noteId, item, nameKeys, errorMessage) {
+            const resultName = recommendationName(item, nameKeys);
+            const resultNote = item
+                ? recommendationScore(item)
+                : errorMessage || "No recommendation was returned.";
+
+            document.getElementById(id).textContent = resultName;
+            document.getElementById(noteId).textContent = resultNote;
+        }
+
+        function renderRecommendations(result) {
+            const career = firstRecommendation(result.careers);
+            const course = firstRecommendation(result.courses);
+            const college = firstRecommendation(result.colleges);
+
+            setRecommendationResult(
+                "resultCareer",
+                "resultCareerNote",
+                career,
+                ["career_name", "careerName", "name"],
+                result.errors.careers
+            );
+
+            setRecommendationResult(
+                "resultCourse",
+                "resultCourseNote",
+                course,
+                ["course_name", "courseName", "name"],
+                result.errors.courses
+            );
+
+            setRecommendationResult(
+                "resultCollege",
+                "resultCollegeNote",
+                college,
+                ["college_name", "collegeName", "name"],
+                result.errors.colleges
+            );
+
+            resultsPanel.classList.add("show");
+        }
+
+
+        /* ==================== ASSESSMENT SUBMISSION ==================== */
+
+        function validateAssessment(data) {
+            if (!data.stream) {
+                return "Please select your stream.";
+            }
+
+            if (!data.strongSubjects.length) {
+                return "Please select at least one strong subject.";
+            }
+
+            if (!data.interests.length) {
+                return "Please select at least one interest.";
+            }
+
+            if (!data.skills.length) {
+                return "Please select at least one skill.";
+            }
+
+            if (!data.careerPreference) {
+                return "Please select your preferred career field.";
+            }
+
+            if (!data.preferredLocation) {
+                return "Please enter your preferred location.";
+            }
+
+            if (!data.budgetRange) {
+                return "Please select your budget range.";
+            }
+
+            if (!data.collegeType) {
+                return "Please select your preferred college type.";
+            }
+
+            return "";
+        }
+
+        async function submitAssessment() {
+            if (!requireStudent()) {
+                return;
+            }
+
+            const assessment = getAssessmentData();
+            const validationMessage = validateAssessment(assessment);
+
+            if (validationMessage) {
+                showToast(
+                    "error",
+                    "Complete your assessment",
+                    validationMessage
+                );
+                return;
+            }
+
+            try {
+                setLoading(true, "Loading your saved student profile...");
+
+                const existingProfile = await loadExistingProfile();
+
+                if (existingProfile === null) {
+                    return;
+                }
+
+                setLoading(true, "Saving your assessment to your profile...");
+
+                const savedProfile = await request(
+                    PROFILE_API,
+                    {
+                        method: "POST",
+                        body: JSON.stringify(
+                            buildProfilePayload(existingProfile, assessment)
+                        )
+                    },
+                    "Student profile save"
+                );
+
+                const recommendationProfile = buildRecommendationPayload(
+                    assessment,
+                    savedProfile || existingProfile
+                );
+
+                setLoading(
+                    true,
+                    "Generating personalized career, course and college recommendations..."
+                );
+
+                const recommendations = await generateRecommendations(
+                    recommendationProfile
+                );
+
+                const totalResults =
+                    recommendations.careers.length +
+                    recommendations.courses.length +
+                    recommendations.colleges.length;
+
+                localStorage.setItem("assessmentCompleted", "true");
+                localStorage.setItem(
+                    "assessmentLastCompletedAt",
+                    new Date().toISOString()
+                );
+
+                renderRecommendations(recommendations);
+
+                if (totalResults > 0) {
+                    showToast(
+                        "success",
+                        "Assessment completed",
+                        "Your responses were saved and fresh recommendations were generated."
+                    );
+                } else {
+                    showToast(
+                        "error",
+                        "No recommendations returned",
+                        "Your assessment was saved, but the recommendation service did not return any results."
+                    );
+                }
+
+                window.scrollTo({
+                    top: resultsPanel.offsetTop - 100,
+                    behavior: "smooth"
+                });
+
+            } catch (error) {
+                if (error.status === 401) {
+                    clearAuth();
+                    window.location.href = "../login.html";
+                    return;
+                }
+
+                if (error.status === 403) {
+                    showToast(
+                        "error",
+                        "Recommendation access denied",
+                        error.message ||
+                        "The backend denied one of the recommendation requests. Your profile was not logged out."
+                    );
+                    return;
+                }
+
+                showToast(
+                    "error",
+                    "Assessment could not be completed",
+                    error.message ||
+                    "Please make sure Spring Boot and the recommendation engine are running."
+                );
+
+            } finally {
+                setLoading(false);
+            }
+        }
+
+
+        /* ==================== NAVIGATION ==================== */
+
+        navTriggers.forEach(trigger => {
+            trigger.addEventListener("click", event => {
+                event.stopPropagation();
+
+                const item = trigger.closest(".nav-item");
+                const open = !item.classList.contains("open");
+
+                document
+                    .querySelectorAll(".nav-item.open")
+                    .forEach(other => {
+                        if (other !== item) {
+                            other.classList.remove("open");
+                            other
+                                .querySelector(".nav-trigger")
+                                ?.setAttribute("aria-expanded", "false");
+                        }
+                    });
+
+                item.classList.toggle("open", open);
+                trigger.setAttribute("aria-expanded", String(open));
+            });
+        });
+
+        accountTrigger.addEventListener("click", event => {
+            event.stopPropagation();
+
+            const open = !account.classList.contains("open");
+
+            account.classList.toggle("open", open);
+            accountTrigger.setAttribute("aria-expanded", String(open));
+
+            document
+                .querySelectorAll(".nav-item.open")
+                .forEach(item => {
+                    item.classList.remove("open");
+                    item
+                        .querySelector(".nav-trigger")
+                        ?.setAttribute("aria-expanded", "false");
+                });
+        });
+
+        mobileMenuBtn.addEventListener("click", event => {
+            event.stopPropagation();
+
+            const open = !mobileNav.classList.contains("show");
+
+            mobileNav.classList.toggle("show", open);
+            mobileMenuBtn.setAttribute("aria-expanded", String(open));
+
+            account.classList.remove("open");
+            accountTrigger.setAttribute("aria-expanded", "false");
+        });
+
+        accountMenu.addEventListener("click", event => {
+            event.stopPropagation();
+        });
+
+        document.addEventListener("click", event => {
+            if (!event.target.closest(".nav-item")) {
+                document
+                    .querySelectorAll(".nav-item.open")
+                    .forEach(item => {
+                        item.classList.remove("open");
+                        item
+                            .querySelector(".nav-trigger")
+                            ?.setAttribute("aria-expanded", "false");
+                    });
+            }
+
+            if (!event.target.closest(".account")) {
+                account.classList.remove("open");
+                accountTrigger.setAttribute("aria-expanded", "false");
+            }
+
+            if (
+                !event.target.closest(".mobile-nav") &&
+                !event.target.closest("#mobileMenuBtn")
+            ) {
+                mobileNav.classList.remove("show");
+                mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 1050) {
+                mobileNav.classList.remove("show");
+                mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        document
+            .getElementById("notificationBtn")
+            .addEventListener("click", () => {
+                showToast(
+                    "info",
+                    "CareerAdvisor",
+                    "Your assessment responses are stored in your student profile and used for recommendations."
+                );
+            });
+
+        document
+            .getElementById("logoutBtn")
+            .addEventListener("click", () => {
+                clearAuth();
+                window.location.href = "../login.html";
+            });
+
+        document.querySelectorAll(".option input").forEach(input => {
+            input.addEventListener("change", () => {
+                syncOptionStyles();
+                updateProgress();
+            });
+        });
+
+        [
+            "stream",
+            "careerPreference",
+            "preferredLocation",
+            "budgetRange",
+            "collegeType"
+        ].forEach(id => {
+            document
+                .getElementById(id)
+                .addEventListener("input", updateProgress);
+        });
+
+        [
+            "stream",
+            "careerPreference",
+            "budgetRange",
+            "collegeType"
+        ].forEach(id => {
+            document
+                .getElementById(id)
+                .addEventListener("change", updateProgress);
+        });
+
+        form.addEventListener("submit", event => {
+            event.preventDefault();
+            submitAssessment();
+        });
+
+
+        /* ==================== INITIALIZATION ==================== */
+
+        async function initializeAssessment() {
+            if (!requireStudent()) {
+                return;
+            }
+
+            updateHeader();
+            syncOptionStyles();
+            updateProgress();
+
+            setLoading(true, "Loading your saved assessment profile...");
+
+            try {
+                const existingProfile = await loadExistingProfile();
+
+                if (existingProfile) {
+                    fillFromProfile(existingProfile);
+                }
+
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", initializeAssessment);
+    </script>
+</body>
+
+</html>
