@@ -38,6 +38,10 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/auth/**")
                                                 .permitAll()
 
+                                                // Assessment APIs
+                                                .requestMatchers("/api/assessment/**")
+                                                .permitAll()
+
                                                 // Course / College / Career Recommendation
                                                 .requestMatchers("/api/recommendation/**")
                                                 .permitAll()

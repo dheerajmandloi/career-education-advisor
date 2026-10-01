@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Assessment</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        .question {
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        #message {
+            margin-top: 20px;
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Student Assessment</h1>
+
+    <label for="classGroup">Select Class:</label>
+    <select id="classGroup">
+        <option value="">Select Class</option>
+        <option value="9_10">9th / 10th</option>
+        <option value="11_12">11th / 12th</option>
+    </select>
+
+    <br><br>
+
+    <label for="stream">Select Stream:</label>
+    <select id="stream">
+        <option value="ALL">General</option>
+        <option value="PCB">PCB</option>
+        <option value="PCM">PCM</option>
+        <option value="Commerce">Commerce</option>
+        <option value="Arts">Arts</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <br><br>
+
+    <button type="button" onclick="loadQuestions()">
+        Start Assessment
+    </button>
+
+    <hr>
+
+    <form id="assessmentForm"></form>
+
+    <button id="submitButton" type="button" onclick="submitAssessment()" hidden>
+        Submit Assessment
+    </button>
+
+    <p id="message"></p>
+
+    <script>
+        const API_BASE_URL = "http://localhost:8081";
+
+        const QUESTIONS_API =
+            API_BASE_URL + "/api/assessment/questions";
+
+        const SUBMIT_API =
+            API_BASE_URL + "/api/assessment/submit";
+
+        let questions = [];
+
+        async function loadQuestions() {
+            const classGroup =
+                document.getElementById("classGroup").value;
+
+            const stream =
+                document.getElementById("stream").value;
+
+            const message =
+                document.getElementById("message");
+
+            const form =
+                document.getElementById("assessmentForm");
+
+            if (!classGroup) {
+                message.className = "error";
+                message.textContent = "Please select your class.";
+                return;
+            }
+
+            form.innerHTML = "";
+            message.className = "";
+            message.textContent = "Loading questions...";
+
+            try {
+                let url =
+                    QUESTIONS_API +
+                    "?classGroup=" +
+                    encodeURIComponent(classGroup);
+
+                if (classGroup === "11_12") {
+                    url += "&stream=" + encodeURIComponent(stream);
+                }
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+
+                    throw new Error(
+                        "Questions could not be loaded. Status " +
+                        response.status +
+                        (errorText ? ": " + errorText : "")
+                    );
+                }
+
+                questions = await response.json();
+
+                if (questions.length === 0) {
+                    throw new Error(
+                        "No questions found for this class and stream."
+                    );
+                }
+
+                displayQuestions();
+
+                document.getElementById("submitButton").hidden = false;
+                message.textContent =
+                    questions.length + " questions loaded.";
+
+            } catch (error) {
+                message.className = "error";
+                message.textContent = error.message;
+            }
+        }
+
+        function displayQuestions() {
+            const form =
+                document.getElementById("assessmentForm");
+
+            form.innerHTML = "";
+
+            questions.forEach((question, index) => {
+                const questionBox =
+                    document.createElement("div");
+
+                questionBox.className = "question";
+
+                questionBox.innerHTML = `
+    <p>
+        <strong>
+            ${index + 1}. ${question.questionText}
+        </strong>
+    </p>
+
+    <label>
+        <input type="radio" name="question_${question.id}" value="${question.optionA}" required>
+        ${question.optionA}
+    </label>
+    <br>
+
+    <label>
+        <input type="radio" name="question_${question.id}" value="${question.optionB}">
+        ${question.optionB}
+    </label>
+    <br>
+
+    <label>
+        <input type="radio" name="question_${question.id}" value="${question.optionC}">
+        ${question.optionC}
+    </label>
+    <br>
+
+    <label>
+        <input type="radio" name="question_${question.id}" value="${question.optionD}">
+        ${question.optionD}
+    </label>
+    `;
+
+                form.appendChild(questionBox);
+            });
+        }
+
+        async function submitAssessment() {
+            const form =
+                document.getElementById("assessmentForm");
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const answers = {};
+
+            questions.forEach(question => {
+                const selected =
+                    document.querySelector(
+                        `input[name="question_${question.id}"]:checked`
+                    );
+
+                if (selected) {
+                    answers["q" + question.id] =
+                        selected.value;
+                }
+            });
+
+            const payload = {
+                classGroup:
+                    document.getElementById("classGroup").value,
+
+                stream:
+                    document.getElementById("stream").value,
+
+                answers: answers
+            };
+
+            try {
+                const response = await fetch(SUBMIT_API, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+
+                    throw new Error(
+                        "Assessment submission failed. Status " +
+                        response.status +
+                        (errorText ? ": " + errorText : "")
+                    );
+                }
+
+                const result = await response.json();
+
+                localStorage.setItem(
+                    "assessmentResult",
+                    JSON.stringify(result)
+                );
+
+                document.getElementById("message").textContent =
+                    "Assessment submitted successfully.";
+
+                window.location.href =
+                    "CourseRecommendation.html";
+
+            } catch (error) {
+                document.getElementById("message").className = "error";
+                document.getElementById("message").textContent =
+                    error.message;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
