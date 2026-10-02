@@ -222,33 +222,6 @@
             border-color: var(--bd);
         }
 
-        .form-control,
-        .form-select {
-            background: var(--bg3);
-            color: var(--tx);
-            border: 1px solid var(--bd2);
-            border-radius: 10px;
-            padding: .75rem .9rem;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            background: var(--bg3);
-            color: var(--tx);
-            border-color: var(--career-purple);
-            box-shadow: 0 0 0 .2rem rgba(139, 92, 246, .12);
-        }
-
-        .form-control::placeholder {
-            color: var(--tx3);
-        }
-
-        .form-label {
-            color: var(--tx2);
-            font-size: .84rem;
-            font-weight: 600;
-        }
-
         .accordion-item {
             background: var(--bg2);
             border-color: var(--bd);
@@ -2721,21 +2694,6 @@
             box-shadow: 0 28px 90px rgba(44, 37, 87, .16);
         }
 
-        .form-control,
-        .form-select {
-            background: #fbfbfe;
-            color: #202538;
-            border-color: rgba(83, 70, 170, .14);
-        }
-
-        .form-control::placeholder {
-            color: #a0a5b4;
-        }
-
-        .form-label {
-            color: #596078;
-        }
-
         .accordion-item {
             background: #fff;
             border-color: rgba(83, 70, 170, .10);
@@ -2836,7 +2794,7 @@
                         <a href="#courses" class="nav-link">Courses</a>
                         <a href="#colleges" class="nav-link">Colleges</a>
                         <a href="#roadmap" class="nav-link">Roadmap</a>
-                        <a href="#resources" class="nav-link">Resources</a>
+                        <a href="#faq" class="nav-link">FAQ</a>
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <a href="login.html" class="boc px-3 py-2 d-none d-sm-flex align-items-center gap-1">
@@ -2865,7 +2823,7 @@
                 style="border-color:var(--bd)!important">Colleges</a>
             <a href="#roadmap" class="nav-link d-block py-3 border-bottom"
                 style="border-color:var(--bd)!important">Roadmap</a>
-            <a href="#resources" class="nav-link d-block py-3">Resources</a>
+            <a href="#faq" class="nav-link d-block py-3">FAQ</a>
 
             <div class="d-flex gap-2 mt-3">
                 <a href="login.html" class="boc flex-fill py-2 btn text-center">
@@ -2897,10 +2855,11 @@
                                 goals and eligibility — all in one place.
                             </p>
                             <div class="d-flex flex-column flex-sm-row gap-2 afu" style="animation-delay:.25s">
-                                <button class="bgrd btn px-4 py-3" data-bs-toggle="modal"
-                                    data-bs-target="#assessmentModal">
+
+                                <button class="bgrd btn px-4 py-3" onclick="goToLogin()">
                                     Start Your Assessment <i class="fa-solid fa-arrow-right ms-1"></i>
                                 </button>
+
                                 <a href="#careers" class="boc btn px-4 py-3">Explore Careers</a>
                             </div>
                             <div class="d-flex flex-nowrap gap-4 mt-4 pt-3 border-top"
@@ -3293,9 +3252,12 @@
                         <p class="ssub">Compare college options by course fit, location, admission route and
                             affordability.</p>
                     </div>
-                    <div class="col-lg-4 text-lg-end mt-3 mt-lg-0"><button class="bgrd btn"
-                            onclick="scrollToSection('assessmentModal')">Build my college shortlist <i
-                                class="fa-solid fa-arrow-right ms-1"></i></button></div>
+                    <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                        <button class="bgrd btn" onclick="goToLogin()">
+                            Build my college shortlist
+                            <i class="fa-solid fa-arrow-right ms-1"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-4" data-aos="fade-up">
@@ -3400,81 +3362,6 @@
             </div>
         </section>
 
-        <section id="resources" class="sp" style="background:var(--bg2)">
-            <div class="container">
-                <div class="row mb-5">
-                    <div class="col-lg-8" data-aos="fade-up">
-                        <div class="slbl">Opportunities</div>
-                        <h2 class="stitle">Scholarships, exams & <span class="gt">learning resources</span></h2>
-                        <p class="ssub">Keep the important next steps together instead of searching across multiple
-                            websites.</p>
-                    </div>
-                </div>
-                <div class="row g-4">
-                    <div class="col-lg-4" data-aos="fade-up">
-                        <div class="gc resource-card p-4">
-                            <div class="logo-i mb-3"><i class="fa-solid fa-award"></i></div>
-                            <h5>Scholarships</h5>
-                            <p class="small" style="color:var(--tx3)">Discover opportunities that can be matched with
-                                your profile, category, marks and course.</p>
-                            <div class="d-flex justify-content-between py-2 border-bottom"
-                                style="border-color:var(--bd)!important"><span class="small">National Scholarship
-                                    Portal</span><span class="badge bg-success-subtle text-success">Open</span></div>
-                            <div class="d-flex justify-content-between py-2"><span
-                                    class="small">Merit-cum-Means</span><span
-                                    class="badge bg-warning-subtle text-warning">Closing</span></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="gc resource-card p-4">
-                            <div class="logo-i mb-3"><i class="fa-solid fa-file-pen"></i></div>
-                            <h5>Entrance Exams</h5>
-                            <p class="small" style="color:var(--tx3)">Track important registration dates and exams
-                                relevant to your education plan.</p>
-                            <div class="d-flex justify-content-between py-2 border-bottom"
-                                style="border-color:var(--bd)!important"><span class="small">JEE Main</span><span
-                                    class="badge bg-success-subtle text-success">Open</span></div>
-                            <div class="d-flex justify-content-between py-2"><span class="small">CUET (UG)</span><span
-                                    class="badge bg-warning-subtle text-warning">Upcoming</span></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="gc resource-card p-4">
-                            <div class="logo-i mb-3"><i class="fa-solid fa-book-open-reader"></i></div>
-                            <h5>Learning Resources</h5>
-                            <p class="small" style="color:var(--tx3)">Connect each skill gap with practical courses,
-                                projects and study resources.</p>
-                            <div class="d-flex align-items-center gap-2 py-2 border-bottom"
-                                style="border-color:var(--bd)!important"><i
-                                    class="fa-solid fa-circle-check text-success"></i><span class="small">Programming
-                                    foundations</span></div>
-                            <div class="d-flex align-items-center gap-2 py-2"><i
-                                    class="fa-solid fa-circle-check text-success"></i><span class="small">DSA practice
-                                    roadmap</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="sp">
-            <div class="container">
-                <div class="cta-panel p-4 p-md-5" data-aos="zoom-in">
-                    <div class="row align-items-center position-relative" style="z-index:2">
-                        <div class="col-lg-8">
-                            <div class="slbl">Start your journey</div>
-                            <h2 class="stitle mb-2">Stop guessing. Start planning.</h2>
-                            <p class="ssub mb-0">Build your profile, discover suitable paths and get a practical roadmap
-                                for your next step.</p>
-                        </div>
-                        <div class="col-lg-4 mt-4 mt-lg-0 text-lg-end"><button class="bgrd btn px-4 py-3"
-                                data-bs-toggle="modal" data-bs-target="#assessmentModal">Start Free Assessment <i
-                                    class="fa-solid fa-arrow-right ms-1"></i></button></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="faq" class="sp" style="background:var(--bg2)">
             <div class="container">
                 <div class="text-center mb-5" data-aos="fade-up">
@@ -3532,8 +3419,9 @@
                 <div class="row g-4 pb-4">
                     <div class="col-lg-5"><a href="#home" class="d-flex align-items-center gap-2 mb-3"
                             style="font-weight:700;font-size:1.15rem">
-                            <div class="logo-i"><i class="fa-solid fa-compass"></i></div>Career<span
-                                class="gt">Advisor</span>
+                            <div class="logo-i">
+                                <i class="fa-solid fa-compass"></i>
+                            </div><span>Career<span class="gt">Advisor</span></span>
                         </a>
                         <p class="small" style="color:var(--tx3);max-width:430px">A one-stop personalized career and
                             education advisor designed to help students move from uncertainty to a clear, actionable
@@ -3545,75 +3433,32 @@
                                 class="footer-link" href="#courses">Courses</a><a class="footer-link"
                                 href="#colleges">Colleges</a><a class="footer-link" href="#roadmap">Roadmap</a></div>
                     </div>
+
+                    <div class="col-6 col-lg-3">
+                        <div class="small fw-semibold mb-3">What CareerAdvisor Does</div>
+
+                        <div class="d-flex flex-column gap-2 small" style="color:var(--tx3); line-height:1.7;">
+                            <span>Personalized Career Guidance</span>
+                            <span>Course &amp; College Recommendations</span>
+                            <span>Profile-Based Matching</span>
+                            <span>Career Roadmap &amp; Skill Planning</span>
+                        </div>
+                    </div>
+
                     <div class="col-6 col-lg-2">
-                        <div class="small fw-semibold mb-3">Resources</div>
-                        <div class="d-flex flex-column gap-2 small"><a class="footer-link"
-                                href="#resources">Scholarships</a><a class="footer-link" href="#resources">Exams</a><a
-                                class="footer-link" href="#resources">Learning</a><a class="footer-link"
-                                href="#faq">FAQ</a></div>
+                        <div class="small fw-semibold mb-3">Get started</div>
+                        <button class="bgrd btn w-100" onclick="goToLogin()">
+                            Take Assessment
+                            <i class="fa-solid fa-arrow-right ms-1"></i>
+                        </button>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="small fw-semibold mb-3">Get started</div><button class="bgrd btn w-100"
-                            data-bs-toggle="modal" data-bs-target="#assessmentModal">Take Assessment <i
-                                class="fa-solid fa-arrow-right ms-1"></i></button>
-                    </div>
+
                 </div>
                 <div class="pt-3 border-top d-flex flex-column flex-md-row justify-content-between gap-2 small"
                     style="border-color:var(--bd)!important;color:var(--tx3)"><span>© 2026 CareerAdvisor. Academic
                         project prototype.</span><span>Designed for students, parents and career guidance.</span></div>
             </div>
         </footer>
-    </div>
-
-    <div class="modal fade" id="assessmentModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header px-4 py-3">
-                    <div>
-                        <div class="slbl mb-1">Career Assessment</div>
-                        <h5 class="modal-title">Tell us about yourself</h5>
-                    </div><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Your name</label><input id="aName"
-                                class="form-control" placeholder="Enter your name"></div>
-                        <div class="col-md-6"><label class="form-label">Current education</label><select id="aEducation"
-                                class="form-select">
-                                <option value="">Select</option>
-                                <option>Class 10</option>
-                                <option>Class 12</option>
-                                <option>Undergraduate</option>
-                                <option>Graduate</option>
-                            </select></div>
-                        <div class="col-md-6"><label class="form-label">Strongest interest</label><select id="aInterest"
-                                class="form-select">
-                                <option>Technology</option>
-                                <option>Business</option>
-                                <option>Design & Creativity</option>
-                                <option>Science & Research</option>
-                                <option>Social Impact</option>
-                            </select></div>
-                        <div class="col-md-6"><label class="form-label">Preferred work style</label><select id="aStyle"
-                                class="form-select">
-                                <option>Problem solving</option>
-                                <option>Creative work</option>
-                                <option>People & communication</option>
-                                <option>Analysis & research</option>
-                            </select></div>
-                        <div class="col-md-6"><label class="form-label">Academic percentage</label><input id="aMarks"
-                                type="number" class="form-control" placeholder="e.g. 82"></div>
-                        <div class="col-md-6"><label class="form-label">Preferred location</label><input id="aLocation"
-                                class="form-control" placeholder="City / State"></div>
-                    </div>
-                    <div id="assessmentResult" class="d-none mt-4 p-4 rounded-3"
-                        style="background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.18)"></div>
-                </div>
-                <div class="modal-footer px-4"><button class="boc btn" data-bs-dismiss="modal">Close</button><button
-                        class="bgrd btn" onclick="runAssessment()">Generate My Starting Point <i
-                            class="fa-solid fa-wand-magic-sparkles ms-1"></i></button></div>
-            </div>
-        </div>
     </div>
 
     <div class="modal fade" id="careerModal" tabindex="-1" aria-hidden="true">
@@ -3695,48 +3540,6 @@
 
         function goToLogin() {
             window.location.href = "login.html";
-        }
-
-        function runAssessment() {
-            const name = document.getElementById('aName').value.trim() || 'Student';
-            const interest = document.getElementById('aInterest').value;
-            const marks = Number(document.getElementById('aMarks').value || 0);
-            let career = 'Software Developer';
-            let reason = 'Your technology interest can be paired with programming, problem solving and project-based learning.';
-
-            if (interest === 'Business') {
-                career = 'Digital Marketing Specialist';
-                reason = 'Your business interest can translate well into communication, analytics, content and marketing skills.';
-            } else if (interest === 'Design & Creativity') {
-                career = 'UI/UX Designer';
-                reason = 'Your creative interest can be developed through design thinking, research, prototyping and visual communication.';
-            } else if (interest === 'Science & Research') {
-                career = 'Data Analyst';
-                reason = 'Your analytical interest can be developed through statistics, SQL, Python and data visualization.';
-            } else if (interest === 'Social Impact') {
-                career = 'Public Policy & Social Impact';
-                reason = 'Your interest in social impact can be explored through research, communication, public systems and community-focused work.';
-            }
-
-            const readiness = Math.min(98, Math.max(55, Math.round((marks || 70) * .75 + 25)));
-            const result = document.getElementById('assessmentResult');
-            result.classList.remove('d-none');
-            result.innerHTML = `
-    <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
-      <div>
-        <div class="small" style="color:var(--tx3)">Starting recommendation for ${name}</div>
-        <h4 class="mt-1 mb-2">${career}</h4>
-        <p class="small mb-0" style="color:var(--tx2)">${reason}</p>
-      </div>
-      <div class="text-md-end"><div class="small" style="color:var(--tx3)">Prototype readiness</div><div class="display-6 fw-bold gt">${readiness}%</div></div>
-    </div>
-    <div class="small mt-3" style="color:var(--tx3)">Next: complete a full assessment to calculate a detailed career, course and college compatibility score.</div>
-  `;
-        }
-
-        function scrollToSection(id) {
-            const modal = bootstrap.Modal.getInstance(document.getElementById('assessmentModal'));
-            if (modal) modal.show();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
