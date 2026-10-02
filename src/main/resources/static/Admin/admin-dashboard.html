@@ -280,116 +280,256 @@
         .topbar {
             position: sticky;
             top: 0;
-            z-index: 40;
+            z-index: 100;
             min-height: var(--topbar-height);
-            display: flex;
+            display: grid;
+            grid-template-columns: minmax(240px, 1fr) auto minmax(280px, 1fr);
             align-items: center;
-            justify-content: space-between;
-            gap: 18px;
-            padding: 14px 34px;
-            background: rgba(250, 250, 254, 0.86);
+            gap: 20px;
+            padding: 0 30px;
+            background: rgba(255, 255, 255, 0.94);
             border-bottom: 1px solid var(--border);
             backdrop-filter: blur(18px);
+            box-shadow: 0 8px 26px rgba(76, 57, 145, 0.05);
         }
 
-        .topbar-left {
+        .topbar .brand {
             display: flex;
             align-items: center;
-            gap: 14px;
-            min-width: 0;
+            gap: 11px;
+            justify-self: start;
+            text-decoration: none;
         }
 
-        .mobile-menu {
-            display: none;
-            width: 42px;
-            height: 42px;
+        .topbar .brand-mark {
+            width: 43px;
+            height: 43px;
+            display: grid;
             place-items: center;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background: var(--surface);
-            color: var(--text-soft);
-            cursor: pointer;
+            flex-shrink: 0;
+            border-radius: 14px;
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 11px 26px rgba(99, 102, 241, .22);
+            animation: brandPulse 4s ease-in-out infinite;
         }
 
-        .page-kicker {
-            color: var(--purple);
-            font-size: 0.7rem;
+        .topbar .brand-name {
+            font-size: 20px;
             font-weight: 700;
-            letter-spacing: 0.12em;
+            letter-spacing: -.6px;
+            line-height: 1;
+        }
+
+        .topbar .brand-name span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .topbar .portal-label {
+            margin-top: 4px;
+            color: #999FAC;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .7px;
             text-transform: uppercase;
         }
 
-        .page-title {
-            margin-top: 2px;
-            font-size: 1.18rem;
+        .topbar .brand>div:last-child {
+            transform: translateY(7px);
+        }
+
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .top-nav-link,
+        .top-nav-trigger {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 15px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            background: transparent;
+            color: #626C7E;
+            font-size: 13px;
             font-weight: 700;
-            letter-spacing: -0.025em;
+            cursor: pointer;
+            transition: .2s ease;
+            white-space: nowrap;
+        }
+
+        .top-nav-link:hover,
+        .top-nav-link.active,
+        .top-nav-trigger:hover,
+        .top-nav-item.open .top-nav-trigger {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+            border-color: #EAE4F7;
+        }
+
+        .top-nav-trigger i {
+            font-size: 8px;
+            color: #979EAC;
+            transition: transform .2s ease;
+        }
+
+        .top-nav-item {
+            position: relative;
+        }
+
+        .top-nav-item.open .top-nav-trigger i {
+            transform: rotate(180deg);
+        }
+
+        .top-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: 225px;
+            padding: 9px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 20px 46px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: .2s ease;
+        }
+
+        .top-nav-item.open .top-dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .top-dropdown-title {
+            padding: 7px 9px 8px;
+            color: #9FA5B2;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .top-dropdown-link {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px;
+            border-radius: 9px;
+            color: #687286;
+            font-size: 11px;
+            font-weight: 650;
+            transition: .18s ease;
+        }
+
+        .top-dropdown-link i {
+            width: 17px;
+            text-align: center;
+            color: #9299A7;
+        }
+
+        .top-dropdown-link:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+        }
+
+        .top-dropdown-link:hover i {
+            color: var(--purple);
+        }
+
+        .topbar-left {
+            display: none;
         }
 
         .topbar-right {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-self: end;
+            gap: 8px;
         }
 
         .refresh-button,
         .notification-button {
             position: relative;
-            width: 42px;
-            height: 42px;
+            width: 41px;
+            height: 41px;
             display: grid;
             place-items: center;
             border: 1px solid var(--border);
             border-radius: 12px;
-            background: var(--surface);
-            color: var(--text-soft);
+            background: #fff;
+            color: #687286;
             cursor: pointer;
-            transition: 0.22s ease;
+            transition: .2s ease;
         }
 
         .refresh-button:hover,
         .notification-button:hover {
             color: var(--purple-dark);
             border-color: var(--border-strong);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(76, 57, 145, 0.09);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 22px rgba(76, 57, 145, .08);
+        }
+
+        .refresh-button.loading i {
+            animation: spin 0.9s linear infinite;
         }
 
         .notification-dot {
             position: absolute;
-            top: 8px;
-            right: 8px;
+            top: 7px;
+            right: 7px;
             width: 7px;
             height: 7px;
+            border: 2px solid #fff;
             border-radius: 50%;
             background: var(--purple);
-            box-shadow: 0 0 0 3px #fff;
         }
 
         .admin-profile {
             display: flex;
             align-items: center;
-            gap: 10px;
-            min-width: 0;
-            padding-left: 5px;
+            gap: 9px;
+            padding: 5px 8px 5px 5px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            transition: .2s ease;
+        }
+
+        .admin-profile:hover {
+            background: #F8F7FC;
+            border-color: var(--border);
         }
 
         .avatar {
-            width: 42px;
-            height: 42px;
+            width: 39px;
+            height: 39px;
             display: grid;
             place-items: center;
             flex-shrink: 0;
-            border-radius: 13px;
-            background: linear-gradient(135deg, #ede9fe, #dbeafe);
+            border-radius: 12px;
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
             color: var(--purple-dark);
-            font-size: 0.78rem;
+            font-size: 11px;
             font-weight: 800;
-            border: 1px solid var(--border-strong);
         }
 
         .profile-copy {
-            min-width: 0;
+            min-width: 110px;
+            text-align: left;
         }
 
         .profile-copy strong,
@@ -401,14 +541,114 @@
         }
 
         .profile-copy strong {
-            max-width: 155px;
-            font-size: 0.8rem;
+            max-width: 160px;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
         }
 
         .profile-copy span {
-            margin-top: 2px;
-            color: var(--text-muted);
-            font-size: 0.67rem;
+            margin-top: 3px;
+            color: #999FAC;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+        }
+
+        .admin-account {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-account-trigger {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-height: 48px;
+            padding: 5px 8px 5px 5px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            background: transparent;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .admin-account-trigger:hover,
+        .admin-account.open .admin-account-trigger {
+            background: #F8F7FC;
+            border-color: var(--border);
+        }
+
+        .admin-account-arrow {
+            color: #9BA1AE;
+            font-size: 8px;
+            transition: .2s ease;
+        }
+
+        .admin-account.open .admin-account-arrow {
+            color: var(--purple);
+            transform: rotate(180deg);
+        }
+
+        .admin-account-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 190px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 20px 46px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-7px);
+            transition: .2s ease;
+        }
+
+        .admin-account.open .admin-account-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .admin-account-menu a,
+        .admin-account-menu button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px;
+            border-radius: 9px;
+            background: transparent;
+            color: #687286;
+            font-size: 11px;
+            font-weight: 650;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .admin-account-menu a:hover,
+        .admin-account-menu button:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+        }
+
+        .admin-account-menu .logout {
+            color: #B42318;
+        }
+
+        .admin-account-menu .logout:hover {
+            background: #FFF4F2;
+        }
+
+        .main {
+            min-height: 100vh;
+            margin-left: 0;
         }
 
         .content {
@@ -1122,6 +1362,98 @@
             display: block;
         }
 
+        .sidebar,
+        .drawer-overlay {
+            display: none !important;
+        }
+
+        .topbar .mobile-menu {
+            display: none;
+        }
+
+        .topbar-left {
+            display: none;
+        }
+
+        /* ==================== MOBILE NAV ==================== */
+
+        .mobile-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+            color: #697486;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            top: calc(100% + 9px);
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 18px 48px rgba(76, 57, 145, .14);
+            backdrop-filter: blur(18px);
+        }
+
+        .mobile-nav[hidden] {
+            display: none !important;
+        }
+
+        .mobile-group {
+            border: 1px solid #F0EEF7;
+            border-radius: 13px;
+            background: #FCFBFF;
+            overflow: hidden;
+        }
+
+        .mobile-group+.mobile-group {
+            margin-top: 8px;
+        }
+
+        .mobile-group-title {
+            padding: 11px;
+            color: #566071;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mobile-links {
+            display: grid;
+            gap: 2px;
+            padding: 0 6px 6px;
+        }
+
+        .mobile-links a {
+            padding: 8px;
+            border-radius: 8px;
+            color: #6A7281;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .mobile-links a:hover,
+        .mobile-links a.active {
+            background: #F6F3FF;
+            color: var(--purple-dark);
+        }
+
+        .refresh-button.spin-once i {
+            animation: spin 0.65s ease-in-out 1;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         @media (max-width: 1100px) {
             :root {
                 --sidebar-width: 225px;
@@ -1136,44 +1468,67 @@
             }
         }
 
-        @media (max-width: 820px) {
-            :root {
-                --sidebar-width: 250px;
+        @media (max-width: 900px) {
+            .topbar {
+                grid-template-columns: 1fr auto;
+                gap: 10px;
+                padding: 0 22px;
             }
 
-            .sidebar {
-                transform: translateX(-105%);
+            .top-nav {
+                display: none;
             }
 
-            .sidebar.open {
-                transform: translateX(0);
+            .topbar .mobile-menu {
+                display: grid;
+            }
+
+            .topbar-right {
+                justify-self: end;
             }
 
             .main {
                 margin-left: 0;
             }
 
-            .mobile-menu {
-                display: grid;
-            }
-
-            .topbar {
-                padding: 12px 20px;
+            .profile-copy {
+                display: none;
             }
 
             .content {
-                width: min(100% - 30px, 900px);
-                padding-top: 22px;
+                width: min(100% - 34px, 900px);
+                padding-top: 24px;
             }
 
             .stats-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
         @media (max-width: 620px) {
             .topbar {
-                min-height: 68px;
+                min-height: 70px;
+                padding: 0 14px;
+            }
+
+            .topbar .brand-name {
+                font-size: 18px;
+            }
+
+            .topbar .portal-label {
+                display: none;
+            }
+
+            .topbar .mobile-menu {
+                display: grid;
+                width: 40px;
+                height: 40px;
+                place-items: center;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                background: #fff;
+                color: #697486;
+                cursor: pointer;
             }
 
             .page-kicker {
@@ -1335,73 +1690,125 @@
         <div class="background-grid"></div>
         <div class="glow one"></div>
         <div class="glow two"></div>
-        <aside class="sidebar" id="sidebar">
-            <a class="brand" href="../index.html">
-                <div class="brand-mark">
-                    <i class="fa-solid fa-compass"></i>
-                </div>
-                <div class="brand-name">Career<span>Advisor</span></div>
-            </a>
-            <div class="portal-label">Admin workspace</div>
-            <nav class="nav">
-                <a class="nav-link active" href="admin-dashboard.html">
-                    <i class="fa-solid fa-table-columns"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a class="nav-link" href="admin-student-management.html">
-                    <i class="fa-solid fa-user-graduate"></i>
-                    <span>Students</span>
-                </a>
-                <a class="nav-link" href="admin-student-management.html">
-                    <i class="fa-solid fa-id-card"></i>
-                    <span>Student Profiles</span>
-                </a>
-                <a class="nav-link" href="../index.html#careers">
-                    <i class="fa-solid fa-compass"></i>
-                    <span>Career Data</span>
-                </a>
-                <a class="nav-link" href="admin-course-management.html">
-                    <i class="fa-solid fa-book-open"></i>
-                    <span>Course Data</span>
-                </a>
-            </nav>
-            <div class="sidebar-spacer"></div>
-            <div class="admin-mini-card">
-                <span class="mini-label">Signed in as</span>
-                <strong id="sidebarAdminName">Administrator</strong>
-            </div>
-            <a class="nav-link logout-link" href="#" id="logoutButton">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Logout</span>
-            </a>
-        </aside>
-        <div class="drawer-overlay" id="drawerOverlay"></div>
         <main class="main">
             <header class="topbar">
-                <div class="topbar-left">
-                    <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Open navigation">
+                <a class="brand" href="../index.html" aria-label="CareerAdvisor Admin Dashboard">
+                    <div class="brand-mark">
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+                    <div>
+                        <div class="brand-name">Career<span>Advisor</span></div>
+                        <div class="portal-label">ADMIN PORTAL</div>
+                    </div>
+                </a>
+
+                <nav class="top-nav" aria-label="Admin navigation">
+                    <a class="top-nav-link active" href="admin-dashboard.html">
+                        <i class="fa-solid fa-table-columns"></i>
+                        Dashboard
+                    </a>
+
+                    <a class="top-nav-link" href="admin-student-management.html">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        Students
+                    </a>
+
+                    <a class="top-nav-link" href="admin-counselor-management.html">
+                        <i class="fa-solid fa-user-tie"></i>
+                        Counselors
+                    </a>
+
+                    <div class="top-nav-item" id="workspaceNavItem">
+                        <button class="top-nav-trigger" id="workspaceTrigger" type="button" aria-expanded="false">
+                            Workspace
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+
+                        <div class="top-dropdown">
+                            <div class="top-dropdown-title">Platform Data</div>
+
+                            <a class="top-dropdown-link" href="../index.html#careers">
+                                <i class="fa-solid fa-compass"></i>
+                                Career Data
+                            </a>
+
+                            <a class="top-dropdown-link" href="admin-course-management.html">
+                                <i class="fa-solid fa-book-open"></i>
+                                Course Data
+                            </a>
+
+                            <a class="top-dropdown-link" href="admin-college-management.html">
+                                <i class="fa-solid fa-building-columns"></i>
+                                College Data
+                            </a>
+
+                            <a class="top-dropdown-link" href="admin-assessment-management.html">
+                                <i class="fa-solid fa-clipboard-question"></i>
+                                Assessment
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="topbar-right">
+                    <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-label="Open admin navigation">
                         <i class="fa-solid fa-bars"></i>
                     </button>
-                    <div>
-                        <div class="page-kicker">CareerAdvisor / Admin</div>
-                        <h1 class="page-title">Admin Dashboard</h1>
-                    </div>
-                </div>
-                <div class="topbar-right">
+
                     <button class="refresh-button" id="refreshButton" type="button" title="Refresh dashboard"
                         aria-label="Refresh dashboard">
                         <i class="fa-solid fa-arrows-rotate"></i>
                     </button>
+
                     <button class="notification-button" id="notificationButton" type="button" title="Notifications"
                         aria-label="Notifications">
                         <i class="fa-regular fa-bell"></i>
                         <span class="notification-dot"></span>
                     </button>
-                    <div class="admin-profile">
-                        <div class="avatar" id="adminAvatar">AD</div>
-                        <div class="profile-copy">
-                            <strong id="adminName">Administrator</strong>
-                            <span>Admin account</span>
+
+                    <div class="admin-account" id="adminAccount">
+                        <button class="admin-account-trigger" id="adminAccountTrigger" type="button"
+                            aria-expanded="false" aria-label="Open admin account menu">
+                            <span class="avatar" id="adminAvatar">AD</span>
+
+                            <span class="profile-copy">
+                                <strong id="adminName">Administrator</strong>
+                                <span>ADMIN</span>
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down admin-account-arrow"></i>
+                        </button>
+
+                        <div class="admin-account-menu">
+                            <a href="admin-dashboard.html">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                Dashboard
+                            </a>
+                            <button class="logout" id="logoutButton" type="button">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mobile-nav" id="mobileNav" hidden>
+                    <div class="mobile-group">
+                        <div class="mobile-group-title">Main</div>
+                        <div class="mobile-links">
+                            <a class="active" href="admin-dashboard.html">Dashboard</a>
+                            <a href="admin-student-management.html">Students</a>
+                            <a href="admin-counselor-management.html">Counselors</a>
+                        </div>
+                    </div>
+
+                    <div class="mobile-group">
+                        <div class="mobile-group-title">Workspace</div>
+                        <div class="mobile-links">
+                            <a href="../index.html#careers">Career Data</a>
+                            <a href="admin-course-management.html">Course Data</a>
+                            <a href="admin-college-management.html">College Data</a>
+                            <a href="admin-assessment-management.html">Assessment</a>
                         </div>
                     </div>
                 </div>
@@ -1618,9 +2025,10 @@
         const API_BASE_URL = "http://localhost:8081";
         const TOKEN_KEY = "token";
         const USER_KEY = "user";
-        const sidebar = document.getElementById("sidebar");
-        const mobileMenu = document.getElementById("mobileMenu");
-        const drawerOverlay = document.getElementById("drawerOverlay");
+        const workspaceNavItem = document.getElementById("workspaceNavItem");
+        const workspaceTrigger = document.getElementById("workspaceTrigger");
+        const adminAccount = document.getElementById("adminAccount");
+        const adminAccountTrigger = document.getElementById("adminAccountTrigger");
         const logoutButton = document.getElementById("logoutButton");
         const refreshButton = document.getElementById("refreshButton");
         const notificationButton = document.getElementById("notificationButton");
@@ -1635,8 +2043,19 @@
         const modalStudentName = document.getElementById("modalStudentName");
         const toast = document.getElementById("toast");
         const toastText = document.getElementById("toastText");
+        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+        const mobileNav = document.getElementById("mobileNav");
         let students = [];
         let toastTimer = null;
+        function toggleMobileNav() {
+            const willOpen = mobileNav.hidden;
+            mobileNav.hidden = !willOpen;
+            mobileMenuBtn.setAttribute("aria-expanded", String(willOpen));
+        }
+        function closeMobileNav() {
+            mobileNav.hidden = true;
+            mobileMenuBtn.setAttribute("aria-expanded", "false");
+        }
         function getToken() {
             return localStorage.getItem(TOKEN_KEY);
         }
@@ -1662,7 +2081,6 @@
             const initials = getInitials(name);
             document.getElementById("adminName").textContent = name;
             document.getElementById("heroAdminName").textContent = name.split(/\s+/)[0];
-            document.getElementById("sidebarAdminName").textContent = name;
             document.getElementById("adminAvatar").textContent = initials;
         }
         function showToast(message) {
@@ -1805,6 +2223,7 @@
                     loadDashboardStats(),
                     loadStudents()
                 ]);
+                return true;
             } catch (error) {
                 console.error("Admin dashboard error:", error);
                 if (getToken()) {
@@ -1817,6 +2236,7 @@
                     `;
                     studentTableWrap.hidden = true;
                 }
+                return false;
             } finally {
                 refreshButton.classList.remove("loading");
                 refreshButton.querySelector("i").classList.remove("fa-spin");
@@ -1878,19 +2298,66 @@
         function closeProfileModal() {
             profileModal.classList.remove("show");
         }
-        function closeSidebar() {
-            sidebar.classList.remove("open");
-            drawerOverlay.classList.remove("show");
+        function setWorkspaceOpen(open) {
+            workspaceNavItem.classList.toggle("open", open);
+            workspaceTrigger.setAttribute("aria-expanded", String(open));
         }
-        mobileMenu.addEventListener("click", () => {
-            sidebar.classList.toggle("open");
-            drawerOverlay.classList.toggle("show");
+
+        function setAdminAccountOpen(open) {
+            adminAccount.classList.toggle("open", open);
+            adminAccountTrigger.setAttribute("aria-expanded", String(open));
+        }
+
+        workspaceTrigger.addEventListener("click", event => {
+            event.stopPropagation();
+            const next = !workspaceNavItem.classList.contains("open");
+            setWorkspaceOpen(next);
+            setAdminAccountOpen(false);
         });
-        drawerOverlay.addEventListener("click", closeSidebar);
-        document.querySelectorAll(".sidebar .nav-link").forEach(link => {
-            link.addEventListener("click", closeSidebar);
+
+        adminAccountTrigger.addEventListener("click", event => {
+            event.stopPropagation();
+            const next = !adminAccount.classList.contains("open");
+            setAdminAccountOpen(next);
+            setWorkspaceOpen(false);
         });
-        refreshButton.addEventListener("click", loadDashboard);
+
+        document.addEventListener("click", () => {
+            setWorkspaceOpen(false);
+            setAdminAccountOpen(false);
+            closeMobileNav();
+        });
+
+        document.querySelectorAll(".top-dropdown-link, .admin-account-menu a").forEach(link => {
+            link.addEventListener("click", () => {
+                setWorkspaceOpen(false);
+                setAdminAccountOpen(false);
+            });
+        });
+
+        refreshButton.addEventListener("click", async () => {
+            refreshButton.classList.remove("spin-once");
+            void refreshButton.offsetWidth;
+            refreshButton.classList.add("spin-once");
+            showToast("Refreshing dashboard...");
+            await loadDashboard();
+            setTimeout(() => {
+                refreshButton.classList.remove("spin-once");
+            }, 700);
+            showToast("Dashboard refreshed successfully.");
+        });
+
+        mobileMenuBtn.addEventListener("click", event => {
+            event.stopPropagation();
+            toggleMobileNav();
+            setWorkspaceOpen(false);
+            setAdminAccountOpen(false);
+        });
+        mobileNav.addEventListener("click", event => {
+            if (event.target.closest("a")) {
+                closeMobileNav();
+            }
+        });
         notificationButton.addEventListener("click", () => {
             showToast("You are viewing the latest admin dashboard data.");
         });
@@ -1913,7 +2380,9 @@
         document.addEventListener("keydown", event => {
             if (event.key === "Escape") {
                 closeProfileModal();
-                closeSidebar();
+                setWorkspaceOpen(false);
+                setAdminAccountOpen(false);
+                closeMobileNav();
             }
         });
         logoutButton.addEventListener("click", event => {

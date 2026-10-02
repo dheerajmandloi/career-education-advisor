@@ -1240,6 +1240,470 @@
             }
         }
     </style>
+
+    <style id="shared-admin-topbar">
+        /* ===== EXACT SHARED ADMIN TOPBAR ===== */
+        .sidebar,
+        .drawer-overlay {
+            display: none !important;
+        }
+
+        .main {
+            min-height: 100vh;
+            margin-left: 0 !important;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: var(--topbar-height);
+            display: grid;
+            grid-template-columns: minmax(240px, 1fr) auto minmax(280px, 1fr);
+            align-items: center;
+            gap: 20px;
+            padding: 0 30px;
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 8px 26px rgba(76, 57, 145, 0.05);
+        }
+
+        .topbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            justify-self: start;
+            text-decoration: none;
+            padding: 0;
+            border: 0;
+        }
+
+        .topbar .brand-mark {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 14px;
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 11px 26px rgba(99, 102, 241, .22);
+            animation: brandPulse 4s ease-in-out infinite;
+        }
+
+        .topbar .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -.6px;
+            line-height: 1;
+        }
+
+        .topbar .brand-name span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .topbar .portal-label {
+            margin-top: 4px;
+            color: #999FAC;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .7px;
+            text-transform: uppercase;
+        }
+
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .top-nav-link,
+        .top-nav-trigger {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 15px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            background: transparent;
+            color: #626C7E;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+            white-space: nowrap;
+        }
+
+        .top-nav-link:hover,
+        .top-nav-link.active,
+        .top-nav-trigger:hover,
+        .top-nav-item.open .top-nav-trigger {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+            border-color: #EAE4F7;
+        }
+
+        .top-nav-trigger i {
+            font-size: 8px;
+            color: #979EAC;
+            transition: transform .2s ease;
+        }
+
+        .top-nav-item {
+            position: relative;
+        }
+
+        .top-nav-item.open .top-nav-trigger i {
+            transform: rotate(180deg);
+        }
+
+        .top-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: 225px;
+            padding: 9px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 20px 46px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: .2s ease;
+        }
+
+        .top-nav-item.open .top-dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .top-dropdown-title {
+            padding: 7px 9px 8px;
+            color: #9FA5B2;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .top-dropdown-link {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px;
+            border-radius: 9px;
+            color: #687286;
+            font-size: 11px;
+            font-weight: 650;
+            transition: .18s ease;
+        }
+
+        .top-dropdown-link i {
+            width: 17px;
+            text-align: center;
+            color: #9299A7;
+        }
+
+        .top-dropdown-link:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+        }
+
+        .top-dropdown-link:hover i {
+            color: var(--purple);
+        }
+
+        .topbar-left {
+            display: none !important;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            justify-self: end;
+            gap: 8px;
+        }
+
+        .refresh-button,
+        .notification-button {
+            position: relative;
+            width: 41px;
+            height: 41px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+            color: #687286;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .refresh-button:hover,
+        .notification-button:hover {
+            color: var(--purple-dark);
+            border-color: var(--border-strong);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 22px rgba(76, 57, 145, .08);
+        }
+
+        .refresh-button.spin-once i {
+            animation: spin .65s ease-in-out 1;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            width: 7px;
+            height: 7px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: var(--purple);
+        }
+
+        .admin-account {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-account-trigger {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-height: 48px;
+            padding: 5px 8px 5px 5px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            background: transparent;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .admin-account-trigger:hover,
+        .admin-account.open .admin-account-trigger {
+            background: #F8F7FC;
+            border-color: var(--border);
+        }
+
+        .avatar {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            color: var(--purple-dark);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .admin-account-arrow {
+            color: #9BA1AE;
+            font-size: 8px;
+            transition: .2s ease;
+        }
+
+        .admin-account.open .admin-account-arrow {
+            color: var(--purple);
+            transform: rotate(180deg);
+        }
+
+        .admin-account-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 190px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 20px 46px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-7px);
+            transition: .2s ease;
+        }
+
+        .admin-account.open .admin-account-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .admin-account-menu a,
+        .admin-account-menu button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px;
+            border-radius: 9px;
+            background: transparent;
+            color: #687286;
+            font-size: 11px;
+            font-weight: 650;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .admin-account-menu a:hover,
+        .admin-account-menu button:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+        }
+
+        .admin-account-menu .logout {
+            color: #B42318;
+        }
+
+        .admin-account-menu .logout:hover {
+            background: #FFF4F2;
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+            color: #697486;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            top: calc(100% + 9px);
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 18px 48px rgba(76, 57, 145, .14);
+            backdrop-filter: blur(18px);
+        }
+
+        .mobile-nav[hidden] {
+            display: none !important;
+        }
+
+        .mobile-group {
+            border: 1px solid #F0EEF7;
+            border-radius: 13px;
+            background: #FCFBFF;
+            overflow: hidden;
+        }
+
+        .mobile-group+.mobile-group {
+            margin-top: 8px;
+        }
+
+        .mobile-group-title {
+            padding: 11px;
+            color: #566071;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mobile-links {
+            display: grid;
+            gap: 2px;
+            padding: 0 6px 6px;
+        }
+
+        .mobile-links a {
+            padding: 8px;
+            border-radius: 8px;
+            color: #6A7281;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .mobile-links a:hover,
+        .mobile-links a.active {
+            background: #F6F3FF;
+            color: var(--purple-dark);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .topbar {
+                grid-template-columns: 1fr auto;
+                gap: 10px;
+                padding: 0 22px;
+            }
+
+            .top-nav {
+                display: none;
+            }
+
+            .topbar .mobile-menu {
+                display: grid;
+            }
+
+            .profile-copy {
+                display: none;
+            }
+
+            .topbar-right {
+                justify-self: end;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .topbar {
+                min-height: 70px;
+                padding: 0 14px;
+            }
+
+            .topbar .brand-name {
+                font-size: 18px;
+            }
+
+            .topbar .portal-label {
+                display: none;
+            }
+
+            .topbar .mobile-menu {
+                display: grid;
+            }
+
+            .topbar-right {
+                gap: 7px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .topbar {
+                padding-left: 11px;
+                padding-right: 11px;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
@@ -1248,88 +1712,125 @@
         <div class="glow one"></div>
         <div class="glow two"></div>
 
-        <aside class="sidebar" id="sidebar">
-            <a class="brand" href="admin-dashboard.html" aria-label="CareerAdvisor Admin Dashboard">
-                <div class="brand-mark">
-                    <i class="fa-solid fa-compass"></i>
-                </div>
-                <div class="brand-name">Career<span>Advisor</span></div>
-            </a>
-
-            <div class="portal-label">Admin workspace</div>
-
-            <nav class="nav">
-                <a class="nav-link" href="admin-dashboard.html">
-                    <i class="fa-solid fa-table-columns"></i>
-                    <span>Dashboard</span>
-                </a>
-
-                <a class="nav-link active" href="admin-student-management.html">
-                    <i class="fa-solid fa-user-graduate"></i>
-                    <span>Students</span>
-                </a>
-
-                <a class="nav-link" href="admin-student-profile.html">
-                    <i class="fa-solid fa-id-card"></i>
-                    <span>Student Profiles</span>
-                </a>
-
-                <a class="nav-link" href="admin-system-overview.html">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <span>System Overview</span>
-                </a>
-
-                <a class="nav-link" href="admin-course-management.html">
-                    <i class="fa-solid fa-book-open"></i>
-                    <span>Course Data</span>
-                </a>
-            </nav>
-
-            <div class="sidebar-spacer"></div>
-
-            <div class="admin-mini-card">
-                <span class="mini-label">Signed in as</span>
-                <strong id="sidebarAdminName">Administrator</strong>
-            </div>
-
-            <a class="nav-link logout-link" href="#" id="logoutButton">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Logout</span>
-            </a>
-        </aside>
-
-        <div class="drawer-overlay" id="drawerOverlay"></div>
-
         <main class="main">
             <header class="topbar">
-                <div class="topbar-left">
-                    <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Open navigation">
+                <a class="brand" href="../index.html" aria-label="CareerAdvisor Admin Dashboard">
+                    <div class="brand-mark">
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+                    <div>
+                        <div class="brand-name">Career<span>Advisor</span></div>
+                        <div class="portal-label">ADMIN PORTAL</div>
+                    </div>
+                </a>
+
+                <nav class="top-nav" aria-label="Admin navigation">
+                    <a class="top-nav-link" href="admin-dashboard.html">
+                        <i class="fa-solid fa-table-columns"></i>
+                        Dashboard
+                    </a>
+
+                    <a class="top-nav-link active" href="admin-student-management.html">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        Students
+                    </a>
+
+                    <a class="top-nav-link" href="admin-counselor-management.html">
+                        <i class="fa-solid fa-user-tie"></i>
+                        Counselor
+                    </a>
+
+                    <div class="top-nav-item" id="workspaceNavItem">
+                        <button class="top-nav-trigger" id="workspaceTrigger" type="button" aria-expanded="false">
+                            Workspace
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+
+                        <div class="top-dropdown">
+                            <div class="top-dropdown-title">Platform Data</div>
+
+                            <a class="top-dropdown-link" href="../index.html#careers">
+                                <i class="fa-solid fa-compass"></i>
+                                Career Data
+                            </a>
+
+                            <a class="top-dropdown-link" href="admin-course-management.html">
+                                <i class="fa-solid fa-book-open"></i>
+                                Course Data
+                            </a>
+
+                            <a class="top-dropdown-link" href="admin-college-management.html">
+                                <i class="fa-solid fa-building-columns"></i>
+                                College Data
+                            </a>
+
+                            <a class="top-dropdown-link" href="admin-assessment-management.html">
+                                <i class="fa-solid fa-clipboard-question"></i>
+                                Assessment
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="topbar-right">
+                    <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-label="Open admin navigation">
                         <i class="fa-solid fa-bars"></i>
                     </button>
 
-                    <div>
-                        <div class="page-kicker">CareerAdvisor / Admin / Students</div>
-                        <h1 class="page-title">Student Management</h1>
-                    </div>
-                </div>
-
-                <div class="topbar-right">
-                    <button class="header-button" id="refreshButton" type="button" title="Refresh students"
+                    <button class="refresh-button" id="refreshButton" type="button" title="Refresh students"
                         aria-label="Refresh students">
                         <i class="fa-solid fa-arrows-rotate"></i>
                     </button>
 
-                    <button class="header-button" id="notificationButton" type="button" title="Notifications"
+                    <button class="notification-button" id="notificationButton" type="button" title="Notifications"
                         aria-label="Notifications">
                         <i class="fa-regular fa-bell"></i>
                         <span class="notification-dot"></span>
                     </button>
 
-                    <div class="admin-profile">
-                        <div class="avatar" id="adminAvatar">AD</div>
-                        <div class="profile-copy">
-                            <strong id="adminName">Administrator</strong>
-                            <span>Admin account</span>
+                    <div class="admin-account" id="adminAccount">
+                        <button class="admin-account-trigger" id="adminAccountTrigger" type="button"
+                            aria-expanded="false" aria-label="Open admin account menu">
+                            <span class="avatar" id="adminAvatar">AD</span>
+
+                            <span class="profile-copy">
+                                <strong id="adminName">Administrator</strong>
+                                <span>ADMIN</span>
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down admin-account-arrow"></i>
+                        </button>
+
+                        <div class="admin-account-menu">
+                            <a href="admin-dashboard.html">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                Dashboard
+                            </a>
+                            <button class="logout" id="logoutButton" type="button">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mobile-nav" id="mobileNav" hidden>
+                    <div class="mobile-group">
+                        <div class="mobile-group-title">Main</div>
+                        <div class="mobile-links">
+                            <a class="active" href="admin-dashboard.html">Dashboard</a>
+                            <a href="admin-student-management.html">Students</a>
+                            <a href="admin-counselor-management.html">Counselor</a>
+                        </div>
+                    </div>
+
+                    <div class="mobile-group">
+                        <div class="mobile-group-title">Workspace</div>
+                        <div class="mobile-links">
+                            <a href="../index.html#careers">Career Data</a>
+                            <a href="admin-course-management.html">Course Data</a>
+                            <a href="admin-college-management.html">College Data</a>
+                            <a href="admin-assessment-management.html">Assessment</a>
                         </div>
                     </div>
                 </div>
@@ -1493,35 +1994,48 @@
         <span id="toastText"></span>
     </div>
 
+
     <script>
         const API_BASE_URL = "http://localhost:8081";
         const TOKEN_KEY = "token";
         const USER_KEY = "user";
 
-        const sidebar = document.getElementById("sidebar");
-        const mobileMenu = document.getElementById("mobileMenu");
-        const drawerOverlay = document.getElementById("drawerOverlay");
         const logoutButton = document.getElementById("logoutButton");
         const refreshButton = document.getElementById("refreshButton");
         const notificationButton = document.getElementById("notificationButton");
+
+        const workspaceNavItem = document.getElementById("workspaceNavItem");
+        const workspaceTrigger = document.getElementById("workspaceTrigger");
+
+        const adminAccount = document.getElementById("adminAccount");
+        const adminAccountTrigger = document.getElementById("adminAccountTrigger");
+
+        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+        const mobileNav = document.getElementById("mobileNav");
+
         const studentSearch = document.getElementById("studentSearch");
         const statusFilter = document.getElementById("statusFilter");
         const studentSort = document.getElementById("studentSort");
         const studentTableBody = document.getElementById("studentTableBody");
         const studentTableWrap = document.getElementById("studentTableWrap");
         const studentTableState = document.getElementById("studentTableState");
+
         const profileModal = document.getElementById("profileModal");
         const closeModal = document.getElementById("closeModal");
         const profileContent = document.getElementById("profileContent");
         const modalStudentName = document.getElementById("modalStudentName");
+
         const totalStudents = document.getElementById("totalStudents");
         const activeStudents = document.getElementById("activeStudents");
         const inactiveStudents = document.getElementById("inactiveStudents");
+
         const adminAvatar = document.getElementById("adminAvatar");
         const adminName = document.getElementById("adminName");
-        const sidebarAdminName = document.getElementById("sidebarAdminName");
+
         const toast = document.getElementById("toast");
         const toastText = document.getElementById("toastText");
+
+        const heroRefreshButton = document.getElementById("heroRefreshButton");
 
         let students = [];
         let toastTimer = null;
@@ -1539,7 +2053,7 @@
         }
 
         function getInitials(name) {
-            return String(name || "Admin")
+            return String(name || "Administrator")
                 .trim()
                 .split(/\s+/)
                 .filter(Boolean)
@@ -1550,18 +2064,18 @@
         }
 
         function normalizeStatus(student) {
-            const status = String(
+            const raw = String(
                 student?.status ??
                 student?.accountStatus ??
                 student?.active ??
                 ""
             ).toUpperCase();
 
-            if (status === "ACTIVE" || status === "TRUE" || status === "ENABLED") {
+            if (raw === "ACTIVE" || raw === "TRUE" || raw === "ENABLED") {
                 return "ACTIVE";
             }
 
-            if (status === "INACTIVE" || status === "FALSE" || status === "DISABLED") {
+            if (raw === "INACTIVE" || raw === "FALSE" || raw === "DISABLED") {
                 return "INACTIVE";
             }
 
@@ -1569,13 +2083,8 @@
         }
 
         function setAdminUI(user) {
-            if (!user) {
-                return;
-            }
-
-            const name = user.name || "Administrator";
+            const name = user?.name || "Administrator";
             adminName.textContent = name;
-            sidebarAdminName.textContent = name;
             adminAvatar.textContent = getInitials(name);
         }
 
@@ -1594,28 +2103,24 @@
             toast.classList.add("show");
 
             clearTimeout(toastTimer);
-
-            toastTimer = setTimeout(() => {
-                toast.classList.remove("show");
-            }, 2600);
+            toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
         }
 
         function showTableState(title, message, iconClass, retry = false) {
             studentTableWrap.hidden = true;
 
             studentTableState.innerHTML = `
-                <div class="state-icon">
-                    <i class="${iconClass}"></i>
-                </div>
-                <h3>${title}</h3>
-                <p>${message}</p>
-                ${retry ? '<button class="retry-button" type="button" id="retryButton">Try Again</button>' : ""}
-            `;
+            <div class="state-icon">
+                <i class="${iconClass}"></i>
+            </div>
+            <h3>${escapeHtml(title)}</h3>
+            <p>${escapeHtml(message)}</p>
+            ${retry ? '<button class="retry-button" type="button" id="retryButton">Try Again</button>' : ""}
+        `;
 
             studentTableState.hidden = false;
 
             const retryButton = document.getElementById("retryButton");
-
             if (retryButton) {
                 retryButton.addEventListener("click", loadStudents);
             }
@@ -1628,34 +2133,35 @@
 
             let filtered = students.filter(student => {
                 const searchable = [
-                    student.name,
-                    student.email,
-                    student.phone
+                    student?.name,
+                    student?.email,
+                    student?.phone
                 ]
                     .filter(Boolean)
                     .join(" ")
                     .toLowerCase();
 
                 const matchesSearch = !searchTerm || searchable.includes(searchTerm);
-                const matchesStatus = status === "ALL" || normalizeStatus(student) === status;
+                const matchesStatus =
+                    status === "ALL" || normalizeStatus(student) === status;
 
                 return matchesSearch && matchesStatus;
             });
 
             filtered.sort((a, b) => {
                 if (sort === "nameAsc") {
-                    return String(a.name || "").localeCompare(String(b.name || ""));
+                    return String(a?.name || "").localeCompare(String(b?.name || ""));
                 }
 
                 if (sort === "nameDesc") {
-                    return String(b.name || "").localeCompare(String(a.name || ""));
+                    return String(b?.name || "").localeCompare(String(a?.name || ""));
                 }
 
                 if (sort === "newest") {
-                    return Number(b.id || 0) - Number(a.id || 0);
+                    return Number(b?.id || 0) - Number(a?.id || 0);
                 }
 
-                return Number(a.id || 0) - Number(b.id || 0);
+                return Number(a?.id || 0) - Number(b?.id || 0);
             });
 
             if (!filtered.length) {
@@ -1672,54 +2178,42 @@
 
             studentTableBody.innerHTML = filtered.map(student => {
                 const statusValue = normalizeStatus(student);
-                const statusClass = statusValue === "ACTIVE"
-                    ? "status-active"
-                    : "status-inactive";
+                const statusClass =
+                    statusValue === "ACTIVE" ? "status-active" : "status-inactive";
+                const id = Number(student?.id || 0);
+                const name = student?.name || "Unnamed Student";
 
                 return `
-                    <tr data-id="${student.id}">
-                        <td>
-                            <div class="student-name">
-                                <div class="student-avatar">${getInitials(student.name)}</div>
-                                <span>${escapeHtml(student.name || "Unnamed Student")}</span>
-                            </div>
-                        </td>
-                        <td class="email-cell" title="${escapeAttribute(student.email || "")}">
-                            ${escapeHtml(student.email || "—")}
-                        </td>
-                        <td>${escapeHtml(student.phone || "—")}</td>
-                        <td>
-                            <span class="status-pill ${statusClass}">
-                                ${statusValue}
-                            </span>
-                        </td>
-                        <td>
-                            <button
-                                type="button"
-                                class="view-button"
-                                data-view-id="${student.id}"
-                                aria-label="View profile of ${escapeAttribute(student.name || "student")}"
-                            >
-                                <i class="fa-regular fa-eye"></i>
-                                View
-                            </button>
-                        </td>
-                    </tr>
-                `;
+                <tr data-id="${id}">
+                    <td>
+                        <div class="student-name">
+                            <div class="student-avatar">${getInitials(name)}</div>
+                            <span>${escapeHtml(name)}</span>
+                        </div>
+                    </td>
+                    <td class="email-cell" title="${escapeAttribute(student?.email || "")}">
+                        ${escapeHtml(student?.email || "—")}
+                    </td>
+                    <td>${escapeHtml(student?.phone || "—")}</td>
+                    <td>
+                        <span class="status-pill ${statusClass}">
+                            ${statusValue}
+                        </span>
+                    </td>
+                    <td>
+                        <button
+                            type="button"
+                            class="view-button"
+                            data-view-id="${id}"
+                            aria-label="View profile of ${escapeAttribute(name)}"
+                        >
+                            <i class="fa-regular fa-eye"></i>
+                            View
+                        </button>
+                    </td>
+                </tr>
+            `;
             }).join("");
-
-            studentTableBody.querySelectorAll("[data-view-id]").forEach(button => {
-                button.addEventListener("click", event => {
-                    event.stopPropagation();
-                    window.location.href = `admin-student-profile.html?id=${button.dataset.viewId}`;
-                });
-            });
-
-            studentTableBody.querySelectorAll("tr[data-id]").forEach(row => {
-                row.addEventListener("click", () => {
-                    window.location.href = `admin-student-profile.html?id=${row.dataset.id}`;
-                });
-            });
         }
 
         function updateStats() {
@@ -1738,19 +2232,13 @@
 
         async function loadStudents() {
             const token = getToken();
-
-            if (!token) {
-                redirectToLogin();
-                return;
-            }
-
             const user = getStoredUser();
 
-            if (!user || String(user.role || "").toUpperCase() !== "ADMIN") {
+            if (!token || String(user?.role || "").toUpperCase() !== "ADMIN") {
                 localStorage.removeItem(TOKEN_KEY);
                 localStorage.removeItem(USER_KEY);
                 redirectToLogin();
-                return;
+                return false;
             }
 
             showTableState(
@@ -1771,7 +2259,7 @@
 
                 if (response.status === 401 || response.status === 403) {
                     handleUnauthorized();
-                    return;
+                    return false;
                 }
 
                 if (!response.ok) {
@@ -1785,11 +2273,13 @@
                 }
 
                 students = data.filter(
-                    student => String(student.role || "").toUpperCase() === "STUDENT"
+                    student => String(student?.role || "").toUpperCase() === "STUDENT"
                 );
 
                 updateStats();
                 renderStudents();
+
+                return true;
             } catch (error) {
                 console.error("Student Management Error:", error);
 
@@ -1799,6 +2289,8 @@
                     "fa-solid fa-triangle-exclamation",
                     true
                 );
+
+                return false;
             }
         }
 
@@ -1808,16 +2300,15 @@
             document.body.style.overflow = "hidden";
 
             modalStudentName.textContent = "Student Profile";
-
             profileContent.innerHTML = `
-                <div class="state">
-                    <div class="state-icon">
-                        <i class="fa-solid fa-spinner fa-spin"></i>
-                    </div>
-                    <h3>Loading profile</h3>
-                    <p>Fetching student details from the admin API.</p>
+            <div class="state">
+                <div class="state-icon">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
                 </div>
-            `;
+                <h3>Loading profile</h3>
+                <p>Fetching student details from the admin API.</p>
+            </div>
+        `;
 
             const token = getToken();
 
@@ -1827,14 +2318,17 @@
             }
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/admin/students/${studentId}`, {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        Accept: "application/json"
-                    },
-                    cache: "no-store"
-                });
+                const response = await fetch(
+                    `${API_BASE_URL}/api/admin/students/${encodeURIComponent(studentId)}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            Accept: "application/json"
+                        },
+                        cache: "no-store"
+                    }
+                );
 
                 if (response.status === 401 || response.status === 403) {
                     handleUnauthorized();
@@ -1847,64 +2341,67 @@
 
                 const profile = await response.json();
 
-                modalStudentName.textContent = profile.name || "Student Profile";
+                modalStudentName.textContent = profile?.name || "Student Profile";
                 profileContent.innerHTML = buildProfileDetails(profile);
             } catch (error) {
                 console.error("Student profile error:", error);
 
                 profileContent.innerHTML = `
-                    <div class="state">
-                        <div class="state-icon">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </div>
-                        <h3>Profile could not be loaded</h3>
-                        <p>Unable to fetch the selected student's profile right now.</p>
+                <div class="state">
+                    <div class="state-icon">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
                     </div>
-                `;
+                    <h3>Profile could not be loaded</h3>
+                    <p>Unable to fetch the selected student's profile right now.</p>
+                </div>
+            `;
             }
         }
 
         function buildProfileDetails(profile) {
             return `
-                <div class="profile-summary">
-                    <div class="profile-summary-avatar">${getInitials(profile.name)}</div>
-                    <div>
-                        <h3>${escapeHtml(profile.name || "Unnamed Student")}</h3>
-                        <span>${escapeHtml(profile.email || "—")} · ${escapeHtml(profile.role || "STUDENT")}</span>
-                    </div>
+            <div class="profile-summary">
+                <div class="profile-summary-avatar">${getInitials(profile?.name)}</div>
+                <div>
+                    <h3>${escapeHtml(profile?.name || "Unnamed Student")}</h3>
+                    <span>
+                        ${escapeHtml(profile?.email || "—")} ·
+                        ${escapeHtml(profile?.role || "STUDENT")}
+                    </span>
                 </div>
+            </div>
 
-                <div class="detail-grid">
-                    ${detailItem("Student ID", profile.id)}
-                    ${detailItem("Phone", profile.phone)}
-                    ${detailItem("Class", profile.className)}
-                    ${detailItem("Stream", profile.stream)}
-                    ${detailItem("Percentage", profile.percentage)}
-                    ${detailItem("Favorite Subjects", profile.favoriteSubjects)}
-                    ${detailItem("Strong Subjects", profile.strongSubjects)}
-                    ${detailItem("Weak Subjects", profile.weakSubjects)}
-                    ${detailItem("Interests", profile.interests)}
-                    ${detailItem("Skills", profile.skills)}
-                    ${detailItem("Career Interest", profile.careerInterest)}
-                    ${detailItem("Target Career", profile.targetCareer)}
-                    ${detailItem("Preferred Course", profile.preferredCourse)}
-                    ${detailItem("College Type", profile.collegeType)}
-                    ${detailItem("Budget Range", profile.budgetRange)}
-                    ${detailItem("Hostel Required", profile.hostelRequired)}
-                    ${detailItem("City", profile.city)}
-                    ${detailItem("State", profile.state)}
-                    ${detailItem("Preferred Location", profile.preferredLocation, true)}
-                </div>
-            `;
+            <div class="detail-grid">
+                ${detailItem("Student ID", profile?.id)}
+                ${detailItem("Phone", profile?.phone)}
+                ${detailItem("Class", profile?.className)}
+                ${detailItem("Stream", profile?.stream)}
+                ${detailItem("Percentage", profile?.percentage)}
+                ${detailItem("Favorite Subjects", profile?.favoriteSubjects)}
+                ${detailItem("Strong Subjects", profile?.strongSubjects)}
+                ${detailItem("Weak Subjects", profile?.weakSubjects)}
+                ${detailItem("Interests", profile?.interests)}
+                ${detailItem("Skills", profile?.skills)}
+                ${detailItem("Career Interest", profile?.careerInterest)}
+                ${detailItem("Target Career", profile?.targetCareer)}
+                ${detailItem("Preferred Course", profile?.preferredCourse)}
+                ${detailItem("College Type", profile?.collegeType)}
+                ${detailItem("Budget Range", profile?.budgetRange)}
+                ${detailItem("Hostel Required", profile?.hostelRequired)}
+                ${detailItem("City", profile?.city)}
+                ${detailItem("State", profile?.state)}
+                ${detailItem("Preferred Location", profile?.preferredLocation, true)}
+            </div>
+        `;
         }
 
         function detailItem(label, value, full = false) {
             return `
-                <div class="detail-item${full ? " full" : ""}">
-                    <span>${escapeHtml(label)}</span>
-                    <strong>${escapeHtml(formatValue(value))}</strong>
-                </div>
-            `;
+            <div class="detail-item${full ? " full" : ""}">
+                <span>${escapeHtml(label)}</span>
+                <strong>${escapeHtml(formatValue(value))}</strong>
+            </div>
+        `;
         }
 
         function formatValue(value) {
@@ -1938,23 +2435,26 @@
             closeProfileModal();
             showToast("Your admin session has expired. Please login again.", "error");
 
-            setTimeout(() => {
-                redirectToLogin();
-            }, 650);
+            setTimeout(redirectToLogin, 650);
         }
 
         function redirectToLogin() {
             window.location.href = "../login.html";
         }
 
-        function openSidebar() {
-            sidebar.classList.add("open");
-            drawerOverlay.classList.add("show");
+        function setWorkspaceOpen(open) {
+            workspaceNavItem.classList.toggle("open", open);
+            workspaceTrigger.setAttribute("aria-expanded", String(open));
         }
 
-        function closeSidebar() {
-            sidebar.classList.remove("open");
-            drawerOverlay.classList.remove("show");
+        function setAdminAccountOpen(open) {
+            adminAccount.classList.toggle("open", open);
+            adminAccountTrigger.setAttribute("aria-expanded", String(open));
+        }
+
+        function setMobileNavOpen(open) {
+            mobileNav.hidden = !open;
+            mobileMenuBtn.setAttribute("aria-expanded", String(open));
         }
 
         logoutButton.addEventListener("click", event => {
@@ -1964,15 +2464,66 @@
             window.location.href = "../login.html";
         });
 
-        mobileMenu.addEventListener("click", openSidebar);
-        drawerOverlay.addEventListener("click", closeSidebar);
+        workspaceTrigger.addEventListener("click", event => {
+            event.stopPropagation();
+            setWorkspaceOpen(!workspaceNavItem.classList.contains("open"));
+            setAdminAccountOpen(false);
+        });
+
+        adminAccountTrigger.addEventListener("click", event => {
+            event.stopPropagation();
+            setAdminAccountOpen(!adminAccount.classList.contains("open"));
+            setWorkspaceOpen(false);
+        });
+
+        mobileMenuBtn.addEventListener("click", event => {
+            event.stopPropagation();
+            setMobileNavOpen(mobileNav.hidden);
+            setWorkspaceOpen(false);
+            setAdminAccountOpen(false);
+        });
+
+        document.addEventListener("click", event => {
+            if (!workspaceNavItem.contains(event.target)) {
+                setWorkspaceOpen(false);
+            }
+
+            if (!adminAccount.contains(event.target)) {
+                setAdminAccountOpen(false);
+            }
+
+            if (!mobileNav.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                setMobileNavOpen(false);
+            }
+        });
+
+        mobileNav.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                setMobileNavOpen(false);
+            });
+        });
 
         refreshButton.addEventListener("click", async () => {
-            refreshButton.classList.add("spinning");
-            await loadStudents();
-            refreshButton.classList.remove("spinning");
-            showToast("Student data refreshed.");
+            refreshButton.classList.remove("spin-once");
+            void refreshButton.offsetWidth;
+            refreshButton.classList.add("spin-once");
+
+            showToast("Refreshing student data...");
+
+            const loaded = await loadStudents();
+
+            if (loaded) {
+                showToast("Student data refreshed successfully.");
+            }
+
+            setTimeout(() => {
+                refreshButton.classList.remove("spin-once");
+            }, 700);
         });
+
+        if (heroRefreshButton) {
+            heroRefreshButton.addEventListener("click", () => refreshButton.click());
+        }
 
         notificationButton.addEventListener("click", () => {
             showToast("No new student management notifications.");
@@ -1981,6 +2532,19 @@
         studentSearch.addEventListener("input", renderStudents);
         statusFilter.addEventListener("change", renderStudents);
         studentSort.addEventListener("change", renderStudents);
+
+        studentTableBody.addEventListener("click", event => {
+            const button = event.target.closest("[data-view-id]");
+
+            if (button) {
+                const studentId = button.dataset.viewId;
+
+                window.location.href =
+                    `admin-student-profile.html?id=${encodeURIComponent(studentId)}`;
+
+                return;
+            }
+        });
 
         closeModal.addEventListener("click", closeProfileModal);
 
@@ -1993,27 +2557,16 @@
         document.addEventListener("keydown", event => {
             if (event.key === "Escape") {
                 closeProfileModal();
-                closeSidebar();
+                setWorkspaceOpen(false);
+                setAdminAccountOpen(false);
+                setMobileNavOpen(false);
             }
         });
-
-        const style = document.createElement("style");
-        style.textContent = `
-            .spinning {
-                animation: spinButton 0.8s linear infinite;
-            }
-
-            @keyframes spinButton {
-                to {
-                    transform: rotate(360deg);
-                }
-            }
-        `;
-        document.head.appendChild(style);
 
         setAdminUI(getStoredUser());
         loadStudents();
     </script>
+
 </body>
 
 </html>
