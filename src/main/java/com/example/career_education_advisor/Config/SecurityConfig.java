@@ -20,84 +20,76 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-        @Autowired
-        private JwtFilter jwtFilter;
+    @Autowired
+    private JwtFilter jwtFilter;
 
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-                http
-                                .csrf(csrf -> csrf.disable())
+        http
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(
+                corsConfigurationSource()))
+                .authorizeHttpRequests(auth -> auth
+                // Login and Registration
+                .requestMatchers("/api/auth/**")
+                .permitAll()
+                // Assessment APIs
+                .requestMatchers("/api/assessment/**")
+                .permitAll()
+                // Course / College / Career Recommendation
+                .requestMatchers("/api/recommendation/**")
+                .permitAll()
+                // CORS Preflight Requests
+                .requestMatchers(
+                        HttpMethod.OPTIONS,
+                        "/**")
+                .permitAll()
+                // All other APIs require authentication
+                .anyRequest()
+                .authenticated())
+                .addFilterBefore(
+                        jwtFilter,
+                        UsernamePasswordAuthenticationFilter.class);
 
-                                .cors(cors -> cors.configurationSource(
-                                                corsConfigurationSource()))
+        return http.build();
+    }
 
-                                .authorizeHttpRequests(auth -> auth
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
 
-                                                // Login and Registration
-                                                .requestMatchers("/api/auth/**")
-                                                .permitAll()
+        CorsConfiguration configuration = new CorsConfiguration();
 
-                                                // Assessment APIs
-                                                .requestMatchers("/api/assessment/**")
-                                                .permitAll()
+        configuration.setAllowedOrigins(
+                Arrays.asList(
+                        "http://127.0.0.1:5500",
+                        "http://localhost:5500"));
 
-                                                // Course / College / Career Recommendation
-                                                .requestMatchers("/api/recommendation/**")
-                                                .permitAll()
+        configuration.setAllowedMethods(
+                Arrays.asList(
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                        "OPTIONS"));
 
-                                                // CORS Preflight Requests
-                                                .requestMatchers(
-                                                                HttpMethod.OPTIONS,
-                                                                "/**")
-                                                .permitAll()
+        configuration.setAllowedHeaders(
+                Arrays.asList("*"));
 
-                                                // All other APIs require authentication
-                                                .anyRequest()
-                                                .authenticated())
+        configuration.setAllowCredentials(false);
 
-                                .addFilterBefore(
-                                                jwtFilter,
-                                                UsernamePasswordAuthenticationFilter.class);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
-                return http.build();
-        }
+        source.registerCorsConfiguration(
+                "/**",
+                configuration);
 
-        @Bean
-        public CorsConfigurationSource corsConfigurationSource() {
+        return source;
+    }
 
-                CorsConfiguration configuration = new CorsConfiguration();
+    @Bean
+    public PasswordEncoder passwordEncoder() {
 
-                configuration.setAllowedOrigins(
-                                Arrays.asList(
-                                                "http://127.0.0.1:5500",
-                                                "http://localhost:5500"));
-
-                configuration.setAllowedMethods(
-                                Arrays.asList(
-                                                "GET",
-                                                "POST",
-                                                "PUT",
-                                                "DELETE",
-                                                "OPTIONS"));
-
-                configuration.setAllowedHeaders(
-                                Arrays.asList("*"));
-
-                configuration.setAllowCredentials(false);
-
-                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-                source.registerCorsConfiguration(
-                                "/**",
-                                configuration);
-
-                return source;
-        }
-
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-
-                return new BCryptPasswordEncoder();
-        }
+        return new BCryptPasswordEncoder();
+    }
 }

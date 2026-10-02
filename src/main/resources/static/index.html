@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="htmlRoot">
+<html lang="en" id="htmlRoot" class="lm">
 
 <head>
     <meta charset="UTF-8">
@@ -2310,6 +2310,514 @@
             border-color: transparent;
         }
     </style>
+
+    <style>
+        :root {
+            --bg: #f8f9fd;
+            --bg2: #ffffff;
+            --bg3: #f7f5ff;
+            --sf: #ffffff;
+            --bd: rgba(83, 70, 170, .10);
+            --bd2: rgba(83, 70, 170, .18);
+            --tx: #141426;
+            --tx2: #596078;
+            --tx3: #858ba0;
+            --pur: #7c4dff;
+            --blu: #3b82f6;
+            --grad: linear-gradient(135deg, #7c4dff 0%, #4b8df8 100%);
+        }
+
+        html,
+        body {
+            background: #f8f9fd;
+            color: #141426;
+        }
+
+        body {
+            line-height: 1.6;
+        }
+
+        #nbar {
+            height: 74px;
+            background: rgba(255, 255, 255, .84);
+            border-bottom: 1px solid rgba(87, 73, 168, .10);
+            box-shadow: 0 8px 30px rgba(58, 45, 126, .06);
+            backdrop-filter: blur(20px) saturate(150%);
+        }
+
+        #nbar.scr {
+            background: rgba(255, 255, 255, .95);
+            box-shadow: 0 10px 34px rgba(58, 45, 126, .09);
+        }
+
+        .career-logo {
+            font-size: 1.22rem !important;
+        }
+
+        .logo-i {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 22px rgba(124, 77, 255, .18);
+        }
+
+        .nav-link {
+            color: #666d82 !important;
+            font-size: .9rem;
+            font-weight: 600;
+            padding: 8px 14px !important;
+        }
+
+        .nav-link:hover {
+            color: #5633ce !important;
+            background: rgba(124, 77, 255, .07) !important;
+        }
+
+        .boc {
+            background: rgba(255, 255, 255, .86);
+            border: 1px solid rgba(83, 70, 170, .15);
+            color: #353b4d;
+            box-shadow: 0 4px 16px rgba(69, 57, 130, .04);
+        }
+
+        .boc:hover {
+            border-color: rgba(124, 77, 255, .32);
+            background: #fff;
+            color: #5d38d5;
+            box-shadow: 0 10px 24px rgba(69, 57, 130, .08);
+        }
+
+        .bgrd {
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 28px rgba(90, 72, 201, .18);
+        }
+
+        .bgrd::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, transparent 25%, rgba(255, 255, 255, .22) 45%, transparent 65%);
+            transform: translateX(-120%);
+            transition: transform .75s ease;
+            pointer-events: none;
+        }
+
+        .bgrd:hover::after {
+            transform: translateX(120%);
+        }
+
+        #hero {
+            min-height: 760px;
+            padding-top: 74px;
+            padding-bottom: 70px;
+            background:
+                radial-gradient(circle at 9% 22%, rgba(124, 77, 255, .10), transparent 27%),
+                radial-gradient(circle at 91% 25%, rgba(59, 130, 246, .10), transparent 28%),
+                linear-gradient(180deg, #ffffff 0%, #f8f9fd 100%);
+        }
+
+        #hero::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -180px;
+            width: 680px;
+            height: 340px;
+            transform: translateX(-50%);
+            background: radial-gradient(circle, rgba(124, 77, 255, .11), transparent 68%);
+            filter: blur(16px);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            opacity: .75;
+            background-image:
+                linear-gradient(rgba(124, 77, 255, .045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, .04) 1px, transparent 1px);
+            background-size: 44px 44px;
+        }
+
+        .hero-copy {
+            max-width: 700px;
+        }
+
+        .hbadge {
+            color: #6841d9;
+            background: rgba(124, 77, 255, .08);
+            border-color: rgba(124, 77, 255, .18);
+            box-shadow: 0 8px 22px rgba(124, 77, 255, .07);
+        }
+
+        .bdot {
+            box-shadow: 0 0 0 6px rgba(124, 77, 255, .08);
+        }
+
+        .h1 {
+            font-size: clamp(2.9rem, 5.4vw, 5.2rem);
+            letter-spacing: -.045em;
+            color: #111221;
+        }
+
+        .gt {
+            background: linear-gradient(100deg, #7c4dff 0%, #4b8df8 82%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #hero p {
+            color: #656c80 !important;
+            max-width: 650px;
+        }
+
+        .hero-stat {
+            min-width: 118px;
+        }
+
+        .hero-stat .fw-bold {
+            color: #1d2130;
+            font-size: 1.05rem !important;
+        }
+
+        .hero-stat .small {
+            color: #8a90a1 !important;
+        }
+
+        .hero-dashboard-wrap {
+            position: relative;
+            perspective: 1200px;
+        }
+
+        .career-dashboard {
+            background: rgba(255, 255, 255, .96);
+            border: 1px solid rgba(83, 70, 170, .13);
+            box-shadow: 0 28px 80px rgba(61, 47, 137, .13), 0 0 45px rgba(124, 77, 255, .08);
+            backdrop-filter: blur(16px);
+            transform: rotateX(1.2deg) rotateY(-1.4deg);
+            transition: transform .45s ease, box-shadow .45s ease;
+        }
+
+        .career-dashboard:hover {
+            transform: rotateX(0) rotateY(0) translateY(-4px);
+            box-shadow: 0 36px 92px rgba(61, 47, 137, .16), 0 0 55px rgba(124, 77, 255, .11);
+        }
+
+        .floating-orb {
+            animation: floatLight 7s ease-in-out infinite;
+        }
+
+        .dash-top {
+            background: #f6f5fb;
+            border-color: rgba(83, 70, 170, .09);
+        }
+
+        .dash-sidebar {
+            background: #fbfbfe;
+            border-color: rgba(83, 70, 170, .09);
+        }
+
+        .dash-content {
+            background: rgba(255, 255, 255, .7);
+        }
+
+        .dsi {
+            color: #8a90a3;
+        }
+
+        .dsi.on,
+        .dsi:hover {
+            background: rgba(124, 77, 255, .09);
+            color: #6940db;
+        }
+
+        .mini-card,
+        .stpill,
+        .dps,
+        .arow,
+        .cit {
+            background: #fbfbfe;
+            border-color: rgba(83, 70, 170, .10);
+        }
+
+        .match-ring {
+            background: conic-gradient(#7c4dff 0 92%, #e7e6f3 92% 100%);
+        }
+
+        .match-ring::after {
+            background: #fbfbfe;
+        }
+
+        .career-card .career-icon,
+        .ftico {
+            box-shadow: 0 10px 22px rgba(124, 77, 255, .10);
+        }
+
+        .skill-chip {
+            background: rgba(59, 130, 246, .07);
+            color: #4277d1;
+            border-color: rgba(59, 130, 246, .14);
+        }
+
+        .gc,
+        .pcard,
+        .anst,
+        .resource-card,
+        .career-card {
+            background: rgba(255, 255, 255, .94);
+            border-color: rgba(83, 70, 170, .10);
+            box-shadow: 0 10px 28px rgba(67, 54, 130, .045);
+        }
+
+        .gc:hover,
+        .pcard:hover {
+            border-color: rgba(124, 77, 255, .22);
+            box-shadow: 0 18px 42px rgba(67, 54, 130, .09);
+            transform: translateY(-4px);
+        }
+
+        .slbl {
+            color: #6841d9;
+        }
+
+        .stitle {
+            color: #161827;
+        }
+
+        .ssub {
+            color: #6f7588;
+        }
+
+        .filter-btn.active,
+        .lm .filter-btn.active {
+            background: var(--grad);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(91, 69, 197, .16);
+        }
+
+        .bgrid .gc,
+        .dprev,
+        .cta-panel {
+            box-shadow: 0 18px 48px rgba(67, 54, 130, .065);
+        }
+
+        .dprev {
+            background: #fff;
+            border-color: rgba(83, 70, 170, .11);
+        }
+
+        .dpbody,
+        .dpside {
+            background: #fff;
+        }
+
+        .dpside {
+            border-color: rgba(83, 70, 170, .09);
+        }
+
+        .dpnl {
+            color: #848a9d;
+        }
+
+        .dpnl.on,
+        .dpnl:hover {
+            background: rgba(124, 77, 255, .08);
+            color: #6940db;
+        }
+
+        .chat-wrap,
+        .agent-card {
+            background: #fff;
+            border-color: rgba(83, 70, 170, .10);
+            box-shadow: 0 14px 38px rgba(67, 54, 130, .055);
+        }
+
+        .chat-header,
+        .chat-input-wrap {
+            border-color: rgba(83, 70, 170, .09);
+        }
+
+        .msg-ai,
+        .typing-ind {
+            background: #f8f7fd;
+            border-color: rgba(83, 70, 170, .09);
+            color: #353a4c;
+        }
+
+        .chat-inp {
+            background: #fbfbfe;
+            border-color: rgba(83, 70, 170, .14);
+            color: #222638;
+        }
+
+        .pbadge {
+            box-shadow: 0 8px 20px rgba(91, 69, 197, .16);
+        }
+
+        .pcard.pop {
+            background: linear-gradient(145deg, rgba(124, 77, 255, .065), rgba(59, 130, 246, .035));
+            border-color: rgba(124, 77, 255, .25);
+            box-shadow: 0 18px 48px rgba(91, 69, 197, .09);
+        }
+
+        .acco .accordion-item,
+        .acco .accordion-button {
+            background: #fff;
+            border-color: rgba(83, 70, 170, .10);
+        }
+
+        .acco .accordion-button {
+            color: #202434;
+        }
+
+        .acco .accordion-button:not(.collapsed) {
+            background: rgba(124, 77, 255, .055);
+            color: #6138d2;
+        }
+
+        #proof {
+            background: #ffffff;
+            border-color: rgba(83, 70, 170, .08);
+        }
+
+        .plbl,
+        .footer-link,
+        .fcol a {
+            color: #858b9f;
+        }
+
+        #cta {
+            background:
+                radial-gradient(circle at 18% 30%, rgba(124, 77, 255, .08), transparent 28%),
+                radial-gradient(circle at 82% 70%, rgba(59, 130, 246, .08), transparent 26%),
+                #fbfbfe;
+            border-top: 1px solid rgba(83, 70, 170, .07);
+        }
+
+        .cta-panel {
+            background: linear-gradient(135deg, rgba(124, 77, 255, .10), rgba(59, 130, 246, .07)), #fff;
+            border-color: rgba(124, 77, 255, .18);
+        }
+
+        #foot {
+            background: #ffffff;
+            border-color: rgba(83, 70, 170, .08);
+        }
+
+        #mbmenu {
+            background: rgba(255, 255, 255, .98);
+            border-color: rgba(83, 70, 170, .10);
+            box-shadow: 0 18px 40px rgba(67, 54, 130, .11);
+        }
+
+        #mbmenu .nav-link {
+            color: #62697d !important;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            color: #141426;
+            border-color: rgba(83, 70, 170, .12);
+            box-shadow: 0 28px 90px rgba(44, 37, 87, .16);
+        }
+
+        .form-control,
+        .form-select {
+            background: #fbfbfe;
+            color: #202538;
+            border-color: rgba(83, 70, 170, .14);
+        }
+
+        .form-control::placeholder {
+            color: #a0a5b4;
+        }
+
+        .form-label {
+            color: #596078;
+        }
+
+        .accordion-item {
+            background: #fff;
+            border-color: rgba(83, 70, 170, .10);
+        }
+
+        .accordion-button {
+            background: #fff;
+            color: #202434;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: rgba(124, 77, 255, .055);
+            color: #6138d2;
+        }
+
+        .tlog {
+            color: #7f8698;
+            opacity: .7;
+        }
+
+        .tlog:hover {
+            color: #5f6679;
+            opacity: 1;
+        }
+
+        .pulse-border {
+            box-shadow: 0 0 0 0 rgba(124, 77, 255, .05);
+        }
+
+        @keyframes floatLight {
+
+            0%,
+            100% {
+                transform: translateY(0) rotateX(1.2deg) rotateY(-1.4deg);
+            }
+
+            50% {
+                transform: translateY(-8px) rotateX(.5deg) rotateY(-.8deg);
+            }
+        }
+
+        @media (max-width: 991px) {
+            #hero {
+                min-height: auto;
+                padding-top: 118px;
+                padding-bottom: 60px;
+            }
+
+            .h1 {
+                font-size: clamp(2.7rem, 7.2vw, 4.4rem);
+            }
+        }
+
+        @media (max-width: 575px) {
+            #nbar {
+                height: 68px;
+            }
+
+            #hero {
+                padding-top: 104px;
+                padding-bottom: 45px;
+            }
+
+            .h1 {
+                font-size: 2.55rem;
+                line-height: 1.08;
+            }
+
+            .hero-stat {
+                min-width: 44%;
+            }
+
+            .career-dashboard {
+                border-radius: 19px;
+                transform: none;
+            }
+
+            .floating-orb {
+                animation-duration: 8s;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -2331,12 +2839,6 @@
                         <a href="#resources" class="nav-link">Resources</a>
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        <button class="boc d-flex align-items-center justify-content-center" id="thbtn"
-                            style="width:38px;height:38px;padding:0;border-radius:12px" aria-label="Toggle theme">
-                            <i class="fa-solid fa-sun" id="suni" style="display:none"></i>
-                            <i class="fa-solid fa-moon" id="mooni"></i>
-                        </button>
-
                         <a href="login.html" class="boc px-3 py-2 d-none d-sm-flex align-items-center gap-1">
                             <i class="fa-regular fa-user fa-sm"></i> Login
                         </a>
@@ -2385,10 +2887,10 @@
                 <div class="row align-items-center g-5">
                     <div class="col-lg-6">
                         <div class="hero-copy">
-                            <div class="afu"><span class="hbadge"><span class="bdot"></span>Personalized guidance for
-                                    your next step</span></div>
-                            <h1 class="h1 afu" style="animation-delay:.1s">Find the Right Career.<br><span
-                                    class="gt">Build the Right Future.</span></h1>
+                            <div class="afu"><span class="hbadge"><span class="bdot"></span>Personalized career &
+                                    education guidance</span></div>
+                            <h1 class="h1 afu" style="animation-delay:.1s">Plan your career.<br><span class="gt">Build
+                                    the right future.</span></h1>
                             <p class="afu"
                                 style="animation-delay:.18s;max-width:610px;font-size:clamp(.98rem,1.8vw,1.16rem);color:var(--tx2);margin-bottom:32px">
                                 Discover careers, courses and colleges that match your academics, interests, skills,
@@ -2397,27 +2899,27 @@
                             <div class="d-flex flex-column flex-sm-row gap-2 afu" style="animation-delay:.25s">
                                 <button class="bgrd btn px-4 py-3" data-bs-toggle="modal"
                                     data-bs-target="#assessmentModal">
-                                    Take Career Assessment <i class="fa-solid fa-arrow-right ms-1"></i>
+                                    Start Your Assessment <i class="fa-solid fa-arrow-right ms-1"></i>
                                 </button>
                                 <a href="#careers" class="boc btn px-4 py-3">Explore Careers</a>
                             </div>
-                            <div class="d-flex flex-wrap gap-4 mt-4 pt-3 border-top"
+                            <div class="d-flex flex-nowrap gap-4 mt-4 pt-3 border-top"
                                 style="border-color:var(--bd)!important">
                                 <div class="hero-stat">
-                                    <div class="fw-bold fs-5">1500+</div>
-                                    <div class="small" style="color:var(--tx3)">Career paths</div>
+                                    <div class="fw-bold fs-5">Career</div>
+                                    <div class="small" style="color:var(--tx3)">Discovery</div>
                                 </div>
                                 <div class="hero-stat">
-                                    <div class="fw-bold fs-5">500+</div>
-                                    <div class="small" style="color:var(--tx3)">Courses</div>
+                                    <div class="fw-bold fs-5">Course</div>
+                                    <div class="small" style="color:var(--tx3)">Roadmap</div>
                                 </div>
                                 <div class="hero-stat">
-                                    <div class="fw-bold fs-5">1000+</div>
-                                    <div class="small" style="color:var(--tx3)">Colleges</div>
+                                    <div class="fw-bold fs-5">College</div>
+                                    <div class="small" style="color:var(--tx3)">Shortlisting</div>
                                 </div>
                                 <div class="hero-stat">
-                                    <div class="fw-bold fs-5">24/7</div>
-                                    <div class="small" style="color:var(--tx3)">Guidance</div>
+                                    <div class="fw-bold fs-5">Skill</div>
+                                    <div class="small" style="color:var(--tx3)">Roadmap</div>
                                 </div>
                             </div>
                         </div>
@@ -2436,8 +2938,8 @@
                                     </div>
                                     <div class="dsi on"><i class="fa-solid fa-chart-pie"></i> Overview</div>
                                     <div class="dsi"><i class="fa-solid fa-compass"></i> Careers</div>
-                                    <div class="dsi"><i class="fa-solid fa-graduation-cap"></i> Courses</div>
-                                    <div class="dsi"><i class="fa-solid fa-building-columns"></i> Colleges</div>
+                                    <div class="dsi"><i class="fa-solid fa-graduation-cap"></i> Roadmap</div>
+                                    <div class="dsi"><i class="fa-solid fa-building-columns"></i> Shortlisting</div>
                                     <div class="dsi"><i class="fa-solid fa-route"></i> Roadmap</div>
                                 </aside>
                                 <div class="dash-content flex-grow-1 p-3 p-md-4">
@@ -2730,7 +3232,7 @@
             <div class="container">
                 <div class="row mb-5">
                     <div class="col-lg-8" data-aos="fade-up">
-                        <div class="slbl">Courses</div>
+                        <div class="slbl">Roadmap</div>
                         <h2 class="stitle">Find the education path <span class="gt">behind your career</span></h2>
                         <p class="ssub">Compare courses by eligibility, duration, skills and career outcomes.</p>
                     </div>
@@ -2788,8 +3290,8 @@
                     <div class="col-lg-8" data-aos="fade-right">
                         <div class="slbl">Government College Finder</div>
                         <h2 class="stitle">Shortlist colleges that <span class="gt">fit your profile</span></h2>
-                        <p class="ssub">Filter by location, course and compatibility. The full platform can later
-                            connect this layer to live college data.</p>
+                        <p class="ssub">Compare college options by course fit, location, admission route and
+                            affordability.</p>
                     </div>
                     <div class="col-lg-4 text-lg-end mt-3 mt-lg-0"><button class="bgrd btn"
                             onclick="scrollToSection('assessmentModal')">Build my college shortlist <i
@@ -2814,7 +3316,7 @@
                     </div>
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                         <div class="gc college-card overflow-hidden h-100"><img
-                                src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=900&q=80"
+                                src="https://www.lawlat.in/files/medialibrary/0fee979b13222b537341f0e4ae0258b9.jpg"
                                 class="w-100" alt="Education illustration">
                             <div class="p-4"><span class="badge skill-chip">Bhopal</span>
                                 <h5 class="mt-3">State University College</h5>
@@ -3135,11 +3637,14 @@
                     <div id="careerModalSkills" class="d-flex flex-wrap gap-2"></div>
                     <div class="p-3 rounded-3 mt-3"
                         style="background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.15)">
-                        <div class="small" style="color:var(--tx2)">This score is a prototype example. The final system
-                            will calculate recommendations from student profile data.</div>
+                        <div class="small" style="color:var(--tx2)">This preview shows how CareerAdvisor can explain the
+                            factors behind a recommendation.</div>
                     </div>
                 </div>
-                <div class="modal-footer"><button class="bgrd btn" data-bs-dismiss="modal">Explore this path</button>
+                <div class="modal-footer">
+                    <button class="bgrd btn" onclick="goToLogin()">
+                        Explore this path
+                    </button>
                 </div>
             </div>
         </div>
@@ -3148,17 +3653,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
-
-        let isDark = true;
-
-        function toggleTheme() {
-            isDark = !isDark;
-            document.getElementById('htmlRoot').classList.toggle('lm', !isDark);
-            document.getElementById('suni').style.display = isDark ? 'none' : 'inline';
-            document.getElementById('mooni').style.display = isDark ? 'inline' : 'none';
-        }
-
-        document.getElementById('thbtn').addEventListener('click', toggleTheme);
 
         window.addEventListener('scroll', () => {
             document.getElementById('nbar').classList.toggle('scr', window.scrollY > 40);
@@ -3197,6 +3691,10 @@
             document.getElementById('careerModalScore').textContent = score;
             document.getElementById('careerModalSkills').innerHTML = skills.split(',').map(skill => `<span class="badge skill-chip">${skill.trim()}</span>`).join('');
             bootstrap.Modal.getOrCreateInstance(document.getElementById('careerModal')).show();
+        }
+
+        function goToLogin() {
+            window.location.href = "login.html";
         }
 
         function runAssessment() {
