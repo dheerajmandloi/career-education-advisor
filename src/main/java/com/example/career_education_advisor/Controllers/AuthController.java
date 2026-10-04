@@ -16,6 +16,8 @@ import com.example.career_education_advisor.DTO.LoginDTO;
 import com.example.career_education_advisor.DTO.RegisterDTO;
 import com.example.career_education_advisor.DTO.UserDTO;
 import com.example.career_education_advisor.Models.User;
+import com.example.career_education_advisor.Services.EmailService;
+import com.example.career_education_advisor.Services.OtpService;
 import com.example.career_education_advisor.Services.UserService;
 
 @RestController
@@ -28,6 +30,88 @@ public class AuthController {
 
     @Autowired
     private Jwtutils jwtutils;
+
+    @Autowired
+    private OtpService otpService;
+
+    @Autowired
+    private EmailService emailService;
+
+    // ================= SEND OTP =================
+
+    @PostMapping("/send-otp")
+    public ResponseEntity<?> sendOtp(
+            @RequestBody Map<String, String> request) {
+
+        try {
+
+            String email = request.get("email");
+
+            if (email == null || email.trim().isEmpty()) {
+                return ResponseEntity
+                        .badRequest()
+                        .body("Email is required");
+            }
+
+            String otp = otpService.generateOtp();
+
+            otpService.saveOtp(email, otp);
+
+            emailService.sendOtp(email, otp);
+
+            return ResponseEntity.ok(
+                    "OTP sent successfully to your email");
+
+        } catch (Exception e) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body("Failed to send OTP: " + e.getMessage());
+        }
+    }
+
+    // ================= VERIFY OTP =================
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<?> verifyOtp(
+            @RequestBody Map<String, String> request) {
+
+        try {
+
+            String email = request.get("email");
+            String otp = request.get("otp");
+
+            if (email == null || email.trim().isEmpty()) {
+                return ResponseEntity
+                        .badRequest()
+                        .body("Email is required");
+            }
+
+            if (otp == null || otp.trim().isEmpty()) {
+                return ResponseEntity
+                        .badRequest()
+                        .body("OTP is required");
+            }
+
+            boolean verified = otpService.verifyOtp(email, otp);
+
+            if (!verified) {
+
+                return ResponseEntity
+                        .badRequest()
+                        .body("Invalid or expired OTP");
+            }
+
+            return ResponseEntity.ok(
+                    "Email verified successfully");
+
+        } catch (Exception e) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
+    }
 
     // ================= STUDENT REGISTER =================
 

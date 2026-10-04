@@ -20,19 +20,33 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private OtpService otpService;
+
     // ================= STUDENT REGISTER =================
 
     public User register(RegisterDTO request) {
 
-        // Email check
+        // ================= OTP CHECK =================
+
+        if (!otpService.isEmailVerified(request.getEmail())) {
+            throw new RuntimeException(
+                    "Please verify your email with OTP before registration");
+        }
+
+        // ================= EMAIL CHECK =================
+
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
 
-        // Phone check
+        // ================= PHONE CHECK =================
+
         if (userRepository.existsByPhone(request.getPhone())) {
             throw new RuntimeException("Phone already exists");
         }
+
+        // ================= CREATE USER =================
 
         User user = new User();
 
@@ -51,22 +65,38 @@ public class UserService {
         // Student account is active
         user.setStatus(AccountStatus.APPROVED);
 
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        // OTP verification complete hone ke baad remove
+        otpService.removeVerifiedEmail(request.getEmail());
+
+        return savedUser;
     }
 
     // ================= COUNSELOR REGISTER =================
 
     public User registerCounselor(RegisterDTO request) {
 
-        // Email check
+        // ================= OTP CHECK =================
+
+        if (!otpService.isEmailVerified(request.getEmail())) {
+            throw new RuntimeException(
+                    "Please verify your email with OTP before registration");
+        }
+
+        // ================= EMAIL CHECK =================
+
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
 
-        // Phone check
+        // ================= PHONE CHECK =================
+
         if (userRepository.existsByPhone(request.getPhone())) {
             throw new RuntimeException("Phone already exists");
         }
+
+        // ================= CREATE COUNSELOR =================
 
         User counselor = new User();
 
@@ -85,7 +115,12 @@ public class UserService {
         // Counselor must complete profile first
         counselor.setStatus(AccountStatus.PENDING_PROFILE);
 
-        return userRepository.save(counselor);
+        User savedCounselor = userRepository.save(counselor);
+
+        // OTP verification complete hone ke baad remove
+        otpService.removeVerifiedEmail(request.getEmail());
+
+        return savedCounselor;
     }
 
     // ================= LOGIN =================
