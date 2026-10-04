@@ -1401,6 +1401,360 @@
                 transform: rotate(360deg)
             }
         }
+
+        .setup-grid {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 20px;
+        }
+
+        .class-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .class-option {
+            position: relative;
+            min-height: 92px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #FCFBFF;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .class-option:hover {
+            transform: translateY(-2px);
+            border-color: #D9D0EE;
+            background: #FAF8FF;
+        }
+
+        .class-option.active {
+            border-color: #CFC1F2;
+            background: #F8F4FF;
+            box-shadow: 0 10px 24px rgba(139, 92, 246, .08);
+        }
+
+        .class-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .class-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .class-top strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .class-top small {
+            display: block;
+            max-width: 230px;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 10.5px;
+            line-height: 1.45;
+        }
+
+        .class-check {
+            width: 21px;
+            height: 21px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border: 1px solid #C7C0D9;
+            border-radius: 7px;
+            color: #fff;
+            background: #fff;
+            font-size: 9px;
+            transition: .18s ease;
+        }
+
+        .class-option.active .class-check {
+            border-color: var(--purple);
+            background: var(--purple);
+        }
+
+        .assessment-select {
+            width: 100%;
+            height: 48px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: var(--surface-soft);
+            color: var(--text);
+            padding: 0 13px;
+            font-size: 12px;
+            transition: .2s ease;
+        }
+
+        .assessment-select:focus {
+            background: #fff;
+            border-color: rgba(139, 92, 246, .35);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, .07);
+        }
+
+        .setup-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-top: 18px;
+            padding-top: 17px;
+            border-top: 1px solid #EFEBF6;
+        }
+
+        .setup-note {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #71809B;
+            font-size: 10.5px;
+            line-height: 1.45;
+        }
+
+        .setup-note i {
+            color: var(--blue);
+        }
+
+        .assessment-panel {
+            display: none;
+            overflow: visible;
+        }
+
+        .assessment-panel.show {
+            display: block;
+            animation: fadeUp .45s ease both;
+        }
+
+        .assessment-head {
+            align-items: center;
+        }
+
+        .assessment-head>div:first-child {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .assessment-head .section-icon {
+            flex: none;
+        }
+
+        .assessment-head h2 {
+            font-size: 18px;
+        }
+
+        .question-count {
+            padding: 7px 10px;
+            border-radius: 999px;
+            color: var(--purple-dark);
+            background: #F5F1FF;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .question-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .question-card {
+            padding: 20px 22px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .97);
+            box-shadow: var(--shadow);
+            transition: .2s ease;
+        }
+
+        .question-card:hover {
+            border-color: #DDD4EF;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .question-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+        }
+
+        .question-number {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border-radius: 10px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .question-text {
+            padding-top: 3px;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 750;
+            line-height: 1.55;
+        }
+
+        .question-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .question-option {
+            position: relative;
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 13px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #FCFBFF;
+            color: #58647A;
+            font-size: 11.5px;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .question-option:hover {
+            border-color: #D9D0EE;
+            background: #FAF8FF;
+            transform: translateY(-1px);
+        }
+
+        .question-option.selected {
+            border-color: #CFC1F2;
+            background: #F8F4FF;
+            color: var(--purple-dark);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, .07);
+        }
+
+        .question-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .question-mark {
+            width: 19px;
+            height: 19px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border: 1.5px solid #C7C0D9;
+            border-radius: 50%;
+            color: #72798A;
+            background: #fff;
+            font-size: 9px;
+            font-weight: 800;
+            transition: .18s ease;
+        }
+
+        .question-option.selected .question-mark {
+            border-color: var(--purple);
+            color: #fff;
+            background: var(--purple);
+        }
+
+        .assessment-footer {
+            margin-top: 15px;
+            position: sticky;
+            bottom: 12px;
+            z-index: 20;
+        }
+
+        .assessment-state {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            margin-top: 18px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: var(--shadow);
+        }
+
+        .assessment-state.show {
+            display: flex;
+            animation: fadeUp .35s ease both;
+        }
+
+        .assessment-state-icon {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border-radius: 10px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .assessment-state.success .assessment-state-icon {
+            color: #15844F;
+            background: #E8FBF4;
+        }
+
+        .assessment-state.error .assessment-state-icon {
+            color: var(--red);
+            background: #FFF0EE;
+        }
+
+        .assessment-state strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .assessment-state p {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10.5px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 760px) {
+
+            .class-options,
+            .question-options {
+                grid-template-columns: 1fr;
+            }
+
+            .setup-footer {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .setup-footer .btn {
+                width: 100%;
+            }
+
+            .assessment-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .assessment-head>div:first-child {
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 
@@ -1435,21 +1789,6 @@
                                     class="fa-solid fa-chart-simple"></i>Skill Gap</a>
                             <a class="dropdown-link" href="student-career-roadmap.html"><i
                                     class="fa-solid fa-route"></i>Career Roadmap</a>
-                        </div>
-                    </div>
-                    <div class="nav-item">
-                        <button class="nav-trigger" type="button" aria-expanded="false">Resources <i
-                                class="fa-solid fa-chevron-down"></i></button>
-                        <div class="dropdown">
-                            <div class="dropdown-title">Resources</div>
-                            <a class="dropdown-link" href="scholarships.html"><i
-                                    class="fa-solid fa-award"></i>Scholarships</a>
-                            <a class="dropdown-link" href="entrance-exams.html"><i
-                                    class="fa-solid fa-file-signature"></i>Entrance Exams</a>
-                            <a class="dropdown-link" href="learning-resources.html"><i
-                                    class="fa-solid fa-laptop-code"></i>Learning Resources</a>
-                            <a class="dropdown-link" href="application-tracker.html"><i
-                                    class="fa-solid fa-list-check"></i>Application Tracker</a>
                         </div>
                     </div>
                 </div>
@@ -1487,274 +1826,175 @@
                             href="student-skill-gap.html">Skill Gap</a><a href="student-career-roadmap.html">Career
                             Roadmap</a></div>
                 </div>
-                <div class="mobile-group">
-                    <div class="mobile-group-title">Resources <i class="fa-solid fa-book-open"></i></div>
-                    <div class="mobile-links"><a href="scholarships.html">Scholarships</a><a
-                            href="entrance-exams.html">Entrance Exams</a><a href="learning-resources.html">Learning
-                            Resources</a><a href="application-tracker.html">Application Tracker</a></div>
-                </div>
+
             </div>
         </header>
 
         <main class="content">
-            <div class="breadcrumb"><span>Student Portal</span><i
-                    class="fa-solid fa-chevron-right"></i><strong>Assessment</strong></div>
+            <div class="breadcrumb">
+                <span>Student Portal</span>
+                <i class="fa-solid fa-chevron-right"></i>
+                <strong>Assessment</strong>
+            </div>
 
             <section class="hero">
                 <div class="hero-grid">
                     <div>
-                        <div class="eyebrow"><i class="fa-solid fa-clipboard-check"></i>Career assessment</div>
-                        <h1>Discover your <span>career direction.</span></h1>
-                        <p>Answer a focused set of questions about your academics, interests, skills and preferences.
-                            Your responses are saved to your student profile and used by the recommendation engine to
-                            generate personalized career, course and college results.</p>
-                        <div class="hero-meta"><span class="meta-pill purple"><i class="fa-solid fa-database"></i>Saved
-                                to your profile</span><span class="meta-pill blue"><i
-                                    class="fa-solid fa-wand-magic-sparkles"></i>Used for recommendations</span></div>
+                        <div class="eyebrow">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                            Career assessment
+                        </div>
+                        <h1>Find a direction that <span>fits you.</span></h1>
+                        <p>
+                            Start with your class and stream, then answer a focused set of questions.
+                            Your answers are sent to the CareerAdvisor assessment service to calculate
+                            your assessment result and prepare your next career step.
+                        </p>
+                        <div class="hero-meta">
+                            <span class="meta-pill purple">
+                                <i class="fa-solid fa-server"></i>
+                                Spring Boot connected
+                            </span>
+                            <span class="meta-pill blue">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                Student access
+                            </span>
+                        </div>
                     </div>
+
                     <div class="assessment-progress">
                         <div class="progress-head">
                             <div>
                                 <div class="progress-kicker">Assessment progress</div>
-                                <div class="progress-copy">Complete each section to unlock more relevant
-                                    recommendations.</div>
-                            </div><strong class="progress-value" id="progressValue">0%</strong>
+                                <div class="progress-copy" id="heroStatusText">
+                                    Select your class and stream to load the right questions.
+                                </div>
+                            </div>
+                            <strong class="progress-value" id="progressValue">0%</strong>
                         </div>
                         <div class="progress-track">
                             <div class="progress-bar" id="progressBar"></div>
                         </div>
-                        <div class="progress-note" id="progressNote">Start with your academic background.</div>
+                        <div class="progress-note" id="progressNote">Ready to begin</div>
                     </div>
                 </div>
             </section>
 
-            <form id="assessmentForm" novalidate>
-                <section class="section section-card">
-                    <div class="section-head">
-                        <div class="section-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                        <div>
-                            <h2>1. Academic Background</h2>
-                            <p>Tell us about your stream and the subjects you feel most confident in.</p>
-                        </div>
+            <section class="section section-card setup-card">
+                <div class="section-head">
+                    <div class="section-icon">
+                        <i class="fa-solid fa-sliders"></i>
                     </div>
-                    <div class="section-body">
-                        <div class="field-grid">
-                            <div class="field full">
-                                <label class="field-label" for="stream">Your Stream <span
-                                        class="required">*</span></label>
-                                <select id="stream" name="stream" required>
-                                    <option value="">Select Stream</option>
-                                    <option value="Science">Science</option>
-                                    <option value="Commerce">Commerce</option>
-                                    <option value="Arts">Arts</option>
-                                </select>
+                    <div>
+                        <h2>Set up your assessment</h2>
+                        <p>Choose the class level and stream used by the assessment question service.</p>
+                    </div>
+                </div>
+
+                <div class="section-body">
+                    <div class="setup-grid">
+                        <div>
+                            <div class="field-label">
+                                Class Level <span class="required">*</span>
                             </div>
-                            <div class="field full">
-                                <div class="field-label">Strong Subjects <span class="required">*</span></div>
-                                <div class="options" id="strongSubjectsOptions">
-                                    <label class="option"><input type="checkbox" name="strongSubjects"
-                                            value="Mathematics"><span class="option-mark"><i
-                                                class="fa-solid fa-check"></i></span>Mathematics</label>
-                                    <label class="option"><input type="checkbox" name="strongSubjects"
-                                            value="Physics"><span class="option-mark"><i
-                                                class="fa-solid fa-check"></i></span>Physics</label>
-                                    <label class="option"><input type="checkbox" name="strongSubjects"
-                                            value="Chemistry"><span class="option-mark"><i
-                                                class="fa-solid fa-check"></i></span>Chemistry</label>
-                                    <label class="option"><input type="checkbox" name="strongSubjects"
-                                            value="Biology"><span class="option-mark"><i
-                                                class="fa-solid fa-check"></i></span>Biology</label>
-                                    <label class="option"><input type="checkbox" name="strongSubjects"
-                                            value="Economics"><span class="option-mark"><i
-                                                class="fa-solid fa-check"></i></span>Economics</label>
-                                    <label class="option"><input type="checkbox" name="strongSubjects"
-                                            value="Accountancy"><span class="option-mark"><i
-                                                class="fa-solid fa-check"></i></span>Accountancy</label>
-                                </div>
-                                <p class="field-help">Select the subjects you are strongest in. Choose at least one.</p>
+                            <div class="class-options" id="classOptions">
+                                <label class="class-option" data-value="9_10">
+                                    <input type="radio" name="classGroup" value="9_10">
+                                    <div class="class-top">
+                                        <div>
+                                            <strong>9th / 10th</strong>
+                                            <small>Foundation assessment for early career exploration.</small>
+                                        </div>
+                                        <span class="class-check"><i class="fa-solid fa-check"></i></span>
+                                    </div>
+                                </label>
+
+                                <label class="class-option" data-value="11_12">
+                                    <input type="radio" name="classGroup" value="11_12">
+                                    <div class="class-top">
+                                        <div>
+                                            <strong>11th / 12th</strong>
+                                            <small>Stream-aware questions for senior secondary students.</small>
+                                        </div>
+                                        <span class="class-check"><i class="fa-solid fa-check"></i></span>
+                                    </div>
+                                </label>
                             </div>
                         </div>
-                    </div>
-                </section>
 
-                <section class="section section-card">
-                    <div class="section-head">
-                        <div class="section-icon" style="background:#EAF3FF;color:#2563EB;"><i
-                                class="fa-solid fa-heart"></i></div>
                         <div>
-                            <h2>2. Your Interests</h2>
-                            <p>Select the areas you naturally enjoy exploring or learning about.</p>
-                        </div>
-                    </div>
-                    <div class="section-body">
-                        <div class="options" id="interestsOptions">
-                            <label class="option"><input type="checkbox" name="interests" value="Programming"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Programming</label>
-                            <label class="option"><input type="checkbox" name="interests" value="Technology"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Technology</label>
-                            <label class="option"><input type="checkbox" name="interests" value="AI"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Artificial
-                                Intelligence</label>
-                            <label class="option"><input type="checkbox" name="interests" value="Business"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Business</label>
-                            <label class="option"><input type="checkbox" name="interests" value="Finance"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Finance</label>
-                            <label class="option"><input type="checkbox" name="interests" value="Healthcare"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Healthcare</label>
-                            <label class="option"><input type="checkbox" name="interests" value="Design"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Design</label>
-                            <label class="option"><input type="checkbox" name="interests" value="Law"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Law</label>
-                        </div>
-                        <p class="field-help">Choose one or more interests.</p>
-                    </div>
-                </section>
-
-                <section class="section section-card">
-                    <div class="section-head">
-                        <div class="section-icon" style="background:#E8FBF4;color:#15844F;"><i
-                                class="fa-solid fa-bolt"></i></div>
-                        <div>
-                            <h2>3. Your Skills</h2>
-                            <p>Highlight the skills you already use or feel confident practicing.</p>
-                        </div>
-                    </div>
-                    <div class="section-body">
-                        <div class="options" id="skillsOptions">
-                            <label class="option"><input type="checkbox" name="skills" value="Programming"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Programming</label>
-                            <label class="option"><input type="checkbox" name="skills" value="Problem Solving"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Problem Solving</label>
-                            <label class="option"><input type="checkbox" name="skills" value="Logical Thinking"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Logical Thinking</label>
-                            <label class="option"><input type="checkbox" name="skills" value="Communication"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Communication</label>
-                            <label class="option"><input type="checkbox" name="skills" value="Leadership"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Leadership</label>
-                            <label class="option"><input type="checkbox" name="skills" value="Creativity"><span
-                                    class="option-mark"><i class="fa-solid fa-check"></i></span>Creativity</label>
-                        </div>
-                        <p class="field-help">Choose one or more skills.</p>
-                    </div>
-                </section>
-
-                <section class="section section-card">
-                    <div class="section-head">
-                        <div class="section-icon" style="background:#FFF5E7;color:#D47B00;"><i
-                                class="fa-solid fa-compass"></i></div>
-                        <div>
-                            <h2>4. Career Preference</h2>
-                            <p>Choose the broad field you are most interested in exploring.</p>
-                        </div>
-                    </div>
-                    <div class="section-body">
-                        <label class="field-label" for="careerPreference">Which field interests you the most? <span
-                                class="required">*</span></label>
-                        <select id="careerPreference" name="careerPreference" required>
-                            <option value="">Select Career Field</option>
-                            <option value="Technology">Technology</option>
-                            <option value="Healthcare">Healthcare</option>
-                            <option value="Business">Business</option>
-                            <option value="Finance">Finance</option>
-                            <option value="Government">Government Services</option>
-                            <option value="Research">Research</option>
-                            <option value="Creative">Creative Field</option>
-                        </select>
-                    </div>
-                </section>
-
-                <section class="section section-card">
-                    <div class="section-head">
-                        <div class="section-icon" style="background:#F0F5FF;color:#5B72D7;"><i
-                                class="fa-solid fa-building-columns"></i></div>
-                        <div>
-                            <h2>5. College Preferences</h2>
-                            <p>These preferences help the college recommendation engine narrow down suitable options.
+                            <label class="field-label" for="stream">Stream</label>
+                            <select id="stream" class="assessment-select">
+                                <option value="ALL">General</option>
+                                <option value="PCB">PCB</option>
+                                <option value="PCM">PCM</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Arts">Arts</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <p class="field-help" id="streamHelp">
+                                For 9th / 10th, the backend loads the active question set for that class.
                             </p>
                         </div>
                     </div>
-                    <div class="section-body">
-                        <div class="field-grid">
-                            <div class="field full">
-                                <label class="field-label" for="preferredLocation">Preferred Location</label>
-                                <input type="text" id="preferredLocation" name="preferredLocation"
-                                    placeholder="Example: Indore, Bhopal, Madhya Pradesh">
-                            </div>
-                            <div class="field">
-                                <label class="field-label" for="budgetRange">Budget Range</label>
-                                <select id="budgetRange" name="budgetRange">
-                                    <option value="">Select Budget</option>
-                                    <option value="Low">Low</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="High">High</option>
-                                </select>
-                            </div>
-                            <div class="field">
-                                <label class="field-label" for="collegeType">Preferred College Type</label>
-                                <select id="collegeType" name="collegeType">
-                                    <option value="">Select College Type</option>
-                                    <option value="Government">Government</option>
-                                    <option value="Private">Private</option>
-                                    <option value="Any">Any</option>
-                                </select>
-                            </div>
+
+                    <div class="setup-footer">
+                        <div class="setup-note">
+                            <i class="fa-solid fa-circle-info"></i>
+                            Questions are loaded live from the Spring Boot assessment API.
                         </div>
-                        <div class="section-note"><i class="fa-solid fa-circle-info"></i> Your assessment responses are
-                            saved to your student profile before recommendations are generated, so the rest of the
-                            CareerAdvisor journey can use the same information.</div>
+                        <button class="btn btn-primary" id="startButton" type="button">
+                            Start Assessment
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
                     </div>
-                </section>
-
-                <div class="form-footer">
-                    <div class="footer-copy"><strong>Ready to see your direction?</strong><span>Save your responses and
-                            generate personalized recommendations.</span></div>
-                    <div class="footer-actions"><a class="btn btn-soft" href="student-dashboard.html">Back to
-                            Dashboard</a><button class="btn btn-primary" id="submitButton" type="submit"><i
-                                class="fa-solid fa-wand-magic-sparkles"></i>Get My Recommendations</button></div>
-                </div>
-            </form>
-
-            <section class="results" id="resultsPanel">
-                <div class="results-head">
-                    <div>
-                        <div class="results-title">Your recommendations are ready</div>
-                        <div class="results-sub">These are generated from the profile you just saved and the
-                            recommendation engine response.</div>
-                    </div><a class="btn btn-soft" href="student-careers.html">Open Careers</a>
-                </div>
-                <div class="result-grid">
-                    <article class="result-card">
-                        <div class="result-top">
-                            <div class="result-icon"><i class="fa-solid fa-briefcase"></i></div><span
-                                class="result-label">Career</span>
-                        </div>
-                        <div class="result-main" id="resultCareer">Not available</div>
-                        <div class="result-note" id="resultCareerNote">Career recommendations will appear here.</div><a
-                            class="result-link" href="student-careers.html">View careers <i
-                                class="fa-solid fa-arrow-right"></i></a>
-                    </article>
-                    <article class="result-card">
-                        <div class="result-top">
-                            <div class="result-icon"><i class="fa-solid fa-book-open"></i></div><span
-                                class="result-label">Course</span>
-                        </div>
-                        <div class="result-main" id="resultCourse">Not available</div>
-                        <div class="result-note" id="resultCourseNote">Course recommendations will appear here.</div><a
-                            class="result-link" href="student-courses.html">View courses <i
-                                class="fa-solid fa-arrow-right"></i></a>
-                    </article>
-                    <article class="result-card">
-                        <div class="result-top">
-                            <div class="result-icon"><i class="fa-solid fa-building-columns"></i></div><span
-                                class="result-label">College</span>
-                        </div>
-                        <div class="result-main" id="resultCollege">Not available</div>
-                        <div class="result-note" id="resultCollegeNote">College recommendations will appear here.</div>
-                        <a class="result-link" href="student-colleges.html">View colleges <i
-                                class="fa-solid fa-arrow-right"></i></a>
-                    </article>
                 </div>
             </section>
+
+            <section class="section assessment-panel" id="assessmentSection">
+                <div class="section-head assessment-head">
+                    <div>
+                        <div class="section-icon">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <div>
+                            <h2>Answer the questions</h2>
+                            <p id="assessmentSub">Choose one answer for every question before submitting.</p>
+                        </div>
+                    </div>
+                    <div class="question-count" id="questionCount">0 questions</div>
+                </div>
+
+                <form id="assessmentForm">
+                    <div class="question-list" id="questionList"></div>
+
+                    <div class="form-footer assessment-footer">
+                        <div class="footer-copy">
+                            <strong id="submitTitle">Complete your assessment</strong>
+                            <span id="submitHint">Answer every question to continue.</span>
+                        </div>
+                        <div class="footer-actions">
+                            <button class="btn btn-soft" id="resetButton" type="button">
+                                Reset
+                            </button>
+                            <button class="btn btn-primary" id="submitButton" type="submit" disabled>
+                                Submit Assessment
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <div class="assessment-state" id="stateMessage">
+                <div class="assessment-state-icon" id="stateIcon">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div>
+                    <strong id="stateTitle">CareerAdvisor</strong>
+                    <p id="stateText"></p>
+                </div>
+            </div>
         </main>
 
         <div class="loading-overlay" id="loadingOverlay">
@@ -1771,41 +2011,42 @@
         </div>
     </div>
     <script>
-        /* ==================== CONFIGURATION ==================== */
-
         const API_BASE_URL = "http://localhost:8081";
-
+        const QUESTIONS_API = `${API_BASE_URL}/api/assessment/questions`;
+        const SUBMIT_API = `${API_BASE_URL}/api/assessment/submit`;
         const PROFILE_API = `${API_BASE_URL}/api/student/profile`;
 
-        const RECOMMENDATION_API = {
-            careers: `${API_BASE_URL}/api/recommendation/careers`,
-            courses: `${API_BASE_URL}/api/recommendation/courses`,
-            colleges: `${API_BASE_URL}/api/recommendation/colleges`
-        };
+        let questions = [];
+        let toastTimer = null;
 
-        const REQUEST_TIMEOUT = 12000;
-
-
-        /* ==================== DOM REFERENCES ==================== */
-
+        const form = document.getElementById("assessmentForm");
+        const questionList = document.getElementById("questionList");
+        const submitButton = document.getElementById("submitButton");
+        const resetButton = document.getElementById("resetButton");
+        const startButton = document.getElementById("startButton");
+        const loadingOverlay = document.getElementById("loadingOverlay");
+        const loadingText = document.getElementById("loadingText");
+        const toast = document.getElementById("toast");
+        const stateMessage = document.getElementById("stateMessage");
+        const stateIcon = document.getElementById("stateIcon");
+        const stateTitle = document.getElementById("stateTitle");
+        const stateText = document.getElementById("stateText");
+        const progressBar = document.getElementById("progressBar");
+        const progressValue = document.getElementById("progressValue");
+        const progressNote = document.getElementById("progressNote");
+        const heroStatusText = document.getElementById("heroStatusText");
+        const questionCount = document.getElementById("questionCount");
+        const submitTitle = document.getElementById("submitTitle");
+        const submitHint = document.getElementById("submitHint");
+        const stream = document.getElementById("stream");
+        const streamHelp = document.getElementById("streamHelp");
+        const classOptions = document.querySelectorAll(".class-option");
         const navTriggers = document.querySelectorAll(".nav-trigger");
         const account = document.querySelector(".account");
         const accountTrigger = document.getElementById("accountTrigger");
         const accountMenu = document.querySelector(".account-menu");
-        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+        const mobileMenuButton = document.getElementById("mobileMenuBtn");
         const mobileNav = document.getElementById("mobileNav");
-
-        const loadingOverlay = document.getElementById("loadingOverlay");
-        const loadingText = document.getElementById("loadingText");
-
-        const form = document.getElementById("assessmentForm");
-        const submitButton = document.getElementById("submitButton");
-        const resultsPanel = document.getElementById("resultsPanel");
-
-        let toastTimer = null;
-
-
-        /* ==================== AUTH HELPERS ==================== */
 
         function getToken() {
             return localStorage.getItem("token") || "";
@@ -1819,17 +2060,14 @@
             }
         }
 
-        function clearAuth() {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-        }
-
         function requireStudent() {
             const token = getToken();
             const user = getUser();
             const role = String(user?.role || "").toUpperCase();
 
             if (!token || !user || role !== "STUDENT") {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
                 window.location.href = "../login.html";
                 return false;
             }
@@ -1845,557 +2083,287 @@
             };
         }
 
-
-        /* ==================== COMMON UI HELPERS ==================== */
-
-        function setLoading(show, message = "Working on your assessment...") {
-            loadingText.textContent = message;
-            loadingOverlay.classList.toggle("show", show);
-            submitButton.disabled = show;
-        }
-
-        function showToast(type, title, message) {
-            const toast = document.getElementById("toast");
-            const icon = document.getElementById("toastIcon");
-
-            document.getElementById("toastTitle").textContent = title;
-            document.getElementById("toastText").textContent = message;
-
-            toast.className = `toast ${type} show`;
-
-            icon.innerHTML = type === "success"
-                ? '<i class="fa-solid fa-circle-check"></i>'
-                : type === "error"
-                    ? '<i class="fa-solid fa-circle-exclamation"></i>'
-                    : '<i class="fa-solid fa-circle-info"></i>';
-
-            clearTimeout(toastTimer);
-
-            toastTimer = setTimeout(() => {
-                toast.classList.remove("show");
-            }, 4300);
-        }
-
         function updateHeader() {
             const user = getUser();
-            const name = String(user?.name || user?.fullName || "Student").trim() || "Student";
-
+            const name = user?.name || user?.fullName || user?.username || user?.email || "Student";
             const initials = name
                 .split(/\s+/)
                 .filter(Boolean)
                 .slice(0, 2)
-                .map(value => value[0])
+                .map(part => part[0])
                 .join("")
-                .toUpperCase() || "S";
+                .toUpperCase();
 
             document.getElementById("accountName").textContent = name;
-            document.getElementById("accountAvatar").textContent = initials;
+            document.getElementById("accountAvatar").textContent = initials || "S";
         }
 
-
-        /* ==================== VALUE HELPERS ==================== */
-
-        function cleanValue(value) {
-            if (value === null || value === undefined) {
-                return "";
-            }
-
-            return String(value).trim();
+        function setLoading(show, message = "Working on your assessment...") {
+            loadingText.textContent = message;
+            loadingOverlay.classList.toggle("show", show);
         }
 
-        function selectedValues(name) {
-            return [...document.querySelectorAll(`input[name="${name}"]:checked`)]
-                .map(input => input.value);
+        function showToast(type, title, message) {
+            toast.className = `toast ${type || ""} show`;
+            document.getElementById("toastTitle").textContent = title;
+            document.getElementById("toastText").textContent = message;
+
+            const icon = type === "success"
+                ? "fa-circle-check"
+                : type === "error"
+                    ? "fa-circle-exclamation"
+                    : "fa-circle-info";
+
+            document.getElementById("toastIcon").innerHTML = `<i class="fa-solid ${icon}"></i>`;
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove("show"), 4200);
         }
 
-        function normalizeList(value) {
-            if (Array.isArray(value)) {
-                return value
-                    .map(item => cleanValue(item))
-                    .filter(Boolean);
-            }
-
-            return cleanValue(value)
-                .split(",")
-                .map(item => item.trim())
-                .filter(Boolean);
+        function showState(type, title, message) {
+            stateMessage.className = `assessment-state show ${type || ""}`;
+            stateTitle.textContent = title;
+            stateText.textContent = message;
+            const icon = type === "success"
+                ? "fa-circle-check"
+                : type === "error"
+                    ? "fa-circle-exclamation"
+                    : "fa-circle-info";
+            stateIcon.innerHTML = `<i class="fa-solid ${icon}"></i>`;
         }
 
-        function firstRecommendation(items) {
-            return Array.isArray(items) && items.length ? items[0] : null;
+        function clearState() {
+            stateMessage.className = "assessment-state";
         }
 
-        function recommendationName(item, keys) {
-            if (!item) {
-                return "No recommendation available";
-            }
-
-            for (const key of keys) {
-                if (cleanValue(item?.[key])) {
-                    return item[key];
-                }
-            }
-
-            return "Recommendation generated";
+        function selectedClass() {
+            return document.querySelector('input[name="classGroup"]:checked')?.value || "";
         }
 
-        function recommendationScore(item) {
-            if (!item) {
-                return "No result returned";
-            }
-
-            const score = Number(item?.score ?? item?.matchScore);
-
-            if (Number.isFinite(score)) {
-                return `Match score: ${score}`;
-            }
-
-            return "Recommendation generated from your profile";
+        function answeredCount() {
+            return questionList.querySelectorAll('input[type="radio"]:checked').length;
         }
 
-
-        /* ==================== ASSESSMENT PROGRESS ==================== */
+        function allAnswered() {
+            return questions.length > 0 && answeredCount() === questions.length;
+        }
 
         function updateProgress() {
-            const required = [
-                document.getElementById("stream").value,
-                selectedValues("strongSubjects").length > 0,
-                selectedValues("interests").length > 0,
-                selectedValues("skills").length > 0,
-                document.getElementById("careerPreference").value,
-                cleanValue(document.getElementById("preferredLocation").value),
-                document.getElementById("budgetRange").value,
-                document.getElementById("collegeType").value
-            ];
+            const answered = answeredCount();
+            const total = questions.length;
+            const percent = total ? Math.round((answered / total) * 100) : 0;
 
-            const completed = required.filter(Boolean).length;
-            const percent = Math.round((completed / required.length) * 100);
+            progressBar.style.width = `${percent}%`;
+            progressValue.textContent = `${percent}%`;
+            progressNote.textContent = total
+                ? `${answered} of ${total} questions answered`
+                : "Ready to begin";
 
-            document.getElementById("progressValue").textContent = `${percent}%`;
-            document.getElementById("progressBar").style.width = `${percent}%`;
+            submitButton.disabled = !allAnswered() || loadingOverlay.classList.contains("show");
 
-            document.getElementById("progressNote").textContent =
-                percent === 100
-                    ? "Everything is ready. Generate your personalized recommendations."
-                    : `${completed} of ${required.length} assessment items completed.`;
+            if (allAnswered()) {
+                heroStatusText.textContent = "All questions are answered. Submit your assessment when you are ready.";
+                submitTitle.textContent = "Assessment is ready";
+                submitHint.textContent = "Everything is complete. Submit to the Spring Boot assessment service.";
+            } else if (total) {
+                heroStatusText.textContent = "Keep going. Your progress updates as you answer each question.";
+                submitTitle.textContent = "Complete your assessment";
+                submitHint.textContent = `${total - answered} question${total - answered === 1 ? "" : "s"} remaining.`;
+            }
+        }
+
+        function syncClassStyles() {
+            classOptions.forEach(option => {
+                option.classList.toggle("active", option.querySelector("input").checked);
+            });
         }
 
         function syncOptionStyles() {
-            document.querySelectorAll(".option").forEach(option => {
-                const input = option.querySelector("input");
-                option.classList.toggle("selected", input.checked);
+            questionList.querySelectorAll(".question-option").forEach(option => {
+                option.classList.toggle("selected", option.querySelector("input").checked);
             });
         }
 
+        function updateStreamState() {
+            const group = selectedClass();
 
-        /* ==================== API REQUEST HELPER ==================== */
+            stream.disabled = false;
 
-        async function request(url, options = {}, label = "Request") {
-            const controller = new AbortController();
-
-            const timeout = setTimeout(() => {
-                controller.abort();
-            }, REQUEST_TIMEOUT);
-
-            try {
-                let response;
-
-                try {
-                    response = await fetch(url, {
-                        ...options,
-                        signal: controller.signal,
-                        headers: {
-                            ...authHeaders(),
-                            ...(options.headers || {})
-                        },
-                        cache: "no-store"
-                    });
-                } catch {
-                    const error = new Error(
-                        "Unable to connect to Spring Boot. Make sure the backend is running on port 8081."
-                    );
-                    error.status = 0;
-                    throw error;
-                }
-
-                const raw = await response.text();
-                let data = null;
-
-                if (raw) {
-                    try {
-                        data = JSON.parse(raw);
-                    } catch {
-                        data = { message: raw };
-                    }
-                }
-
-                if (!response.ok) {
-                    const error = new Error(
-                        data?.message ||
-                        data?.error ||
-                        `${label} failed (${response.status})`
-                    );
-
-                    error.status = response.status;
-                    throw error;
-                }
-
-                return data;
-
-            } catch (error) {
-                if (error.name === "AbortError") {
-                    const timeoutError = new Error(
-                        `${label} timed out. Make sure Spring Boot and the Python recommendation service are running.`
-                    );
-
-                    timeoutError.status = 0;
-                    throw timeoutError;
-                }
-
-                throw error;
-
-            } finally {
-                clearTimeout(timeout);
-            }
+            streamHelp.textContent = group === "11_12"
+                ? "Choose the stream used to filter the 11th / 12th assessment questions."
+                : "Choose the stream you want to use for your assessment.";
         }
 
-
-        /* ==================== PROFILE LOAD ==================== */
-
-        async function loadExistingProfile() {
-            if (!requireStudent()) {
-                return null;
-            }
-
-            try {
-                return await request(
-                    PROFILE_API,
-                    { method: "GET" },
-                    "Student profile request"
-                );
-
-            } catch (error) {
-                if (error.status === 404) {
-                    return {};
-                }
-
-                if (error.status === 401) {
-                    clearAuth();
-                    window.location.href = "../login.html";
-                    return null;
-                }
-
-                showToast(
-                    "error",
-                    "Profile unavailable",
-                    error.message || "Saved profile could not be loaded."
-                );
-
-                return null;
-            }
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
         }
 
-        function fillFromProfile(profile) {
-            if (!profile) {
-                return;
-            }
+        function renderQuestions() {
+            questionList.innerHTML = questions.map((question, index) => {
+                const options = [
+                    ["A", question.optionA],
+                    ["B", question.optionB],
+                    ["C", question.optionC],
+                    ["D", question.optionD]
+                ].filter(([, value]) => value !== null && value !== undefined && String(value).trim());
 
-            const stream = cleanValue(profile.stream);
+                return `
+                    <article class="question-card">
+                        <div class="question-top">
+                            <div class="question-number">${index + 1}</div>
+                            <div class="question-text">${escapeHtml(question.questionText || "Question")}</div>
+                        </div>
+                        <div class="question-options">
+                            ${options.map(([letter, value]) => `
+                                <label class="question-option">
+                                    <input
+                                        type="radio"
+                                        name="question_${question.id}"
+                                        value="${escapeHtml(value)}"
+                                        ${letter === "A" ? "required" : ""}
+                                    >
+                                    <span class="question-mark">${letter}</span>
+                                    <span>${escapeHtml(value)}</span>
+                                </label>
+                            `).join("")}
+                        </div>
+                    </article>
+                `;
+            }).join("");
 
-            if (stream) {
-                document.getElementById("stream").value = stream;
-            }
-
-            const checkboxGroups = {
-                strongSubjects: profile.strongSubjects,
-                interests: profile.interests,
-                skills: profile.skills
-            };
-
-            Object.entries(checkboxGroups).forEach(([name, values]) => {
-                const list = normalizeList(values);
-
-                document
-                    .querySelectorAll(`input[name="${name}"]`)
-                    .forEach(input => {
-                        input.checked = list.some(
-                            value => value.toLowerCase() === input.value.toLowerCase()
-                        );
-                    });
+            questionList.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.addEventListener("change", () => {
+                    syncOptionStyles();
+                    updateProgress();
+                });
             });
-
-            document.getElementById("careerPreference").value =
-                cleanValue(profile.careerInterest) ||
-                cleanValue(profile.targetCareer) ||
-                "";
-
-            document.getElementById("preferredLocation").value =
-                cleanValue(profile.preferredLocation) ||
-                [cleanValue(profile.city), cleanValue(profile.state)]
-                    .filter(Boolean)
-                    .join(", ");
-
-            document.getElementById("budgetRange").value =
-                cleanValue(profile.budgetRange);
-
-            document.getElementById("collegeType").value =
-                cleanValue(profile.collegeType);
 
             syncOptionStyles();
             updateProgress();
         }
 
+        async function fetchJson(url, options = {}) {
+            const response = await fetch(url, {
+                ...options,
+                cache: "no-store"
+            });
 
-        /* ==================== PAYLOAD BUILDERS ==================== */
+            const text = await response.text();
+            let data = null;
 
-        function getAssessmentData() {
-            return {
-                stream: document.getElementById("stream").value,
-                strongSubjects: selectedValues("strongSubjects"),
-                interests: selectedValues("interests"),
-                skills: selectedValues("skills"),
-                careerPreference: document.getElementById("careerPreference").value,
-                preferredLocation: cleanValue(
-                    document.getElementById("preferredLocation").value
-                ),
-                budgetRange: document.getElementById("budgetRange").value,
-                collegeType: document.getElementById("collegeType").value
-            };
-        }
-
-        function buildProfilePayload(existing, assessment) {
-            let city = existing?.city || "";
-            let state = existing?.state || "";
-
-            if (assessment.preferredLocation && !city && !state) {
-                const parts = assessment.preferredLocation
-                    .split(",")
-                    .map(value => value.trim())
-                    .filter(Boolean);
-
-                city = parts[0] || "";
-                state = parts.slice(1).join(", ") || "";
-            }
-
-            return {
-                className: existing?.className || "",
-                stream: assessment.stream,
-                percentage: existing?.percentage ?? null,
-                favoriteSubjects: existing?.favoriteSubjects || "",
-                strongSubjects: assessment.strongSubjects,
-                weakSubjects: existing?.weakSubjects || "",
-                interests: assessment.interests,
-                skills: assessment.skills,
-                careerInterest: assessment.careerPreference,
-                targetCareer: existing?.targetCareer || assessment.careerPreference,
-                preferredCourse: existing?.preferredCourse || "",
-                collegeType: assessment.collegeType || existing?.collegeType || "",
-                budgetRange: assessment.budgetRange || existing?.budgetRange || "",
-                hostelRequired: existing?.hostelRequired ?? false,
-                city,
-                state,
-                preferredLocation: assessment.preferredLocation
-            };
-        }
-
-        function buildRecommendationPayload(assessment, profile) {
-            return {
-                ...profile,
-                stream: assessment.stream,
-                subjects: assessment.strongSubjects,
-                strongSubjects: assessment.strongSubjects,
-                interests: assessment.interests,
-                skills: assessment.skills,
-                careerInterest: assessment.careerPreference,
-                targetCareer: profile?.targetCareer || assessment.careerPreference,
-                preferredLocation: assessment.preferredLocation,
-                budgetRange: assessment.budgetRange,
-                collegeType: assessment.collegeType,
-                city: profile?.city || "",
-                state: profile?.state || ""
-            };
-        }
-
-
-        /* ==================== RECOMMENDATION HELPERS ==================== */
-
-        function extractRecommendations(data) {
-            if (Array.isArray(data)) {
-                return data;
-            }
-
-            if (Array.isArray(data?.recommendations)) {
-                return data.recommendations;
-            }
-
-            if (Array.isArray(data?.results)) {
-                return data.results;
-            }
-
-            if (Array.isArray(data?.data)) {
-                return data.data;
-            }
-
-            return [];
-        }
-
-        async function getRecommendation(url, label, payload) {
             try {
-                const data = await request(
-                    url,
-                    {
-                        method: "POST",
-                        body: JSON.stringify(payload)
-                    },
-                    label
-                );
+                data = text ? JSON.parse(text) : null;
+            } catch {
+                data = text;
+            }
 
-                return {
-                    items: extractRecommendations(data),
-                    error: ""
-                };
+            if (response.status === 401) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                window.location.href = "../login.html";
+                throw new Error("Your session has expired.");
+            }
 
+            if (!response.ok) {
+                const message = typeof data === "string"
+                    ? data
+                    : data?.message || data?.error || `Server returned status ${response.status}.`;
+                const error = new Error(message);
+                error.status = response.status;
+                throw error;
+            }
+
+            return data;
+        }
+
+        async function loadQuestions() {
+            clearState();
+            const classGroup = selectedClass();
+
+            if (!classGroup) {
+                showToast("error", "Class required", "Please select your class level first.");
+                return;
+            }
+
+            setLoading(true, "Loading questions from Spring Boot...");
+            startButton.disabled = true;
+
+            try {
+                let url = `${QUESTIONS_API}?classGroup=${encodeURIComponent(classGroup)}`;
+
+                url += "&stream=" + encodeURIComponent(stream.value);
+
+                const data = await fetchJson(url, {
+                    method: "GET",
+                    headers: { Accept: "application/json" }
+                });
+
+                questions = Array.isArray(data) ? data : [];
+
+                if (!questions.length) {
+                    throw new Error("No active questions were found for the selected class and stream.");
+                }
+
+                renderQuestions();
+                document.getElementById("assessmentSection").classList.add("show");
+                questionCount.textContent = `${questions.length} question${questions.length === 1 ? "" : "s"}`;
+                heroStatusText.textContent = `0 of ${questions.length} questions answered. Start answering below.`;
+
+                showToast("success", "Assessment ready", `${questions.length} questions loaded from the backend.`);
+                document.getElementById("assessmentSection").scrollIntoView({ behavior: "smooth", block: "start" });
+            } catch (error) {
+                questions = [];
+                questionList.innerHTML = "";
+                document.getElementById("assessmentSection").classList.remove("show");
+                showState("error", "Unable to load the assessment", error.message || "Make sure Spring Boot is running on port 8081.");
+                showToast("error", "Questions could not be loaded", error.message || "Please check the backend connection.");
+            } finally {
+                setLoading(false);
+                startButton.disabled = false;
+                updateProgress();
+            }
+        }
+
+        async function syncProfileContext(classGroup, selectedStream) {
+            let profile = {};
+
+            try {
+                const existing = await fetchJson(PROFILE_API, {
+                    method: "GET",
+                    headers: authHeaders()
+                });
+
+                if (existing && typeof existing === "object") {
+                    profile = existing;
+                }
             } catch (error) {
                 if (error.status === 401) {
                     throw error;
                 }
-
-                return {
-                    items: [],
-                    error: error.message || `${label} failed.`
-                };
             }
-        }
 
-        async function generateRecommendations(profile) {
-            const [careerResult, courseResult] = await Promise.all([
-                getRecommendation(
-                    RECOMMENDATION_API.careers,
-                    "Career recommendation request",
-                    profile
-                ),
-                getRecommendation(
-                    RECOMMENDATION_API.courses,
-                    "Course recommendation request",
-                    profile
-                )
-            ]);
-
-            const careers = careerResult.items;
-            const courses = courseResult.items;
-
-            const topCourse = firstRecommendation(courses);
-            const courseName =
-                topCourse?.course_name ||
-                topCourse?.courseName ||
-                topCourse?.name ||
-                "";
-
-            const collegePayload = {
+            const payload = {
                 ...profile,
-                course_name: courseName
+                className: classGroup,
+                stream: selectedStream === "ALL" ? profile.stream || "" : selectedStream
             };
 
-            const collegeResult = await getRecommendation(
-                RECOMMENDATION_API.colleges,
-                "College recommendation request",
-                collegePayload
-            );
-
-            return {
-                careers,
-                courses,
-                colleges: collegeResult.items,
-                errors: {
-                    careers: careerResult.error,
-                    courses: courseResult.error,
-                    colleges: collegeResult.error
+            try {
+                return await fetchJson(PROFILE_API, {
+                    method: "POST",
+                    headers: authHeaders(),
+                    body: JSON.stringify(payload)
+                });
+            } catch (error) {
+                if (error.status === 401) {
+                    throw error;
                 }
-            };
-        }
-
-
-        /* ==================== RESULT RENDERING ==================== */
-
-        function setRecommendationResult(id, noteId, item, nameKeys, errorMessage) {
-            const resultName = recommendationName(item, nameKeys);
-            const resultNote = item
-                ? recommendationScore(item)
-                : errorMessage || "No recommendation was returned.";
-
-            document.getElementById(id).textContent = resultName;
-            document.getElementById(noteId).textContent = resultNote;
-        }
-
-        function renderRecommendations(result) {
-            const career = firstRecommendation(result.careers);
-            const course = firstRecommendation(result.courses);
-            const college = firstRecommendation(result.colleges);
-
-            setRecommendationResult(
-                "resultCareer",
-                "resultCareerNote",
-                career,
-                ["career_name", "careerName", "name"],
-                result.errors.careers
-            );
-
-            setRecommendationResult(
-                "resultCourse",
-                "resultCourseNote",
-                course,
-                ["course_name", "courseName", "name"],
-                result.errors.courses
-            );
-
-            setRecommendationResult(
-                "resultCollege",
-                "resultCollegeNote",
-                college,
-                ["college_name", "collegeName", "name"],
-                result.errors.colleges
-            );
-
-            resultsPanel.classList.add("show");
-        }
-
-
-        /* ==================== ASSESSMENT SUBMISSION ==================== */
-
-        function validateAssessment(data) {
-            if (!data.stream) {
-                return "Please select your stream.";
+                return null;
             }
-
-            if (!data.strongSubjects.length) {
-                return "Please select at least one strong subject.";
-            }
-
-            if (!data.interests.length) {
-                return "Please select at least one interest.";
-            }
-
-            if (!data.skills.length) {
-                return "Please select at least one skill.";
-            }
-
-            if (!data.careerPreference) {
-                return "Please select your preferred career field.";
-            }
-
-            if (!data.preferredLocation) {
-                return "Please enter your preferred location.";
-            }
-
-            if (!data.budgetRange) {
-                return "Please select your budget range.";
-            }
-
-            if (!data.collegeType) {
-                return "Please select your preferred college type.";
-            }
-
-            return "";
         }
 
         async function submitAssessment() {
@@ -2403,136 +2371,104 @@
                 return;
             }
 
-            const assessment = getAssessmentData();
-            const validationMessage = validateAssessment(assessment);
-
-            if (validationMessage) {
-                showToast(
-                    "error",
-                    "Complete your assessment",
-                    validationMessage
-                );
+            if (!questions.length) {
+                showToast("error", "Start the assessment", "Load the questions before submitting.");
                 return;
             }
 
+            if (!allAnswered()) {
+                form.reportValidity();
+                showToast("error", "Complete all questions", "Please answer every question before submitting.");
+                return;
+            }
+
+            const classGroup = selectedClass();
+            const selectedStream = stream.value || "ALL";
+            const answers = {};
+
+            questions.forEach(question => {
+                const selected = document.querySelector(`input[name="question_${question.id}"]:checked`);
+                if (selected) {
+                    answers[`q${question.id}`] = selected.value;
+                }
+            });
+
+            const payload = { classGroup, stream: selectedStream, answers };
+            setLoading(true, "Submitting your assessment...");
+
             try {
-                setLoading(true, "Loading your saved student profile...");
-
-                const existingProfile = await loadExistingProfile();
-
-                if (existingProfile === null) {
-                    return;
-                }
-
-                setLoading(true, "Saving your assessment to your profile...");
-
-                const savedProfile = await request(
-                    PROFILE_API,
-                    {
-                        method: "POST",
-                        body: JSON.stringify(
-                            buildProfilePayload(existingProfile, assessment)
-                        )
-                    },
-                    "Student profile save"
-                );
-
-                const recommendationProfile = buildRecommendationPayload(
-                    assessment,
-                    savedProfile || existingProfile
-                );
-
-                setLoading(
-                    true,
-                    "Generating personalized career, course and college recommendations..."
-                );
-
-                const recommendations = await generateRecommendations(
-                    recommendationProfile
-                );
-
-                const totalResults =
-                    recommendations.careers.length +
-                    recommendations.courses.length +
-                    recommendations.colleges.length;
-
-                localStorage.setItem("assessmentCompleted", "true");
-                localStorage.setItem(
-                    "assessmentLastCompletedAt",
-                    new Date().toISOString()
-                );
-
-                renderRecommendations(recommendations);
-
-                if (totalResults > 0) {
-                    showToast(
-                        "success",
-                        "Assessment completed",
-                        "Your responses were saved and fresh recommendations were generated."
-                    );
-                } else {
-                    showToast(
-                        "error",
-                        "No recommendations returned",
-                        "Your assessment was saved, but the recommendation service did not return any results."
-                    );
-                }
-
-                window.scrollTo({
-                    top: resultsPanel.offsetTop - 100,
-                    behavior: "smooth"
+                const result = await fetchJson(SUBMIT_API, {
+                    method: "POST",
+                    headers: authHeaders(),
+                    body: JSON.stringify(payload)
                 });
 
+                localStorage.setItem("assessmentResult", JSON.stringify(result));
+                localStorage.setItem("assessmentCompleted", "true");
+                localStorage.setItem("assessmentLastCompletedAt", new Date().toISOString());
+
+                setLoading(true, "Syncing your student profile...");
+                const savedProfile = await syncProfileContext(classGroup, selectedStream);
+
+                if (savedProfile) {
+                    localStorage.setItem("studentProfileSnapshot", JSON.stringify(savedProfile));
+                }
+
+                showState(
+                    "success",
+                    "Assessment submitted successfully",
+                    "Your assessment result has been received by Spring Boot and the student context was synced when available."
+                );
+                showToast("success", "Assessment completed", "Opening your student dashboard...");
+
+                setTimeout(() => {
+                    window.location.href = "student-courses.html";
+                }, 900);
             } catch (error) {
                 if (error.status === 401) {
-                    clearAuth();
-                    window.location.href = "../login.html";
                     return;
                 }
 
-                if (error.status === 403) {
-                    showToast(
-                        "error",
-                        "Recommendation access denied",
-                        error.message ||
-                        "The backend denied one of the recommendation requests. Your profile was not logged out."
-                    );
-                    return;
-                }
-
-                showToast(
+                showState(
                     "error",
-                    "Assessment could not be completed",
-                    error.message ||
-                    "Please make sure Spring Boot and the recommendation engine are running."
+                    "Assessment submission failed",
+                    error.message || "Please check the Spring Boot assessment service and try again."
                 );
-
+                showToast("error", "Submission failed", error.message || "Please try again.");
             } finally {
                 setLoading(false);
+                updateProgress();
             }
         }
 
-
-        /* ==================== NAVIGATION ==================== */
+        function resetAssessment() {
+            form.reset();
+            questionList.innerHTML = "";
+            questions = [];
+            document.getElementById("assessmentSection").classList.remove("show");
+            classOptions.forEach(option => option.classList.remove("active"));
+            stream.value = "ALL";
+            updateStreamState();
+            progressBar.style.width = "0%";
+            progressValue.textContent = "0%";
+            progressNote.textContent = "Ready to begin";
+            heroStatusText.textContent = "Select your class and stream to load the right questions.";
+            questionCount.textContent = "0 questions";
+            clearState();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
 
         navTriggers.forEach(trigger => {
             trigger.addEventListener("click", event => {
                 event.stopPropagation();
-
                 const item = trigger.closest(".nav-item");
                 const open = !item.classList.contains("open");
-
-                document
-                    .querySelectorAll(".nav-item.open")
-                    .forEach(other => {
-                        if (other !== item) {
-                            other.classList.remove("open");
-                            other
-                                .querySelector(".nav-trigger")
-                                ?.setAttribute("aria-expanded", "false");
-                        }
-                    });
-
+                document.querySelectorAll(".nav-item.open").forEach(other => {
+                    if (other !== item) {
+                        other.classList.remove("open");
+                        other.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+                    }
+                });
                 item.classList.toggle("open", open);
                 trigger.setAttribute("aria-expanded", String(open));
             });
@@ -2540,48 +2476,32 @@
 
         accountTrigger.addEventListener("click", event => {
             event.stopPropagation();
-
             const open = !account.classList.contains("open");
-
             account.classList.toggle("open", open);
             accountTrigger.setAttribute("aria-expanded", String(open));
-
-            document
-                .querySelectorAll(".nav-item.open")
-                .forEach(item => {
-                    item.classList.remove("open");
-                    item
-                        .querySelector(".nav-trigger")
-                        ?.setAttribute("aria-expanded", "false");
-                });
+            document.querySelectorAll(".nav-item.open").forEach(item => {
+                item.classList.remove("open");
+                item.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+            });
         });
 
-        mobileMenuBtn.addEventListener("click", event => {
+        mobileMenuButton.addEventListener("click", event => {
             event.stopPropagation();
-
             const open = !mobileNav.classList.contains("show");
-
             mobileNav.classList.toggle("show", open);
-            mobileMenuBtn.setAttribute("aria-expanded", String(open));
-
+            mobileMenuButton.setAttribute("aria-expanded", String(open));
             account.classList.remove("open");
             accountTrigger.setAttribute("aria-expanded", "false");
         });
 
-        accountMenu.addEventListener("click", event => {
-            event.stopPropagation();
-        });
+        accountMenu.addEventListener("click", event => event.stopPropagation());
 
         document.addEventListener("click", event => {
             if (!event.target.closest(".nav-item")) {
-                document
-                    .querySelectorAll(".nav-item.open")
-                    .forEach(item => {
-                        item.classList.remove("open");
-                        item
-                            .querySelector(".nav-trigger")
-                            ?.setAttribute("aria-expanded", "false");
-                    });
+                document.querySelectorAll(".nav-item.open").forEach(item => {
+                    item.classList.remove("open");
+                    item.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+                });
             }
 
             if (!event.target.closest(".account")) {
@@ -2589,101 +2509,49 @@
                 accountTrigger.setAttribute("aria-expanded", "false");
             }
 
-            if (
-                !event.target.closest(".mobile-nav") &&
-                !event.target.closest("#mobileMenuBtn")
-            ) {
+            if (!event.target.closest(".mobile-nav") && !event.target.closest("#mobileMenuBtn")) {
                 mobileNav.classList.remove("show");
-                mobileMenuBtn.setAttribute("aria-expanded", "false");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
             }
         });
 
         window.addEventListener("resize", () => {
             if (window.innerWidth > 1050) {
                 mobileNav.classList.remove("show");
-                mobileMenuBtn.setAttribute("aria-expanded", "false");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
             }
         });
 
-        document
-            .getElementById("notificationBtn")
-            .addEventListener("click", () => {
-                showToast(
-                    "info",
-                    "CareerAdvisor",
-                    "Your assessment responses are stored in your student profile and used for recommendations."
-                );
-            });
+        document.getElementById("notificationBtn").addEventListener("click", () => {
+            showToast("info", "CareerAdvisor", "Choose your class and stream to load the assessment from the Spring Boot backend.");
+        });
 
-        document
-            .getElementById("logoutBtn")
-            .addEventListener("click", () => {
-                clearAuth();
-                window.location.href = "../login.html";
-            });
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "../login.html";
+        });
 
-        document.querySelectorAll(".option input").forEach(input => {
-            input.addEventListener("change", () => {
-                syncOptionStyles();
-                updateProgress();
+        classOptions.forEach(option => {
+            option.addEventListener("click", () => {
+                option.querySelector("input").checked = true;
+                syncClassStyles();
+                updateStreamState();
             });
         });
 
-        [
-            "stream",
-            "careerPreference",
-            "preferredLocation",
-            "budgetRange",
-            "collegeType"
-        ].forEach(id => {
-            document
-                .getElementById(id)
-                .addEventListener("input", updateProgress);
-        });
-
-        [
-            "stream",
-            "careerPreference",
-            "budgetRange",
-            "collegeType"
-        ].forEach(id => {
-            document
-                .getElementById(id)
-                .addEventListener("change", updateProgress);
-        });
-
+        startButton.addEventListener("click", loadQuestions);
+        resetButton.addEventListener("click", resetAssessment);
         form.addEventListener("submit", event => {
             event.preventDefault();
             submitAssessment();
         });
 
-
-        /* ==================== INITIALIZATION ==================== */
-
-        async function initializeAssessment() {
-            if (!requireStudent()) {
-                return;
-            }
-
+        if (requireStudent()) {
             updateHeader();
-            syncOptionStyles();
+            updateStreamState();
             updateProgress();
-
-            setLoading(true, "Loading your saved assessment profile...");
-
-            try {
-                const existingProfile = await loadExistingProfile();
-
-                if (existingProfile) {
-                    fillFromProfile(existingProfile);
-                }
-
-            } finally {
-                setLoading(false);
-            }
         }
-
-        window.addEventListener("DOMContentLoaded", initializeAssessment);
     </script>
 </body>
 
