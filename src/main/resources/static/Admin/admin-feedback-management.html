@@ -1,0 +1,2716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CareerAdvisor Admin Feedback Management">
+    <title>Feedback Management | CareerAdvisor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #fafafe;
+            --surface: #ffffff;
+            --surface-soft: #f7f6ff;
+            --purple: #8b5cf6;
+            --purple-dark: #6d43df;
+            --blue: #3b82f6;
+            --green: #22c55e;
+            --orange: #f59e0b;
+            --red: #ef4444;
+            --text: #0f0f1a;
+            --text-soft: #3d3d5c;
+            --text-muted: #7878a0;
+            --border: rgba(99, 71, 246, 0.10);
+            --border-strong: rgba(99, 71, 246, 0.20);
+            --gradient: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            --radius: 20px;
+            --shadow: 0 16px 45px rgba(76, 57, 145, 0.10);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            font-family: "Space Grotesk", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 10% 0%, rgba(139, 92, 246, 0.10), transparent 28%),
+                radial-gradient(circle at 92% 12%, rgba(59, 130, 246, 0.10), transparent 25%),
+                var(--bg);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(139, 92, 246, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.045) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, black, transparent 90%);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+        }
+
+        .page-shell {
+            min-height: 100vh;
+        }
+
+        .main {
+            min-height: 100vh;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: 78px;
+            display: grid;
+            grid-template-columns: minmax(240px, 1fr) auto minmax(280px, 1fr);
+            align-items: center;
+            gap: 20px;
+            padding: 0 30px;
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 8px 26px rgba(76, 57, 145, 0.05);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-self: start;
+            gap: 11px;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 14px;
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 11px 26px rgba(99, 102, 241, .22);
+        }
+
+        .brand-name {
+            font-size: 20px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -.6px;
+        }
+
+        .brand-name span {
+            color: var(--purple);
+        }
+
+        .portal-label {
+            margin-top: 4px;
+            color: #999fac;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .7px;
+            text-transform: uppercase;
+        }
+
+        .brand>div:last-child {
+            transform: translateY(7px);
+        }
+
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .top-nav-link,
+        .top-nav-trigger {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 15px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            background: transparent;
+            color: #626c7e;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+            white-space: nowrap;
+        }
+
+        .top-nav-link:hover,
+        .top-nav-link.active,
+        .top-nav-trigger:hover,
+        .top-nav-item.open .top-nav-trigger {
+            color: var(--purple-dark);
+            background: #f7f3ff;
+            border-color: #eae4f7;
+        }
+
+        .top-nav-trigger i {
+            font-size: 8px;
+            color: #979eac;
+            transition: transform .2s ease;
+        }
+
+        .top-nav-item {
+            position: relative;
+        }
+
+        .top-nav-item.open .top-nav-trigger i {
+            transform: rotate(180deg);
+        }
+
+        .top-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: 225px;
+            padding: 9px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 20px 46px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: .2s ease;
+        }
+
+        .top-nav-item.open .top-dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .top-dropdown-title {
+            padding: 7px 9px 8px;
+            color: #9fa5b2;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .top-dropdown-link {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px;
+            border-radius: 9px;
+            color: #687286;
+            font-size: 11px;
+            font-weight: 650;
+            transition: .18s ease;
+        }
+
+        .top-dropdown-link:hover {
+            color: var(--purple-dark);
+            background: #f7f3ff;
+        }
+
+        .top-dropdown-link i {
+            width: 17px;
+            color: #9299a7;
+            text-align: center;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            justify-self: end;
+            gap: 8px;
+        }
+
+        .refresh-button,
+        .notification-button {
+            position: relative;
+            width: 41px;
+            height: 41px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+            color: #687286;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .refresh-button:hover,
+        .notification-button:hover {
+            color: var(--purple-dark);
+            border-color: var(--border-strong);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 22px rgba(76, 57, 145, .08);
+        }
+
+        .refresh-button.spin-once i {
+            animation: spin .65s ease-in-out 1;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            width: 7px;
+            height: 7px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: var(--purple);
+        }
+
+        .admin-account {
+            position: relative;
+        }
+
+        .admin-account-trigger {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-height: 48px;
+            padding: 5px 8px 5px 5px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            background: transparent;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .admin-account-trigger:hover,
+        .admin-account.open .admin-account-trigger {
+            background: #f8f7fc;
+            border-color: var(--border);
+        }
+
+        .avatar {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #eee8ff, #e8f1ff);
+            color: var(--purple-dark);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .profile-copy {
+            min-width: 110px;
+            text-align: left;
+        }
+
+        .profile-copy strong,
+        .profile-copy span {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .profile-copy strong {
+            max-width: 160px;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .profile-copy span {
+            margin-top: 3px;
+            color: #999fac;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: .4px;
+        }
+
+        .admin-account-arrow {
+            color: #9ba1ae;
+            font-size: 8px;
+            transition: .2s ease;
+        }
+
+        .admin-account.open .admin-account-arrow {
+            color: var(--purple);
+            transform: rotate(180deg);
+        }
+
+        .admin-account-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 190px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 20px 46px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-7px);
+            transition: .2s ease;
+        }
+
+        .admin-account.open .admin-account-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .admin-account-menu a,
+        .admin-account-menu button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px;
+            border-radius: 9px;
+            color: #687286;
+            background: transparent;
+            font-size: 11px;
+            font-weight: 650;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .admin-account-menu a:hover,
+        .admin-account-menu button:hover {
+            color: var(--purple-dark);
+            background: #f7f3ff;
+        }
+
+        .admin-account-menu .logout {
+            color: #b42318;
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+            color: #697486;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            top: calc(100% + 9px);
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 18px 48px rgba(76, 57, 145, .14);
+            backdrop-filter: blur(18px);
+        }
+
+        .mobile-nav[hidden] {
+            display: none !important;
+        }
+
+        .mobile-group {
+            border: 1px solid #f0eef7;
+            border-radius: 13px;
+            background: #fcfbff;
+            overflow: hidden;
+        }
+
+        .mobile-group+.mobile-group {
+            margin-top: 8px;
+        }
+
+        .mobile-group-title {
+            padding: 11px;
+            color: #566071;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mobile-links {
+            display: grid;
+            gap: 2px;
+            padding: 0 6px 6px;
+        }
+
+        .mobile-links a {
+            padding: 8px;
+            border-radius: 8px;
+            color: #6a7281;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .mobile-links a:hover,
+        .mobile-links a.active {
+            background: #f6f3ff;
+            color: var(--purple-dark);
+        }
+
+        .content {
+            width: min(1500px, calc(100% - 68px));
+            margin: 0 auto;
+            padding: 34px 0 55px;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: minmax(0, 1.45fr) minmax(330px, .55fr);
+            gap: 22px;
+            padding: 32px 34px;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            background:
+                radial-gradient(circle at 90% 20%, rgba(59, 130, 246, 0.15), transparent 27%),
+                radial-gradient(circle at 10% 85%, rgba(139, 92, 246, 0.13), transparent 29%),
+                linear-gradient(135deg, #fff, #f6f4ff);
+            box-shadow: var(--shadow);
+            animation: fadeUp .65s ease both;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 235px;
+            height: 235px;
+            right: -90px;
+            top: -105px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.10);
+            filter: blur(7px);
+        }
+
+        .hero-copy,
+        .hero-stats {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding: 7px 11px;
+            border: 1px solid rgba(139, 92, 246, 0.20);
+            border-radius: 999px;
+            background: rgba(139, 92, 246, 0.07);
+            color: var(--purple-dark);
+            font-size: .7rem;
+            font-weight: 700;
+        }
+
+        .hero h1 {
+            max-width: 800px;
+            font-size: clamp(1.9rem, 3vw, 2.75rem);
+            line-height: 1.08;
+            letter-spacing: -.045em;
+        }
+
+        .hero h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 800px;
+            margin-top: 12px;
+            color: var(--text-muted);
+            font-size: .88rem;
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .primary-button,
+        .secondary-button {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 15px;
+            border-radius: 11px;
+            font-size: 12px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .primary-button {
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 11px 24px rgba(99, 102, 241, .18);
+        }
+
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 29px rgba(99, 102, 241, .23);
+        }
+
+        .secondary-button {
+            color: var(--purple-dark);
+            border: 1px solid var(--border-strong);
+            background: rgba(255, 255, 255, .86);
+        }
+
+        .secondary-button:hover {
+            border-color: #d3c4ef;
+            background: #f8f5ff;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            align-content: center;
+        }
+
+        .hero-stat {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, .86);
+        }
+
+        .hero-stat-label {
+            color: var(--text-muted);
+            font-size: .65rem;
+            font-weight: 650;
+        }
+
+        .hero-stat strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 1.45rem;
+            letter-spacing: -.04em;
+        }
+
+        .hero-stat-note {
+            display: block;
+            margin-top: 4px;
+            color: var(--text-muted);
+            font-size: .62rem;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 23px 0 14px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .section-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: #f0ebff;
+            color: var(--purple);
+        }
+
+        .section-title h2 {
+            font-size: 1rem;
+            letter-spacing: -.02em;
+        }
+
+        .section-title p {
+            margin-top: 4px;
+            color: var(--text-muted);
+            font-size: .68rem;
+        }
+
+        .reviews-count {
+            min-height: 34px;
+            display: inline-flex;
+            align-items: center;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: #f2edff;
+            color: var(--purple-dark);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .panel {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, .94);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: fadeUp .7s .1s ease both;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-box i {
+            position: absolute;
+            top: 50%;
+            left: 13px;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: .75rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 40px;
+            padding: 0 13px 0 36px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            outline: none;
+            background: var(--surface-soft);
+            color: var(--text);
+            font-size: .75rem;
+            transition: .2s ease;
+        }
+
+        .search-box input:focus {
+            border-color: rgba(139, 92, 246, .35);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, .07);
+            background: #fff;
+        }
+
+        .filter-button {
+            min-height: 40px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: var(--surface-soft);
+            color: #687286;
+            font-size: .72rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .filter-button.active {
+            color: var(--purple-dark);
+            background: #f4efff;
+            border-color: rgba(139, 92, 246, .22);
+        }
+
+        .feedback-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            padding: 18px 22px 22px;
+        }
+
+        .feedback-card {
+            position: relative;
+            overflow: hidden;
+            padding: 19px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: #fff;
+            box-shadow: 0 11px 32px rgba(76, 57, 145, .06);
+            animation: fadeUp .42s ease both;
+        }
+
+        .feedback-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gradient);
+        }
+
+        .feedback-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .feedback-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .feedback-avatar {
+            width: 41px;
+            height: 41px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #eee8ff, #e5efff);
+            color: var(--purple-dark);
+            font-size: .72rem;
+            font-weight: 800;
+        }
+
+        .feedback-user-copy {
+            min-width: 0;
+        }
+
+        .feedback-user-copy strong {
+            display: block;
+            color: var(--text);
+            font-size: .82rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .feedback-user-copy span {
+            display: block;
+            margin-top: 3px;
+            color: var(--text-muted);
+            font-size: .66rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 7px 9px;
+            border: 1px solid rgba(245, 158, 11, .24);
+            border-radius: 10px;
+            background: #fffaf0;
+            color: var(--orange);
+            font-size: .7rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .feedback-comment {
+            margin-top: 17px;
+            color: var(--text-soft);
+            font-size: .76rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .feedback-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .feedback-date {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--text-muted);
+            font-size: .64rem;
+        }
+
+        .delete-button {
+            min-height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 0 11px;
+            border: 1px solid rgba(239, 68, 68, .16);
+            border-radius: 9px;
+            color: #c53030;
+            background: #fff7f7;
+            font-size: .65rem;
+            font-weight: 750;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .delete-button:hover {
+            color: #fff;
+            background: #ef4444;
+            border-color: #ef4444;
+            transform: translateY(-1px);
+        }
+
+        .state {
+            padding: 55px 22px;
+            text-align: center;
+        }
+
+        .state-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 12px;
+            border-radius: 14px;
+            background: var(--surface-soft);
+            color: var(--purple);
+        }
+
+        .state h3 {
+            font-size: .92rem;
+        }
+
+        .state p {
+            max-width: 390px;
+            margin: 6px auto 0;
+            color: var(--text-muted);
+            font-size: .7rem;
+            line-height: 1.6;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 250;
+            display: none;
+            place-items: center;
+            background: rgba(15, 15, 26, .16);
+            backdrop-filter: blur(7px);
+        }
+
+        .loading-overlay.show {
+            display: grid;
+        }
+
+        .loading-card {
+            min-width: 260px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 25px 70px rgba(76, 57, 145, .18);
+        }
+
+        .spinner {
+            width: 34px;
+            height: 34px;
+            margin: 0 auto 12px;
+            border: 3px solid #eceaf5;
+            border-top-color: var(--purple);
+            border-right-color: var(--blue);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        .loading-card p {
+            color: #596173;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .toast {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            max-width: min(390px, calc(100% - 30px));
+            padding: 12px 15px;
+            border: 1px solid var(--border-strong);
+            border-radius: 13px;
+            background: #fff;
+            color: var(--text-soft);
+            box-shadow: 0 18px 45px rgba(76, 57, 145, .15);
+            font-size: .72rem;
+            opacity: 0;
+            transform: translateY(15px);
+            pointer-events: none;
+            transition: .25s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            border-color: rgba(239, 68, 68, .16);
+            color: #a52a2a;
+            background: #fff7f7;
+        }
+
+        .confirm-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 280;
+            display: none;
+            place-items: center;
+            padding: 20px;
+            background: rgba(15, 15, 26, .28);
+            backdrop-filter: blur(8px);
+        }
+
+        .confirm-backdrop.show {
+            display: grid;
+        }
+
+        .confirm-card {
+            width: min(100%, 430px);
+            padding: 24px;
+            border: 1px solid var(--border-strong);
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: 0 30px 90px rgba(38, 25, 90, .20);
+            animation: modalIn .25s ease both;
+        }
+
+        .confirm-icon {
+            width: 45px;
+            height: 45px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 13px;
+            border-radius: 13px;
+            color: #c53030;
+            background: #fff1f1;
+        }
+
+        .confirm-card h2 {
+            font-size: 1.08rem;
+        }
+
+        .confirm-card p {
+            margin-top: 7px;
+            color: var(--text-muted);
+            font-size: .71rem;
+            line-height: 1.6;
+        }
+
+        .confirm-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 9px;
+            margin-top: 19px;
+        }
+
+        .confirm-actions button {
+            min-height: 38px;
+            padding: 0 13px;
+            border-radius: 10px;
+            font-size: .69rem;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .confirm-cancel {
+            border: 1px solid var(--border);
+            background: #fff;
+            color: #687286;
+        }
+
+        .confirm-delete {
+            color: #fff;
+            background: #ef4444;
+        }
+
+        @media (max-width: 1080px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .topbar {
+                grid-template-columns: 1fr auto;
+                gap: 10px;
+                padding: 0 22px;
+            }
+
+            .top-nav {
+                display: none;
+            }
+
+            .topbar .mobile-menu {
+                display: grid;
+            }
+
+            .profile-copy {
+                display: none;
+            }
+
+            .content {
+                width: min(100% - 34px, 900px);
+                padding-top: 24px;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .topbar {
+                min-height: 70px;
+                padding: 0 14px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .portal-label {
+                display: none;
+            }
+
+            .topbar-right {
+                gap: 7px;
+            }
+
+            .content {
+                width: min(100% - 22px, 900px);
+                padding-top: 20px;
+            }
+
+            .hero {
+                padding: 24px 20px;
+                border-radius: 20px;
+            }
+
+            .hero h1 {
+                font-size: 1.82rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .toolbar {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 14px 16px;
+            }
+
+            .feedback-list {
+                grid-template-columns: 1fr;
+            }
+
+            .feedback-top {
+                flex-direction: column;
+            }
+
+            .rating {
+                align-self: flex-start;
+            }
+
+            .feedback-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .delete-button {
+                width: 100%;
+            }
+
+            .confirm-actions {
+                flex-direction: column-reverse;
+            }
+
+            .confirm-actions button {
+                width: 100%;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-shell">
+
+        <main class="main">
+
+            <header class="topbar">
+
+                <a class="brand" href="admin-dashboard.html" aria-label="CareerAdvisor Admin Dashboard">
+                    <div class="brand-mark">
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+
+                    <div>
+                        <div class="brand-name">
+                            Career<span>Advisor</span>
+                        </div>
+
+                        <div class="portal-label">
+                            ADMIN PORTAL
+                        </div>
+                    </div>
+                </a>
+
+                <nav class="top-nav" aria-label="Admin navigation">
+
+                    <a class="top-nav-link" href="admin-dashboard.html">
+                        <i class="fa-solid fa-table-columns"></i>
+                        Dashboard
+                    </a>
+
+                    <a class="top-nav-link" href="admin-student-management.html">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        Students
+                    </a>
+
+                    <a class="top-nav-link" href="admin-counselor-management.html">
+                        <i class="fa-solid fa-user-tie"></i>
+                        Counselors
+                    </a>
+
+                    <div class="top-nav-item" id="workspaceNavItem">
+                        <button class="top-nav-trigger" id="workspaceTrigger" type="button" aria-expanded="false">
+                            Workspace
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+
+                        <div class="top-dropdown">
+
+                            <div class="top-dropdown-title">
+                                Platform Data
+                            </div>
+
+                            <a class="top-dropdown-link" href="admin-carrer-management.html">
+                                <i class="fa-solid fa-compass"></i>
+                                Career Data
+                            </a>
+
+                            <a class="top-dropdown-link" href="admin-course-management.html">
+                                <i class="fa-solid fa-book-open"></i>
+                                Course Data
+                            </a>
+
+                            <a class="top-dropdown-link" href="admin-college-management.html">
+                                <i class="fa-solid fa-building-columns"></i>
+                                College Data
+                            </a>
+
+                            <a class="top-dropdown-link" href="admin-assessment-management.html">
+                                <i class="fa-solid fa-clipboard-question"></i>
+                                Assessment
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <a class="top-nav-link active" href="admin-feedback-management.html">
+                        <i class="fa-solid fa-comments"></i>
+                        Feedbacks
+                    </a>
+
+                </nav>
+
+                <div class="topbar-right">
+
+                    <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-label="Open admin navigation"
+                        aria-expanded="false">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <button class="notification-button" id="notificationButton" type="button" title="Notifications"
+                        aria-label="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <div class="admin-account" id="adminAccount">
+                        <button class="admin-account-trigger" id="adminAccountTrigger" type="button"
+                            aria-expanded="false" aria-label="Open admin account menu">
+                            <span class="avatar" id="adminAvatar">
+                                AD
+                            </span>
+
+                            <span class="profile-copy">
+                                <strong id="adminName">
+                                    Administrator
+                                </strong>
+
+                                <span>
+                                    ADMIN
+                                </span>
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down admin-account-arrow"></i>
+                        </button>
+
+                        <div class="admin-account-menu">
+
+                            <a href="admin-dashboard.html">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                Dashboard
+                            </a>
+
+                            <button class="logout" id="logoutButton" type="button">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                Logout
+                            </button>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mobile-nav" id="mobileNav" hidden>
+
+                    <div class="mobile-group">
+
+                        <div class="mobile-group-title">
+                            Main
+                        </div>
+
+                        <div class="mobile-links">
+
+                            <a href="admin-dashboard.html">
+                                Dashboard
+                            </a>
+
+                            <a href="admin-student-management.html">
+                                Students
+                            </a>
+
+                            <a href="admin-counselor-management.html">
+                                Counselors
+                            </a>
+
+                            <a class="active" href="admin-feedback-management.html">
+                                Feedbacks
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <div class="mobile-group">
+
+                        <div class="mobile-group-title">
+                            Workspace
+                        </div>
+
+                        <div class="mobile-links">
+
+                            <a href="admin-carrer-management.html">
+                                Career Data
+                            </a>
+
+                            <a href="admin-course-management.html">
+                                Course Data
+                            </a>
+
+                            <a href="admin-college-management.html">
+                                College Data
+                            </a>
+
+                            <a href="admin-assessment-management.html">
+                                Assessment
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </header>
+
+            <section class="content">
+
+                <section class="hero">
+
+                    <div class="hero-copy">
+
+                        <div class="hero-label">
+                            <i class="fa-solid fa-comments"></i>
+                            Feedback management
+                        </div>
+
+                        <h1>
+                            Listen to your
+                            <span>students.</span>
+                        </h1>
+
+                        <p>
+                            Review website feedback submitted by CareerAdvisor
+                            students, monitor ratings and remove feedback when
+                            required from the secured admin workspace.
+                        </p>
+
+                        <div class="hero-actions">
+
+                            <button class="primary-button" id="heroRefreshButton" type="button">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                                Refresh Feedback
+                            </button>
+
+                            <a class="secondary-button" href="admin-dashboard.html">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Back to Dashboard
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <div class="hero-stats">
+
+                        <div class="hero-stat">
+                            <span class="hero-stat-label">
+                                Total Reviews
+                            </span>
+
+                            <strong id="totalFeedback">
+                                —
+                            </strong>
+
+                            <span class="hero-stat-note">
+                                Feedback stored in the database
+                            </span>
+                        </div>
+
+                        <div class="hero-stat">
+                            <span class="hero-stat-label">
+                                Average Rating
+                            </span>
+
+                            <strong id="averageRating">
+                                —
+                            </strong>
+
+                            <span class="hero-stat-note">
+                                Across available student reviews
+                            </span>
+                        </div>
+
+                        <div class="hero-stat">
+                            <span class="hero-stat-label">
+                                4★ & 5★
+                            </span>
+
+                            <strong id="positiveReviews">
+                                —
+                            </strong>
+
+                            <span class="hero-stat-note">
+                                Positive feedback count
+                            </span>
+                        </div>
+
+                        <div class="hero-stat">
+                            <span class="hero-stat-label">
+                                Latest Review
+                            </span>
+
+                            <strong id="latestRating">
+                                —
+                            </strong>
+
+                            <span class="hero-stat-note">
+                                Most recent submitted rating
+                            </span>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <div class="section-heading">
+
+                    <div class="section-title">
+
+                        <div class="section-icon">
+                            <i class="fa-solid fa-message"></i>
+                        </div>
+
+                        <div>
+                            <h2>
+                                Website Feedback
+                            </h2>
+
+                            <p>
+                                Recent feedback shared by CareerAdvisor students.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <span class="reviews-count" id="reviewCount">
+                        0 Reviews
+                    </span>
+
+                </div>
+
+                <section class="panel">
+
+                    <div class="toolbar">
+
+                        <div class="search-box">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input id="searchInput" type="search" placeholder="Search by name, email or comment..."
+                                autocomplete="off">
+
+                        </div>
+
+                        <button class="filter-button active" type="button" data-filter="ALL">
+                            All
+                        </button>
+
+                        <button class="filter-button" type="button" data-filter="POSITIVE">
+                            4★ & 5★
+                        </button>
+
+                        <button class="filter-button" type="button" data-filter="CRITICAL">
+                            1★ & 2★
+                        </button>
+
+                    </div>
+
+                    <div class="feedback-list" id="feedbackContainer">
+
+                        <div class="state">
+
+                            <div class="state-icon">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                            </div>
+
+                            <h3>
+                                Loading feedback
+                            </h3>
+
+                            <p>
+                                Fetching feedback from the secured admin endpoint.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-card">
+
+            <div class="spinner"></div>
+
+            <p id="loadingText">
+                Updating feedback...
+            </p>
+
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastText"></span>
+    </div>
+
+    <div class="confirm-backdrop" id="confirmBackdrop" aria-hidden="true">
+        <div class="confirm-card">
+
+            <div class="confirm-icon">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+
+            <h2>
+                Delete this feedback?
+            </h2>
+
+            <p>
+                This will permanently remove the selected feedback entry
+                from the database.
+            </p>
+
+            <div class="confirm-actions">
+
+                <button class="confirm-cancel" id="cancelDelete" type="button">
+                    Cancel
+                </button>
+
+                <button class="confirm-delete" id="confirmDelete" type="button">
+                    Delete Feedback
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = "http://localhost:8081";
+        const FEEDBACK_API = `${API_BASE_URL}/api/feedback`;
+
+        const TOKEN_KEY = "token";
+        const USER_KEY = "user";
+
+        const heroRefreshButton =
+            document.getElementById("heroRefreshButton");
+
+        const notificationButton =
+            document.getElementById("notificationButton");
+
+        const logoutButton =
+            document.getElementById("logoutButton");
+
+        const workspaceNavItem =
+            document.getElementById("workspaceNavItem");
+
+        const workspaceTrigger =
+            document.getElementById("workspaceTrigger");
+
+        const adminAccount =
+            document.getElementById("adminAccount");
+
+        const adminAccountTrigger =
+            document.getElementById("adminAccountTrigger");
+
+        const mobileMenuBtn =
+            document.getElementById("mobileMenuBtn");
+
+        const mobileNav =
+            document.getElementById("mobileNav");
+
+        const adminAvatar =
+            document.getElementById("adminAvatar");
+
+        const adminName =
+            document.getElementById("adminName");
+
+        const feedbackContainer =
+            document.getElementById("feedbackContainer");
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const totalFeedback =
+            document.getElementById("totalFeedback");
+
+        const averageRating =
+            document.getElementById("averageRating");
+
+        const positiveReviews =
+            document.getElementById("positiveReviews");
+
+        const latestRating =
+            document.getElementById("latestRating");
+
+        const reviewCount =
+            document.getElementById("reviewCount");
+
+        const loadingOverlay =
+            document.getElementById("loadingOverlay");
+
+        const loadingText =
+            document.getElementById("loadingText");
+
+        const toast =
+            document.getElementById("toast");
+
+        const toastText =
+            document.getElementById("toastText");
+
+        const confirmBackdrop =
+            document.getElementById("confirmBackdrop");
+
+        const cancelDelete =
+            document.getElementById("cancelDelete");
+
+        const confirmDelete =
+            document.getElementById("confirmDelete");
+
+        let feedbacks = [];
+        let activeFilter = "ALL";
+        let feedbackToDelete = null;
+        let toastTimer = null;
+
+        function getToken() {
+            return localStorage.getItem(TOKEN_KEY);
+        }
+
+        function getStoredUser() {
+            try {
+                return JSON.parse(
+                    localStorage.getItem(USER_KEY) || "null"
+                );
+            } catch {
+                return null;
+            }
+        }
+
+        function getInitials(name) {
+            return String(name || "Admin")
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part.charAt(0))
+                .join("")
+                .toUpperCase() || "AD";
+        }
+
+        function requireAdminSession() {
+            const token =
+                getToken();
+
+            const user =
+                getStoredUser();
+
+            if (!token || !user) {
+                window.location.href =
+                    "../login.html";
+                return false;
+            }
+
+            const role =
+                String(user.role || "").toUpperCase();
+
+            if (role !== "ADMIN") {
+                window.location.href =
+                    "../login.html";
+                return false;
+            }
+
+            return true;
+        }
+
+        function setupAdminIdentity() {
+            const user =
+                getStoredUser();
+
+            const displayName =
+                user?.name ||
+                user?.fullName ||
+                user?.username ||
+                user?.email ||
+                "Administrator";
+
+            adminName.textContent =
+                displayName;
+
+            adminAvatar.textContent =
+                getInitials(displayName);
+        }
+
+        function showToast(
+            message,
+            type = "success"
+        ) {
+            const icon =
+                toast.querySelector("i");
+
+            toast.className =
+                `toast show${type === "error" ? " error" : ""}`;
+
+            toastText.textContent =
+                message;
+
+            icon.className =
+                type === "error"
+                    ? "fa-solid fa-circle-exclamation"
+                    : "fa-solid fa-circle-check";
+
+            clearTimeout(toastTimer);
+
+            toastTimer =
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 3200);
+        }
+
+        function setLoading(
+            show,
+            message = "Updating feedback..."
+        ) {
+            loadingOverlay.classList.toggle(
+                "show",
+                show
+            );
+
+            loadingText.textContent =
+                message;
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? "")
+                .replace(
+                    /[&<>"']/g,
+                    character => ({
+                        "&": "&amp;",
+                        "<": "&lt;",
+                        ">": "&gt;",
+                        '"': "&quot;",
+                        "'": "&#039;"
+                    })[character]
+                );
+        }
+
+        function formatTimestamp(value) {
+            if (!value) {
+                return "N/A";
+            }
+
+            const date =
+                new Date(value);
+
+            if (Number.isNaN(date.getTime())) {
+                return String(value);
+            }
+
+            return date.toLocaleString();
+        }
+
+        function sortLatestFirst(list) {
+            return [...list].sort(
+                (a, b) => {
+                    const first =
+                        new Date(
+                            a.timestamp || 0
+                        ).getTime();
+
+                    const second =
+                        new Date(
+                            b.timestamp || 0
+                        ).getTime();
+
+                    return second - first;
+                }
+            );
+        }
+
+        function getFilteredFeedbacks() {
+            const search =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+            return sortLatestFirst(
+                feedbacks.filter(
+                    feedback => {
+
+                        const rating =
+                            Number(
+                                feedback.rating
+                            ) || 0;
+
+                        const matchesFilter =
+                            activeFilter === "ALL" ||
+                            (
+                                activeFilter === "POSITIVE" &&
+                                rating >= 4
+                            ) ||
+                            (
+                                activeFilter === "CRITICAL" &&
+                                rating <= 2
+                            );
+
+                        if (!matchesFilter) {
+                            return false;
+                        }
+
+                        const searchable =
+                            [
+                                feedback.name,
+                                feedback.email,
+                                feedback.comment
+                            ]
+                                .filter(Boolean)
+                                .join(" ")
+                                .toLowerCase();
+
+                        return searchable.includes(
+                            search
+                        );
+                    }
+                )
+            );
+        }
+
+        function renderSummary() {
+            const total =
+                feedbacks.length;
+
+            const ratings =
+                feedbacks
+                    .map(item =>
+                        Number(item.rating)
+                    )
+                    .filter(
+                        rating =>
+                            Number.isFinite(rating) &&
+                            rating > 0
+                    );
+
+            const average =
+                ratings.length
+                    ? (
+                        ratings.reduce(
+                            (sum, rating) =>
+                                sum + rating,
+                            0
+                        ) / ratings.length
+                    ).toFixed(1)
+                    : "0.0";
+
+            const positive =
+                feedbacks.filter(
+                    item =>
+                        Number(item.rating) >= 4
+                ).length;
+
+            const latest =
+                sortLatestFirst(
+                    feedbacks
+                )[0];
+
+            totalFeedback.textContent =
+                total;
+
+            averageRating.textContent =
+                average;
+
+            positiveReviews.textContent =
+                positive;
+
+            latestRating.textContent =
+                latest
+                    ? `${Number(latest.rating) || 0}/5`
+                    : "—";
+
+            reviewCount.textContent =
+                `${getFilteredFeedbacks().length} Reviews`;
+        }
+
+        function renderStars(rating) {
+            const safeRating =
+                Math.max(
+                    0,
+                    Math.min(
+                        5,
+                        Number(rating) || 0
+                    )
+                );
+
+            return `
+                ${"★".repeat(safeRating)}
+                ${"☆".repeat(5 - safeRating)}
+            `;
+        }
+
+        function renderEmpty(
+            title,
+            description,
+            icon = "fa-message-slash"
+        ) {
+            feedbackContainer.innerHTML = `
+                <div class="state">
+                    <div class="state-icon">
+                        <i class="fa-solid ${icon}"></i>
+                    </div>
+
+                    <h3>
+                        ${escapeHtml(title)}
+                    </h3>
+
+                    <p>
+                        ${escapeHtml(description)}
+                    </p>
+                </div>
+            `;
+        }
+
+        function renderFeedbacks() {
+            const filtered =
+                getFilteredFeedbacks();
+
+            renderSummary();
+
+            if (!feedbacks.length) {
+                renderEmpty(
+                    "No feedback available",
+                    "There are no website feedback entries in the database yet.",
+                    "fa-message"
+                );
+                return;
+            }
+
+            if (!filtered.length) {
+                renderEmpty(
+                    "No matching feedback",
+                    "Try a different search term or rating filter.",
+                    "fa-filter-circle-xmark"
+                );
+                return;
+            }
+
+            feedbackContainer.innerHTML = "";
+
+            filtered.forEach(
+                (feedback, index) => {
+
+                    const name =
+                        feedback.name ||
+                        "Anonymous Student";
+
+                    const email =
+                        feedback.email ||
+                        "No email provided";
+
+                    const rating =
+                        Number(
+                            feedback.rating
+                        ) || 0;
+
+                    const initials =
+                        getInitials(name);
+
+                    const card =
+                        document.createElement(
+                            "article"
+                        );
+
+                    card.className =
+                        "feedback-card";
+
+                    card.style.animationDelay =
+                        `${Math.min(index * 45, 300)}ms`;
+
+                    card.innerHTML = `
+                        <div class="feedback-top">
+
+                            <div class="feedback-user">
+
+                                <div class="feedback-avatar">
+                                    ${escapeHtml(initials)}
+                                </div>
+
+                                <div class="feedback-user-copy">
+
+                                    <strong>
+                                        ${escapeHtml(name)}
+                                    </strong>
+
+                                    <span>
+                                        ${escapeHtml(email)}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="rating">
+                                <span>
+                                    ${renderStars(rating)}
+                                </span>
+
+                                <strong>
+                                    ${rating}/5
+                                </strong>
+                            </div>
+
+                        </div>
+
+                        <div class="feedback-comment">
+                            ${escapeHtml(
+                        feedback.comment ||
+                        "No comment provided."
+                    )}
+                        </div>
+
+                        <div class="feedback-footer">
+
+                            <div class="feedback-date">
+                                <i class="fa-regular fa-calendar"></i>
+
+                                <span>
+                                    ${escapeHtml(
+                        formatTimestamp(
+                            feedback.timestamp
+                        )
+                    )}
+                                </span>
+                            </div>
+
+                            <button
+                                class="delete-button"
+                                type="button"
+                                data-delete-id="${escapeHtml(
+                        feedback.id
+                    )}"
+                            >
+                                <i class="fa-solid fa-trash-can"></i>
+                                Delete
+                            </button>
+
+                        </div>
+                    `;
+
+                    feedbackContainer.appendChild(
+                        card
+                    );
+                }
+            );
+        }
+
+        async function loadFeedbacks() {
+            if (!requireAdminSession()) {
+                return false;
+            }
+
+            setLoading(
+                true,
+                "Loading feedback from the database..."
+            );
+
+            try {
+                const token =
+                    getToken();
+
+                const response =
+                    await fetch(
+                        FEEDBACK_API,
+                        {
+                            method: "GET",
+                            headers: {
+                                Authorization:
+                                    "Bearer " + token,
+                                Accept:
+                                    "application/json"
+                            },
+                            cache:
+                                "no-store"
+                        }
+                    );
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+                    window.location.href =
+                        "../login.html";
+                    return false;
+                }
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Failed to load feedback. Status ${response.status}.`
+                    );
+                }
+
+                const data =
+                    await response.json();
+
+                feedbacks =
+                    Array.isArray(data)
+                        ? data
+                        : [];
+
+                renderFeedbacks();
+
+                return true;
+
+            } catch (error) {
+
+                console.error(
+                    "Feedback API Error:",
+                    error
+                );
+
+                feedbackContainer.innerHTML = `
+                    <div class="state">
+
+                        <div class="state-icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+
+                        <h3>
+                            Unable to load feedback
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(
+                    error.message ||
+                    "The feedback service could not be reached."
+                )}
+                        </p>
+
+                        <div class="hero-actions">
+                            <button
+                                class="primary-button"
+                                type="button"
+                                id="retryFeedback"
+                            >
+                                <i class="fa-solid fa-rotate-right"></i>
+                                Try Again
+                            </button>
+                        </div>
+
+                    </div>
+                `;
+
+                document
+                    .getElementById("retryFeedback")
+                    ?.addEventListener(
+                        "click",
+                        loadFeedbacks
+                    );
+
+                return false;
+
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function openDeleteDialog(id) {
+            feedbackToDelete =
+                id;
+
+            confirmBackdrop.classList.add(
+                "show"
+            );
+
+            confirmBackdrop.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+        }
+
+        function closeDeleteDialog() {
+            feedbackToDelete =
+                null;
+
+            confirmBackdrop.classList.remove(
+                "show"
+            );
+
+            confirmBackdrop.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+        }
+
+        async function deleteFeedback() {
+            if (!feedbackToDelete) {
+                closeDeleteDialog();
+                return;
+            }
+
+            const token =
+                getToken();
+
+            if (!token) {
+                window.location.href =
+                    "../login.html";
+                return;
+            }
+
+            setLoading(
+                true,
+                "Deleting feedback from the database..."
+            );
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${FEEDBACK_API}/${encodeURIComponent(
+                            feedbackToDelete
+                        )}`,
+                        {
+                            method: "DELETE",
+                            headers: {
+                                Authorization:
+                                    "Bearer " + token,
+                                Accept:
+                                    "application/json"
+                            }
+                        }
+                    );
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+                    window.location.href =
+                        "../login.html";
+                    return;
+                }
+
+                if (!response.ok) {
+                    const errorText =
+                        await response.text();
+
+                    throw new Error(
+                        errorText ||
+                        `Failed to delete feedback. Status ${response.status}.`
+                    );
+                }
+
+                closeDeleteDialog();
+
+                showToast(
+                    "Feedback deleted successfully.",
+                    "success"
+                );
+
+                await loadFeedbacks();
+
+            } catch (error) {
+
+                console.error(
+                    "Delete Feedback Error:",
+                    error
+                );
+
+                showToast(
+                    error.message ||
+                    "Failed to delete feedback.",
+                    "error"
+                );
+
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        heroRefreshButton.addEventListener(
+            "click",
+            async () => {
+
+                const loaded =
+                    await loadFeedbacks();
+
+                if (loaded) {
+                    showToast(
+                        "Feedback data refreshed successfully."
+                    );
+                }
+            }
+        );
+
+        notificationButton.addEventListener(
+            "click",
+            () => {
+                showToast(
+                    "Feedback management is connected to the admin backend."
+                );
+            }
+        );
+
+        logoutButton.addEventListener(
+            "click",
+            () => {
+
+                localStorage.removeItem(
+                    TOKEN_KEY
+                );
+
+                localStorage.removeItem(
+                    USER_KEY
+                );
+
+                window.location.href =
+                    "../login.html";
+            }
+        );
+
+        workspaceTrigger.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                const isOpen =
+                    workspaceNavItem.classList.contains(
+                        "open"
+                    );
+
+                workspaceNavItem.classList.toggle(
+                    "open",
+                    !isOpen
+                );
+
+                workspaceTrigger.setAttribute(
+                    "aria-expanded",
+                    String(!isOpen)
+                );
+
+                adminAccount.classList.remove(
+                    "open"
+                );
+
+                adminAccountTrigger.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+            }
+        );
+
+        adminAccountTrigger.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                const isOpen =
+                    adminAccount.classList.contains(
+                        "open"
+                    );
+
+                adminAccount.classList.toggle(
+                    "open",
+                    !isOpen
+                );
+
+                adminAccountTrigger.setAttribute(
+                    "aria-expanded",
+                    String(!isOpen)
+                );
+
+                workspaceNavItem.classList.remove(
+                    "open"
+                );
+
+                workspaceTrigger.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+            }
+        );
+
+        mobileMenuBtn.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                const isHidden =
+                    mobileNav.hasAttribute(
+                        "hidden"
+                    );
+
+                if (isHidden) {
+                    mobileNav.removeAttribute(
+                        "hidden"
+                    );
+                } else {
+                    mobileNav.setAttribute(
+                        "hidden",
+                        ""
+                    );
+                }
+
+                mobileMenuBtn.setAttribute(
+                    "aria-expanded",
+                    String(isHidden)
+                );
+
+                workspaceNavItem.classList.remove(
+                    "open"
+                );
+
+                adminAccount.classList.remove(
+                    "open"
+                );
+            }
+        );
+
+        document.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    !event.target.closest(
+                        "#workspaceNavItem"
+                    )
+                ) {
+                    workspaceNavItem.classList.remove(
+                        "open"
+                    );
+
+                    workspaceTrigger.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+                }
+
+                if (
+                    !event.target.closest(
+                        "#adminAccount"
+                    )
+                ) {
+                    adminAccount.classList.remove(
+                        "open"
+                    );
+
+                    adminAccountTrigger.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+                }
+
+                if (
+                    !event.target.closest(
+                        "#mobileNav"
+                    ) &&
+                    !event.target.closest(
+                        "#mobileMenuBtn"
+                    )
+                ) {
+                    mobileNav.setAttribute(
+                        "hidden",
+                        ""
+                    );
+
+                    mobileMenuBtn.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+                }
+
+                if (
+                    !event.target.closest(
+                        "#confirmBackdrop"
+                    )
+                ) {
+                    return;
+                }
+            }
+        );
+
+        window.addEventListener(
+            "resize",
+            () => {
+
+                if (
+                    window.innerWidth > 900
+                ) {
+                    mobileNav.setAttribute(
+                        "hidden",
+                        ""
+                    );
+
+                    mobileMenuBtn.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+                }
+            }
+        );
+
+        searchInput.addEventListener(
+            "input",
+            renderFeedbacks
+        );
+
+        document
+            .querySelectorAll(
+                ".filter-button"
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            activeFilter =
+                                button.dataset.filter;
+
+                            document
+                                .querySelectorAll(
+                                    ".filter-button"
+                                )
+                                .forEach(
+                                    item =>
+                                        item.classList.toggle(
+                                            "active",
+                                            item === button
+                                        )
+                                );
+
+                            renderFeedbacks();
+                        }
+                    );
+                }
+            );
+
+        feedbackContainer.addEventListener(
+            "click",
+            event => {
+
+                const button =
+                    event.target.closest(
+                        "[data-delete-id]"
+                    );
+
+                if (!button) {
+                    return;
+                }
+
+                openDeleteDialog(
+                    button.dataset.deleteId
+                );
+            }
+        );
+
+        cancelDelete.addEventListener(
+            "click",
+            closeDeleteDialog
+        );
+
+        confirmDelete.addEventListener(
+            "click",
+            deleteFeedback
+        );
+
+        confirmBackdrop.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    confirmBackdrop
+                ) {
+                    closeDeleteDialog();
+                }
+            }
+        );
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key === "Escape"
+                ) {
+                    closeDeleteDialog();
+                }
+            }
+        );
+
+        setupAdminIdentity();
+
+        if (requireAdminSession()) {
+            loadFeedbacks();
+        }
+    </script>
+
+</body>
+
+</html>
