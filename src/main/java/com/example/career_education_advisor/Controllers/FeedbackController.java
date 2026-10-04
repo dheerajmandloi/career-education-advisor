@@ -30,13 +30,10 @@ public class FeedbackController {
     public ResponseEntity<?> addFeedback(@RequestBody FeedbackDTO dto) {
 
         try {
-
             Feedback feedback = feedbackService.addFeedback(dto);
-
             return ResponseEntity.ok(feedback);
 
         } catch (Exception e) {
-
             return ResponseEntity
                     .status(500)
                     .body("Error adding feedback: " + e.getMessage());
@@ -56,14 +53,12 @@ public class FeedbackController {
     public ResponseEntity<?> deleteFeedback(@PathVariable Long id) {
 
         try {
-
             feedbackService.deleteFeedback(id);
 
             return ResponseEntity.ok(
                     "Feedback deleted successfully");
 
         } catch (Exception e) {
-
             return ResponseEntity
                     .status(500)
                     .body("Error deleting feedback: " + e.getMessage());

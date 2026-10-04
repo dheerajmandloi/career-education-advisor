@@ -36,6 +36,9 @@ public class SecurityConfig {
                                                 .permitAll()
 
                                                 .requestMatchers("/api/feedback/**").permitAll()
+
+                                                .requestMatchers(HttpMethod.POST, "/api/appointments")
+                                                .hasRole("STUDENT")
                                                 // Assessment APIs
                                                 .requestMatchers("/api/assessment/**")
                                                 .permitAll()

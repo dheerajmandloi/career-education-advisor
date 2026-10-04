@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background: #f5f7fa;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .appointment-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .appointment-card p {
+            margin: 8px 0;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .pending {
+            color: orange;
+        }
+
+        .accepted {
+            color: green;
+        }
+
+        .confirmed {
+            color: green;
+        }
+
+        .rejected {
+            color: red;
+        }
+
+        .time-change {
+            color: #b8860b;
+        }
+
+        .proposed-time {
+            background: #fff8dc;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: 1px solid #f0d878;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-right: 8px;
+        }
+
+        .accept-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .empty {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .meeting-link {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: white;
+            background: #007bff;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>My Appointments</h1>
+
+    <div id="appointmentsContainer">
+        Loading appointments...
+    </div>
+
+    <script>
+
+        const API_URL = "http://localhost:8081/api/appointments";
+
+        async function loadAppointments() {
+
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                alert("Please login first.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            // Get logged-in student
+            const userData =
+                localStorage.getItem("user") ||
+                localStorage.getItem("student");
+
+            if (!userData) {
+                document.getElementById("appointmentsContainer").innerHTML =
+                    "<div class='empty'>Student information not found.</div>";
+                return;
+            }
+
+            const user = JSON.parse(userData);
+
+            const studentId = user.id;
+
+            try {
+
+                const response = await fetch(
+                    `${API_URL}/student/${studentId}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Authorization": "Bearer " + token
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Failed to load appointments");
+                }
+
+                const appointments = await response.json();
+
+                displayAppointments(appointments);
+
+            } catch (error) {
+
+                console.error(error);
+
+                document.getElementById("appointmentsContainer").innerHTML =
+                    "<div class='empty'>Unable to load appointments.</div>";
+            }
+        }
+
+
+        function displayAppointments(appointments) {
+
+            const container =
+                document.getElementById("appointmentsContainer");
+
+            container.innerHTML = "";
+
+            if (!appointments || appointments.length === 0) {
+
+                container.innerHTML =
+                    "<div class='empty'>No appointments found.</div>";
+
+                return;
+            }
+
+
+            appointments.forEach(appointment => {
+
+                const card = document.createElement("div");
+
+                card.className = "appointment-card";
+
+
+                let statusClass = "";
+
+                if (appointment.status === "PENDING") {
+                    statusClass = "pending";
+                }
+                else if (
+                    appointment.status === "ACCEPTED" ||
+                    appointment.status === "CONFIRMED"
+                ) {
+                    statusClass = "confirmed";
+                }
+                else if (appointment.status === "REJECTED") {
+                    statusClass = "rejected";
+                }
+                else if (appointment.status === "TIME_CHANGE_REQUESTED") {
+                    statusClass = "time-change";
+                }
+
+
+                let html = `
+
+                <p>
+                    <strong>Appointment ID:</strong>
+                    ${appointment.id}
+                </p>
+
+                <p>
+                    <strong>Counselor ID:</strong>
+                    ${appointment.counselorId}
+                </p>
+
+                <p>
+                    <strong>Your Query:</strong>
+                    ${appointment.query || "Not provided"}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${appointment.appointmentDate || "Not scheduled"}
+                </p>
+
+                <p>
+                    <strong>Time:</strong>
+                    ${appointment.appointmentTime || "Not scheduled"}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    <span class="status ${statusClass}">
+                        ${appointment.status}
+                    </span>
+                </p>
+            `;
+
+
+                // Counselor suggested another time
+                if (
+                    appointment.status === "TIME_CHANGE_REQUESTED"
+                ) {
+
+                    html += `
+
+                    <div class="proposed-time">
+
+                        <h3>Counselor Suggested New Time</h3>
+
+                        <p>
+                            <strong>New Date:</strong>
+                            ${appointment.proposedDate || "Not available"}
+                        </p>
+
+                        <p>
+                            <strong>New Time:</strong>
+                            ${appointment.proposedTime || "Not available"}
+                        </p>
+
+                        <button
+                            class="accept-btn"
+                            onclick="acceptNewTime(${appointment.id})">
+                            Accept New Time
+                        </button>
+
+                    </div>
+                `;
+                }
+
+
+                // Confirmed appointment
+                if (
+                    appointment.status === "CONFIRMED" &&
+                    appointment.meetingLink
+                ) {
+
+                    html += `
+
+                    <a
+                        class="meeting-link"
+                        href="${appointment.meetingLink}"
+                        target="_blank">
+                        Join Online Meeting
+                    </a>
+                `;
+                }
+
+
+                card.innerHTML = html;
+
+                container.appendChild(card);
+
+            });
+        }
+
+
+        async function acceptNewTime(appointmentId) {
+
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                alert("Please login first.");
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    `${API_URL}/${appointmentId}/accept-proposed-time`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Authorization": "Bearer " + token
+                        }
+                    }
+                );
+
+
+                if (!response.ok) {
+
+                    const errorText = await response.text();
+
+                    throw new Error(errorText);
+                }
+
+
+                alert("New appointment time accepted successfully!");
+
+                loadAppointments();
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Failed to accept new time: " +
+                    error.message
+                );
+            }
+        }
+
+
+        // Load appointments when page opens
+        loadAppointments();
+
+    </script>
+
+</body>
+
+</html>

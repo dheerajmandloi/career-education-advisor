@@ -1,5 +1,7 @@
 package com.example.career_education_advisor.Controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,6 +42,12 @@ public class CounselorProfileController {
                     .badRequest()
                     .body(e.getMessage());
         }
+    }
+
+    @GetMapping("/approved")
+    public ResponseEntity<List<CounselorProfileDTO>> getApprovedCounselors() {
+        return ResponseEntity.ok(
+                counselorProfileService.getApprovedCounselors());
     }
 
     // ================= SAVE / UPDATE PROFILE =================

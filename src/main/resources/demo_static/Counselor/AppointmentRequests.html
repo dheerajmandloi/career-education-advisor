@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Appointment Requests</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .appointment-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .info {
+            margin: 8px 0;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .accepted {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .time-change {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+
+        .accept-btn {
+            background: #28a745;
+        }
+
+        .reject-btn {
+            background: #dc3545;
+        }
+
+        .suggest-btn {
+            background: #007bff;
+        }
+
+        .save-btn {
+            background: #6f42c1;
+        }
+
+        .cancel-btn {
+            background: #6c757d;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .time-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .time-box input {
+            padding: 9px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px 10px 5px 0;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <h2>Appointment Requests</h2>
+
+        <div id="message" class="message"></div>
+
+        <div id="appointmentsContainer">
+
+            <div class="empty">
+                Loading appointment requests...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const BASE_URL =
+            "http://localhost:8081";
+
+        const APPOINTMENT_API =
+            BASE_URL + "/api/appointments";
+
+        const COUNSELOR_PROFILE_API =
+            BASE_URL + "/api/counselor/profile";
+
+
+        // ==========================================
+        // TOKEN
+        // ==========================================
+
+        function getToken() {
+
+            return localStorage.getItem("token");
+
+        }
+
+
+        // ==========================================
+        // GET LOGGED-IN USER ID
+        // ==========================================
+
+        function getUserId() {
+
+            const user =
+                JSON.parse(
+                    localStorage.getItem("user")
+                ) ||
+                JSON.parse(
+                    localStorage.getItem("counselor")
+                );
+
+            if (user && user.id) {
+
+                return user.id;
+
+            }
+
+            return null;
+
+        }
+
+
+        // ==========================================
+        // MESSAGE
+        // ==========================================
+
+        function showMessage(
+            message,
+            color
+        ) {
+
+            const box =
+                document.getElementById("message");
+
+            box.innerText = message;
+            box.style.color = color;
+
+        }
+
+
+        // ==========================================
+        // GET COUNSELOR PROFILE
+        // ==========================================
+
+        async function getCounselorProfile() {
+
+            const token =
+                getToken();
+
+            const userId =
+                getUserId();
+
+
+            if (!token) {
+
+                throw new Error(
+                    "Login token not found."
+                );
+
+            }
+
+
+            if (!userId) {
+
+                throw new Error(
+                    "Logged-in counselor ID not found."
+                );
+
+            }
+
+
+            const response =
+                await fetch(
+
+                    COUNSELOR_PROFILE_API +
+                    "/" +
+                    userId,
+
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+
+                );
+
+
+            if (!response.ok) {
+
+                const error =
+                    await response.text();
+
+                console.error(
+                    "Counselor profile error:",
+                    error
+                );
+
+                throw new Error(
+                    "Counselor profile could not be loaded."
+                );
+
+            }
+
+
+            const profile =
+                await response.json();
+
+
+            console.log(
+                "Logged-in Counselor Profile:",
+                profile
+            );
+
+
+            return profile;
+
+        }
+
+
+        // ==========================================
+        // LOAD APPOINTMENTS
+        // ==========================================
+
+        async function loadAppointments() {
+
+            const container =
+                document.getElementById(
+                    "appointmentsContainer"
+                );
+
+
+            try {
+
+                const token =
+                    getToken();
+
+
+                if (!token) {
+
+                    throw new Error(
+                        "Please login first."
+                    );
+
+                }
+
+
+                /*
+                 * Get actual CounselorProfile
+                 *
+                 * profile.id = CounselorProfile ID
+                 */
+
+                const profile =
+                    await getCounselorProfile();
+
+
+                const counselorProfileId =
+                    profile.id;
+
+
+                if (!counselorProfileId) {
+
+                    throw new Error(
+                        "Counselor profile ID not found."
+                    );
+
+                }
+
+
+                console.log(
+                    "Counselor Profile ID:",
+                    counselorProfileId
+                );
+
+
+                /*
+                 * Fetch appointments using
+                 * CounselorProfile ID
+                 */
+
+                const response =
+                    await fetch(
+
+                        APPOINTMENT_API +
+                        "/counselor/" +
+                        counselorProfileId,
+
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+
+                    );
+
+
+                if (!response.ok) {
+
+                    const error =
+                        await response.text();
+
+                    console.error(
+                        "Appointment API Error:",
+                        error
+                    );
+
+                    throw new Error(
+                        "Failed to load appointments."
+                    );
+
+                }
+
+
+                const appointments =
+                    await response.json();
+
+
+                console.log(
+                    "Counselor Appointments:",
+                    appointments
+                );
+
+
+                displayAppointments(
+                    appointments
+                );
+
+
+            }
+            catch (error) {
+
+                console.error(
+                    error
+                );
+
+
+                container.innerHTML =
+
+                    `<div class="empty">
+                    ${error.message}
+                </div>`;
+
+            }
+
+        }
+
+
+        // ==========================================
+        // DISPLAY APPOINTMENTS
+        // ==========================================
+
+        function displayAppointments(
+            appointments
+        ) {
+
+            const container =
+                document.getElementById(
+                    "appointmentsContainer"
+                );
+
+
+            container.innerHTML = "";
+
+
+            if (
+                !appointments ||
+                appointments.length === 0
+            ) {
+
+                container.innerHTML =
+
+                    `<div class="empty">
+                    No appointment requests found.
+                </div>`;
+
+                return;
+
+            }
+
+
+            appointments.forEach(
+                appointment => {
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "appointment-card";
+
+
+                    let statusClass =
+                        "pending";
+
+
+                    if (
+                        appointment.status ===
+                        "ACCEPTED"
+                    ) {
+
+                        statusClass =
+                            "accepted";
+
+                    }
+
+                    else if (
+                        appointment.status ===
+                        "REJECTED"
+                    ) {
+
+                        statusClass =
+                            "rejected";
+
+                    }
+
+                    else if (
+                        appointment.status ===
+                        "TIME_CHANGE_REQUESTED"
+                    ) {
+
+                        statusClass =
+                            "time-change";
+
+                    }
+
+
+                    let buttonsHTML = "";
+
+
+                    if (
+                        appointment.status ===
+                        "PENDING"
+                    ) {
+
+                        buttonsHTML = `
+
+                        <div class="buttons">
+
+                            <button
+                                class="accept-btn"
+                                onclick="acceptAppointment(${appointment.id})">
+
+                                Accept
+
+                            </button>
+
+
+                            <button
+                                class="reject-btn"
+                                onclick="rejectAppointment(${appointment.id})">
+
+                                Reject
+
+                            </button>
+
+
+                            <button
+                                class="suggest-btn"
+                                onclick="showTimeBox(${appointment.id})">
+
+                                Suggest Different Time
+
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="timeBox-${appointment.id}"
+                            class="time-box">
+
+                            <label>
+                                New Date:
+                            </label>
+
+                            <br>
+
+                            <input
+                                type="date"
+                                id="date-${appointment.id}">
+
+
+                            <label>
+                                New Time:
+                            </label>
+
+                            <br>
+
+                            <input
+                                type="time"
+                                id="time-${appointment.id}">
+
+
+                            <div class="buttons">
+
+                                <button
+                                    class="save-btn"
+                                    onclick="suggestNewTime(${appointment.id})">
+
+                                    Send New Time
+
+                                </button>
+
+
+                                <button
+                                    class="cancel-btn"
+                                    onclick="hideTimeBox(${appointment.id})">
+
+                                    Cancel
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                    }
+
+
+                    card.innerHTML = `
+
+                    <h3>
+                        Appointment Request
+                    </h3>
+
+
+                    <div class="info">
+
+                        <span class="label">
+                            Student ID:
+                        </span>
+
+                        ${appointment.studentId}
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <span class="label">
+                            Query:
+                        </span>
+
+                        ${escapeHtml(
+                        appointment.query
+                    )}
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <span class="label">
+                            Date:
+                        </span>
+
+                        ${appointment.appointmentDate}
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <span class="label">
+                            Time:
+                        </span>
+
+                        ${appointment.appointmentTime}
+
+                    </div>
+
+
+                    <div>
+
+                        <span
+                            class="status ${statusClass}">
+
+                            ${appointment.status}
+
+                        </span>
+
+                    </div>
+
+
+                    ${buttonsHTML}
+
+                `;
+
+
+                    container.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+        // ==========================================
+        // ACCEPT
+        // ==========================================
+
+        async function acceptAppointment(
+            appointmentId
+        ) {
+
+            const token =
+                getToken();
+
+
+            try {
+
+                const response =
+                    await fetch(
+
+                        APPOINTMENT_API +
+                        "/" +
+                        appointmentId +
+                        "/status?status=ACCEPTED",
+
+                        {
+
+                            method: "PUT",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+
+                        }
+
+                    );
+
+
+                if (!response.ok) {
+
+                    const error =
+                        await response.text();
+
+                    console.error(
+                        error
+                    );
+
+                    throw new Error(
+                        "Failed to accept appointment."
+                    );
+
+                }
+
+
+                showMessage(
+                    "Appointment accepted successfully.",
+                    "green"
+                );
+
+
+                loadAppointments();
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    error.message,
+                    "red"
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // REJECT
+        // ==========================================
+
+        async function rejectAppointment(
+            appointmentId
+        ) {
+
+            const token =
+                getToken();
+
+
+            const confirmation =
+                confirm(
+                    "Are you sure you want to reject this appointment?"
+                );
+
+
+            if (!confirmation) {
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+
+                        APPOINTMENT_API +
+                        "/" +
+                        appointmentId +
+                        "/status?status=REJECTED",
+
+                        {
+
+                            method: "PUT",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+
+                        }
+
+                    );
+
+
+                if (!response.ok) {
+
+                    const error =
+                        await response.text();
+
+                    console.error(
+                        error
+                    );
+
+                    throw new Error(
+                        "Failed to reject appointment."
+                    );
+
+                }
+
+
+                showMessage(
+                    "Appointment rejected.",
+                    "green"
+                );
+
+
+                loadAppointments();
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    error.message,
+                    "red"
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // SHOW TIME BOX
+        // ==========================================
+
+        function showTimeBox(
+            appointmentId
+        ) {
+
+            const box =
+                document.getElementById(
+                    "timeBox-" +
+                    appointmentId
+                );
+
+
+            if (box) {
+
+                box.style.display =
+                    "block";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // HIDE TIME BOX
+        // ==========================================
+
+        function hideTimeBox(
+            appointmentId
+        ) {
+
+            const box =
+                document.getElementById(
+                    "timeBox-" +
+                    appointmentId
+                );
+
+
+            if (box) {
+
+                box.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // SUGGEST NEW TIME
+        // ==========================================
+
+        async function suggestNewTime(
+            appointmentId
+        ) {
+
+            const token =
+                getToken();
+
+
+            const date =
+                document.getElementById(
+                    "date-" +
+                    appointmentId
+                ).value;
+
+
+            const time =
+                document.getElementById(
+                    "time-" +
+                    appointmentId
+                ).value;
+
+
+            if (!date) {
+
+                showMessage(
+                    "Please select a new date.",
+                    "red"
+                );
+
+                return;
+
+            }
+
+
+            if (!time) {
+
+                showMessage(
+                    "Please select a new time.",
+                    "red"
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+
+                        APPOINTMENT_API +
+                        "/" +
+                        appointmentId +
+                        "/suggest-time",
+
+                        {
+
+                            method: "PUT",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    "Bearer " + token
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    appointmentDate:
+                                        date,
+
+                                    appointmentTime:
+                                        time
+
+                                })
+
+                        }
+
+                    );
+
+
+                if (!response.ok) {
+
+                    const error =
+                        await response.text();
+
+                    console.error(
+                        error
+                    );
+
+                    throw new Error(
+                        "Failed to suggest new time."
+                    );
+
+                }
+
+
+                showMessage(
+                    "New time sent to student successfully.",
+                    "green"
+                );
+
+
+                loadAppointments();
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    error.message,
+                    "red"
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHtml(text) {
+
+            if (!text) {
+
+                return "";
+
+            }
+
+
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        loadAppointments();
+
+    </script>
+
+</body>
+
+</html>

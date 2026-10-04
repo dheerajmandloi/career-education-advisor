@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Counselor Appointment</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        select,
+        textarea,
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Book Counselor Appointment</h2>
+
+        <form id="appointmentForm">
+
+            <!-- Counselor -->
+            <label for="counselor">
+                Select Counselor
+            </label>
+
+            <select id="counselor" required>
+                <option value="">
+                    Loading counselors...
+                </option>
+            </select>
+
+
+            <!-- Student Query -->
+            <label for="query">
+                Your Query
+            </label>
+
+            <textarea id="query" placeholder="Explain what you need help with..." required></textarea>
+
+
+            <!-- Appointment Date -->
+            <label for="appointmentDate">
+                Appointment Date
+            </label>
+
+            <input type="date" id="appointmentDate" required>
+
+
+            <!-- Appointment Time -->
+            <label for="appointmentTime">
+                Appointment Time
+            </label>
+
+            <input type="time" id="appointmentTime" required>
+
+
+            <!-- Submit -->
+            <button type="submit">
+                Send Appointment Request
+            </button>
+
+        </form>
+
+        <div id="message"></div>
+
+    </div>
+
+
+    <script>
+
+        const APPOINTMENT_API =
+            "http://localhost:8081/api/appointments";
+
+        const COUNSELOR_API =
+            "http://localhost:8081/api/counselor/profile/approved";
+
+
+        // ==========================================
+        // GET LOGGED-IN STUDENT ID
+        // ==========================================
+
+        function getStudentId() {
+
+            const user =
+                JSON.parse(localStorage.getItem("user")) ||
+                JSON.parse(localStorage.getItem("student"));
+
+            if (user && user.id) {
+                return user.id;
+            }
+
+            return null;
+        }
+
+
+        // ==========================================
+        // LOAD APPROVED COUNSELORS
+        // ==========================================
+
+        async function loadCounselors() {
+
+            const counselorSelect =
+                document.getElementById("counselor");
+
+            try {
+
+                const token =
+                    localStorage.getItem("token");
+
+
+                if (!token) {
+
+                    counselorSelect.innerHTML =
+                        '<option value="">Please login first</option>';
+
+                    return;
+                }
+
+
+                const response =
+                    await fetch(COUNSELOR_API, {
+
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+
+                    });
+
+
+                if (!response.ok) {
+
+                    const error =
+                        await response.text();
+
+                    console.error(
+                        "Counselor API Error:",
+                        error
+                    );
+
+                    throw new Error(
+                        "Failed to load counselors"
+                    );
+                }
+
+
+                const counselors =
+                    await response.json();
+
+
+                counselorSelect.innerHTML =
+                    '<option value="">Select Counselor</option>';
+
+
+                if (
+                    !counselors ||
+                    counselors.length === 0
+                ) {
+
+                    counselorSelect.innerHTML =
+                        '<option value="">No counselors available</option>';
+
+                    return;
+                }
+
+
+                counselors.forEach(counselor => {
+
+                    const option =
+                        document.createElement("option");
+
+
+                    /*
+                     * IMPORTANT:
+                     * counselor.id = CounselorProfile ID
+                     */
+
+                    option.value =
+                        counselor.id;
+
+
+                    option.textContent =
+                        counselor.name +
+                        " - " +
+                        counselor.specialization;
+
+
+                    counselorSelect.appendChild(option);
+
+                });
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading counselors:",
+                    error
+                );
+
+
+                counselorSelect.innerHTML =
+                    '<option value="">Failed to load counselors</option>';
+            }
+        }
+
+
+        // ==========================================
+        // CREATE APPOINTMENT
+        // ==========================================
+
+        document
+            .getElementById("appointmentForm")
+            .addEventListener(
+                "submit",
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    const token =
+                        localStorage.getItem("token");
+
+
+                    if (!token) {
+
+                        showMessage(
+                            "Please login first.",
+                            "red"
+                        );
+
+                        return;
+                    }
+
+
+                    const studentId =
+                        getStudentId();
+
+
+                    if (!studentId) {
+
+                        showMessage(
+                            "Student information not found. Please login again.",
+                            "red"
+                        );
+
+                        return;
+                    }
+
+
+                    const counselorId =
+                        document
+                            .getElementById("counselor")
+                            .value;
+
+
+                    const query =
+                        document
+                            .getElementById("query")
+                            .value
+                            .trim();
+
+
+                    const appointmentDate =
+                        document
+                            .getElementById("appointmentDate")
+                            .value;
+
+
+                    const appointmentTime =
+                        document
+                            .getElementById("appointmentTime")
+                            .value;
+
+
+                    if (!counselorId) {
+
+                        showMessage(
+                            "Please select a counselor.",
+                            "red"
+                        );
+
+                        return;
+                    }
+
+
+                    // ==========================================
+                    // APPOINTMENT DATA
+                    // ==========================================
+
+                    const appointmentData = {
+
+                        studentId: studentId,
+
+                        counselorId:
+                            Number(counselorId),
+
+                        query: query,
+
+                        appointmentDate:
+                            appointmentDate,
+
+                        appointmentTime:
+                            appointmentTime
+
+                    };
+
+
+                    console.log(
+                        "Appointment Data:",
+                        appointmentData
+                    );
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                APPOINTMENT_API,
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+
+                                        "Content-Type":
+                                            "application/json",
+
+                                        "Authorization":
+                                            "Bearer " + token
+
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            appointmentData
+                                        )
+
+                                }
+                            );
+
+
+                        if (!response.ok) {
+
+                            const error =
+                                await response.text();
+
+                            console.error(
+                                "Appointment API Error:",
+                                error
+                            );
+
+                            throw new Error(error);
+                        }
+
+
+                        const result =
+                            await response.json();
+
+
+                        console.log(
+                            "Appointment Created:",
+                            result
+                        );
+
+
+                        showMessage(
+                            "Appointment request sent successfully!",
+                            "green"
+                        );
+
+
+                        document
+                            .getElementById(
+                                "appointmentForm"
+                            )
+                            .reset();
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Error:",
+                            error
+                        );
+
+
+                        showMessage(
+                            "Failed to send appointment request.",
+                            "red"
+                        );
+                    }
+
+                }
+            );
+
+
+        // ==========================================
+        // MESSAGE
+        // ==========================================
+
+        function showMessage(
+            message,
+            color
+        ) {
+
+            const messageBox =
+                document.getElementById("message");
+
+
+            messageBox.innerText =
+                message;
+
+
+            messageBox.style.color =
+                color;
+        }
+
+
+        // ==========================================
+        // LOAD COUNSELORS WHEN PAGE OPENS
+        // ==========================================
+
+        loadCounselors();
+
+    </script>
+
+</body>
+
+</html>
