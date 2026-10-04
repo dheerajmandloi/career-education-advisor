@@ -557,6 +557,75 @@
             line-height: 1.7;
         }
 
+        /* ==================== EDIT FORM / SEARCH PREFERENCES ==================== */
+
+        .search-card {
+            position: relative;
+            z-index: 1;
+            margin-top: 24px;
+            padding: 22px;
+            border: 1px solid #E5DEF0;
+            border-radius: 18px;
+            background: #FFFFFF;
+            text-align: left;
+            box-shadow: 0 8px 24px rgba(76, 57, 145, .04);
+        }
+
+        .search-card-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--purple-dark);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field-group label {
+            color: #59657A;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .field-group input,
+        .field-group select {
+            width: 100%;
+            height: 42px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #FCFBFF;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            outline: none;
+            transition: .2s ease;
+        }
+
+        .field-group input:focus,
+        .field-group select:focus {
+            border-color: var(--purple);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, .12);
+        }
+
         .hero-btn {
             position: relative;
             z-index: 1;
@@ -1039,6 +1108,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+
             .guidance-grid {
                 grid-template-columns: 1fr;
             }
@@ -1234,8 +1307,32 @@
             <div class="hero-icon"><i class="fa-solid fa-route"></i></div>
             <div class="hero-badge"><i class="fa-solid fa-wand-magic-sparkles"></i>Personalized Career Guidance</div>
             <h2>Find career paths that fit your profile</h2>
-            <p>We use the information saved in your student profile to request career recommendations from the connected
-                recommendation engine.</p>
+            <p>We use the information saved in your student profile or your custom temporary preferences below to
+                request career recommendations.</p>
+
+            <div class="search-card">
+                <div class="search-card-title"><i class="fa-solid fa-sliders"></i> Adjust Temporary Search Preferences
+                </div>
+                <div class="filter-grid">
+                    <div class="field-group">
+                        <label for="editCareerInterest">Career Interest</label>
+                        <input type="text" id="editCareerInterest" placeholder="e.g. Technology, Design">
+                    </div>
+                    <div class="field-group">
+                        <label for="editTargetCareer">Target Career</label>
+                        <input type="text" id="editTargetCareer" placeholder="e.g. Software Engineer">
+                    </div>
+                    <div class="field-group">
+                        <label for="editInterests">Interests</label>
+                        <input type="text" id="editInterests" placeholder="e.g. Coding, AI, Web Dev">
+                    </div>
+                    <div class="field-group">
+                        <label for="editSkills">Skills</label>
+                        <input type="text" id="editSkills" placeholder="e.g. Java, Python, SQL">
+                    </div>
+                </div>
+            </div>
+
             <button class="hero-btn" id="recommendBtn" type="button"><i class="fa-solid fa-wand-magic-sparkles"></i>Get
                 My Career Recommendations</button>
             <div class="status" id="status"></div>
@@ -1260,8 +1357,8 @@
         </section>
 
         <section class="profile-section">
-            <div class="section-label"><i class="fa-solid fa-user-graduate"></i>Your Profile</div>
-            <h2 class="section-title" style="margin-top:6px;">Your Career Profile</h2>
+            <div class="section-label"><i class="fa-solid fa-user-graduate"></i>Your Saved Profile</div>
+            <h2 class="section-title" style="margin-top:6px;">Your Baseline Career Profile</h2>
 
             <div class="profile-grid">
                 <div class="profile-item">
@@ -1292,8 +1389,8 @@
 
             <div class="info-box">
                 <strong>How does this work?</strong><br>
-                Your saved profile is sent to the recommendation service. The service compares your stream, subjects,
-                interests and skills with available career information and returns career suggestions.
+                Your saved profile is sent to the recommendation service. Temporary adjustments made above are sent
+                along to get personalized instant suggestions without changing your saved backend profile.
             </div>
         </section>
 
@@ -1462,6 +1559,14 @@
             document.getElementById("skills").textContent = profile?.skills || "Not available";
             document.getElementById("strongSubjects").textContent = profile?.strongSubjects || "Not available";
             document.getElementById("preferredCourse").textContent = profile?.preferredCourse || "Not available";
+
+            // Pre-fill editable input fields with saved profile defaults
+            if (profile) {
+                document.getElementById("editCareerInterest").value = profile.careerInterest || "";
+                document.getElementById("editTargetCareer").value = profile.targetCareer || "";
+                document.getElementById("editInterests").value = profile.interests || "";
+                document.getElementById("editSkills").value = profile.skills || "";
+            }
         }
 
         function getRecommendations(data) {
@@ -1477,7 +1582,7 @@
                 recommendations.innerHTML = `
                     <div class="empty-box">
                         <i class="fa-solid fa-briefcase"></i>
-                        <p>No career recommendations were returned for the current profile.</p>
+                        <p>No career recommendations were returned for the current parameters.</p>
                         <a class="hero-btn retry-btn" href="student-profile.html"><i class="fa-solid fa-user-pen"></i>Update Profile</a>
                     </div>
                 `;
@@ -1583,13 +1688,22 @@
                     updateProfile(studentProfile);
                 }
 
+                // Construct temporary profile payload using editable input values
+                const temporaryProfile = {
+                    ...studentProfile,
+                    careerInterest: document.getElementById("editCareerInterest").value.trim(),
+                    targetCareer: document.getElementById("editTargetCareer").value.trim(),
+                    interests: document.getElementById("editInterests").value.trim(),
+                    skills: document.getElementById("editSkills").value.trim()
+                };
+
                 setLoading(true, "Generating career recommendations...");
                 const result = await fetchJson(
                     CAREER_API,
                     {
                         method: "POST",
                         headers: authHeaders(),
-                        body: JSON.stringify(studentProfile)
+                        body: JSON.stringify(temporaryProfile)
                     },
                     "Career recommendation request"
                 );
@@ -1597,7 +1711,7 @@
                 const items = getRecommendations(result);
                 renderRecommendations(items);
                 showStatus(items.length ? "Recommendations generated successfully." : "No career recommendations were returned.", items.length ? "success" : "error");
-                showToast(items.length ? "success" : "error", items.length ? "Recommendations ready" : "No results", items.length ? "Career options were generated from your saved profile." : "Update your profile and try again.");
+                showToast(items.length ? "success" : "error", items.length ? "Recommendations ready" : "No results", items.length ? "Career options were generated based on your inputs." : "Update your preferences and try again.");
             } catch (error) {
                 if (getToken()) {
                     renderRecommendations([]);

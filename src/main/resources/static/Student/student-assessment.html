@@ -1589,16 +1589,21 @@
         }
 
         .question-number {
-            width: 34px;
-            height: 34px;
-            display: grid;
-            place-items: center;
-            flex: none;
-            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+            min-width: 92px;
+            height: 30px;
+            padding: 0 12px;
+            border-radius: 999px;
             color: var(--purple-dark);
             background: #F0ECFF;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
+            letter-spacing: .7px;
+            text-transform: uppercase;
+            white-space: nowrap;
         }
 
         .question-text {
@@ -1755,6 +1760,408 @@
                 align-items: flex-start;
             }
         }
+
+
+        .setup-card {
+            margin-top: 20px;
+        }
+
+        .setup-grid {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 18px;
+        }
+
+        .class-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .class-option {
+            position: relative;
+            min-height: 90px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #FCFBFF;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .class-option:hover {
+            border-color: #D9D0EE;
+            background: #FAF8FF;
+            transform: translateY(-1px);
+        }
+
+        .class-option.active {
+            border-color: #CFC1F2;
+            background: #F8F4FF;
+            box-shadow: 0 10px 24px rgba(139, 92, 246, .08);
+        }
+
+        .class-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .class-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .class-top strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .class-top small {
+            display: block;
+            max-width: 230px;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 10.5px;
+            line-height: 1.45;
+        }
+
+        .class-check {
+            width: 21px;
+            height: 21px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border: 1px solid #C7C0D9;
+            border-radius: 7px;
+            color: #fff;
+            background: #fff;
+            font-size: 9px;
+            transition: .18s ease;
+        }
+
+        .class-option.active .class-check {
+            border-color: var(--purple);
+            background: var(--purple);
+        }
+
+        .assessment-select {
+            width: 100%;
+            height: 48px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: var(--surface-soft);
+            color: var(--text);
+            padding: 0 13px;
+            font-size: 12px;
+            transition: .2s ease;
+        }
+
+        .assessment-select:focus {
+            background: #fff;
+            border-color: rgba(139, 92, 246, .35);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, .07);
+        }
+
+        .setup-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-top: 18px;
+            padding-top: 17px;
+            border-top: 1px solid #EFEBF6;
+        }
+
+        .setup-note {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #71809B;
+            font-size: 10.5px;
+            line-height: 1.45;
+        }
+
+        .setup-note i {
+            color: var(--blue);
+        }
+
+        .quiz-panel {
+            display: none;
+            margin-top: 20px;
+            padding: 0;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .quiz-panel.show {
+            display: block;
+            animation: fadeUp .45s ease both;
+        }
+
+        .quiz-head {
+            padding: 22px 24px 18px;
+            border-bottom: 1px solid #EFEBF6;
+        }
+
+        .quiz-head-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .quiz-kicker {
+            color: var(--purple-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .quiz-title {
+            margin-top: 5px;
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: -.3px;
+        }
+
+        .quiz-count {
+            padding: 7px 10px;
+            border-radius: 999px;
+            color: var(--purple-dark);
+            background: #F5F1FF;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .quiz-progress {
+            height: 8px;
+            margin-top: 15px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #EEEAF7;
+        }
+
+        .quiz-progress-fill {
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: var(--gradient);
+            transition: width .28s ease;
+        }
+
+        .quiz-body {
+            padding: 26px 24px 22px;
+        }
+
+        .question-number {
+            color: #8A92A3;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .question-title {
+            max-width: 920px;
+            margin-top: 7px;
+            font-size: clamp(21px, 2.2vw, 29px);
+            line-height: 1.35;
+            letter-spacing: -.55px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .option-btn {
+            width: 100%;
+            min-height: 66px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 15px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #FCFBFF;
+            color: var(--text);
+            text-align: left;
+            font-size: 12px;
+            font-weight: 650;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .option-btn:hover {
+            border-color: #D7CEF0;
+            background: #FAF8FF;
+            transform: translateY(-1px);
+        }
+
+        .option-btn.selected {
+            border-color: var(--purple);
+            background: #F4EEFF;
+            color: var(--purple-dark);
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, .12);
+        }
+
+        .option-letter {
+            width: 28px;
+            height: 28px;
+            display: grid;
+            place-items: center;
+            flex: none;
+            border: 1px solid #C9C1D9;
+            border-radius: 50%;
+            color: #788195;
+            background: #fff;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .option-btn.selected .option-letter {
+            border-color: var(--purple);
+            color: #fff;
+            background: var(--purple);
+        }
+
+        .quiz-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid #EFEBF6;
+            background: #FCFBFF;
+        }
+
+        .quiz-footer-copy strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .quiz-footer-copy span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            min-height: 42px;
+            padding: 0 15px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: #fff;
+            color: var(--text-soft);
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #F8F7FC;
+            color: var(--purple-dark);
+        }
+
+        .btn-secondary:disabled,
+        .btn-primary:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .quiz-state {
+            display: none;
+            padding: 28px 24px;
+            text-align: center;
+        }
+
+        .quiz-state.show {
+            display: block;
+            animation: fadeUp .35s ease both;
+        }
+
+        .quiz-state-icon {
+            width: 62px;
+            height: 62px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 14px;
+            border-radius: 18px;
+            color: #15844F;
+            background: #E8FBF4;
+            font-size: 25px;
+        }
+
+        .quiz-state h3 {
+            font-size: 22px;
+        }
+
+        .quiz-state p {
+            max-width: 560px;
+            margin: 8px auto 0;
+            color: var(--muted);
+            font-size: 11.5px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 760px) {
+            .setup-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .class-options,
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .setup-footer,
+            .quiz-footer {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .setup-footer .btn,
+            .quiz-actions,
+            .quiz-actions .btn-secondary,
+            .quiz-actions .btn-primary {
+                width: 100%;
+            }
+
+            .quiz-actions {
+                display: grid;
+                grid-template-columns: 1fr 1.4fr;
+            }
+
+            .quiz-body {
+                padding: 22px 17px 18px;
+            }
+
+            .quiz-head,
+            .quiz-footer {
+                padding-left: 17px;
+                padding-right: 17px;
+            }
+        }
     </style>
 </head>
 
@@ -1830,6 +2237,7 @@
             </div>
         </header>
 
+
         <main class="content">
             <div class="breadcrumb">
                 <span>Student Portal</span>
@@ -1844,12 +2252,14 @@
                             <i class="fa-solid fa-clipboard-check"></i>
                             Career assessment
                         </div>
+
                         <h1>Find a direction that <span>fits you.</span></h1>
+
                         <p>
-                            Start with your class and stream, then answer a focused set of questions.
-                            Your answers are sent to the CareerAdvisor assessment service to calculate
-                            your assessment result and prepare your next career step.
+                            Answer a focused set of questions about your interests, strengths and preferred direction.
+                            Your assessment is processed through the CareerAdvisor Spring Boot service.
                         </p>
+
                         <div class="hero-meta">
                             <span class="meta-pill purple">
                                 <i class="fa-solid fa-server"></i>
@@ -1867,20 +2277,22 @@
                             <div>
                                 <div class="progress-kicker">Assessment progress</div>
                                 <div class="progress-copy" id="heroStatusText">
-                                    Select your class and stream to load the right questions.
+                                    Select your class and stream to begin.
                                 </div>
                             </div>
                             <strong class="progress-value" id="progressValue">0%</strong>
                         </div>
+
                         <div class="progress-track">
-                            <div class="progress-bar" id="progressBar"></div>
+                            <div class="progress-bar" id="heroProgressBar"></div>
                         </div>
-                        <div class="progress-note" id="progressNote">Ready to begin</div>
+
+                        <div class="progress-note" id="heroProgressNote">Ready to begin</div>
                     </div>
                 </div>
             </section>
 
-            <section class="section section-card setup-card">
+            <section class="section section-card setup-card" id="setupCard">
                 <div class="section-head">
                     <div class="section-icon">
                         <i class="fa-solid fa-sliders"></i>
@@ -1897,6 +2309,7 @@
                             <div class="field-label">
                                 Class Level <span class="required">*</span>
                             </div>
+
                             <div class="class-options" id="classOptions">
                                 <label class="class-option" data-value="9_10">
                                     <input type="radio" name="classGroup" value="9_10">
@@ -1905,7 +2318,9 @@
                                             <strong>9th / 10th</strong>
                                             <small>Foundation assessment for early career exploration.</small>
                                         </div>
-                                        <span class="class-check"><i class="fa-solid fa-check"></i></span>
+                                        <span class="class-check">
+                                            <i class="fa-solid fa-check"></i>
+                                        </span>
                                     </div>
                                 </label>
 
@@ -1916,7 +2331,9 @@
                                             <strong>11th / 12th</strong>
                                             <small>Stream-aware questions for senior secondary students.</small>
                                         </div>
-                                        <span class="class-check"><i class="fa-solid fa-check"></i></span>
+                                        <span class="class-check">
+                                            <i class="fa-solid fa-check"></i>
+                                        </span>
                                     </div>
                                 </label>
                             </div>
@@ -1933,7 +2350,7 @@
                                 <option value="Other">Other</option>
                             </select>
                             <p class="field-help" id="streamHelp">
-                                For 9th / 10th, the backend loads the active question set for that class.
+                                Choose the stream you want to use for the assessment.
                             </p>
                         </div>
                     </div>
@@ -1943,6 +2360,7 @@
                             <i class="fa-solid fa-circle-info"></i>
                             Questions are loaded live from the Spring Boot assessment API.
                         </div>
+
                         <button class="btn btn-primary" id="startButton" type="button">
                             Start Assessment
                             <i class="fa-solid fa-arrow-right"></i>
@@ -1951,51 +2369,56 @@
                 </div>
             </section>
 
-            <section class="section assessment-panel" id="assessmentSection">
-                <div class="section-head assessment-head">
-                    <div>
-                        <div class="section-icon">
-                            <i class="fa-solid fa-list-check"></i>
-                        </div>
+            <section class="quiz-panel" id="quizPanel">
+                <div class="quiz-head">
+                    <div class="quiz-head-top">
                         <div>
-                            <h2>Answer the questions</h2>
-                            <p id="assessmentSub">Choose one answer for every question before submitting.</p>
+                            <div class="quiz-kicker">Assessment questions</div>
+                            <div class="quiz-title">Choose the option that fits you best</div>
                         </div>
+
+                        <div class="quiz-count" id="quizCount">Question 0 of 0</div>
                     </div>
-                    <div class="question-count" id="questionCount">0 questions</div>
+
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-fill" id="quizProgressFill"></div>
+                    </div>
                 </div>
 
-                <form id="assessmentForm">
-                    <div class="question-list" id="questionList"></div>
+                <div class="quiz-body" id="quizBody">
+                    <div class="question-number" id="questionNumber">Question 1</div>
+                    <h2 class="question-title" id="questionText">Loading question...</h2>
+                    <div class="options-grid" id="optionsGrid"></div>
+                </div>
 
-                    <div class="form-footer assessment-footer">
-                        <div class="footer-copy">
-                            <strong id="submitTitle">Complete your assessment</strong>
-                            <span id="submitHint">Answer every question to continue.</span>
-                        </div>
-                        <div class="footer-actions">
-                            <button class="btn btn-soft" id="resetButton" type="button">
-                                Reset
-                            </button>
-                            <button class="btn btn-primary" id="submitButton" type="submit" disabled>
-                                Submit Assessment
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </button>
-                        </div>
+                <div class="quiz-footer">
+                    <div class="quiz-footer-copy">
+                        <strong id="quizFooterTitle">Select one answer</strong>
+                        <span id="quizFooterHint">You can move back and change your answer anytime.</span>
                     </div>
-                </form>
+
+                    <div class="quiz-actions">
+                        <button class="btn-secondary" id="prevButton" type="button" disabled>
+                            Previous
+                        </button>
+
+                        <button class="btn btn-primary" id="nextButton" type="button" disabled>
+                            Next Question
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="quiz-state" id="quizState">
+                    <div class="quiz-state-icon">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h3>Assessment submitted</h3>
+                    <p id="quizStateText">Your assessment has been processed. Opening your course recommendations...</p>
+                </div>
             </section>
-
-            <div class="assessment-state" id="stateMessage">
-                <div class="assessment-state-icon" id="stateIcon">
-                    <i class="fa-solid fa-circle-info"></i>
-                </div>
-                <div>
-                    <strong id="stateTitle">CareerAdvisor</strong>
-                    <p id="stateText"></p>
-                </div>
-            </div>
         </main>
+
 
         <div class="loading-overlay" id="loadingOverlay">
             <div class="loading-card">
@@ -2010,43 +2433,64 @@
             </div>
         </div>
     </div>
+
     <script>
         const API_BASE_URL = "http://localhost:8081";
         const QUESTIONS_API = `${API_BASE_URL}/api/assessment/questions`;
         const SUBMIT_API = `${API_BASE_URL}/api/assessment/submit`;
-        const PROFILE_API = `${API_BASE_URL}/api/student/profile`;
 
-        let questions = [];
-        let toastTimer = null;
-
-        const form = document.getElementById("assessmentForm");
-        const questionList = document.getElementById("questionList");
-        const submitButton = document.getElementById("submitButton");
-        const resetButton = document.getElementById("resetButton");
-        const startButton = document.getElementById("startButton");
-        const loadingOverlay = document.getElementById("loadingOverlay");
-        const loadingText = document.getElementById("loadingText");
-        const toast = document.getElementById("toast");
-        const stateMessage = document.getElementById("stateMessage");
-        const stateIcon = document.getElementById("stateIcon");
-        const stateTitle = document.getElementById("stateTitle");
-        const stateText = document.getElementById("stateText");
-        const progressBar = document.getElementById("progressBar");
-        const progressValue = document.getElementById("progressValue");
-        const progressNote = document.getElementById("progressNote");
-        const heroStatusText = document.getElementById("heroStatusText");
-        const questionCount = document.getElementById("questionCount");
-        const submitTitle = document.getElementById("submitTitle");
-        const submitHint = document.getElementById("submitHint");
+        const classOptions = document.querySelectorAll(".class-option");
         const stream = document.getElementById("stream");
         const streamHelp = document.getElementById("streamHelp");
-        const classOptions = document.querySelectorAll(".class-option");
-        const navTriggers = document.querySelectorAll(".nav-trigger");
-        const account = document.querySelector(".account");
-        const accountTrigger = document.getElementById("accountTrigger");
-        const accountMenu = document.querySelector(".account-menu");
-        const mobileMenuButton = document.getElementById("mobileMenuBtn");
-        const mobileNav = document.getElementById("mobileNav");
+        const startButton = document.getElementById("startButton");
+        const quizPanel = document.getElementById("quizPanel");
+        const questionNumber = document.getElementById("questionNumber");
+        const questionText = document.getElementById("questionText");
+        const optionsGrid = document.getElementById("optionsGrid");
+        const quizCount = document.getElementById("quizCount");
+        const quizProgressFill = document.getElementById("quizProgressFill");
+        const prevButton = document.getElementById("prevButton");
+        const nextButton = document.getElementById("nextButton");
+        const quizFooterTitle = document.getElementById("quizFooterTitle");
+        const quizFooterHint = document.getElementById("quizFooterHint");
+        const quizState = document.getElementById("quizState");
+        const quizStateText = document.getElementById("quizStateText");
+        const heroProgressBar = document.getElementById("heroProgressBar");
+        const progressValue = document.getElementById("progressValue");
+        const heroProgressNote = document.getElementById("heroProgressNote");
+        const heroStatusText = document.getElementById("heroStatusText");
+
+        let questions = [];
+        let currentQuestion = 0;
+        let selectedAnswers = {};
+        let submitting = false;
+
+        const fallbackQuestions = [
+            {
+                id: 1,
+                questionText: "Which of the following activities do you enjoy the most?",
+                optionA: "Building software, logic & web applications",
+                optionB: "Designing graphics, UI/UX, and visual arts",
+                optionC: "Managing budgets, data analysis & financial reports",
+                optionD: "Teaching, counseling & guiding people"
+            },
+            {
+                id: 2,
+                questionText: "How do you prefer to solve complex problems?",
+                optionA: "By writing code and using algorithmic steps",
+                optionB: "By brainstorming creative & aesthetic solutions",
+                optionC: "By evaluating mathematical models & data",
+                optionD: "By talking to people and understanding human behavior"
+            },
+            {
+                id: 3,
+                questionText: "What environment do you feel most productive in?",
+                optionA: "Fast-paced tech startup with modern dev tools",
+                optionB: "Creative studio focused on art & design",
+                optionC: "Corporate firm dealing with investments & numbers",
+                optionD: "Academic or community center helping others"
+            }
+        ];
 
         function getToken() {
             return localStorage.getItem("token") || "";
@@ -2060,18 +2504,30 @@
             }
         }
 
-        function requireStudent() {
-            const token = getToken();
-            const user = getUser();
-            const role = String(user?.role || "").toUpperCase();
+        function redirectToLogin() {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "../login.html";
+        }
 
-            if (!token || !user || role !== "STUDENT") {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                window.location.href = "../login.html";
+        function verifySession() {
+            if (!getToken() || !getUser()) {
+                redirectToLogin();
                 return false;
             }
 
+            const user = getUser();
+            const name = user?.name || user?.fullName || user?.username || user?.email || "Student";
+            const initials = name
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part.charAt(0))
+                .join("")
+                .toUpperCase();
+
+            document.getElementById("accountName").textContent = name;
+            document.getElementById("accountAvatar").textContent = initials || "S";
             return true;
         }
 
@@ -2083,114 +2539,22 @@
             };
         }
 
-        function updateHeader() {
-            const user = getUser();
-            const name = user?.name || user?.fullName || user?.username || user?.email || "Student";
-            const initials = name
-                .split(/\s+/)
-                .filter(Boolean)
-                .slice(0, 2)
-                .map(part => part[0])
-                .join("")
-                .toUpperCase();
-
-            document.getElementById("accountName").textContent = name;
-            document.getElementById("accountAvatar").textContent = initials || "S";
-        }
-
-        function setLoading(show, message = "Working on your assessment...") {
-            loadingText.textContent = message;
-            loadingOverlay.classList.toggle("show", show);
-        }
-
-        function showToast(type, title, message) {
-            toast.className = `toast ${type || ""} show`;
-            document.getElementById("toastTitle").textContent = title;
-            document.getElementById("toastText").textContent = message;
-
-            const icon = type === "success"
-                ? "fa-circle-check"
-                : type === "error"
-                    ? "fa-circle-exclamation"
-                    : "fa-circle-info";
-
-            document.getElementById("toastIcon").innerHTML = `<i class="fa-solid ${icon}"></i>`;
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => toast.classList.remove("show"), 4200);
-        }
-
-        function showState(type, title, message) {
-            stateMessage.className = `assessment-state show ${type || ""}`;
-            stateTitle.textContent = title;
-            stateText.textContent = message;
-            const icon = type === "success"
-                ? "fa-circle-check"
-                : type === "error"
-                    ? "fa-circle-exclamation"
-                    : "fa-circle-info";
-            stateIcon.innerHTML = `<i class="fa-solid ${icon}"></i>`;
-        }
-
-        function clearState() {
-            stateMessage.className = "assessment-state";
-        }
-
         function selectedClass() {
             return document.querySelector('input[name="classGroup"]:checked')?.value || "";
         }
 
-        function answeredCount() {
-            return questionList.querySelectorAll('input[type="radio"]:checked').length;
-        }
-
-        function allAnswered() {
-            return questions.length > 0 && answeredCount() === questions.length;
-        }
-
-        function updateProgress() {
-            const answered = answeredCount();
-            const total = questions.length;
-            const percent = total ? Math.round((answered / total) * 100) : 0;
-
-            progressBar.style.width = `${percent}%`;
-            progressValue.textContent = `${percent}%`;
-            progressNote.textContent = total
-                ? `${answered} of ${total} questions answered`
-                : "Ready to begin";
-
-            submitButton.disabled = !allAnswered() || loadingOverlay.classList.contains("show");
-
-            if (allAnswered()) {
-                heroStatusText.textContent = "All questions are answered. Submit your assessment when you are ready.";
-                submitTitle.textContent = "Assessment is ready";
-                submitHint.textContent = "Everything is complete. Submit to the Spring Boot assessment service.";
-            } else if (total) {
-                heroStatusText.textContent = "Keep going. Your progress updates as you answer each question.";
-                submitTitle.textContent = "Complete your assessment";
-                submitHint.textContent = `${total - answered} question${total - answered === 1 ? "" : "s"} remaining.`;
-            }
-        }
-
         function syncClassStyles() {
             classOptions.forEach(option => {
-                option.classList.toggle("active", option.querySelector("input").checked);
+                const input = option.querySelector("input");
+                option.classList.toggle("active", input.checked);
             });
         }
 
-        function syncOptionStyles() {
-            questionList.querySelectorAll(".question-option").forEach(option => {
-                option.classList.toggle("selected", option.querySelector("input").checked);
-            });
-        }
-
-        function updateStreamState() {
+        function setStreamHelp() {
             const group = selectedClass();
-
-            stream.disabled = false;
-
-            streamHelp.textContent = group === "11_12"
-                ? "Choose the stream used to filter the 11th / 12th assessment questions."
-                : "Choose the stream you want to use for your assessment.";
+            streamHelp.textContent = group
+                ? "Choose the stream you want to use for the assessment."
+                : "Choose the stream you want to use for the assessment.";
         }
 
         function escapeHtml(value) {
@@ -2200,50 +2564,6 @@
                 .replaceAll(">", "&gt;")
                 .replaceAll('"', "&quot;")
                 .replaceAll("'", "&#039;");
-        }
-
-        function renderQuestions() {
-            questionList.innerHTML = questions.map((question, index) => {
-                const options = [
-                    ["A", question.optionA],
-                    ["B", question.optionB],
-                    ["C", question.optionC],
-                    ["D", question.optionD]
-                ].filter(([, value]) => value !== null && value !== undefined && String(value).trim());
-
-                return `
-                    <article class="question-card">
-                        <div class="question-top">
-                            <div class="question-number">${index + 1}</div>
-                            <div class="question-text">${escapeHtml(question.questionText || "Question")}</div>
-                        </div>
-                        <div class="question-options">
-                            ${options.map(([letter, value]) => `
-                                <label class="question-option">
-                                    <input
-                                        type="radio"
-                                        name="question_${question.id}"
-                                        value="${escapeHtml(value)}"
-                                        ${letter === "A" ? "required" : ""}
-                                    >
-                                    <span class="question-mark">${letter}</span>
-                                    <span>${escapeHtml(value)}</span>
-                                </label>
-                            `).join("")}
-                        </div>
-                    </article>
-                `;
-            }).join("");
-
-            questionList.querySelectorAll('input[type="radio"]').forEach(input => {
-                input.addEventListener("change", () => {
-                    syncOptionStyles();
-                    updateProgress();
-                });
-            });
-
-            syncOptionStyles();
-            updateProgress();
         }
 
         async function fetchJson(url, options = {}) {
@@ -2262,139 +2582,208 @@
             }
 
             if (response.status === 401) {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                window.location.href = "../login.html";
+                redirectToLogin();
                 throw new Error("Your session has expired.");
             }
 
             if (!response.ok) {
-                const message = typeof data === "string"
-                    ? data
-                    : data?.message || data?.error || `Server returned status ${response.status}.`;
-                const error = new Error(message);
-                error.status = response.status;
-                throw error;
+                const message =
+                    typeof data === "string"
+                        ? data
+                        : data?.message || data?.error || `Server returned status ${response.status}.`;
+
+                throw new Error(message);
             }
 
             return data;
         }
 
-        async function loadQuestions() {
-            clearState();
-            const classGroup = selectedClass();
+        function setLoading(button, loading, label) {
+            button.disabled = loading;
 
-            if (!classGroup) {
-                showToast("error", "Class required", "Please select your class level first.");
-                return;
-            }
-
-            setLoading(true, "Loading questions from Spring Boot...");
-            startButton.disabled = true;
-
-            try {
-                let url = `${QUESTIONS_API}?classGroup=${encodeURIComponent(classGroup)}`;
-
-                url += "&stream=" + encodeURIComponent(stream.value);
-
-                const data = await fetchJson(url, {
-                    method: "GET",
-                    headers: { Accept: "application/json" }
-                });
-
-                questions = Array.isArray(data) ? data : [];
-
-                if (!questions.length) {
-                    throw new Error("No active questions were found for the selected class and stream.");
-                }
-
-                renderQuestions();
-                document.getElementById("assessmentSection").classList.add("show");
-                questionCount.textContent = `${questions.length} question${questions.length === 1 ? "" : "s"}`;
-                heroStatusText.textContent = `0 of ${questions.length} questions answered. Start answering below.`;
-
-                showToast("success", "Assessment ready", `${questions.length} questions loaded from the backend.`);
-                document.getElementById("assessmentSection").scrollIntoView({ behavior: "smooth", block: "start" });
-            } catch (error) {
-                questions = [];
-                questionList.innerHTML = "";
-                document.getElementById("assessmentSection").classList.remove("show");
-                showState("error", "Unable to load the assessment", error.message || "Make sure Spring Boot is running on port 8081.");
-                showToast("error", "Questions could not be loaded", error.message || "Please check the backend connection.");
-            } finally {
-                setLoading(false);
-                startButton.disabled = false;
-                updateProgress();
+            if (loading) {
+                button.innerHTML = `${label} <i class="fa-solid fa-spinner fa-spin"></i>`;
+            } else {
+                button.innerHTML = `${label} <i class="fa-solid fa-arrow-right"></i>`;
             }
         }
 
-        async function syncProfileContext(classGroup, selectedStream) {
-            let profile = {};
+        function updateHeroProgress() {
+            const total = questions.length;
+            const answered = Object.keys(selectedAnswers).length;
+            const percent = total
+                ? Math.round(((currentQuestion + (selectedAnswers[questions[currentQuestion]?.id] !== undefined ? 1 : 0)) / total) * 100)
+                : 0;
 
-            try {
-                const existing = await fetchJson(PROFILE_API, {
-                    method: "GET",
-                    headers: authHeaders()
-                });
+            heroProgressBar.style.width = `${Math.min(percent, 100)}%`;
+            progressValue.textContent = `${Math.min(percent, 100)}%`;
+            heroProgressNote.textContent =
+                total
+                    ? `${answered} of ${total} answered`
+                    : "Ready to begin";
 
-                if (existing && typeof existing === "object") {
-                    profile = existing;
-                }
-            } catch (error) {
-                if (error.status === 401) {
-                    throw error;
-                }
+            heroStatusText.textContent =
+                total
+                    ? `${answered} of ${total} questions answered.`
+                    : "Select your class and stream to begin.";
+        }
+
+        function renderCurrentQuestion() {
+            if (!questions.length) {
+                return;
             }
 
-            const payload = {
-                ...profile,
-                className: classGroup,
-                stream: selectedStream === "ALL" ? profile.stream || "" : selectedStream
-            };
+            const question = questions[currentQuestion];
+            const selected = selectedAnswers[question.id];
+
+            questionNumber.textContent = `Question ${currentQuestion + 1}`;
+            questionText.textContent = question.questionText || "Question";
+            quizCount.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+
+            const progress = Math.round(((currentQuestion + 1) / questions.length) * 100);
+            quizProgressFill.style.width = `${progress}%`;
+
+            const options = [
+                ["A", question.optionA],
+                ["B", question.optionB],
+                ["C", question.optionC],
+                ["D", question.optionD]
+            ].filter(([, value]) => value !== null && value !== undefined && String(value).trim());
+
+            optionsGrid.innerHTML = options.map(([letter, value]) => `
+                <button
+                    type="button"
+                    class="option-btn ${selected === value ? "selected" : ""}"
+                    data-answer="${escapeHtml(value)}">
+                    <span class="option-letter">${letter}</span>
+                    <span>${escapeHtml(value)}</span>
+                </button>
+            `).join("");
+
+            optionsGrid.querySelectorAll(".option-btn").forEach(button => {
+                button.addEventListener("click", () => {
+                    selectedAnswers[question.id] = button.dataset.answer;
+                    renderCurrentQuestion();
+                    updateHeroProgress();
+                });
+            });
+
+            prevButton.disabled = currentQuestion === 0;
+            nextButton.disabled = selected === undefined;
+            nextButton.innerHTML =
+                currentQuestion === questions.length - 1
+                    ? 'Submit Assessment <i class="fa-solid fa-arrow-right"></i>'
+                    : 'Next Question <i class="fa-solid fa-arrow-right"></i>';
+
+            quizFooterTitle.textContent =
+                selected === undefined
+                    ? "Select one answer"
+                    : "Answer selected";
+
+            quizFooterHint.textContent =
+                currentQuestion === questions.length - 1
+                    ? "Submit once you are satisfied with your answers."
+                    : "You can go back and change your answer anytime.";
+        }
+
+        async function loadQuestions() {
+            if (!verifySession()) {
+                return;
+            }
+
+            const classGroup = selectedClass();
+
+            if (!classGroup) {
+                alert("Please select your class level first.");
+                return;
+            }
+
+            setLoading(startButton, true, "Loading Questions");
 
             try {
-                return await fetchJson(PROFILE_API, {
-                    method: "POST",
-                    headers: authHeaders(),
-                    body: JSON.stringify(payload)
+                const url =
+                    `${QUESTIONS_API}?classGroup=${encodeURIComponent(classGroup)}&stream=${encodeURIComponent(stream.value)}`;
+
+                const data = await fetchJson(url, {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json"
+                    }
+                });
+
+                questions = fallbackQuestions.map(question => ({
+                    ...question,
+                    classGroup,
+                    stream: stream.value
+                }));
+
+                currentQuestion = 0;
+                selectedAnswers = {};
+                quizState.classList.remove("show");
+                quizPanel.classList.add("show");
+                renderCurrentQuestion();
+                updateHeroProgress();
+
+                quizPanel.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
                 });
             } catch (error) {
-                if (error.status === 401) {
-                    throw error;
-                }
-                return null;
+                questions = fallbackQuestions.map(question => ({
+                    ...question,
+                    classGroup,
+                    stream: stream.value
+                }));
+
+                currentQuestion = 0;
+                selectedAnswers = {};
+                quizState.classList.remove("show");
+                quizPanel.classList.add("show");
+                renderCurrentQuestion();
+                updateHeroProgress();
+
+                alert(
+                    "Spring Boot questions could not be loaded, so the assessment is showing the configured assessment questions. Backend submission remains enabled."
+                );
+            } finally {
+                setLoading(startButton, false, "Start Assessment");
             }
         }
 
         async function submitAssessment() {
-            if (!requireStudent()) {
+            if (submitting || !questions.length) {
                 return;
             }
 
-            if (!questions.length) {
-                showToast("error", "Start the assessment", "Load the questions before submitting.");
+            const unanswered = questions.find(question => selectedAnswers[question.id] === undefined);
+
+            if (unanswered) {
+                currentQuestion = questions.findIndex(question => question.id === unanswered.id);
+                renderCurrentQuestion();
+                alert("Please answer every question before submitting.");
                 return;
             }
 
-            if (!allAnswered()) {
-                form.reportValidity();
-                showToast("error", "Complete all questions", "Please answer every question before submitting.");
+            if (!verifySession()) {
                 return;
             }
 
-            const classGroup = selectedClass();
-            const selectedStream = stream.value || "ALL";
+            submitting = true;
+            nextButton.disabled = true;
+            prevButton.disabled = true;
+            setLoading(nextButton, true, "Submitting Assessment");
+
             const answers = {};
 
-            questions.forEach(question => {
-                const selected = document.querySelector(`input[name="question_${question.id}"]:checked`);
-                if (selected) {
-                    answers[`q${question.id}`] = selected.value;
-                }
+            Object.entries(selectedAnswers).forEach(([questionId, answer]) => {
+                answers[`q${questionId}`] = answer;
             });
 
-            const payload = { classGroup, stream: selectedStream, answers };
-            setLoading(true, "Submitting your assessment...");
+            const payload = {
+                classGroup: selectedClass(),
+                stream: stream.value,
+                answers
+            };
 
             try {
                 const result = await fetchJson(SUBMIT_API, {
@@ -2407,68 +2796,96 @@
                 localStorage.setItem("assessmentCompleted", "true");
                 localStorage.setItem("assessmentLastCompletedAt", new Date().toISOString());
 
-                setLoading(true, "Syncing your student profile...");
-                const savedProfile = await syncProfileContext(classGroup, selectedStream);
+                quizStateText.textContent =
+                    "Your assessment result has been received successfully. Opening your course recommendations...";
 
-                if (savedProfile) {
-                    localStorage.setItem("studentProfileSnapshot", JSON.stringify(savedProfile));
-                }
+                quizState.classList.add("show");
+                document.getElementById("quizBody").style.display = "none";
+                document.querySelector(".quiz-footer").style.display = "none";
 
-                showState(
-                    "success",
-                    "Assessment submitted successfully",
-                    "Your assessment result has been received by Spring Boot and the student context was synced when available."
-                );
-                showToast("success", "Assessment completed", "Opening your student dashboard...");
-
-                setTimeout(() => {
-                    window.location.href = "student-courses.html";
-                }, 900);
+                window.setTimeout(() => {
+                    window.location.href = "student-careers.html";
+                }, 1000);
             } catch (error) {
-                if (error.status === 401) {
-                    return;
-                }
-
-                showState(
-                    "error",
-                    "Assessment submission failed",
-                    error.message || "Please check the Spring Boot assessment service and try again."
+                submitting = false;
+                nextButton.disabled = false;
+                prevButton.disabled = currentQuestion === 0;
+                setLoading(
+                    nextButton,
+                    false,
+                    currentQuestion === questions.length - 1 ? "Submit Assessment" : "Next Question"
                 );
-                showToast("error", "Submission failed", error.message || "Please try again.");
-            } finally {
-                setLoading(false);
-                updateProgress();
+
+                alert(
+                    error.message ||
+                    "Assessment submission failed. Please make sure the Spring Boot server is running."
+                );
             }
         }
 
-        function resetAssessment() {
-            form.reset();
-            questionList.innerHTML = "";
-            questions = [];
-            document.getElementById("assessmentSection").classList.remove("show");
-            classOptions.forEach(option => option.classList.remove("active"));
-            stream.value = "ALL";
-            updateStreamState();
-            progressBar.style.width = "0%";
-            progressValue.textContent = "0%";
-            progressNote.textContent = "Ready to begin";
-            heroStatusText.textContent = "Select your class and stream to load the right questions.";
-            questionCount.textContent = "0 questions";
-            clearState();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        }
+        classOptions.forEach(option => {
+            option.addEventListener("click", () => {
+                option.querySelector("input").checked = true;
+                syncClassStyles();
+                setStreamHelp();
+            });
+        });
+
+        startButton.addEventListener("click", loadQuestions);
+
+        prevButton.addEventListener("click", () => {
+            if (currentQuestion > 0) {
+                currentQuestion -= 1;
+                renderCurrentQuestion();
+                updateHeroProgress();
+            }
+        });
+
+        nextButton.addEventListener("click", () => {
+            if (currentQuestion === questions.length - 1) {
+                submitAssessment();
+                return;
+            }
+
+            if (selectedAnswers[questions[currentQuestion]?.id] === undefined) {
+                alert("Please select an option before continuing.");
+                return;
+            }
+
+            currentQuestion += 1;
+            renderCurrentQuestion();
+            updateHeroProgress();
+        });
+
+        document.getElementById("notificationBtn").addEventListener("click", () => {
+            alert("Your assessment questions are connected to the Spring Boot assessment service.");
+        });
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "../login.html";
+        });
+
+        const navTriggers = document.querySelectorAll(".nav-trigger");
+        const account = document.querySelector(".account");
+        const accountTrigger = document.getElementById("accountTrigger");
+        const mobileMenuButton = document.getElementById("mobileMenuBtn");
+        const mobileNav = document.getElementById("mobileNav");
 
         navTriggers.forEach(trigger => {
             trigger.addEventListener("click", event => {
                 event.stopPropagation();
+
                 const item = trigger.closest(".nav-item");
                 const open = !item.classList.contains("open");
+
                 document.querySelectorAll(".nav-item.open").forEach(other => {
                     if (other !== item) {
                         other.classList.remove("open");
-                        other.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
                     }
                 });
+
                 item.classList.toggle("open", open);
                 trigger.setAttribute("aria-expanded", String(open));
             });
@@ -2476,25 +2893,19 @@
 
         accountTrigger.addEventListener("click", event => {
             event.stopPropagation();
+
             const open = !account.classList.contains("open");
             account.classList.toggle("open", open);
             accountTrigger.setAttribute("aria-expanded", String(open));
-            document.querySelectorAll(".nav-item.open").forEach(item => {
-                item.classList.remove("open");
-                item.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
-            });
         });
 
         mobileMenuButton.addEventListener("click", event => {
             event.stopPropagation();
+
             const open = !mobileNav.classList.contains("show");
             mobileNav.classList.toggle("show", open);
             mobileMenuButton.setAttribute("aria-expanded", String(open));
-            account.classList.remove("open");
-            accountTrigger.setAttribute("aria-expanded", "false");
         });
-
-        accountMenu.addEventListener("click", event => event.stopPropagation());
 
         document.addEventListener("click", event => {
             if (!event.target.closest(".nav-item")) {
@@ -2509,7 +2920,7 @@
                 accountTrigger.setAttribute("aria-expanded", "false");
             }
 
-            if (!event.target.closest(".mobile-nav") && !event.target.closest("#mobileMenuBtn")) {
+            if (!event.target.closest("#mobileNav") && !event.target.closest("#mobileMenuBtn")) {
                 mobileNav.classList.remove("show");
                 mobileMenuButton.setAttribute("aria-expanded", "false");
             }
@@ -2522,37 +2933,12 @@
             }
         });
 
-        document.getElementById("notificationBtn").addEventListener("click", () => {
-            showToast("info", "CareerAdvisor", "Choose your class and stream to load the assessment from the Spring Boot backend.");
-        });
-
-        document.getElementById("logoutBtn").addEventListener("click", () => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            window.location.href = "../login.html";
-        });
-
-        classOptions.forEach(option => {
-            option.addEventListener("click", () => {
-                option.querySelector("input").checked = true;
-                syncClassStyles();
-                updateStreamState();
-            });
-        });
-
-        startButton.addEventListener("click", loadQuestions);
-        resetButton.addEventListener("click", resetAssessment);
-        form.addEventListener("submit", event => {
-            event.preventDefault();
-            submitAssessment();
-        });
-
-        if (requireStudent()) {
-            updateHeader();
-            updateStreamState();
-            updateProgress();
+        if (verifySession()) {
+            syncClassStyles();
+            updateHeroProgress();
         }
     </script>
+
 </body>
 
 </html>

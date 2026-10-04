@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Feedback – Career & Education Advisor</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #0f2044;
+            --accent: #e8a230;
+            --accent2: #3db8a0;
+            --purple: #8c6ee8;
+            --white: #ffffff;
+            --border: rgba(255, 255, 255, 0.12);
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --card-bg: rgba(255, 255, 255, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--navy);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 70% 60% at 75% 15%, rgba(26, 58, 110, 0.9) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 50% at 10% 85%, rgba(61, 184, 160, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 40% at 90% 90%, rgba(232, 162, 48, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 50px;
+            background: rgba(10, 20, 50, 0.75);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            animation: slideDown .5s ease both;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .logo-icon-box {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--accent), #d4871a);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 14px rgba(232, 162, 48, 0.35);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .logo-text span:first-child {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .logo-text span:last-child {
+            font-size: .75rem;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: .875rem;
+            font-weight: 500;
+            padding: 7px 15px;
+            border-radius: 8px;
+            transition: all .2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-links a.active {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 700;
+        }
+
+        /* ── MAIN ── */
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 50px 24px 80px;
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 36px;
+            animation: fadeUp .5s ease both;
+        }
+
+        .header-icon {
+            width: 58px;
+            height: 58px;
+            flex-shrink: 0;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent), #d4871a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            box-shadow: 0 6px 20px rgba(232, 162, 48, 0.35);
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        .page-header p {
+            font-size: .85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ── FORM CARD ── */
+        .form-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 28px;
+            animation: fadeUp .5s .05s ease both;
+        }
+
+        .form-card h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--white);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin-bottom: 16px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        input,
+        textarea {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: .9rem;
+            font-weight: 500;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--white);
+            outline: none;
+            width: 100%;
+            transition: all .2s;
+        }
+
+        input[readonly] {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--accent2);
+            background: rgba(61, 184, 160, 0.08);
+            box-shadow: 0 0 0 3px rgba(61, 184, 160, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+            line-height: 1.6;
+        }
+
+        /* Star Rating UI */
+        .star-rating {
+            display: flex;
+            gap: 8px;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.2);
+            transition: color .15s, transform .15s;
+            padding: 0 2px;
+            width: auto;
+            background: none;
+            border: none;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover~label,
+        .star-rating input:checked~label {
+            color: #f5c518;
+        }
+
+        .star-rating label:hover {
+            transform: scale(1.2);
+        }
+
+        /* Submit button */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent), #d4871a);
+            border: none;
+            border-radius: 12px;
+            color: var(--navy);
+            font-size: .95rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-shadow: 0 6px 22px rgba(232, 162, 48, 0.35);
+            transition: all .25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(232, 162, 48, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: scale(.98);
+        }
+
+        .submit-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Filter Controls */
+        .review-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        /* ── REVIEWS SECTION ── */
+        .reviews-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            animation: fadeUp .5s .1s ease both;
+        }
+
+        .reviews-header h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reviews-count {
+            background: rgba(232, 162, 48, 0.15);
+            border: 1px solid rgba(232, 162, 48, 0.3);
+            color: var(--accent);
+            font-size: .75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 100px;
+        }
+
+        /* Review Card */
+        .review-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px 24px;
+            margin-bottom: 14px;
+            transition: all .25s;
+            animation: fadeUp .4s ease both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .review-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent), var(--accent2));
+            opacity: 0;
+            transition: opacity .3s;
+        }
+
+        .review-card:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .review-card:hover::before {
+            opacity: 1;
+        }
+
+        .review-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .reviewer-avatar {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--purple), #5a48d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+            font-weight: 800;
+            color: #fff;
+            border: 1px solid var(--border);
+        }
+
+        .reviewer-name {
+            font-size: .95rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .reviewer-email {
+            font-size: .75rem;
+            color: var(--text-muted);
+        }
+
+        .stars-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 197, 24, 0.12);
+            border: 1px solid rgba(245, 197, 24, 0.25);
+            border-radius: 10px;
+            padding: 6px 12px;
+            flex-shrink: 0;
+        }
+
+        .stars-badge .stars {
+            font-size: .85rem;
+            letter-spacing: 1px;
+            color: #f5c518;
+        }
+
+        .stars-badge .rating-num {
+            font-size: .8rem;
+            font-weight: 700;
+            color: #f5c518;
+        }
+
+        .review-message {
+            font-size: .88rem;
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .review-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .review-date {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .75rem;
+            color: var(--text-muted);
+        }
+
+        .delete-btn {
+            padding: 5px 12px;
+            border-radius: 6px;
+            background: rgba(232, 92, 92, 0.1);
+            color: #ff6b6b;
+            border: 1px solid rgba(232, 92, 92, 0.2);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .delete-btn:hover {
+            background: #e85c5c;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Empty / Loading State */
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state .empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            font-size: .9rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #1e3a2e;
+            border: 1px solid rgba(61, 184, 160, 0.4);
+            color: var(--accent2);
+            font-size: .85rem;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.error {
+            background: #3a1e1e;
+            border-color: rgba(232, 92, 92, 0.4);
+            color: #ff8080;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media(max-width:640px) {
+            nav {
+                padding: 14px 18px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-card {
+                padding: 22px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <a href="#" class="logo">
+            <div class="logo-icon-box">🎓</div>
+            <div class="logo-text">
+                <span>Career & Education</span>
+                <span>Advisor</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="#" class="active">💬 Website Feedback</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main>
+
+        <div class="page-header">
+            <div class="header-icon">⭐</div>
+            <div>
+                <h1>Website Feedback</h1>
+                <p>Tell us about your experience using the Career & Education Advisor portal</p>
+            </div>
+        </div>
+
+        <!-- Feedback Submission Form -->
+        <div class="form-card">
+            <h2 id="formTitle">✍️ Submit Website Feedback</h2>
+
+            <form id="feedbackForm">
+                <div class="form-row">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" for="name">Your Name</label>
+                        <input type="text" id="name" placeholder="Loading profile..." readonly>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Loading profile..." readonly>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top:16px;">
+                    <label class="form-label" for="comment">Your Comment</label>
+                    <textarea id="comment" placeholder="Write your website feedback here..."></textarea>
+                </div>
+
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label class="form-label">Your Rating</label>
+                    <div class="star-rating" id="starRating">
+                        <input type="radio" name="rating" id="s5" value="5"><label for="s5"
+                            title="5 Stars - Excellent">★</label>
+                        <input type="radio" name="rating" id="s4" value="4"><label for="s4"
+                            title="4 Stars - Great">★</label>
+                        <input type="radio" name="rating" id="s3" value="3"><label for="s3"
+                            title="3 Stars - Good">★</label>
+                        <input type="radio" name="rating" id="s2" value="2"><label for="s2"
+                            title="2 Stars - Fair">★</label>
+                        <input type="radio" name="rating" id="s1" value="1"><label for="s1"
+                            title="1 Star - Poor">★</label>
+                    </div>
+                </div>
+
+                <button class="submit-btn" type="submit" id="submitBtn">
+                    🚀 Submit Feedback
+                </button>
+            </form>
+        </div>
+
+        <!-- Review Filter Controls -->
+        <div class="review-filters">
+            <button class="filter-btn active" onclick="applyFilter('ALL', event)">All Reviews</button>
+            <button class="filter-btn" onclick="applyFilter('LATEST', event)">Latest</button>
+            <button class="filter-btn" onclick="applyFilter('POSITIVE', event)">Positive (4★+)</button>
+            <button class="filter-btn" onclick="applyFilter('NEGATIVE', event)">Critical (1–2★)</button>
+        </div>
+
+        <div class="reviews-header">
+            <h2>💬 Website Reviews</h2>
+            <span class="reviews-count" id="reviewsCount">0 Reviews</span>
+        </div>
+
+        <!-- Feedback Display Container -->
+        <div id="reviewsContainer">
+            <div class="empty-state">
+                <div class="empty-icon">⏳</div>
+                <p>Loading website feedback...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">✓ Operation successful</div>
+
+    <script>
+        const API_BASE_URL = "http://localhost:8081/api/feedback";
+        let allFeedbacks = [];
+        let currentFilter = "ALL";
+        let currentUser = null;
+
+        // Initialize application on load
+        document.addEventListener("DOMContentLoaded", () => {
+            loadUserProfile();
+            loadFeedbacks();
+        });
+
+        // Auto-fetch profile user details from localStorage or Session
+        function loadUserProfile() {
+            // Trying common keys used in student major projects for stored logged-in user details
+            const storedUserData = localStorage.getItem("user") || localStorage.getItem("student") || sessionStorage.getItem("user");
+
+            if (storedUserData) {
+                try {
+                    currentUser = JSON.parse(storedUserData);
+                    document.getElementById("name").value = currentUser.name || currentUser.fullName || currentUser.username || "Dheeraj Mandloi";
+                    document.getElementById("email").value = currentUser.email || "dheerajmandloi.2005@gmail.com";
+                } catch (e) {
+                    console.error("Error parsing user profile data:", e);
+                    setFallbackUser();
+                }
+            } else {
+                setFallbackUser();
+            }
+        }
+
+        // Default Fallback details for testing if user profile is not saved in localStorage
+        function setFallbackUser() {
+            document.getElementById("name").value = "Dheeraj Mandloi";
+            document.getElementById("email").value = "dheerajmandloi.2005@gmail.com";
+        }
+
+        // Handle Form Submission
+        document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const nameInput = document.getElementById("name").value.trim();
+            const emailInput = document.getElementById("email").value.trim();
+            const commentInput = document.getElementById("comment").value.trim();
+            const ratingSelected = document.querySelector('input[name="rating"]:checked');
+
+            // Validation
+            if (!ratingSelected) {
+                showToast("⭐ Please select a star rating.", true);
+                return;
+            }
+
+            if (!commentInput) {
+                showToast("⚠️ Comment cannot be empty.", true);
+                return;
+            }
+
+            const submitBtn = document.getElementById("submitBtn");
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = "⏳ Submitting...";
+
+            // DTO payload matching Backend
+            const payload = {
+                name: nameInput,
+                email: emailInput,
+                rating: parseInt(ratingSelected.value, 10),
+                comment: commentInput
+            };
+
+            try {
+                const response = await fetch(API_BASE_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    showToast("✅ Website feedback submitted successfully!");
+                    resetForm();
+                    loadFeedbacks();
+                } else {
+                    showToast("❌ Failed to submit feedback. Server returned error.", true);
+                    console.error("POST Error Response:", response.status, response.statusText);
+                }
+            } catch (error) {
+                console.error("POST Network Error:", error);
+                showToast("❌ Network error while submitting feedback.", true);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = "🚀 Submit Feedback";
+            }
+        });
+
+        // Reset Form Fields without clearing auto-fetched Name & Email
+        function resetForm() {
+            document.getElementById("comment").value = "";
+            const selectedRating = document.querySelector('input[name="rating"]:checked');
+            if (selectedRating) selectedRating.checked = false;
+        }
+
+        // Load Feedback Items via GET
+        async function loadFeedbacks() {
+            const container = document.getElementById("reviewsContainer");
+
+            try {
+                const response = await fetch(API_BASE_URL);
+
+                if (response.ok) {
+                    allFeedbacks = await response.json();
+                    document.getElementById("reviewsCount").innerText = `${allFeedbacks.length} Reviews`;
+                    renderFeedbacks();
+                } else {
+                    container.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon">⚠️</div>
+              <p>Failed to load reviews from server (Status: ${response.status}).</p>
+            </div>`;
+                    console.error("GET Error Response:", response.status);
+                }
+            } catch (error) {
+                console.error("GET Network Error:", error);
+                container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">🔌</div>
+            <p>Unable to connect to http://localhost:8081. Ensure backend server is running.</p>
+          </div>`;
+            }
+        }
+
+        // Apply Display Filters
+        function applyFilter(filterType, event) {
+            currentFilter = filterType;
+            document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+            if (event && event.target) {
+                event.target.classList.add("active");
+            }
+            renderFeedbacks();
+        }
+
+        // Render Feedback Cards
+        function renderFeedbacks() {
+            const container = document.getElementById("reviewsContainer");
+            let listToRender = [...allFeedbacks];
+
+            if (currentFilter === "LATEST") {
+                listToRender.reverse();
+            } else if (currentFilter === "POSITIVE") {
+                listToRender = listToRender.filter(item => item.rating >= 4);
+            } else if (currentFilter === "NEGATIVE") {
+                listToRender = listToRender.filter(item => item.rating <= 2);
+            }
+
+            if (listToRender.length === 0) {
+                container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">💬</div>
+            <p>No feedback available for this view.</p>
+          </div>`;
+                return;
+            }
+
+            container.innerHTML = "";
+
+            listToRender.forEach((item) => {
+                const rating = parseInt(item.rating) || 0;
+                const starSymbols = "★".repeat(rating) + "☆".repeat(Math.max(0, 5 - rating));
+                const formattedDate = formatDate(item.timestamp);
+                const initial = item.name ? item.name.charAt(0).toUpperCase() : "U";
+
+                const card = document.createElement("div");
+                card.className = "review-card";
+
+                card.innerHTML = `
+          <div class="review-top">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">${initial}</div>
+              <div>
+                <div class="reviewer-name">${escapeHtml(item.name || "Anonymous")}</div>
+                <div class="reviewer-email">${escapeHtml(item.email || "")}</div>
+              </div>
+            </div>
+            <div class="stars-badge">
+              <span class="stars">${starSymbols}</span>
+              <span class="rating-num">${rating}/5</span>
+            </div>
+          </div>
+
+          <div class="review-message">
+            ${escapeHtml(item.comment || "")}
+          </div>
+
+          <div class="review-footer">
+            <div class="review-date">
+              📅 ${formattedDate}
+            </div>
+            <button class="delete-btn" onclick="deleteFeedback(${item.id})">
+              🗑️ Delete
+            </button>
+          </div>
+        `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Delete Feedback Functionality via DELETE Endpoint
+        async function deleteFeedback(id) {
+            if (!id) return;
+            if (!confirm("Are you sure you want to delete this website feedback?")) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/${id}`, {
+                    method: "DELETE"
+                });
+
+                if (response.ok) {
+                    showToast("🗑 Feedback deleted successfully!");
+                    loadFeedbacks();
+                } else {
+                    showToast("❌ Failed to delete feedback.", true);
+                    console.error("DELETE Error Response:", response.status);
+                }
+            } catch (error) {
+                console.error("DELETE Network Error:", error);
+                showToast("❌ Network error during deletion.", true);
+            }
+        }
+
+        // Utility: Toast display
+        function showToast(message, isError = false) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.className = "toast" + (isError ? " error" : "") + " show";
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+
+        // Utility: Date Formatter
+        function formatDate(rawTimestamp) {
+            if (!rawTimestamp) return "Recently";
+            const d = new Date(rawTimestamp);
+            if (isNaN(d.getTime())) return rawTimestamp;
+            return d.toLocaleDateString(undefined, {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Utility: HTML Sanitizer
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, function (m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[m];
+            });
+        }
+    </script>
+</body>
+
+</html>
