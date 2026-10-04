@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Feedback | CareerAdvisor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        :root {
+            --purple: #8B5CF6;
+            --purple-dark: #7C3AED;
+            --blue: #3B82F6;
+            --green: #22C55E;
+            --red: #EF4444;
+            --gold: #F2B01E;
+            --bg: #FAFAFE;
+            --surface: #FFFFFF;
+            --surface-soft: #F8F6FF;
+            --text: #182238;
+            --text-soft: #566178;
+            --muted: #858DA0;
+            --border: #E6E1F1;
+            --border-soft: #EFEBF6;
+            --gradient: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+            --shadow: 0 18px 48px rgba(76, 57, 145, .08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: "Space Grotesk", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 6% 3%, rgba(139, 92, 246, .10), transparent 24%),
+                radial-gradient(circle at 95% 84%, rgba(59, 130, 246, .08), transparent 27%),
+                var(--bg);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(139, 92, 246, .025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, .025) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .78), transparent 96%);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+        }
+
+        .page-shell {
+            min-height: 100vh;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: 78px;
+            display: grid;
+            grid-template-columns: minmax(250px, 1fr) auto minmax(280px, 1fr);
+            align-items: center;
+            gap: 20px;
+            padding: 0 28px;
+            background: rgba(255, 255, 255, .95);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 28px rgba(76, 57, 145, .05);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            justify-self: start;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 12px 26px rgba(99, 102, 241, .20);
+        }
+
+        .brand-mark i {
+            font-size: 18px;
+        }
+
+        .brand-copy {
+            min-width: 0;
+        }
+
+        .brand-name {
+            font-size: 21px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -.6px;
+        }
+
+        .brand-name span {
+            color: var(--purple);
+        }
+
+        .brand-sub {
+            margin-top: 5px;
+            color: #939AAA;
+            font-size: 10px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: .75px;
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link,
+        .nav-trigger {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 13px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            background: transparent;
+            color: #606A7D;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .22s ease;
+        }
+
+        .nav-link:hover,
+        .nav-trigger:hover,
+        .nav-item.open .nav-trigger {
+            color: var(--purple-dark);
+            background: #F6F2FF;
+            border-color: #E9E3F7;
+        }
+
+        .nav-link.active {
+            color: var(--purple-dark);
+            background: #F6F2FF;
+            border-color: #E9E3F7;
+        }
+
+        .nav-link.feedback-link {
+            color: var(--purple-dark);
+        }
+
+        .nav-link.feedback-link i {
+            font-size: 12px;
+        }
+
+        .nav-trigger i {
+            color: #9199AA;
+            font-size: 10px;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: 235px;
+            padding: 9px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 22px 52px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-7px);
+            transition: .2s ease;
+        }
+
+        .nav-item.open .dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: none;
+        }
+
+        .dropdown-title {
+            padding: 8px 10px;
+            color: #9AA2B1;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .dropdown-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            transition: .18s ease;
+        }
+
+        .dropdown-link i {
+            width: 18px;
+            color: #8D96A7;
+            text-align: center;
+        }
+
+        .dropdown-link:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+        }
+
+        .account-area {
+            display: flex;
+            align-items: center;
+            justify-self: end;
+            gap: 9px;
+        }
+
+        .icon-btn {
+            position: relative;
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #697488;
+            background: #fff;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .icon-btn:hover {
+            color: var(--purple-dark);
+            background: #F8F6FF;
+            border-color: #DCD5ED;
+            transform: translateY(-1px);
+        }
+
+        .notification-dot {
+            position: absolute;
+            right: 8px;
+            top: 7px;
+            width: 7px;
+            height: 7px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: var(--red);
+        }
+
+        .account {
+            position: relative;
+        }
+
+        .account-trigger {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 8px 5px 5px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .account-trigger:hover,
+        .account.open .account-trigger {
+            background: #F8F7FC;
+            border-color: var(--border);
+        }
+
+        .account-avatar {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--purple-dark);
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .account-copy {
+            min-width: 105px;
+            text-align: left;
+        }
+
+        .account-name {
+            display: block;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .account-role {
+            display: block;
+            margin-top: 3px;
+            color: #939AAA;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .35px;
+        }
+
+        .account-arrow {
+            color: #9AA2B0;
+            font-size: 9px;
+            transition: .2s ease;
+        }
+
+        .account.open .account-arrow {
+            color: var(--purple);
+            transform: rotate(180deg);
+        }
+
+        .account-menu {
+            position: absolute;
+            top: calc(100% + 9px);
+            right: 0;
+            width: 205px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-7px);
+            transition: .2s ease;
+        }
+
+        .account.open .account-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: none;
+        }
+
+        .account-menu a,
+        .account-menu button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
+            background: transparent;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .account-menu a:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+        }
+
+        .account-menu .logout {
+            color: #C53030;
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            color: #697488;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+        }
+
+        .content {
+            width: min(1180px, calc(100% - 48px));
+            margin: 0 auto;
+            padding: 28px 0 60px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            color: #969EAE;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .breadcrumb strong {
+            color: var(--text);
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: minmax(0, 1.45fr) minmax(300px, .75fr);
+            gap: 22px;
+            padding: 29px;
+            border: 1px solid rgba(139, 92, 246, .16);
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(249, 247, 255, .98));
+            box-shadow: var(--shadow);
+            animation: fadeUp .5s ease both;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 430px;
+            height: 430px;
+            top: -275px;
+            right: -165px;
+            border: 1px solid rgba(139, 92, 246, .09);
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 34px rgba(139, 92, 246, .02),
+                0 0 0 76px rgba(139, 92, 246, .012);
+        }
+
+        .hero-copy,
+        .summary-card {
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 11px;
+            border: 1px solid #E7E0FA;
+            border-radius: 999px;
+            color: var(--purple-dark);
+            background: #FAF8FF;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .75px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            margin-top: 14px;
+            max-width: 740px;
+            font-size: clamp(32px, 4vw, 46px);
+            line-height: 1.08;
+            letter-spacing: -1.15px;
+        }
+
+        .hero h1 span {
+            color: transparent;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero p {
+            max-width: 720px;
+            margin-top: 11px;
+            color: var(--text-soft);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 17px;
+        }
+
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .meta-pill.purple {
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .meta-pill.blue {
+            color: #2563EB;
+            background: #EAF3FF;
+        }
+
+        .summary-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .88);
+            box-shadow: var(--shadow);
+        }
+
+        .summary-kicker {
+            color: #7B8496;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .summary-rating {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 11px;
+        }
+
+        .summary-score {
+            color: var(--purple-dark);
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .summary-stars {
+            color: var(--gold);
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .summary-caption {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .mini-stat {
+            padding: 11px;
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            background: #FCFBFF;
+        }
+
+        .mini-stat strong {
+            display: block;
+            font-size: 16px;
+        }
+
+        .mini-stat span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 9.5px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: fadeUp .55s ease both;
+        }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 19px 21px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .card-icon {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .card-head h2 {
+            font-size: 17px;
+            letter-spacing: -.25px;
+        }
+
+        .card-head p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10.5px;
+        }
+
+        .card-body {
+            padding: 21px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group:last-of-type {
+            margin-bottom: 17px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 7px;
+            color: #4E5870;
+            font-size: 10.5px;
+            font-weight: 800;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: #F9F7FE;
+            color: var(--text);
+            padding: 11px 13px;
+            transition: .2s ease;
+        }
+
+        input {
+            height: 44px;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+            line-height: 1.55;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #A4AABA;
+        }
+
+        input:focus,
+        textarea:focus {
+            background: #fff;
+            border-color: rgba(139, 92, 246, .36);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, .07);
+        }
+
+        input[readonly] {
+            color: #667186;
+            background: #F4F1FA;
+        }
+
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 5px;
+            width: fit-content;
+            padding: 7px 9px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #FCFBFF;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            width: auto;
+            height: auto;
+            padding: 0 2px;
+            border: 0;
+            background: transparent;
+            color: #D2CCDD;
+            font-size: 27px;
+            line-height: 1;
+            cursor: pointer;
+            transition: .15s ease;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover~label,
+        .star-rating input:checked~label {
+            color: var(--gold);
+        }
+
+        .star-rating label:hover {
+            transform: scale(1.08);
+        }
+
+        .rating-hint {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 9.5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            min-height: 45px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 12px;
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 11px 23px rgba(99, 102, 241, .18);
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 28px rgba(99, 102, 241, .24);
+        }
+
+        .submit-btn:disabled {
+            opacity: .58;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .reviews-card .card-head {
+            justify-content: flex-start;
+        }
+
+        .review-controls {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 14px 21px;
+            border-bottom: 1px solid var(--border-soft);
+            background: #FCFBFF;
+        }
+
+        .filter-btn {
+            min-height: 33px;
+            padding: 0 11px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            color: #667186;
+            background: #fff;
+            font-size: 10px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: var(--purple-dark);
+            border-color: #D8CDF1;
+            background: #F4EEFF;
+        }
+
+        .reviews-count {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            min-height: 30px;
+            padding: 0 10px;
+            border-radius: 999px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .reviews {
+            padding: 17px 21px 21px;
+        }
+
+        .review-card {
+            position: relative;
+            overflow: hidden;
+            padding: 17px;
+            margin-bottom: 11px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #FCFBFF;
+            transition: .2s ease;
+        }
+
+        .review-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .review-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--purple), var(--blue));
+            opacity: .45;
+        }
+
+        .review-card:hover {
+            border-color: #DDD4EF;
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(76, 57, 145, .07);
+        }
+
+        .review-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+        }
+
+        .reviewer-avatar {
+            width: 38px;
+            height: 38px;
+            flex: none;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            color: var(--purple-dark);
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .reviewer-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12.5px;
+            font-weight: 800;
+        }
+
+        .reviewer-email {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 9.5px;
+        }
+
+        .stars-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            flex: none;
+            padding: 5px 8px;
+            border: 1px solid rgba(242, 176, 30, .22);
+            border-radius: 9px;
+            background: rgba(242, 176, 30, .08);
+        }
+
+        .stars {
+            color: var(--gold);
+            font-size: 11px;
+            letter-spacing: .6px;
+        }
+
+        .rating-num {
+            color: #A87509;
+            font-size: 9.5px;
+            font-weight: 800;
+        }
+
+        .review-message {
+            margin-top: 12px;
+            color: #4F5A70;
+            font-size: 11px;
+            line-height: 1.65;
+        }
+
+        .review-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-soft);
+        }
+
+        .review-date {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            font-size: 9.5px;
+        }
+
+        .delete-btn {
+            min-height: 30px;
+            padding: 0 9px;
+            border: 1px solid #F2D5D5;
+            border-radius: 8px;
+            color: #C53030;
+            background: #FFF7F7;
+            font-size: 9.5px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .delete-btn:hover {
+            color: #fff;
+            border-color: #E85C5C;
+            background: #E85C5C;
+        }
+
+        .empty-state {
+            padding: 42px 18px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 10px;
+            border-radius: 14px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+            font-size: 18px;
+        }
+
+        .empty-state p {
+            font-size: 11px;
+            line-height: 1.55;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 25px;
+            z-index: 250;
+            max-width: min(450px, calc(100vw - 26px));
+            padding: 12px 16px;
+            border: 1px solid #DDE7FF;
+            border-radius: 12px;
+            color: #31568C;
+            background: #F7FAFF;
+            box-shadow: 0 16px 38px rgba(76, 57, 145, .13);
+            opacity: 0;
+            transform: translate(-50%, 80px);
+            transition: .3s ease;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        .toast.error {
+            border-color: #F1D3D3;
+            color: #A52A2A;
+            background: #FFF7F7;
+        }
+
+        .loading {
+            position: fixed;
+            inset: 0;
+            z-index: 240;
+            display: none;
+            place-items: center;
+            background: rgba(18, 21, 38, .12);
+            backdrop-filter: blur(7px);
+        }
+
+        .loading.show {
+            display: grid;
+        }
+
+        .loading-card {
+            min-width: 270px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 25px 70px rgba(76, 57, 145, .18);
+        }
+
+        .spinner {
+            width: 34px;
+            height: 34px;
+            margin: 0 auto 12px;
+            border: 3px solid #ECEAF5;
+            border-top-color: var(--purple);
+            border-right-color: var(--blue);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        .loading-card p {
+            color: #596173;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        @media (max-width: 1180px) {
+            .navbar {
+                grid-template-columns: minmax(210px, 1fr) auto minmax(220px, 1fr);
+                padding: 0 20px;
+                gap: 12px;
+            }
+
+            .nav-link,
+            .nav-trigger {
+                padding: 0 10px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 1020px) {
+            .navbar {
+                grid-template-columns: 1fr auto;
+            }
+
+            .nav-wrap {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: grid;
+                place-items: center;
+            }
+
+            .account-copy {
+                display: none;
+            }
+
+            .hero,
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card {
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .navbar {
+                min-height: 70px;
+                padding: 0 14px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .brand-sub {
+                display: none;
+            }
+
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
+
+            .icon-btn,
+            .mobile-menu {
+                width: 39px;
+                height: 39px;
+            }
+
+            .account-avatar {
+                width: 36px;
+                height: 36px;
+            }
+
+            .content {
+                width: calc(100% - 26px);
+                padding-top: 20px;
+            }
+
+            .hero {
+                padding: 21px;
+                border-radius: 20px;
+            }
+
+            .card-head,
+            .card-body,
+            .reviews,
+            .review-controls {
+                padding-left: 17px;
+                padding-right: 17px;
+            }
+
+            .review-controls {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .reviews-count {
+                margin-left: 0;
+            }
+
+            .mobile-nav {
+                position: absolute;
+                left: 10px;
+                right: 10px;
+                top: calc(100% + 8px);
+                padding: 10px;
+                border: 1px solid var(--border);
+                border-radius: 18px;
+                background: rgba(255, 255, 255, .98);
+                box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+            }
+
+            .mobile-nav.show {
+                display: block;
+            }
+
+            .mobile-group {
+                border: 1px solid #F0EEF7;
+                border-radius: 13px;
+                background: #FCFBFF;
+                overflow: hidden;
+            }
+
+            .mobile-group+.mobile-group {
+                margin-top: 8px;
+            }
+
+            .mobile-group-title {
+                padding: 11px;
+                color: #566071;
+                font-size: 12px;
+                font-weight: 750;
+            }
+
+            .mobile-links {
+                display: grid;
+                gap: 2px;
+                padding: 0 6px 6px;
+            }
+
+            .mobile-links a {
+                padding: 9px;
+                border-radius: 9px;
+                color: #687286;
+                font-size: 11px;
+                font-weight: 650;
+            }
+
+            .mobile-links a:hover,
+            .mobile-links a.active {
+                color: var(--purple-dark);
+                background: #F6F2FF;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .hero-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .summary-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .review-top {
+                flex-direction: column;
+            }
+
+            .stars-badge {
+                align-self: flex-start;
+            }
+
+            .review-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-shell">
+
+        <header class="navbar">
+            <a class="brand" href="student-dashboard.html">
+                <div class="brand-mark">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+                <div class="brand-copy">
+                    <div class="brand-name">Career<span>Advisor</span></div>
+                    <div class="brand-sub">STUDENT PORTAL</div>
+                </div>
+            </a>
+
+            <nav class="nav-wrap" aria-label="Student navigation">
+                <div class="nav">
+                    <a class="nav-link" href="student-dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="student-profile.html">Profile</a>
+                    <a class="nav-link" href="student-assessment.html">Assessment</a>
+
+                    <div class="nav-item">
+                        <button class="nav-trigger" type="button" aria-expanded="false">
+                            Explore
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+
+                        <div class="dropdown">
+                            <div class="dropdown-title">Explore</div>
+                            <a class="dropdown-link" href="student-careers.html">
+                                <i class="fa-solid fa-briefcase"></i>
+                                Careers
+                            </a>
+                            <a class="dropdown-link" href="student-courses.html">
+                                <i class="fa-solid fa-book-open"></i>
+                                Courses
+                            </a>
+                            <a class="dropdown-link" href="student-colleges.html">
+                                <i class="fa-solid fa-building-columns"></i>
+                                Colleges
+                            </a>
+                            <a class="dropdown-link" href="student-skill-gap.html">
+                                <i class="fa-solid fa-chart-simple"></i>
+                                Skill Gap
+                            </a>
+                            <a class="dropdown-link" href="student-career-roadmap.html">
+                                <i class="fa-solid fa-route"></i>
+                                Career Roadmap
+                            </a>
+                        </div>
+                    </div>
+
+                    <a class="nav-link feedback-link active" href="student-feedback.html">
+                        Feedback
+                    </a>
+                </div>
+            </nav>
+
+            <div class="account-area">
+                <button class="icon-btn" id="notificationBtn" type="button" aria-label="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="account">
+                    <button class="account-trigger" id="accountTrigger" type="button" aria-expanded="false">
+                        <span class="account-avatar" id="accountAvatar">S</span>
+
+                        <span class="account-copy">
+                            <span class="account-name" id="accountName">Student</span>
+                            <span class="account-role">STUDENT</span>
+                        </span>
+
+                        <i class="fa-solid fa-chevron-down account-arrow"></i>
+                    </button>
+
+                    <div class="account-menu">
+                        <a href="student-profile.html">
+                            <i class="fa-regular fa-user"></i>
+                            My Profile
+                        </a>
+
+                        <button class="logout" id="logoutBtn" type="button">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+
+                <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-expanded="false"
+                    aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="mobile-nav" id="mobileNav">
+                <div class="mobile-group">
+                    <div class="mobile-group-title">
+                        Student
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+
+                    <div class="mobile-links">
+                        <a href="student-dashboard.html">Dashboard</a>
+                        <a href="student-profile.html">Profile</a>
+                        <a href="student-assessment.html">Assessment</a>
+                        <a class="active" href="student-feedback.html">Feedback</a>
+                    </div>
+                </div>
+
+                <div class="mobile-group">
+                    <div class="mobile-group-title">
+                        Explore
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+
+                    <div class="mobile-links">
+                        <a href="student-careers.html">Careers</a>
+                        <a href="student-courses.html">Courses</a>
+                        <a href="student-colleges.html">Colleges</a>
+                        <a href="student-skill-gap.html">Skill Gap</a>
+                        <a href="student-career-roadmap.html">Career Roadmap</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="breadcrumb">
+                <span>Student Portal</span>
+                <i class="fa-solid fa-chevron-right"></i>
+                <strong>Feedback</strong>
+            </div>
+
+            <section class="hero">
+                <div class="hero-copy">
+                    <div class="eyebrow">
+                        <i class="fa-regular fa-message"></i>
+                        Website Feedback
+                    </div>
+
+                    <h1>Help us make CareerAdvisor <span>better for you.</span></h1>
+
+                    <p>
+                        Share what worked well, what felt confusing, and where the CareerAdvisor
+                        experience can improve. Your feedback helps us refine the student journey.
+                    </p>
+
+                    <div class="hero-meta">
+                        <span class="meta-pill purple">
+                            <i class="fa-solid fa-user-check"></i>
+                            Student feedback
+                        </span>
+
+                        <span class="meta-pill blue">
+                            <i class="fa-solid fa-database"></i>
+                            Connected to Spring Boot
+                        </span>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-kicker">Student response</div>
+
+                    <div class="summary-rating">
+                        <div class="summary-score" id="averageRating">—</div>
+
+                        <div>
+                            <div class="summary-stars" id="summaryStars">☆☆☆☆☆</div>
+                            <div class="summary-caption">Average website rating</div>
+                        </div>
+                    </div>
+
+                    <div class="summary-stats">
+                        <div class="mini-stat">
+                            <strong id="totalReviews">0</strong>
+                            <span>Total reviews</span>
+                        </div>
+
+                        <div class="mini-stat">
+                            <strong id="positiveReviews">0%</strong>
+                            <span>4★ &amp; 5★ reviews</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="main-grid">
+
+                <div class="card">
+                    <div class="card-head">
+                        <div class="card-icon">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+
+                        <div>
+                            <h2>Submit Website Feedback</h2>
+                            <p>Tell us about your experience using CareerAdvisor.</p>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <form id="feedbackForm">
+                            <div class="form-group">
+                                <label class="form-label" for="name">Your Name</label>
+                                <input id="name" type="text" placeholder="Loading profile..." readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email Address</label>
+                                <input id="email" type="email" placeholder="Loading profile..." readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="comment">Your Comment</label>
+                                <textarea id="comment" maxlength="1000"
+                                    placeholder="Write your website feedback here..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Your Rating</label>
+
+                                <div class="star-rating" id="starRating">
+                                    <input type="radio" name="rating" id="rating5" value="5">
+                                    <label for="rating5" title="5 Stars">★</label>
+
+                                    <input type="radio" name="rating" id="rating4" value="4">
+                                    <label for="rating4" title="4 Stars">★</label>
+
+                                    <input type="radio" name="rating" id="rating3" value="3">
+                                    <label for="rating3" title="3 Stars">★</label>
+
+                                    <input type="radio" name="rating" id="rating2" value="2">
+                                    <label for="rating2" title="2 Stars">★</label>
+
+                                    <input type="radio" name="rating" id="rating1" value="1">
+                                    <label for="rating1" title="1 Star">★</label>
+                                </div>
+
+                                <div class="rating-hint">
+                                    1 = Needs improvement · 5 = Excellent
+                                </div>
+                            </div>
+
+                            <button class="submit-btn" id="submitBtn" type="submit">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                Submit Feedback
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card reviews-card">
+                    <div class="card-head">
+                        <div class="card-icon">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+
+                        <div>
+                            <h2>Website Reviews</h2>
+                            <p>Recent feedback shared by CareerAdvisor students.</p>
+                        </div>
+                    </div>
+
+                    <div class="review-controls">
+                        <button class="filter-btn active" data-filter="ALL" type="button">
+                            All Reviews
+                        </button>
+
+                        <button class="filter-btn" data-filter="LATEST" type="button">
+                            Latest
+                        </button>
+
+                        <button class="filter-btn" data-filter="POSITIVE" type="button">
+                            Positive (4★+)
+                        </button>
+
+                        <button class="filter-btn" data-filter="NEGATIVE" type="button">
+                            Critical (1–2★)
+                        </button>
+
+                        <span class="reviews-count" id="reviewsCount">0 Reviews</span>
+                    </div>
+
+                    <div class="reviews" id="reviewsContainer">
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                            </div>
+                            <p>Loading website feedback...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <div class="loading" id="loadingOverlay">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <p id="loadingText">Submitting your feedback...</p>
+            </div>
+        </div>
+
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = "http://localhost:8081/api/feedback";
+
+        let allFeedbacks = [];
+        let currentFilter = "ALL";
+        let toastTimer = null;
+
+        const feedbackForm = document.getElementById("feedbackForm");
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const commentInput = document.getElementById("comment");
+        const submitBtn = document.getElementById("submitBtn");
+        const reviewsContainer = document.getElementById("reviewsContainer");
+        const loadingOverlay = document.getElementById("loadingOverlay");
+
+        function getStoredUser() {
+            const stored =
+                localStorage.getItem("user") ||
+                localStorage.getItem("student") ||
+                sessionStorage.getItem("user");
+
+            if (!stored) {
+                return null;
+            }
+
+            try {
+                return JSON.parse(stored);
+            } catch {
+                return null;
+            }
+        }
+
+        function loadUserProfile() {
+            const user = getStoredUser();
+
+            const name =
+                user?.name ||
+                user?.fullName ||
+                user?.username ||
+                "";
+
+            const email = user?.email || "";
+
+            nameInput.value = name;
+            emailInput.value = email;
+
+            const displayName = name || email || "Student";
+
+            const initials = displayName
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part.charAt(0))
+                .join("")
+                .toUpperCase();
+
+            document.getElementById("accountName").textContent = displayName;
+            document.getElementById("accountAvatar").textContent = initials || "S";
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById("toast");
+
+            toast.textContent = message;
+            toast.className = `toast${isError ? " error" : ""} show`;
+
+            clearTimeout(toastTimer);
+
+            toastTimer = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3200);
+        }
+
+        function setLoading(show, message = "Submitting your feedback...") {
+            loadingOverlay.classList.toggle("show", show);
+            document.getElementById("loadingText").textContent = message;
+            submitBtn.disabled = show;
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>"']/g, character => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            }[character]));
+        }
+
+        function formatDate(rawTimestamp) {
+            if (!rawTimestamp) {
+                return "Recently";
+            }
+
+            const date = new Date(rawTimestamp);
+
+            if (Number.isNaN(date.getTime())) {
+                return rawTimestamp;
+            }
+
+            return date.toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+        }
+
+        function updateSummary() {
+            const ratings = allFeedbacks
+                .map(item => Number(item.rating))
+                .filter(Number.isFinite);
+
+            const total = ratings.length;
+
+            const average = total
+                ? ratings.reduce((sum, rating) => sum + rating, 0) / total
+                : 0;
+
+            const positive = total
+                ? Math.round(
+                    (ratings.filter(rating => rating >= 4).length / total) * 100
+                )
+                : 0;
+
+            document.getElementById("totalReviews").textContent = total;
+            document.getElementById("positiveReviews").textContent = `${positive}%`;
+
+            if (!total) {
+                document.getElementById("averageRating").textContent = "—";
+                document.getElementById("summaryStars").textContent = "☆☆☆☆☆";
+                return;
+            }
+
+            const rounded = Math.round(average);
+
+            document.getElementById("averageRating").textContent =
+                average.toFixed(1);
+
+            document.getElementById("summaryStars").textContent =
+                "★".repeat(rounded) +
+                "☆".repeat(Math.max(0, 5 - rounded));
+        }
+
+        function renderFeedbacks() {
+            let list = [...allFeedbacks];
+
+            if (currentFilter === "LATEST") {
+                list.sort((a, b) => {
+                    const dateA = new Date(a.timestamp || 0).getTime();
+                    const dateB = new Date(b.timestamp || 0).getTime();
+                    return dateB - dateA;
+                });
+            }
+
+            if (currentFilter === "POSITIVE") {
+                list = list.filter(item => Number(item.rating) >= 4);
+            }
+
+            if (currentFilter === "NEGATIVE") {
+                list = list.filter(item => Number(item.rating) <= 2);
+            }
+
+            document.getElementById("reviewsCount").textContent =
+                `${list.length} ${list.length === 1 ? "Review" : "Reviews"}`;
+
+            if (!list.length) {
+                reviewsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fa-regular fa-message"></i>
+                        </div>
+                        <p>No feedback available for this view.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            reviewsContainer.innerHTML = list.map(item => {
+                const rating = Math.max(0, Math.min(5, Number(item.rating) || 0));
+                const stars =
+                    "★".repeat(rating) +
+                    "☆".repeat(Math.max(0, 5 - rating));
+
+                const name = item.name || "Anonymous";
+                const initial = name.charAt(0).toUpperCase();
+
+                return `
+                    <article class="review-card">
+                        <div class="review-top">
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">${escapeHtml(initial)}</div>
+
+                                <div>
+                                    <div class="reviewer-name">
+                                        ${escapeHtml(name)}
+                                    </div>
+
+                                    <div class="reviewer-email">
+                                        ${escapeHtml(item.email || "")}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stars-badge">
+                                <span class="stars">${stars}</span>
+                                <span class="rating-num">${rating}/5</span>
+                            </div>
+                        </div>
+
+                        <div class="review-message">
+                            ${escapeHtml(item.comment || "")}
+                        </div>
+
+                        <div class="review-footer">
+                            <div class="review-date">
+                                <i class="fa-regular fa-calendar"></i>
+                                ${escapeHtml(formatDate(item.timestamp))}
+                            </div>
+
+                            <button
+                                class="delete-btn"
+                                type="button"
+                                data-id="${escapeHtml(item.id)}">
+                                Delete
+                            </button>
+                        </div>
+                    </article>
+                `;
+            }).join("");
+
+            reviewsContainer.querySelectorAll(".delete-btn").forEach(button => {
+                button.addEventListener("click", () => {
+                    deleteFeedback(button.dataset.id);
+                });
+            });
+        }
+
+        async function loadFeedbacks() {
+            reviewsContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                    </div>
+                    <p>Loading website feedback...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(API_BASE_URL, {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json"
+                    },
+                    cache: "no-store"
+                });
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Failed to load reviews. Server returned status ${response.status}.`
+                    );
+                }
+
+                const data = await response.json();
+
+                allFeedbacks = Array.isArray(data) ? data : [];
+
+                updateSummary();
+                renderFeedbacks();
+            } catch (error) {
+                reviewsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fa-solid fa-plug-circle-xmark"></i>
+                        </div>
+                        <p>
+                            Unable to load feedback. Make sure Spring Boot is running on port 8081.
+                        </p>
+                    </div>
+                `;
+
+                showToast(
+                    error.message || "Unable to load feedback.",
+                    true
+                );
+            }
+        }
+
+        async function submitFeedback(event) {
+            event.preventDefault();
+
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const comment = commentInput.value.trim();
+            const selectedRating =
+                document.querySelector('input[name="rating"]:checked');
+
+            if (!name || !email) {
+                showToast(
+                    "Student profile details are not available.",
+                    true
+                );
+                return;
+            }
+
+            if (!selectedRating) {
+                showToast("Please select a star rating.", true);
+                return;
+            }
+
+            if (!comment) {
+                showToast("Comment cannot be empty.", true);
+                commentInput.focus();
+                return;
+            }
+
+            const payload = {
+                name,
+                email,
+                rating: Number(selectedRating.value),
+                comment
+            };
+
+            setLoading(true);
+
+            try {
+                const response = await fetch(API_BASE_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const responseText = await response.text();
+
+                if (!response.ok) {
+                    throw new Error(
+                        responseText ||
+                        `Server returned status ${response.status}.`
+                    );
+                }
+
+                commentInput.value = "";
+
+                document
+                    .querySelectorAll('input[name="rating"]')
+                    .forEach(input => input.checked = false);
+
+                showToast("Website feedback submitted successfully.");
+
+                await loadFeedbacks();
+            } catch (error) {
+                showToast(
+                    error.message || "Network error while submitting feedback.",
+                    true
+                );
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function deleteFeedback(id) {
+            if (!id) {
+                return;
+            }
+
+            const confirmed =
+                window.confirm("Are you sure you want to delete this website feedback?");
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `${API_BASE_URL}/${encodeURIComponent(id)}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            Accept: "application/json"
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Failed to delete feedback. Server returned status ${response.status}.`
+                    );
+                }
+
+                showToast("Feedback deleted successfully.");
+
+                await loadFeedbacks();
+            } catch (error) {
+                showToast(
+                    error.message || "Network error while deleting feedback.",
+                    true
+                );
+            }
+        }
+
+        document.querySelectorAll(".filter-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                currentFilter = button.dataset.filter;
+
+                document.querySelectorAll(".filter-btn").forEach(item => {
+                    item.classList.toggle("active", item === button);
+                });
+
+                renderFeedbacks();
+            });
+        });
+
+        document.getElementById("notificationBtn").addEventListener("click", () => {
+            showToast("Share your feedback to help improve CareerAdvisor.");
+        });
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            sessionStorage.removeItem("user");
+            window.location.href = "../login.html";
+        });
+
+        const navTriggers = document.querySelectorAll(".nav-trigger");
+        const account = document.querySelector(".account");
+        const accountTrigger = document.getElementById("accountTrigger");
+        const mobileMenuButton = document.getElementById("mobileMenuBtn");
+        const mobileNav = document.getElementById("mobileNav");
+
+        navTriggers.forEach(trigger => {
+            trigger.addEventListener("click", event => {
+                event.stopPropagation();
+
+                const item = trigger.closest(".nav-item");
+                const open = !item.classList.contains("open");
+
+                document.querySelectorAll(".nav-item.open").forEach(other => {
+                    if (other !== item) {
+                        other.classList.remove("open");
+                    }
+                });
+
+                item.classList.toggle("open", open);
+                trigger.setAttribute("aria-expanded", String(open));
+            });
+        });
+
+        accountTrigger.addEventListener("click", event => {
+            event.stopPropagation();
+
+            const open = !account.classList.contains("open");
+
+            account.classList.toggle("open", open);
+            accountTrigger.setAttribute("aria-expanded", String(open));
+        });
+
+        mobileMenuButton.addEventListener("click", event => {
+            event.stopPropagation();
+
+            const open = !mobileNav.classList.contains("show");
+
+            mobileNav.classList.toggle("show", open);
+            mobileMenuButton.setAttribute("aria-expanded", String(open));
+        });
+
+        document.addEventListener("click", event => {
+            if (!event.target.closest(".nav-item")) {
+                document.querySelectorAll(".nav-item.open").forEach(item => {
+                    item.classList.remove("open");
+                });
+            }
+
+            if (!event.target.closest(".account")) {
+                account.classList.remove("open");
+                accountTrigger.setAttribute("aria-expanded", "false");
+            }
+
+            if (
+                !event.target.closest("#mobileNav") &&
+                !event.target.closest("#mobileMenuBtn")
+            ) {
+                mobileNav.classList.remove("show");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 1020) {
+                mobileNav.classList.remove("show");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        feedbackForm.addEventListener("submit", submitFeedback);
+
+        loadUserProfile();
+        loadFeedbacks();
+    </script>
+</body>
+
+</html>
