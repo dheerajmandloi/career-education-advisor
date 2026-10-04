@@ -1159,9 +1159,23 @@
             hideMessage();
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
+
         roleCards.forEach(card => {
-            card.addEventListener("click", () => selectRole(card.dataset.role));
+            card.addEventListener("click", () => {
+
+                const role = card.dataset.role;
+
+                if (role === "STUDENT") {
+                    window.location.href = "Student/student-register.html";
+                }
+
+                if (role === "COUNSELOR") {
+                    window.location.href = "Counselor/counselor-register.html";
+                }
+
+            });
         });
+
         changeRole.addEventListener("click", resetRole);
         passwordToggle.addEventListener("click", () => {
             const isPassword = passwordInput.type === "password";
