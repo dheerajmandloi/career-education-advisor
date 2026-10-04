@@ -254,6 +254,12 @@
             transition: all .2s;
         }
 
+        input[readonly] {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
         input::placeholder,
         textarea::placeholder {
             color: rgba(255, 255, 255, 0.3);
@@ -646,11 +652,11 @@
                 <div class="form-row">
                     <div class="form-group" style="margin-bottom:0;">
                         <label class="form-label" for="name">Your Name</label>
-                        <input type="text" id="name" placeholder="Enter your full name">
+                        <input type="text" id="name" placeholder="Loading profile..." readonly>
                     </div>
                     <div class="form-group" style="margin-bottom:0;">
                         <label class="form-label" for="email">Email Address</label>
-                        <input type="email" id="email" placeholder="e.g. user@example.com">
+                        <input type="email" id="email" placeholder="Loading profile..." readonly>
                     </div>
                 </div>
 
@@ -711,11 +717,38 @@
         const API_BASE_URL = "http://localhost:8081/api/feedback";
         let allFeedbacks = [];
         let currentFilter = "ALL";
+        let currentUser = null;
 
         // Initialize application on load
         document.addEventListener("DOMContentLoaded", () => {
+            loadUserProfile();
             loadFeedbacks();
         });
+
+        // Auto-fetch profile user details from localStorage or Session
+        function loadUserProfile() {
+            // Trying common keys used in student major projects for stored logged-in user details
+            const storedUserData = localStorage.getItem("user") || localStorage.getItem("student") || sessionStorage.getItem("user");
+
+            if (storedUserData) {
+                try {
+                    currentUser = JSON.parse(storedUserData);
+                    document.getElementById("name").value = currentUser.name || currentUser.fullName || currentUser.username || "Dheeraj Mandloi";
+                    document.getElementById("email").value = currentUser.email || "dheerajmandloi.2005@gmail.com";
+                } catch (e) {
+                    console.error("Error parsing user profile data:", e);
+                    setFallbackUser();
+                }
+            } else {
+                setFallbackUser();
+            }
+        }
+
+        // Default Fallback details for testing if user profile is not saved in localStorage
+        function setFallbackUser() {
+            document.getElementById("name").value = "Dheeraj Mandloi";
+            document.getElementById("email").value = "dheerajmandloi.2005@gmail.com";
+        }
 
         // Handle Form Submission
         document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
@@ -726,17 +759,7 @@
             const commentInput = document.getElementById("comment").value.trim();
             const ratingSelected = document.querySelector('input[name="rating"]:checked');
 
-            // Basic Validation
-            if (!nameInput) {
-                showToast("⚠️ Name is required.", true);
-                return;
-            }
-
-            if (!emailInput || !validateEmail(emailInput)) {
-                showToast("⚠️ Please enter a valid email address.", true);
-                return;
-            }
-
+            // Validation
             if (!ratingSelected) {
                 showToast("⭐ Please select a star rating.", true);
                 return;
@@ -751,7 +774,7 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = "⏳ Submitting...";
 
-            // DTO payload matches Backend expectations
+            // DTO payload matching Backend
             const payload = {
                 name: nameInput,
                 email: emailInput,
@@ -785,15 +808,11 @@
             }
         });
 
-        // Email validation helper
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        // Reset Form Fields
+        // Reset Form Fields without clearing auto-fetched Name & Email
         function resetForm() {
-            document.getElementById("feedbackForm").reset();
+            document.getElementById("comment").value = "";
+            const selectedRating = document.querySelector('input[name="rating"]:checked');
+            if (selectedRating) selectedRating.checked = false;
         }
 
         // Load Feedback Items via GET
@@ -912,7 +931,7 @@
                 });
 
                 if (response.ok) {
-                    showToast("🗑️️ Feedback deleted successfully!");
+                    showToast("🗑 Feedback deleted successfully!");
                     loadFeedbacks();
                 } else {
                     showToast("❌ Failed to delete feedback.", true);
