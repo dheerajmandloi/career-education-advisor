@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment | CareerAdvisor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        :root {
+            --purple: #8B5CF6;
+            --purple-dark: #7C3AED;
+            --blue: #3B82F6;
+            --green: #22C55E;
+            --red: #EF4444;
+            --bg: #FAFAFE;
+            --text: #182238;
+            --soft: #58647A;
+            --muted: #858DA0;
+            --border: #E6E1F1;
+            --gradient: linear-gradient(135deg, #8B5CF6, #3B82F6);
+            --shadow: 0 18px 48px rgba(76, 57, 145, .08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: "Space Grotesk", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 5% 4%, rgba(139, 92, 246, .10), transparent 23%),
+                radial-gradient(circle at 95% 86%, rgba(59, 130, 246, .08), transparent 28%),
+                var(--bg);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(139, 92, 246, .025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, .025) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .8), transparent 96%);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: 78px;
+            display: grid;
+            grid-template-columns: minmax(250px, 1fr) auto minmax(280px, 1fr);
+            align-items: center;
+            gap: 20px;
+            padding: 0 28px;
+            background: rgba(255, 255, 255, .95);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 28px rgba(76, 57, 145, .05);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 12px 26px rgba(99, 102, 241, .20);
+        }
+
+        .brand-name {
+            font-size: 21px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -.6px;
+        }
+
+        .brand-name span {
+            color: var(--purple);
+        }
+
+        .brand-sub {
+            margin-top: 5px;
+            color: #939AAA;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .75px;
+        }
+
+        .nav-wrap {
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link,
+        .nav-trigger {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 13px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            background: transparent;
+            color: #606A7D;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .nav-link:hover,
+        .nav-trigger:hover,
+        .nav-item.open .nav-trigger {
+            color: var(--purple-dark);
+            background: #F6F2FF;
+            border-color: #E9E3F7;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: 235px;
+            padding: 9px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0 22px 52px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-7px);
+            transition: .2s ease;
+        }
+
+        .nav-item.open .dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: none;
+        }
+
+        .dropdown-title {
+            padding: 8px 10px;
+            color: #9AA2B1;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .dropdown-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .dropdown-link:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+        }
+
+        .dropdown-link i {
+            width: 18px;
+            color: #8D96A7;
+            text-align: center;
+        }
+
+        .account-area {
+            display: flex;
+            align-items: center;
+            justify-self: end;
+            gap: 9px;
+        }
+
+        .icon-btn {
+            position: relative;
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+            color: #697488;
+            cursor: pointer;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 7px;
+            right: 8px;
+            width: 7px;
+            height: 7px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: var(--red);
+        }
+
+        .account {
+            position: relative;
+        }
+
+        .account-trigger {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 8px 5px 5px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .account-trigger:hover,
+        .account.open .account-trigger {
+            background: #F8F7FC;
+            border-color: var(--border);
+        }
+
+        .account-avatar {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--purple-dark);
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .account-copy {
+            min-width: 105px;
+        }
+
+        .account-name {
+            display: block;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .account-role {
+            display: block;
+            margin-top: 3px;
+            color: #939AAA;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .35px;
+        }
+
+        .account-arrow {
+            color: #9AA2B0;
+            font-size: 9px;
+            transition: .2s ease;
+        }
+
+        .account.open .account-arrow {
+            transform: rotate(180deg);
+        }
+
+        .account-menu {
+            position: absolute;
+            top: calc(100% + 9px);
+            right: 0;
+            width: 205px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-7px);
+            transition: .2s ease;
+        }
+
+        .account.open .account-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: none;
+        }
+
+        .account-menu a,
+        .account-menu button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
+            background: transparent;
+            color: #667186;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .account-menu a:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+        }
+
+        .account-menu .logout {
+            color: #C53030;
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: #fff;
+            color: #697488;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+        }
+
+        .content {
+            width: min(1400px, calc(100% - 60px));
+            margin: 0 auto;
+            padding: 30px 0 62px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 17px;
+            color: #969EAE;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .breadcrumb strong {
+            color: var(--text);
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(320px, .75fr);
+            gap: 24px;
+            padding: 34px;
+            border: 1px solid rgba(139, 92, 246, .16);
+            border-radius: 24px;
+            background: linear-gradient(135deg, #fff, #FAF8FF);
+            box-shadow: var(--shadow);
+            animation: fadeUp .45s ease;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            top: -255px;
+            right: -170px;
+            border: 1px solid rgba(139, 92, 246, .08);
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 34px rgba(139, 92, 246, .02),
+                0 0 0 72px rgba(139, 92, 246, .012);
+        }
+
+        .hero>div {
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 11px;
+            border: 1px solid #E7E0FA;
+            border-radius: 999px;
+            color: var(--purple-dark);
+            background: #FAF8FF;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .75px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            margin-top: 13px;
+            max-width: 760px;
+            font-size: clamp(34px, 3.5vw, 48px);
+            line-height: 1.08;
+            letter-spacing: -1.1px;
+        }
+
+        .hero h1 span {
+            color: transparent;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero p {
+            max-width: 800px;
+            margin-top: 10px;
+            color: var(--soft);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 17px;
+        }
+
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 11px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .meta-pill.purple {
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .meta-pill.blue {
+            color: #2563EB;
+            background: #EAF3FF;
+        }
+
+        .quick-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .88);
+        }
+
+        .quick-kicker {
+            color: #7B8496;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .quick-icon {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            margin-top: 12px;
+            border-radius: 13px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .quick-card h2 {
+            margin-top: 11px;
+            font-size: 19px;
+        }
+
+        .quick-card p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .quick-list {
+            display: grid;
+            gap: 9px;
+            margin-top: 15px;
+        }
+
+        .quick-item {
+            display: flex;
+            gap: 9px;
+            color: #59657A;
+            font-size: 10.5px;
+        }
+
+        .quick-item i {
+            color: var(--green);
+        }
+
+        .booking-card {
+            margin-top: 22px;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: fadeUp .55s ease;
+        }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 20px 24px;
+            border-bottom: 1px solid #EFEBF6;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .card-head h2 {
+            font-size: 19px;
+            letter-spacing: -.25px;
+        }
+
+        .card-head p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10.5px;
+        }
+
+        .form-body {
+            padding: 24px;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .field {
+            margin-bottom: 17px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field-label {
+            display: block;
+            margin-bottom: 7px;
+            color: #4E5870;
+            font-size: 10.5px;
+            font-weight: 800;
+        }
+
+        .field-control {
+            width: 100%;
+            height: 46px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: #F9F7FE;
+            color: var(--text);
+            padding: 0 13px;
+            transition: .2s ease;
+        }
+
+        .field-control:focus {
+            background: #fff;
+            border-color: rgba(139, 92, 246, .36);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, .07);
+        }
+
+        textarea.field-control {
+            min-height: 125px;
+            height: auto;
+            padding: 12px 13px;
+            resize: vertical;
+            line-height: 1.55;
+        }
+
+        .field-hint {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 9.5px;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-top: 17px;
+            border-top: 1px solid #EFEBF6;
+        }
+
+        .action-note strong {
+            display: block;
+            font-size: 11.5px;
+        }
+
+        .action-note span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 9.5px;
+        }
+
+        .submit-btn {
+            min-height: 46px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 19px;
+            border-radius: 12px;
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 11px 23px rgba(99, 102, 241, .18);
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 28px rgba(99, 102, 241, .24);
+        }
+
+        .submit-btn:disabled {
+            opacity: .58;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            display: none;
+            margin-top: 14px;
+            padding: 10px 12px;
+            border-radius: 11px;
+            font-size: 10.5px;
+            font-weight: 700;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-message.success {
+            color: #19754A;
+            background: #ECFAF2;
+            border: 1px solid #CDEEDC;
+        }
+
+        .status-message.info {
+            color: #31568C;
+            background: #F2F7FF;
+            border: 1px solid #D8E8FF;
+        }
+
+        .status-message.error {
+            color: #A52A2A;
+            background: #FFF6F6;
+            border: 1px solid #F1D3D3;
+        }
+
+        .loading {
+            position: fixed;
+            inset: 0;
+            z-index: 250;
+            display: none;
+            place-items: center;
+            background: rgba(18, 21, 38, .12);
+            backdrop-filter: blur(7px);
+        }
+
+        .loading.show {
+            display: grid;
+        }
+
+        .loading-card {
+            min-width: 270px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 25px 70px rgba(76, 57, 145, .18);
+        }
+
+        .spinner {
+            width: 34px;
+            height: 34px;
+            margin: 0 auto 12px;
+            border: 3px solid #ECEAF5;
+            border-top-color: var(--purple);
+            border-right-color: var(--blue);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        .loading-card p {
+            color: #596173;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        @media (max-width: 1020px) {
+            .navbar {
+                grid-template-columns: 1fr auto;
+            }
+
+            .nav-wrap {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: grid;
+                place-items: center;
+            }
+
+            .account-copy {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .navbar {
+                min-height: 70px;
+                padding: 0 14px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .brand-sub {
+                display: none;
+            }
+
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+            }
+
+            .icon-btn,
+            .mobile-menu {
+                width: 39px;
+                height: 39px;
+            }
+
+            .account-avatar {
+                width: 36px;
+                height: 36px;
+            }
+
+            .content {
+                width: calc(100% - 24px);
+                padding-top: 20px;
+            }
+
+            .hero {
+                padding: 21px;
+                border-radius: 20px;
+            }
+
+            .field-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .submit-btn {
+                width: 100%;
+            }
+
+            .mobile-nav {
+                position: absolute;
+                left: 10px;
+                right: 10px;
+                top: calc(100% + 8px);
+                padding: 10px;
+                border: 1px solid var(--border);
+                border-radius: 18px;
+                background: #fff;
+                box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+            }
+
+            .mobile-nav.show {
+                display: block;
+            }
+
+            .mobile-group {
+                border: 1px solid #F0EEF7;
+                border-radius: 13px;
+                background: #FCFBFF;
+                overflow: hidden;
+            }
+
+            .mobile-group+.mobile-group {
+                margin-top: 8px;
+            }
+
+            .mobile-group-title {
+                padding: 11px;
+                color: #566071;
+                font-size: 12px;
+                font-weight: 750;
+            }
+
+            .mobile-links {
+                display: grid;
+                gap: 2px;
+                padding: 0 6px 6px;
+            }
+
+            .mobile-links a {
+                padding: 9px;
+                border-radius: 9px;
+                color: #687286;
+                font-size: 11px;
+                font-weight: 650;
+            }
+
+            .mobile-links a:hover,
+            .mobile-links a.active {
+                color: var(--purple-dark);
+                background: #F6F2FF;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(13px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <a class="brand" href="student-dashboard.html">
+            <div class="brand-mark">
+                <i class="fa-solid fa-compass"></i>
+            </div>
+
+            <div>
+                <div class="brand-name">Career<span>Advisor</span></div>
+                <div class="brand-sub">STUDENT PORTAL</div>
+            </div>
+        </a>
+
+        <nav class="nav-wrap" aria-label="Student navigation">
+            <div class="nav">
+                <a class="nav-link" href="student-dashboard.html">Dashboard</a>
+                <a class="nav-link" href="student-profile.html">Profile</a>
+                <a class="nav-link" href="student-assessment.html">Assessment</a>
+
+                <div class="nav-item">
+                    <button class="nav-trigger" type="button" aria-expanded="false">
+                        Explore
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="dropdown">
+                        <div class="dropdown-title">Explore</div>
+
+                        <a class="dropdown-link" href="student-careers.html">
+                            <i class="fa-solid fa-briefcase"></i>
+                            Careers
+                        </a>
+
+                        <a class="dropdown-link" href="student-courses.html">
+                            <i class="fa-solid fa-book-open"></i>
+                            Courses
+                        </a>
+
+                        <a class="dropdown-link" href="student-colleges.html">
+                            <i class="fa-solid fa-building-columns"></i>
+                            Colleges
+                        </a>
+
+                        <a class="dropdown-link" href="student-skill-gap.html">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            Skill Gap
+                        </a>
+
+                        <a class="dropdown-link" href="student-career-roadmap.html">
+                            <i class="fa-solid fa-route"></i>
+                            Career Roadmap
+                        </a>
+                    </div>
+                </div>
+
+                <div class="nav-item">
+                    <button class="nav-trigger" type="button" aria-expanded="false">
+                        Appointment
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="dropdown">
+                        <div class="dropdown-title">Appointment</div>
+
+                        <a class="dropdown-link" href="student-MyAppoinment.html">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            My Appointment
+                        </a>
+
+                        <a class="dropdown-link" href="student-BookCounselorAppoinment.html">
+                            <i class="fa-solid fa-calendar-plus"></i>
+                            Book Appointment
+                        </a>
+                    </div>
+                </div>
+
+                <a class="nav-link" href="student-feedback.html">Feedback</a>
+            </div>
+        </nav>
+
+        <div class="account-area">
+            <button class="icon-btn" id="notificationBtn" type="button" aria-label="Notifications">
+                <i class="fa-regular fa-bell"></i>
+                <span class="notification-dot"></span>
+            </button>
+
+            <div class="account">
+                <button class="account-trigger" id="accountTrigger" type="button" aria-expanded="false">
+                    <span class="account-avatar" id="accountAvatar">S</span>
+
+                    <span class="account-copy">
+                        <span class="account-name" id="accountName">Student</span>
+                        <span class="account-role">STUDENT</span>
+                    </span>
+
+                    <i class="fa-solid fa-chevron-down account-arrow"></i>
+                </button>
+
+                <div class="account-menu">
+                    <a href="student-profile.html">
+                        <i class="fa-regular fa-user"></i>
+                        My Profile
+                    </a>
+
+                    <button class="logout" id="logoutBtn" type="button">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+
+            <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-expanded="false"
+                aria-label="Open navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-group">
+                <div class="mobile-group-title">
+                    Student
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+
+                <div class="mobile-links">
+                    <a href="student-dashboard.html">Dashboard</a>
+                    <a href="student-profile.html">Profile</a>
+                    <a href="student-assessment.html">Assessment</a>
+                    <a href="student-feedback.html">Feedback</a>
+                </div>
+            </div>
+
+            <div class="mobile-group">
+                <div class="mobile-group-title">
+                    Appointment
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+
+                <div class="mobile-links">
+                    <a href="student-MyAppoinment.html">My Appointment</a>
+                    <a class="active" href="student-BookCounselorAppoinment.html">Book Appointment</a>
+                </div>
+            </div>
+
+            <div class="mobile-group">
+                <div class="mobile-group-title">
+                    Explore
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+
+                <div class="mobile-links">
+                    <a href="student-careers.html">Careers</a>
+                    <a href="student-courses.html">Courses</a>
+                    <a href="student-colleges.html">Colleges</a>
+                    <a href="student-skill-gap.html">Skill Gap</a>
+                    <a href="student-career-roadmap.html">Career Roadmap</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <div class="breadcrumb">
+            <span>Student Portal</span>
+            <i class="fa-solid fa-chevron-right"></i>
+            <strong>Book Appointment</strong>
+        </div>
+
+        <section class="hero">
+            <div>
+                <div class="eyebrow">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Counselor Appointment
+                </div>
+
+                <h1>
+                    Book a session with the
+                    <span>right counselor.</span>
+                </h1>
+
+                <p>
+                    Choose an approved counselor, explain what you need help with,
+                    and request a convenient date and time for your counseling session.
+                </p>
+
+                <div class="meta-row">
+                    <span class="meta-pill purple">
+                        <i class="fa-solid fa-user-shield"></i>
+                        Approved counselors only
+                    </span>
+
+                    <span class="meta-pill blue">
+                        <i class="fa-solid fa-database"></i>
+                        Connected to Spring Boot
+                    </span>
+                </div>
+            </div>
+
+            <div class="quick-card">
+                <div class="quick-kicker">Appointment flow</div>
+
+                <div class="quick-icon">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+
+                <h2>Simple booking</h2>
+
+                <p>
+                    Your request is sent with your student account, selected counselor,
+                    query, date and time.
+                </p>
+
+                <div class="quick-list">
+                    <div class="quick-item">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Select an approved counselor
+                    </div>
+
+                    <div class="quick-item">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Describe your counseling need
+                    </div>
+
+                    <div class="quick-item">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Choose date and time
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="booking-card">
+            <div class="card-head">
+                <div class="card-icon">
+                    <i class="fa-solid fa-calendar-plus"></i>
+                </div>
+
+                <div>
+                    <h2>Book Counselor Appointment</h2>
+                    <p>Send your appointment request to an approved counselor.</p>
+                </div>
+            </div>
+
+            <div class="form-body">
+                <form id="appointmentForm">
+                    <div class="field-grid">
+                        <div class="field">
+                            <label class="field-label" for="profileName">
+                                Student Name
+                            </label>
+
+                            <input class="field-control" id="profileName" type="text" readonly>
+                        </div>
+
+                        <div class="field">
+                            <label class="field-label" for="profileEmail">
+                                Email Address
+                            </label>
+
+                            <input class="field-control" id="profileEmail" type="email" readonly>
+                        </div>
+
+                        <div class="field full">
+                            <label class="field-label" for="counselor">
+                                Select Counselor
+                            </label>
+
+                            <select class="field-control" id="counselor" required>
+                                <option value="">Loading counselors...</option>
+                            </select>
+
+                            <div class="field-hint">
+                                Only counselors approved by the admin panel are shown.
+                            </div>
+                        </div>
+
+                        <div class="field full">
+                            <label class="field-label" for="query">
+                                Your Query
+                            </label>
+
+                            <textarea class="field-control" id="query" placeholder="Explain what you need help with..."
+                                required></textarea>
+                        </div>
+
+                        <div class="field">
+                            <label class="field-label" for="appointmentDate">
+                                Appointment Date
+                            </label>
+
+                            <input class="field-control" id="appointmentDate" type="date" required>
+                        </div>
+
+                        <div class="field">
+                            <label class="field-label" for="appointmentTime">
+                                Appointment Time
+                            </label>
+
+                            <input class="field-control" id="appointmentTime" type="time" required>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <div class="action-note">
+                            <strong>Ready to request your session?</strong>
+                            <span>Your appointment request will be saved in the backend.</span>
+                        </div>
+
+                        <button class="submit-btn" id="submitBtn" type="submit">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            Send Appointment Request
+                        </button>
+                    </div>
+
+                    <div class="status-message" id="message" aria-live="polite"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <div class="loading" id="loadingOverlay">
+        <div class="loading-card">
+            <div class="spinner"></div>
+            <p id="loadingText">Processing appointment request...</p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = "http://localhost:8081";
+        const APPOINTMENT_API = `${API_BASE_URL}/api/appointments`;
+        const COUNSELOR_API = `${API_BASE_URL}/api/counselor/profile/approved`;
+
+        const appointmentForm = document.getElementById("appointmentForm");
+        const counselorSelect = document.getElementById("counselor");
+        const queryInput = document.getElementById("query");
+        const dateInput = document.getElementById("appointmentDate");
+        const timeInput = document.getElementById("appointmentTime");
+        const submitBtn = document.getElementById("submitBtn");
+        const messageBox = document.getElementById("message");
+        const loadingOverlay = document.getElementById("loadingOverlay");
+
+        function getToken() {
+            return localStorage.getItem("token") || "";
+        }
+
+        function getUser() {
+            const raw =
+                localStorage.getItem("user") ||
+                localStorage.getItem("student");
+
+            if (!raw) {
+                return null;
+            }
+
+            try {
+                return JSON.parse(raw);
+            } catch {
+                return null;
+            }
+        }
+
+        function getStudentId() {
+            return getUser()?.id || null;
+        }
+
+        function showMessage(message, type = "success") {
+            messageBox.textContent = message;
+            messageBox.className = `status-message ${type} show`;
+        }
+
+        function setLoading(show, text = "Processing appointment request...") {
+            loadingOverlay.classList.toggle("show", show);
+            document.getElementById("loadingText").textContent = text;
+            submitBtn.disabled = show;
+        }
+
+        function setupIdentity() {
+            const user = getUser();
+            const name =
+                user?.name ||
+                user?.fullName ||
+                user?.username ||
+                user?.email ||
+                "Student";
+
+            const initials = name
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part.charAt(0))
+                .join("")
+                .toUpperCase();
+
+            document.getElementById("accountName").textContent = name;
+            document.getElementById("accountAvatar").textContent = initials || "S";
+            document.getElementById("profileName").value = name;
+            document.getElementById("profileEmail").value = user?.email || "";
+        }
+
+        function setMinimumDate() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+
+            dateInput.min = `${year}-${month}-${day}`;
+        }
+
+        async function loadCounselors() {
+            const token = getToken();
+
+            if (!token) {
+                counselorSelect.innerHTML =
+                    `<option value="">Please login first</option>`;
+
+                showMessage(
+                    "Please login first to book a counselor appointment.",
+                    "error"
+                );
+
+                return;
+            }
+
+            counselorSelect.innerHTML =
+                `<option value="">Loading approved counselors...</option>`;
+
+            try {
+                const response = await fetch(COUNSELOR_API, {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    cache: "no-store"
+                });
+
+                if (response.status === 401 || response.status === 403) {
+                    window.location.href = "../login.html";
+                    return;
+                }
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(
+                        errorText ||
+                        `Failed to load counselors. Status ${response.status}.`
+                    );
+                }
+
+                const counselors = await response.json();
+
+                counselorSelect.innerHTML = "";
+
+                if (!Array.isArray(counselors) || counselors.length === 0) {
+                    counselorSelect.innerHTML =
+                        `<option value="">No counselors available</option>`;
+
+                    showMessage(
+                        "No approved counselors are available right now.",
+                        "info"
+                    );
+
+                    return;
+                }
+
+                counselorSelect.innerHTML =
+                    `<option value="">Select Counselor</option>`;
+
+                counselors.forEach(counselor => {
+                    const option = document.createElement("option");
+
+                    option.value = counselor.id;
+                    option.textContent =
+                        `${counselor.name || "Counselor"}` +
+                        `${counselor.specialization
+                            ? ` — ${counselor.specialization}`
+                            : ""}`;
+
+                    counselorSelect.appendChild(option);
+                });
+
+                showMessage(
+                    `${counselors.length} approved counselor${counselors.length === 1 ? "" : "s"
+                    } available.`,
+                    "info"
+                );
+            } catch (error) {
+                console.error("Counselor API Error:", error);
+
+                counselorSelect.innerHTML =
+                    `<option value="">Failed to load counselors</option>`;
+
+                showMessage(
+                    "Unable to load approved counselors. Make sure Spring Boot is running.",
+                    "error"
+                );
+            }
+        }
+
+        appointmentForm.addEventListener("submit", async event => {
+            event.preventDefault();
+
+            const token = getToken();
+
+            if (!token) {
+                showMessage("Please login first.", "error");
+                return;
+            }
+
+            const studentId = getStudentId();
+
+            if (!studentId) {
+                showMessage(
+                    "Student information not found. Please login again.",
+                    "error"
+                );
+                return;
+            }
+
+            const counselorId = counselorSelect.value;
+            const query = queryInput.value.trim();
+            const appointmentDate = dateInput.value;
+            const appointmentTime = timeInput.value;
+
+            if (!counselorId) {
+                showMessage("Please select a counselor.", "error");
+                counselorSelect.focus();
+                return;
+            }
+
+            if (!query) {
+                showMessage(
+                    "Please explain what you need help with.",
+                    "error"
+                );
+                queryInput.focus();
+                return;
+            }
+
+            if (!appointmentDate || !appointmentTime) {
+                showMessage(
+                    "Please select both the appointment date and time.",
+                    "error"
+                );
+                return;
+            }
+
+            const appointmentData = {
+                studentId,
+                counselorId: Number(counselorId),
+                query,
+                appointmentDate,
+                appointmentTime
+            };
+
+            setLoading(true);
+
+            try {
+                const response = await fetch(APPOINTMENT_API, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify(appointmentData)
+                });
+
+                if (response.status === 401 || response.status === 403) {
+                    window.location.href = "../login.html";
+                    return;
+                }
+
+                const responseText = await response.text();
+
+                if (!response.ok) {
+                    throw new Error(
+                        responseText ||
+                        `Failed to send appointment request. Status ${response.status}.`
+                    );
+                }
+
+                appointmentForm.reset();
+                setupIdentity();
+
+                showMessage(
+                    "Appointment request sent successfully. Your request has been saved.",
+                    "success"
+                );
+            } catch (error) {
+                console.error("Appointment API Error:", error);
+
+                showMessage(
+                    error.message || "Failed to send appointment request.",
+                    "error"
+                );
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        const navTriggers = document.querySelectorAll(".nav-trigger");
+        const account = document.querySelector(".account");
+        const accountTrigger = document.getElementById("accountTrigger");
+        const mobileMenuButton = document.getElementById("mobileMenuBtn");
+        const mobileNav = document.getElementById("mobileNav");
+
+        navTriggers.forEach(trigger => {
+            trigger.addEventListener("click", event => {
+                event.stopPropagation();
+
+                const item = trigger.closest(".nav-item");
+                const open = !item.classList.contains("open");
+
+                document.querySelectorAll(".nav-item.open").forEach(other => {
+                    if (other !== item) {
+                        other.classList.remove("open");
+                    }
+                });
+
+                item.classList.toggle("open", open);
+                trigger.setAttribute("aria-expanded", String(open));
+            });
+        });
+
+        accountTrigger.addEventListener("click", event => {
+            event.stopPropagation();
+
+            const open = !account.classList.contains("open");
+            account.classList.toggle("open", open);
+            accountTrigger.setAttribute("aria-expanded", String(open));
+        });
+
+        mobileMenuButton.addEventListener("click", event => {
+            event.stopPropagation();
+
+            const open = !mobileNav.classList.contains("show");
+            mobileNav.classList.toggle("show", open);
+            mobileMenuButton.setAttribute("aria-expanded", String(open));
+        });
+
+        document.addEventListener("click", event => {
+            if (!event.target.closest(".nav-item")) {
+                document.querySelectorAll(".nav-item.open").forEach(item => {
+                    item.classList.remove("open");
+                });
+            }
+
+            if (!event.target.closest(".account")) {
+                account.classList.remove("open");
+                accountTrigger.setAttribute("aria-expanded", "false");
+            }
+
+            if (
+                !event.target.closest("#mobileNav") &&
+                !event.target.closest("#mobileMenuBtn")
+            ) {
+                mobileNav.classList.remove("show");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        document.getElementById("notificationBtn").addEventListener("click", () => {
+            showMessage(
+                "Your appointment request is connected to the Spring Boot appointment service.",
+                "info"
+            );
+        });
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            localStorage.removeItem("student");
+            sessionStorage.removeItem("user");
+            window.location.href = "../login.html";
+        });
+
+        setupIdentity();
+        setMinimumDate();
+        loadCounselors();
+    </script>
+</body>
+
+</html>

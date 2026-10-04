@@ -1,0 +1,2556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments | CareerAdvisor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        :root {
+            --purple: #8B5CF6;
+            --purple-dark: #7C3AED;
+            --blue: #3B82F6;
+            --green: #22C55E;
+            --yellow: #E7A91A;
+            --red: #EF4444;
+            --bg: #FAFAFE;
+            --surface: #FFFFFF;
+            --surface-soft: #F8F6FF;
+            --text: #182238;
+            --soft: #58647A;
+            --muted: #858DA0;
+            --border: #E6E1F1;
+            --border-soft: #EFEBF6;
+            --gradient: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+            --shadow: 0 18px 48px rgba(76, 57, 145, .08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: "Space Grotesk", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 5% 4%, rgba(139, 92, 246, .10), transparent 23%),
+                radial-gradient(circle at 95% 86%, rgba(59, 130, 246, .08), transparent 28%),
+                var(--bg);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(139, 92, 246, .025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, .025) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .8), transparent 96%);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: 78px;
+            display: grid;
+            grid-template-columns: minmax(250px, 1fr) auto minmax(280px, 1fr);
+            align-items: center;
+            gap: 20px;
+            padding: 0 28px;
+            background: rgba(255, 255, 255, .95);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 28px rgba(76, 57, 145, .05);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            justify-self: start;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 12px 26px rgba(99, 102, 241, .20);
+        }
+
+        .brand-mark i {
+            font-size: 18px;
+        }
+
+        .brand-name {
+            font-size: 21px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -.6px;
+        }
+
+        .brand-name span {
+            color: var(--purple);
+        }
+
+        .brand-sub {
+            margin-top: 5px;
+            color: #939AAA;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .75px;
+        }
+
+        .nav-wrap {
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link,
+        .nav-trigger {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 13px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            background: transparent;
+            color: #606A7D;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .nav-link:hover,
+        .nav-trigger:hover,
+        .nav-item.open .nav-trigger,
+        .nav-link.active {
+            color: var(--purple-dark);
+            background: #F6F2FF;
+            border-color: #E9E3F7;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: 235px;
+            padding: 9px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 22px 52px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-7px);
+            transition: .2s ease;
+        }
+
+        .nav-item.open .dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: none;
+        }
+
+        .dropdown-title {
+            padding: 8px 10px;
+            color: #9AA2B1;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .dropdown-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            color: #667186;
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .dropdown-link:hover,
+        .dropdown-link.active {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+        }
+
+        .dropdown-link i {
+            width: 18px;
+            color: #8D96A7;
+            text-align: center;
+        }
+
+        .account-area {
+            display: flex;
+            align-items: center;
+            justify-self: end;
+            gap: 9px;
+        }
+
+        .icon-btn {
+            position: relative;
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #697488;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 7px;
+            right: 8px;
+            width: 7px;
+            height: 7px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: var(--red);
+        }
+
+        .account {
+            position: relative;
+        }
+
+        .account-trigger {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 8px 5px 5px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .account-trigger:hover,
+        .account.open .account-trigger {
+            background: #F8F7FC;
+            border-color: var(--border);
+        }
+
+        .account-avatar {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--purple-dark);
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .account-copy {
+            min-width: 105px;
+        }
+
+        .account-name {
+            display: block;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .account-role {
+            display: block;
+            margin-top: 3px;
+            color: #939AAA;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .35px;
+        }
+
+        .account-arrow {
+            color: #9AA2B0;
+            font-size: 9px;
+            transition: .2s ease;
+        }
+
+        .account.open .account-arrow {
+            transform: rotate(180deg);
+        }
+
+        .account-menu {
+            position: absolute;
+            top: calc(100% + 9px);
+            right: 0;
+            width: 205px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-7px);
+            transition: .2s ease;
+        }
+
+        .account.open .account-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: none;
+        }
+
+        .account-menu a,
+        .account-menu button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 10px;
+            border-radius: 10px;
+            color: #667186;
+            background: transparent;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .account-menu a:hover {
+            color: var(--purple-dark);
+            background: #F7F3FF;
+        }
+
+        .account-menu .logout {
+            color: #C53030;
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            color: #697488;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+        }
+
+        .content {
+            width: min(1400px, calc(100% - 60px));
+            margin: 0 auto;
+            padding: 30px 0 65px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 17px;
+            color: #969EAE;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .breadcrumb strong {
+            color: var(--text);
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr);
+            gap: 22px;
+            padding: 30px;
+            border: 1px solid rgba(139, 92, 246, .16);
+            border-radius: 24px;
+            background: linear-gradient(135deg, #fff, #FAF8FF);
+            box-shadow: var(--shadow);
+            animation: fadeUp .45s ease both;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: -270px;
+            right: -170px;
+            width: 430px;
+            height: 430px;
+            border: 1px solid rgba(139, 92, 246, .08);
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 34px rgba(139, 92, 246, .02),
+                0 0 0 72px rgba(139, 92, 246, .012);
+        }
+
+        .hero-copy,
+        .summary-card {
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 11px;
+            border: 1px solid #E7E0FA;
+            border-radius: 999px;
+            color: var(--purple-dark);
+            background: #FAF8FF;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .75px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            margin-top: 14px;
+            max-width: 780px;
+            font-size: clamp(31px, 3.6vw, 45px);
+            line-height: 1.08;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: transparent;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero p {
+            max-width: 760px;
+            margin-top: 10px;
+            color: var(--soft);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 17px;
+        }
+
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .meta-pill.purple {
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .meta-pill.blue {
+            color: #2563EB;
+            background: #EAF3FF;
+        }
+
+        .summary-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .90);
+            box-shadow: var(--shadow);
+        }
+
+        .summary-kicker {
+            color: #7B8496;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .summary-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .summary-number {
+            font-size: 31px;
+            font-weight: 800;
+            color: var(--purple-dark);
+        }
+
+        .summary-text {
+            text-align: right;
+        }
+
+        .summary-text strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .summary-text span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .summary-stat {
+            padding: 11px;
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            background: #FCFBFF;
+        }
+
+        .summary-stat strong {
+            display: block;
+            font-size: 16px;
+        }
+
+        .summary-stat span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .appointments-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 22px;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+        }
+
+        .section-title h2 {
+            font-size: 19px;
+            letter-spacing: -.3px;
+        }
+
+        .section-title p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10.5px;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            min-height: 34px;
+            padding: 0 11px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            color: #667186;
+            background: #fff;
+            font-size: 10px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: var(--purple-dark);
+            border-color: #D8CDF1;
+            background: #F4EEFF;
+        }
+
+        .appointment-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .appointment-card {
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: var(--shadow);
+            animation: fadeUp .4s ease both;
+        }
+
+        .appointment-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 3px;
+            background: var(--gradient);
+            opacity: .65;
+        }
+
+        .appointment-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .appointment-heading {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .appointment-avatar {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            color: var(--purple-dark);
+            background: linear-gradient(135deg, #EEE8FF, #E8F1FF);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .appointment-title h3 {
+            font-size: 16px;
+        }
+
+        .appointment-title p {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 9.5px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status-pending {
+            color: #9A6500;
+            background: #FFF8E7;
+            border: 1px solid #F4D98E;
+        }
+
+        .status-success {
+            color: #19754A;
+            background: #ECFAF2;
+            border: 1px solid #CDEEDC;
+        }
+
+        .status-danger {
+            color: #A52A2A;
+            background: #FFF6F6;
+            border: 1px solid #F1D3D3;
+        }
+
+        .status-change {
+            color: #966C00;
+            background: #FFF9E8;
+            border: 1px solid #F0D99D;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .detail-item {
+            padding: 11px;
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            background: #FCFBFF;
+        }
+
+        .detail-item span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .detail-item strong {
+            display: block;
+            margin-top: 5px;
+            color: var(--text);
+            font-size: 11px;
+            line-height: 1.45;
+            word-break: break-word;
+        }
+
+        .query-box {
+            margin-top: 12px;
+            padding: 13px;
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            background: #FCFBFF;
+        }
+
+        .query-box span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .query-box p {
+            margin-top: 5px;
+            color: var(--soft);
+            font-size: 11px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .proposed-time {
+            margin-top: 14px;
+            padding: 14px;
+            border: 1px solid #F1DA9E;
+            border-radius: 14px;
+            background: #FFFBEF;
+        }
+
+        .proposed-heading {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8C6500;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .proposed-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 11px;
+        }
+
+        .proposed-item {
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .72);
+        }
+
+        .proposed-item span {
+            display: block;
+            color: #9A7B2B;
+            font-size: 9px;
+        }
+
+        .proposed-item strong {
+            display: block;
+            margin-top: 4px;
+            color: #66501A;
+            font-size: 11px;
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 14px;
+        }
+
+        .btn {
+            min-height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 13px;
+            border-radius: 10px;
+            font-size: 10.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background: var(--gradient);
+            box-shadow: 0 9px 19px rgba(99, 102, 241, .18);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, .23);
+        }
+
+        .btn-soft {
+            color: var(--purple-dark);
+            border: 1px solid #DCD2F1;
+            background: #F7F3FF;
+        }
+
+        .btn-soft:hover {
+            background: #F0E9FF;
+        }
+
+        .empty-state {
+            padding: 52px 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: var(--shadow);
+        }
+
+        .empty-icon {
+            width: 54px;
+            height: 54px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 12px;
+            border-radius: 15px;
+            color: var(--purple-dark);
+            background: #F0ECFF;
+            font-size: 19px;
+        }
+
+        .empty-state h3 {
+            font-size: 17px;
+        }
+
+        .empty-state p {
+            max-width: 420px;
+            margin: 6px auto 0;
+            color: var(--muted);
+            font-size: 10.5px;
+            line-height: 1.6;
+        }
+
+        .loading {
+            position: fixed;
+            inset: 0;
+            z-index: 250;
+            display: none;
+            place-items: center;
+            background: rgba(18, 21, 38, .12);
+            backdrop-filter: blur(7px);
+        }
+
+        .loading.show {
+            display: grid;
+        }
+
+        .loading-card {
+            min-width: 270px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 25px 70px rgba(76, 57, 145, .18);
+        }
+
+        .spinner {
+            width: 34px;
+            height: 34px;
+            margin: 0 auto 12px;
+            border: 3px solid #ECEAF5;
+            border-top-color: var(--purple);
+            border-right-color: var(--blue);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        .loading-card p {
+            color: #596173;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            z-index: 300;
+            max-width: min(450px, calc(100vw - 28px));
+            padding: 12px 16px;
+            border: 1px solid #DDE7FF;
+            border-radius: 12px;
+            color: #31568C;
+            background: #F7FAFF;
+            box-shadow: 0 16px 38px rgba(76, 57, 145, .13);
+            opacity: 0;
+            transform: translate(-50%, 80px);
+            transition: .3s ease;
+            font-size: 10.5px;
+            font-weight: 700;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        .toast.error {
+            color: #A52A2A;
+            border-color: #F1D3D3;
+            background: #FFF7F7;
+        }
+
+        @media (max-width: 1120px) {
+            .detail-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1020px) {
+            .navbar {
+                grid-template-columns: 1fr auto;
+            }
+
+            .nav-wrap {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: grid;
+                place-items: center;
+            }
+
+            .account-copy {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .navbar {
+                min-height: 70px;
+                padding: 0 14px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .brand-sub {
+                display: none;
+            }
+
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
+
+            .icon-btn,
+            .mobile-menu {
+                width: 39px;
+                height: 39px;
+            }
+
+            .account-avatar {
+                width: 36px;
+                height: 36px;
+            }
+
+            .content {
+                width: calc(100% - 24px);
+                padding-top: 20px;
+            }
+
+            .hero {
+                padding: 21px;
+                border-radius: 20px;
+            }
+
+            .appointments-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .filter-row {
+                width: 100%;
+            }
+
+            .filter-btn {
+                flex: 1 1 calc(50% - 8px);
+            }
+
+            .appointment-top {
+                flex-direction: column;
+            }
+
+            .status-badge {
+                align-self: flex-start;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .proposed-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-actions {
+                justify-content: stretch;
+            }
+
+            .btn {
+                flex: 1 1 100%;
+            }
+
+            .mobile-nav {
+                position: absolute;
+                left: 10px;
+                right: 10px;
+                top: calc(100% + 8px);
+                padding: 10px;
+                border: 1px solid var(--border);
+                border-radius: 18px;
+                background: rgba(255, 255, 255, .98);
+                box-shadow: 0 20px 48px rgba(76, 57, 145, .14);
+            }
+
+            .mobile-nav.show {
+                display: block;
+            }
+
+            .mobile-group {
+                border: 1px solid #F0EEF7;
+                border-radius: 13px;
+                background: #FCFBFF;
+                overflow: hidden;
+            }
+
+            .mobile-group+.mobile-group {
+                margin-top: 8px;
+            }
+
+            .mobile-group-title {
+                padding: 11px;
+                color: #566071;
+                font-size: 12px;
+                font-weight: 750;
+            }
+
+            .mobile-links {
+                display: grid;
+                gap: 2px;
+                padding: 0 6px 6px;
+            }
+
+            .mobile-links a {
+                padding: 9px;
+                border-radius: 9px;
+                color: #687286;
+                font-size: 11px;
+                font-weight: 650;
+            }
+
+            .mobile-links a:hover,
+            .mobile-links a.active {
+                color: var(--purple-dark);
+                background: #F6F2FF;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .summary-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-btn {
+                flex: 1 1 100%;
+            }
+
+            .appointment-card {
+                padding: 16px;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(13px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <a class="brand" href="student-dashboard.html">
+            <div class="brand-mark">
+                <i class="fa-solid fa-compass"></i>
+            </div>
+
+            <div>
+                <div class="brand-name">
+                    Career<span>Advisor</span>
+                </div>
+
+                <div class="brand-sub">
+                    STUDENT PORTAL
+                </div>
+            </div>
+        </a>
+
+        <nav class="nav-wrap" aria-label="Student navigation">
+
+            <div class="nav">
+
+                <a class="nav-link" href="student-dashboard.html">
+                    Dashboard
+                </a>
+
+                <a class="nav-link" href="student-profile.html">
+                    Profile
+                </a>
+
+                <a class="nav-link" href="student-assessment.html">
+                    Assessment
+                </a>
+
+                <div class="nav-item">
+
+                    <button class="nav-trigger" type="button">
+                        Explore
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="dropdown">
+
+                        <div class="dropdown-title">
+                            Explore
+                        </div>
+
+                        <a class="dropdown-link" href="student-careers.html">
+                            <i class="fa-solid fa-briefcase"></i>
+                            Careers
+                        </a>
+
+                        <a class="dropdown-link" href="student-courses.html">
+                            <i class="fa-solid fa-book-open"></i>
+                            Courses
+                        </a>
+
+                        <a class="dropdown-link" href="student-colleges.html">
+                            <i class="fa-solid fa-building-columns"></i>
+                            Colleges
+                        </a>
+
+                        <a class="dropdown-link" href="student-skill-gap.html">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            Skill Gap
+                        </a>
+
+                        <a class="dropdown-link" href="student-career-roadmap.html">
+                            <i class="fa-solid fa-route"></i>
+                            Career Roadmap
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="nav-item">
+
+                    <button class="nav-trigger" type="button">
+                        Appointment
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="dropdown">
+
+                        <div class="dropdown-title">
+                            Appointment
+                        </div>
+
+                        <a class="dropdown-link active" href="student-MyAppoinment.html">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            My Appointment
+                        </a>
+
+                        <a class="dropdown-link" href="student-BookCounselorAppoinment.html">
+                            <i class="fa-solid fa-calendar-plus"></i>
+                            Book Appointment
+                        </a>
+
+                    </div>
+                </div>
+
+                <a class="nav-link" href="student-feedback.html">
+                    Feedback
+                </a>
+
+            </div>
+        </nav>
+
+        <div class="account-area">
+
+            <button class="icon-btn" id="notificationBtn" type="button" aria-label="Notifications">
+                <i class="fa-regular fa-bell"></i>
+                <span class="notification-dot"></span>
+            </button>
+
+            <div class="account">
+
+                <button class="account-trigger" id="accountTrigger" type="button">
+
+                    <span class="account-avatar" id="accountAvatar">
+                        S
+                    </span>
+
+                    <span class="account-copy">
+
+                        <span class="account-name" id="accountName">
+                            Student
+                        </span>
+
+                        <span class="account-role">
+                            STUDENT
+                        </span>
+
+                    </span>
+
+                    <i class="fa-solid fa-chevron-down account-arrow"></i>
+
+                </button>
+
+                <div class="account-menu">
+
+                    <a href="student-profile.html">
+                        <i class="fa-regular fa-user"></i>
+                        My Profile
+                    </a>
+
+                    <button class="logout" id="logoutBtn" type="button">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        Logout
+                    </button>
+
+                </div>
+            </div>
+
+            <button class="mobile-menu" id="mobileMenuBtn" type="button" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </div>
+
+        <div class="mobile-nav" id="mobileNav">
+
+            <div class="mobile-group">
+
+                <div class="mobile-group-title">
+                    Student
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+
+                <div class="mobile-links">
+
+                    <a href="student-dashboard.html">
+                        Dashboard
+                    </a>
+
+                    <a href="student-profile.html">
+                        Profile
+                    </a>
+
+                    <a href="student-assessment.html">
+                        Assessment
+                    </a>
+
+                    <a href="student-feedback.html">
+                        Feedback
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="mobile-group">
+
+                <div class="mobile-group-title">
+                    Appointment
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+
+                <div class="mobile-links">
+
+                    <a class="active" href="student-MyAppoinment.html">
+                        My Appointment
+                    </a>
+
+                    <a href="student-BookCounselorAppoinment.html">
+                        Book Appointment
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="mobile-group">
+
+                <div class="mobile-group-title">
+                    Explore
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+
+                <div class="mobile-links">
+
+                    <a href="student-careers.html">
+                        Careers
+                    </a>
+
+                    <a href="student-courses.html">
+                        Courses
+                    </a>
+
+                    <a href="student-colleges.html">
+                        Colleges
+                    </a>
+
+                    <a href="student-skill-gap.html">
+                        Skill Gap
+                    </a>
+
+                    <a href="student-career-roadmap.html">
+                        Career Roadmap
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+    </header>
+
+    <main class="content">
+
+        <div class="breadcrumb">
+            <span>Student Portal</span>
+            <i class="fa-solid fa-chevron-right"></i>
+            <strong>My Appointments</strong>
+        </div>
+
+        <section class="hero">
+
+            <div class="hero-copy">
+
+                <div class="eyebrow">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Counselor Appointments
+                </div>
+
+                <h1>
+                    Stay on top of your
+                    <span>counseling sessions.</span>
+                </h1>
+
+                <p>
+                    View your appointment requests, track counselor responses,
+                    accept proposed time changes, and join confirmed online meetings.
+                </p>
+
+                <div class="meta-row">
+
+                    <span class="meta-pill purple">
+                        <i class="fa-solid fa-clock"></i>
+                        Live appointment status
+                    </span>
+
+                    <span class="meta-pill blue">
+                        <i class="fa-solid fa-database"></i>
+                        Connected to Spring Boot
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="summary-card">
+
+                <div class="summary-kicker">
+                    Appointment overview
+                </div>
+
+                <div class="summary-main">
+
+                    <div class="summary-number" id="totalAppointments">
+                        0
+                    </div>
+
+                    <div class="summary-text">
+                        <strong>Total Appointments</strong>
+                        <span>Linked to your student account</span>
+                    </div>
+
+                </div>
+
+                <div class="summary-stats">
+
+                    <div class="summary-stat">
+                        <strong id="pendingCount">0</strong>
+                        <span>Pending</span>
+                    </div>
+
+                    <div class="summary-stat">
+                        <strong id="confirmedCount">0</strong>
+                        <span>Confirmed</span>
+                    </div>
+
+                    <div class="summary-stat">
+                        <strong id="changeCount">0</strong>
+                        <span>Time Change</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="appointments-header">
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+
+                <div>
+                    <h2>My Appointments</h2>
+
+                    <p>
+                        Track every counselor appointment request from one place.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="filter-row">
+
+                <button class="filter-btn active" type="button" data-filter="ALL">
+                    All
+                </button>
+
+                <button class="filter-btn" type="button" data-filter="PENDING">
+                    Pending
+                </button>
+
+                <button class="filter-btn" type="button" data-filter="CONFIRMED">
+                    Confirmed
+                </button>
+
+                <button class="filter-btn" type="button" data-filter="TIME_CHANGE_REQUESTED">
+                    Time Change
+                </button>
+
+                <button class="filter-btn" type="button" data-filter="REJECTED">
+                    Rejected
+                </button>
+
+            </div>
+
+        </div>
+
+        <section id="appointmentsContainer" class="appointment-list">
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                </div>
+
+                <h3>
+                    Loading your appointments
+                </h3>
+
+                <p>
+                    Fetching your latest counselor appointment requests.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <div class="loading" id="loadingOverlay">
+
+        <div class="loading-card">
+
+            <div class="spinner"></div>
+
+            <p id="loadingText">
+                Updating appointment...
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const API_URL = "http://localhost:8081/api/appointments";
+
+        let appointments = [];
+        let currentFilter = "ALL";
+        let toastTimer = null;
+
+        const container =
+            document.getElementById("appointmentsContainer");
+
+        function getToken() {
+            return localStorage.getItem("token") || "";
+        }
+
+        function getUser() {
+            const userData =
+                localStorage.getItem("user") ||
+                localStorage.getItem("student");
+
+            if (!userData) {
+                return null;
+            }
+
+            try {
+                return JSON.parse(userData);
+            } catch {
+                return null;
+            }
+        }
+
+        function getStudentId() {
+            return getUser()?.id || null;
+        }
+
+        function setupAccount() {
+            const user = getUser();
+
+            const name =
+                user?.name ||
+                user?.fullName ||
+                user?.username ||
+                user?.email ||
+                "Student";
+
+            const initials = name
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part.charAt(0))
+                .join("")
+                .toUpperCase();
+
+            document.getElementById("accountName").textContent = name;
+            document.getElementById("accountAvatar").textContent =
+                initials || "S";
+        }
+
+        function showToast(message, isError = false) {
+            const toast =
+                document.getElementById("toast");
+
+            toast.textContent = message;
+
+            toast.className =
+                `toast${isError ? " error" : ""} show`;
+
+            clearTimeout(toastTimer);
+
+            toastTimer = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3200);
+        }
+
+        function setLoading(show, message) {
+            document
+                .getElementById("loadingOverlay")
+                .classList.toggle("show", show);
+
+            document.getElementById("loadingText").textContent =
+                message || "Updating appointment...";
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(
+                /[&<>"']/g,
+                character => ({
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+                }[character])
+            );
+        }
+
+        function formatValue(value, fallback = "Not scheduled") {
+            return value === null ||
+                value === undefined ||
+                String(value).trim() === ""
+                ? fallback
+                : String(value);
+        }
+
+        function getStatusClass(status) {
+
+            if (
+                status === "ACCEPTED" ||
+                status === "CONFIRMED"
+            ) {
+                return "status-success";
+            }
+
+            if (status === "REJECTED") {
+                return "status-danger";
+            }
+
+            if (
+                status === "TIME_CHANGE_REQUESTED"
+            ) {
+                return "status-change";
+            }
+
+            return "status-pending";
+        }
+
+        function getStatusIcon(status) {
+
+            if (
+                status === "ACCEPTED" ||
+                status === "CONFIRMED"
+            ) {
+                return "fa-circle-check";
+            }
+
+            if (status === "REJECTED") {
+                return "fa-circle-xmark";
+            }
+
+            if (
+                status === "TIME_CHANGE_REQUESTED"
+            ) {
+                return "fa-clock";
+            }
+
+            return "fa-hourglass-half";
+        }
+
+        function getCounselorDisplay(appointment) {
+            return (
+                appointment.counselorName ||
+                appointment.counselor?.name ||
+                (
+                    appointment.counselorId
+                        ? `Counselor #${appointment.counselorId}`
+                        : "Counselor"
+                )
+            );
+        }
+
+        function renderSummary() {
+
+            const pending =
+                appointments.filter(
+                    item => item.status === "PENDING"
+                ).length;
+
+            const confirmed =
+                appointments.filter(
+                    item =>
+                        item.status === "CONFIRMED" ||
+                        item.status === "ACCEPTED"
+                ).length;
+
+            const timeChange =
+                appointments.filter(
+                    item =>
+                        item.status === "TIME_CHANGE_REQUESTED"
+                ).length;
+
+            document.getElementById("totalAppointments").textContent =
+                appointments.length;
+
+            document.getElementById("pendingCount").textContent =
+                pending;
+
+            document.getElementById("confirmedCount").textContent =
+                confirmed;
+
+            document.getElementById("changeCount").textContent =
+                timeChange;
+        }
+
+        function getFilteredAppointments() {
+
+            if (currentFilter === "ALL") {
+                return appointments;
+            }
+
+            if (currentFilter === "CONFIRMED") {
+                return appointments.filter(
+                    item =>
+                        item.status === "CONFIRMED" ||
+                        item.status === "ACCEPTED"
+                );
+            }
+
+            return appointments.filter(
+                item => item.status === currentFilter
+            );
+        }
+
+        function renderEmpty(
+            title = "No appointments found",
+            description =
+                "You do not have any appointments matching this view."
+        ) {
+
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fa-regular fa-calendar-xmark"></i>
+                    </div>
+
+                    <h3>${escapeHtml(title)}</h3>
+
+                    <p>
+                        ${escapeHtml(description)}
+                    </p>
+
+                    <div class="card-actions">
+                        <a
+                            class="btn btn-primary"
+                            href="student-BookCounselorAppoinment.html"
+                        >
+                            <i class="fa-solid fa-calendar-plus"></i>
+                            Book an Appointment
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAppointments() {
+
+            const list =
+                getFilteredAppointments();
+
+            if (!list.length) {
+                renderEmpty();
+                return;
+            }
+
+            container.innerHTML = "";
+
+            list.forEach(appointment => {
+
+                const status =
+                    appointment.status || "PENDING";
+
+                const counselor =
+                    getCounselorDisplay(appointment);
+
+                const initials =
+                    counselor
+                        .split(/\s+/)
+                        .filter(Boolean)
+                        .slice(0, 2)
+                        .map(part => part.charAt(0))
+                        .join("")
+                        .toUpperCase() || "C";
+
+                const card =
+                    document.createElement("article");
+
+                card.className =
+                    "appointment-card";
+
+                card.innerHTML = `
+                    <div class="appointment-top">
+
+                        <div class="appointment-heading">
+
+                            <div class="appointment-avatar">
+                                ${escapeHtml(initials)}
+                            </div>
+
+                            <div class="appointment-title">
+
+                                <h3>
+                                    ${escapeHtml(counselor)}
+                                </h3>
+
+                                <p>
+                                    Appointment ID:
+                                    ${escapeHtml(appointment.id)}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <span
+                            class="status-badge ${getStatusClass(status)}"
+                        >
+                            <i class="fa-solid ${getStatusIcon(status)}"></i>
+                            ${escapeHtml(status.replaceAll("_", " "))}
+                        </span>
+
+                    </div>
+
+                    <div class="detail-grid">
+
+                        <div class="detail-item">
+                            <span>Counselor ID</span>
+                            <strong>
+                                ${escapeHtml(
+                    formatValue(
+                        appointment.counselorId,
+                        "Not available"
+                    )
+                )}
+                            </strong>
+                        </div>
+
+                        <div class="detail-item">
+                            <span>Date</span>
+                            <strong>
+                                ${escapeHtml(
+                    formatValue(
+                        appointment.appointmentDate
+                    )
+                )}
+                            </strong>
+                        </div>
+
+                        <div class="detail-item">
+                            <span>Time</span>
+                            <strong>
+                                ${escapeHtml(
+                    formatValue(
+                        appointment.appointmentTime
+                    )
+                )}
+                            </strong>
+                        </div>
+
+                        <div class="detail-item">
+                            <span>Session</span>
+                            <strong>
+                                ${appointment.meetingLink
+                        ? "Online meeting"
+                        : "Counseling session"
+                    }
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <div class="query-box">
+
+                        <span>Your Query</span>
+
+                        <p>
+                            ${escapeHtml(
+                        appointment.query ||
+                        "No query provided"
+                    )}
+                        </p>
+
+                    </div>
+                `;
+
+                if (
+                    status === "TIME_CHANGE_REQUESTED"
+                ) {
+
+                    const proposed =
+                        document.createElement("div");
+
+                    proposed.className =
+                        "proposed-time";
+
+                    proposed.innerHTML = `
+                        <div class="proposed-heading">
+                            <i class="fa-solid fa-clock"></i>
+                            Counselor Suggested New Time
+                        </div>
+
+                        <div class="proposed-grid">
+
+                            <div class="proposed-item">
+                                <span>New Date</span>
+                                <strong>
+                                    ${escapeHtml(
+                        formatValue(
+                            appointment.proposedDate,
+                            "Not available"
+                        )
+                    )}
+                                </strong>
+                            </div>
+
+                            <div class="proposed-item">
+                                <span>New Time</span>
+                                <strong>
+                                    ${escapeHtml(
+                        formatValue(
+                            appointment.proposedTime,
+                            "Not available"
+                        )
+                    )}
+                                </strong>
+                            </div>
+
+                        </div>
+                    `;
+
+                    card.appendChild(proposed);
+
+                    const actions =
+                        document.createElement("div");
+
+                    actions.className =
+                        "card-actions";
+
+                    const acceptButton =
+                        document.createElement("button");
+
+                    acceptButton.className =
+                        "btn btn-primary";
+
+                    acceptButton.type = "button";
+
+                    acceptButton.innerHTML = `
+                        <i class="fa-solid fa-check"></i>
+                        Accept New Time
+                    `;
+
+                    acceptButton.addEventListener(
+                        "click",
+                        () =>
+                            acceptNewTime(
+                                appointment.id
+                            )
+                    );
+
+                    actions.appendChild(
+                        acceptButton
+                    );
+
+                    card.appendChild(actions);
+                }
+
+                if (
+                    status === "CONFIRMED" &&
+                    appointment.meetingLink
+                ) {
+
+                    const actions =
+                        document.createElement("div");
+
+                    actions.className =
+                        "card-actions";
+
+                    const meetingLink =
+                        document.createElement("a");
+
+                    meetingLink.className =
+                        "btn btn-primary";
+
+                    meetingLink.href =
+                        appointment.meetingLink;
+
+                    meetingLink.target = "_blank";
+                    meetingLink.rel = "noopener noreferrer";
+
+                    meetingLink.innerHTML = `
+                        <i class="fa-solid fa-video"></i>
+                        Join Online Meeting
+                    `;
+
+                    actions.appendChild(
+                        meetingLink
+                    );
+
+                    card.appendChild(actions);
+                }
+
+                container.appendChild(card);
+            });
+        }
+
+        async function loadAppointments() {
+
+            const token = getToken();
+
+            if (!token) {
+
+                showToast(
+                    "Please login first.",
+                    true
+                );
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+            }
+
+            const studentId =
+                getStudentId();
+
+            if (!studentId) {
+
+                renderEmpty(
+                    "Student information not found",
+                    "Please login again to load your appointments."
+                );
+
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                    </div>
+
+                    <h3>
+                        Loading your appointments
+                    </h3>
+
+                    <p>
+                        Fetching your latest counselor appointment requests.
+                    </p>
+                </div>
+            `;
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/student/${encodeURIComponent(studentId)}`,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                Accept: "application/json",
+                                Authorization:
+                                    "Bearer " + token
+                            },
+
+                            cache: "no-store"
+                        }
+                    );
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    window.location.href =
+                        "../login.html";
+
+                    return;
+                }
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Failed to load appointments. Status ${response.status}.`
+                    );
+                }
+
+                const data =
+                    await response.json();
+
+                appointments =
+                    Array.isArray(data)
+                        ? data
+                        : [];
+
+                renderSummary();
+                renderAppointments();
+
+            } catch (error) {
+
+                console.error(
+                    "Appointments Error:",
+                    error
+                );
+
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fa-solid fa-plug-circle-xmark"></i>
+                        </div>
+
+                        <h3>
+                            Unable to load appointments
+                        </h3>
+
+                        <p>
+                            Make sure the Spring Boot backend is running
+                            and try refreshing the page.
+                        </p>
+
+                        <div class="card-actions">
+                            <button
+                                class="btn btn-primary"
+                                type="button"
+                                id="retryAppointments"
+                            >
+                                <i class="fa-solid fa-rotate-right"></i>
+                                Try Again
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                document
+                    .getElementById("retryAppointments")
+                    ?.addEventListener(
+                        "click",
+                        loadAppointments
+                    );
+            }
+        }
+
+        async function acceptNewTime(
+            appointmentId
+        ) {
+
+            const token =
+                getToken();
+
+            if (!token) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+            }
+
+            setLoading(
+                true,
+                "Accepting the proposed appointment time..."
+            );
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/${encodeURIComponent(
+                            appointmentId
+                        )}/accept-proposed-time`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                Accept: "application/json",
+                                Authorization:
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    window.location.href =
+                        "../login.html";
+
+                    return;
+                }
+
+                if (!response.ok) {
+
+                    const errorText =
+                        await response.text();
+
+                    throw new Error(
+                        errorText ||
+                        "Failed to accept the proposed time."
+                    );
+                }
+
+                showToast(
+                    "New appointment time accepted successfully."
+                );
+
+                await loadAppointments();
+
+            } catch (error) {
+
+                console.error(
+                    "Appointment Update Error:",
+                    error
+                );
+
+                showToast(
+                    error.message ||
+                    "Failed to accept the proposed time.",
+                    true
+                );
+
+            } finally {
+
+                setLoading(false);
+            }
+        }
+
+        document
+            .querySelectorAll(".filter-btn")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        currentFilter =
+                            button.dataset.filter;
+
+                        document
+                            .querySelectorAll(
+                                ".filter-btn"
+                            )
+                            .forEach(item => {
+
+                                item.classList.toggle(
+                                    "active",
+                                    item === button
+                                );
+
+                            });
+
+                        renderAppointments();
+                    }
+                );
+
+            });
+
+        document
+            .getElementById("notificationBtn")
+            .addEventListener(
+                "click",
+                () => {
+
+                    showToast(
+                        "Your appointment status is shown on this page."
+                    );
+
+                }
+            );
+
+        document
+            .getElementById("logoutBtn")
+            .addEventListener(
+                "click",
+                () => {
+
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("student");
+                    sessionStorage.removeItem("user");
+
+                    window.location.href =
+                        "../login.html";
+                }
+            );
+
+        const navTriggers =
+            document.querySelectorAll(
+                ".nav-trigger"
+            );
+
+        const account =
+            document.querySelector(".account");
+
+        const accountTrigger =
+            document.getElementById(
+                "accountTrigger"
+            );
+
+        const mobileMenuButton =
+            document.getElementById(
+                "mobileMenuBtn"
+            );
+
+        const mobileNav =
+            document.getElementById(
+                "mobileNav"
+            );
+
+        navTriggers.forEach(
+            trigger => {
+
+                trigger.addEventListener(
+                    "click",
+                    event => {
+
+                        event.stopPropagation();
+
+                        const item =
+                            trigger.closest(
+                                ".nav-item"
+                            );
+
+                        const open =
+                            !item.classList.contains(
+                                "open"
+                            );
+
+                        document
+                            .querySelectorAll(
+                                ".nav-item.open"
+                            )
+                            .forEach(
+                                other => {
+
+                                    if (
+                                        other !== item
+                                    ) {
+                                        other.classList.remove(
+                                            "open"
+                                        );
+                                    }
+
+                                }
+                            );
+
+                        item.classList.toggle(
+                            "open",
+                            open
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+        accountTrigger.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                account.classList.toggle(
+                    "open"
+                );
+
+            }
+        );
+
+        mobileMenuButton.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                mobileNav.classList.toggle(
+                    "show"
+                );
+
+            }
+        );
+
+        document.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    !event.target.closest(
+                        ".nav-item"
+                    )
+                ) {
+
+                    document
+                        .querySelectorAll(
+                            ".nav-item.open"
+                        )
+                        .forEach(
+                            item =>
+                                item.classList.remove(
+                                    "open"
+                                )
+                        );
+
+                }
+
+                if (
+                    !event.target.closest(
+                        ".account"
+                    )
+                ) {
+
+                    account.classList.remove(
+                        "open"
+                    );
+
+                }
+
+                if (
+                    !event.target.closest(
+                        "#mobileNav"
+                    ) &&
+                    !event.target.closest(
+                        "#mobileMenuBtn"
+                    )
+                ) {
+
+                    mobileNav.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+        window.addEventListener(
+            "resize",
+            () => {
+
+                if (
+                    window.innerWidth > 1020
+                ) {
+
+                    mobileNav.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+        setupAccount();
+        loadAppointments();
+    </script>
+
+</body>
+
+</html>
