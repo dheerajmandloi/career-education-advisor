@@ -1302,6 +1302,11 @@
                     Profile
                 </a>
 
+                <a class="nav-link" href="counselor-appoinments.html">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Appointments
+                </a>
+
                 <div class="nav-item">
                     <button class="nav-trigger" type="button" aria-expanded="false">
                         Workspace
@@ -1311,12 +1316,12 @@
                     <div class="dropdown">
                         <div class="dropdown-title">Counselor Workspace</div>
 
-                        <a class="dropdown-link" href="#" id="studentsLink">
+                        <a class="dropdown-link" href="counselor-students.html" id="studentsLink">
                             <i class="fa-solid fa-user-graduate"></i>
                             Students
                         </a>
 
-                        <a class="dropdown-link" href="#" id="consultationsLink">
+                        <a class="dropdown-link" href="counselor-consultations.html" id="consultationsLink">
                             <i class="fa-solid fa-calendar-check"></i>
                             Consultations
                         </a>
@@ -1382,6 +1387,10 @@
                 <div class="mobile-links">
                     <a class="active" href="counselor-dashboard.html">Dashboard</a>
                     <a href="counselor-profile.html">Profile</a>
+
+                    <a href="counselor-appoinments.html">
+                        Appointments
+                    </a>
                 </div>
             </div>
 
@@ -1389,8 +1398,13 @@
                 <div class="mobile-group-title">Workspace</div>
 
                 <div class="mobile-links">
-                    <a href="#" id="mobileStudentsLink">Students</a>
-                    <a href="#" id="mobileConsultationsLink">Consultations</a>
+                    <a href="counselor-students.html" id="mobileStudentsLink">
+                        Students
+                    </a>
+
+                    <a href="counselor-consultations.html" id="mobileConsultationsLink">
+                        Consultations
+                    </a>
                 </div>
             </div>
 
@@ -1740,7 +1754,7 @@
 
             </a>
 
-            <a class="quick-card" href="#" id="studentsCard">
+            <a class="quick-card" href="counselor-students.html" id="studentsCard">
 
                 <div>
 
@@ -1763,7 +1777,7 @@
 
             </a>
 
-            <a class="quick-card" href="#" id="consultationsCard">
+            <a class="quick-card" href="counselor-consultations.html" id="consultationsCard">
 
                 <div>
 
@@ -2403,44 +2417,6 @@
                     "No new counselor notifications."
                 );
             }
-        );
-
-        function showWorkspaceMessage(event) {
-            event.preventDefault();
-
-            showToast(
-                "This counselor workspace will be connected to its backend module in the next step."
-            );
-        }
-
-        studentsLink.addEventListener(
-            "click",
-            showWorkspaceMessage
-        );
-
-        consultationsLink.addEventListener(
-            "click",
-            showWorkspaceMessage
-        );
-
-        mobileStudentsLink.addEventListener(
-            "click",
-            showWorkspaceMessage
-        );
-
-        mobileConsultationsLink.addEventListener(
-            "click",
-            showWorkspaceMessage
-        );
-
-        studentsCard.addEventListener(
-            "click",
-            showWorkspaceMessage
-        );
-
-        consultationsCard.addEventListener(
-            "click",
-            showWorkspaceMessage
         );
 
         logoutButton.addEventListener(
