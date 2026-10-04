@@ -23,6 +23,18 @@ public class AssessmentQuestion {
     private String optionC;
     private String optionD;
 
+    // Score category for each option
+    private String optionACategory;
+    private String optionBCategory;
+    private String optionCCategory;
+    private String optionDCategory;
+
+    // Score for each option
+    private int optionAScore;
+    private int optionBScore;
+    private int optionCScore;
+    private int optionDScore;
+
     private String classGroup; // 9_10 or 11_12
     private String stream; // ALL, PCB, PCM, Commerce, Arts
     private String category;
@@ -70,6 +82,70 @@ public class AssessmentQuestion {
 
     public void setOptionD(String optionD) {
         this.optionD = optionD;
+    }
+
+    public String getOptionACategory() {
+        return optionACategory;
+    }
+
+    public void setOptionACategory(String optionACategory) {
+        this.optionACategory = optionACategory;
+    }
+
+    public String getOptionBCategory() {
+        return optionBCategory;
+    }
+
+    public void setOptionBCategory(String optionBCategory) {
+        this.optionBCategory = optionBCategory;
+    }
+
+    public String getOptionCCategory() {
+        return optionCCategory;
+    }
+
+    public void setOptionCCategory(String optionCCategory) {
+        this.optionCCategory = optionCCategory;
+    }
+
+    public String getOptionDCategory() {
+        return optionDCategory;
+    }
+
+    public void setOptionDCategory(String optionDCategory) {
+        this.optionDCategory = optionDCategory;
+    }
+
+    public int getOptionAScore() {
+        return optionAScore;
+    }
+
+    public void setOptionAScore(int optionAScore) {
+        this.optionAScore = optionAScore;
+    }
+
+    public int getOptionBScore() {
+        return optionBScore;
+    }
+
+    public void setOptionBScore(int optionBScore) {
+        this.optionBScore = optionBScore;
+    }
+
+    public int getOptionCScore() {
+        return optionCScore;
+    }
+
+    public void setOptionCScore(int optionCScore) {
+        this.optionCScore = optionCScore;
+    }
+
+    public int getOptionDScore() {
+        return optionDScore;
+    }
+
+    public void setOptionDScore(int optionDScore) {
+        this.optionDScore = optionDScore;
     }
 
     public String getClassGroup() {

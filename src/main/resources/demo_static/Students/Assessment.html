@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Student Assessment</title>
 
     <style>
@@ -14,6 +15,13 @@
 
         .question {
             margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .option {
+            margin: 8px 0;
         }
 
         button {
@@ -27,7 +35,15 @@
         }
 
         .error {
-            color: red;
+            color: red !important;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: none;
         }
     </style>
 </head>
@@ -36,235 +52,815 @@
 
     <h1>Student Assessment</h1>
 
-    <label for="classGroup">Select Class:</label>
+
+    <!-- ========================= -->
+    <!-- CLASS -->
+    <!-- ========================= -->
+
+    <label for="classGroup">
+        Select Class:
+    </label>
+
     <select id="classGroup">
-        <option value="">Select Class</option>
-        <option value="9_10">9th / 10th</option>
-        <option value="11_12">11th / 12th</option>
+        <option value="">
+            Select Class
+        </option>
+
+        <option value="9_10">
+            9th / 10th
+        </option>
+
+        <option value="11_12">
+            11th / 12th
+        </option>
     </select>
+
 
     <br><br>
 
-    <label for="stream">Select Stream:</label>
+
+    <!-- ========================= -->
+    <!-- STREAM -->
+    <!-- ========================= -->
+
+    <label for="stream">
+        Select Stream:
+    </label>
+
     <select id="stream">
-        <option value="ALL">General</option>
-        <option value="PCB">PCB</option>
-        <option value="PCM">PCM</option>
-        <option value="Commerce">Commerce</option>
-        <option value="Arts">Arts</option>
-        <option value="Other">Other</option>
+
+        <option value="ALL">
+            General
+        </option>
+
+        <option value="PCB">
+            PCB
+        </option>
+
+        <option value="PCM">
+            PCM
+        </option>
+
+        <option value="Commerce">
+            Commerce
+        </option>
+
+        <option value="Arts">
+            Arts
+        </option>
+
+        <option value="Other">
+            Other
+        </option>
+
     </select>
 
+
     <br><br>
+
+
+    <!-- ========================= -->
+    <!-- START -->
+    <!-- ========================= -->
 
     <button type="button" onclick="loadQuestions()">
+
         Start Assessment
+
     </button>
+
 
     <hr>
 
+
+    <!-- ========================= -->
+    <!-- QUESTIONS -->
+    <!-- ========================= -->
+
     <form id="assessmentForm"></form>
 
+
+    <br>
+
+
+    <!-- ========================= -->
+    <!-- SUBMIT -->
+    <!-- ========================= -->
+
     <button id="submitButton" type="button" onclick="submitAssessment()" hidden>
+
         Submit Assessment
+
     </button>
+
+
+    <!-- ========================= -->
+    <!-- MESSAGE -->
+    <!-- ========================= -->
 
     <p id="message"></p>
 
+
+    <!-- ========================= -->
+    <!-- RESULT -->
+    <!-- ========================= -->
+
+    <div id="result">
+
+        <h2>Assessment Result</h2>
+
+        <p>
+            <strong>Top Category:</strong>
+            <span id="topCategory"></span>
+        </p>
+
+        <p>
+            <strong>Top Score:</strong>
+            <span id="topScore"></span>
+        </p>
+
+        <h3>Category Scores</h3>
+
+        <div id="categoryScores"></div>
+
+    </div>
+
+
     <script>
-        const API_BASE_URL = "http://localhost:8081";
+
+        // =========================
+        // API
+        // =========================
+
+        const API_BASE_URL =
+            "http://localhost:8081";
+
 
         const QUESTIONS_API =
-            API_BASE_URL + "/api/assessment/questions";
+            API_BASE_URL +
+            "/api/assessment/questions";
+
 
         const SUBMIT_API =
-            API_BASE_URL + "/api/assessment/submit";
+            API_BASE_URL +
+            "/api/assessment/submit";
 
+
+        // Store questions
         let questions = [];
 
+
+        // =========================
+        // LOAD QUESTIONS
+        // =========================
+
         async function loadQuestions() {
+
             const classGroup =
-                document.getElementById("classGroup").value;
+                document.getElementById(
+                    "classGroup"
+                ).value;
+
 
             const stream =
-                document.getElementById("stream").value;
+                document.getElementById(
+                    "stream"
+                ).value;
+
 
             const message =
-                document.getElementById("message");
+                document.getElementById(
+                    "message"
+                );
+
 
             const form =
-                document.getElementById("assessmentForm");
+                document.getElementById(
+                    "assessmentForm"
+                );
+
+
+            const submitButton =
+                document.getElementById(
+                    "submitButton"
+                );
+
+
+            // Validate class
 
             if (!classGroup) {
-                message.className = "error";
-                message.textContent = "Please select your class.";
+
+                message.className =
+                    "error";
+
+                message.textContent =
+                    "Please select your class.";
+
                 return;
             }
 
+
+            // Clear previous questions
+
             form.innerHTML = "";
+
+            submitButton.hidden = true;
+
+
             message.className = "";
-            message.textContent = "Loading questions...";
+
+            message.textContent =
+                "Loading questions...";
+
 
             try {
+
+                // Build API URL
+
                 let url =
                     QUESTIONS_API +
                     "?classGroup=" +
-                    encodeURIComponent(classGroup);
+                    encodeURIComponent(
+                        classGroup
+                    );
 
-                if (classGroup === "11_12") {
-                    url += "&stream=" + encodeURIComponent(stream);
+
+                /*
+                 * Stream filtering is required
+                 * for 11_12 students.
+                 */
+
+                if (
+                    classGroup === "11_12"
+                ) {
+
+                    url +=
+                        "&stream=" +
+                        encodeURIComponent(
+                            stream
+                        );
                 }
 
-                const response = await fetch(url);
+
+                // Call backend
+
+                const response =
+                    await fetch(url);
+
 
                 if (!response.ok) {
-                    const errorText = await response.text();
+
+                    const errorText =
+                        await response.text();
+
 
                     throw new Error(
                         "Questions could not be loaded. Status " +
                         response.status +
-                        (errorText ? ": " + errorText : "")
+                        (
+                            errorText
+                                ? ": " + errorText
+                                : ""
+                        )
                     );
                 }
 
-                questions = await response.json();
 
-                if (questions.length === 0) {
+                // Convert response to JSON
+
+                questions =
+                    await response.json();
+
+
+                // Check questions
+
+                if (
+                    questions.length === 0
+                ) {
+
                     throw new Error(
                         "No questions found for this class and stream."
                     );
                 }
 
+
+                // Display questions
+
                 displayQuestions();
 
-                document.getElementById("submitButton").hidden = false;
+
+                // Show submit button
+
+                submitButton.hidden =
+                    false;
+
+
                 message.textContent =
-                    questions.length + " questions loaded.";
+                    questions.length +
+                    " questions loaded.";
+
 
             } catch (error) {
-                message.className = "error";
-                message.textContent = error.message;
+
+                console.error(error);
+
+
+                message.className =
+                    "error";
+
+
+                message.textContent =
+                    error.message;
+
             }
+
         }
 
+
+        // =========================
+        // DISPLAY QUESTIONS
+        // =========================
+
         function displayQuestions() {
+
             const form =
-                document.getElementById("assessmentForm");
+                document.getElementById(
+                    "assessmentForm"
+                );
+
 
             form.innerHTML = "";
 
-            questions.forEach((question, index) => {
-                const questionBox =
-                    document.createElement("div");
 
-                questionBox.className = "question";
+            questions.forEach(
+                (question, index) => {
 
-                questionBox.innerHTML = `
-    <p>
-        <strong>
-            ${index + 1}. ${question.questionText}
-        </strong>
-    </p>
+                    const questionBox =
+                        document.createElement(
+                            "div"
+                        );
 
-    <label>
-        <input type="radio" name="question_${question.id}" value="${question.optionA}" required>
-        ${question.optionA}
-    </label>
-    <br>
 
-    <label>
-        <input type="radio" name="question_${question.id}" value="${question.optionB}">
-        ${question.optionB}
-    </label>
-    <br>
+                    questionBox.className =
+                        "question";
 
-    <label>
-        <input type="radio" name="question_${question.id}" value="${question.optionC}">
-        ${question.optionC}
-    </label>
-    <br>
 
-    <label>
-        <input type="radio" name="question_${question.id}" value="${question.optionD}">
-        ${question.optionD}
-    </label>
-    `;
+                    questionBox.innerHTML = `
 
-                form.appendChild(questionBox);
-            });
+                        <p>
+                            <strong>
+                                ${index + 1}.
+                                ${escapeHtml(
+                        question.questionText
+                    )}
+                            </strong>
+                        </p>
+
+
+                        <div class="option">
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="question_${question.id}"
+                                    value="A"
+                                    required
+                                >
+
+                                A.
+                                ${escapeHtml(
+                        question.optionA
+                    )}
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="option">
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="question_${question.id}"
+                                    value="B"
+                                >
+
+                                B.
+                                ${escapeHtml(
+                        question.optionB
+                    )}
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="option">
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="question_${question.id}"
+                                    value="C"
+                                >
+
+                                C.
+                                ${escapeHtml(
+                        question.optionC
+                    )}
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="option">
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="question_${question.id}"
+                                    value="D"
+                                >
+
+                                D.
+                                ${escapeHtml(
+                        question.optionD
+                    )}
+
+                            </label>
+
+                        </div>
+
+                    `;
+
+
+                    form.appendChild(
+                        questionBox
+                    );
+
+                }
+            );
+
         }
 
+
+        // =========================
+        // SUBMIT ASSESSMENT
+        // =========================
+
         async function submitAssessment() {
+
             const form =
-                document.getElementById("assessmentForm");
+                document.getElementById(
+                    "assessmentForm"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "message"
+                );
+
+
+            // Check all required questions
 
             if (!form.checkValidity()) {
+
                 form.reportValidity();
+
                 return;
             }
 
+
+            // Answers object
+
             const answers = {};
 
-            questions.forEach(question => {
-                const selected =
-                    document.querySelector(
-                        `input[name="question_${question.id}"]:checked`
-                    );
 
-                if (selected) {
-                    answers["q" + question.id] =
-                        selected.value;
+            /*
+             * IMPORTANT:
+             *
+             * Backend expects:
+             *
+             * {
+             *     "1": "A",
+             *     "2": "C",
+             *     "3": "B"
+             * }
+             *
+             * NOT:
+             *
+             * {
+             *     "q1": "Building software"
+             * }
+             */
+
+
+            questions.forEach(
+                question => {
+
+                    const selected =
+                        document.querySelector(
+                            `input[name="question_${question.id}"]:checked`
+                        );
+
+
+                    if (selected) {
+
+                        /*
+                         * Question ID
+                         *       ↓
+                         * Selected option
+                         *
+                         * Example:
+                         * "4": "A"
+                         */
+
+                        answers[
+                            String(
+                                question.id
+                            )
+                        ] =
+                            selected.value;
+
+                    }
+
                 }
-            });
+            );
+
+
+            // Build payload
 
             const payload = {
+
                 classGroup:
-                    document.getElementById("classGroup").value,
+                    document.getElementById(
+                        "classGroup"
+                    ).value,
+
 
                 stream:
-                    document.getElementById("stream").value,
+                    document.getElementById(
+                        "stream"
+                    ).value,
 
-                answers: answers
+
+                answers:
+                    answers
+
             };
 
+
+            console.log(
+                "Assessment Payload:",
+                payload
+            );
+
+
+            message.className = "";
+
+            message.textContent =
+                "Submitting assessment...";
+
+
             try {
-                const response = await fetch(SUBMIT_API, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(payload)
-                });
+
+                const response =
+                    await fetch(
+                        SUBMIT_API,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    payload
+                                )
+                        }
+                    );
+
 
                 if (!response.ok) {
-                    const errorText = await response.text();
+
+                    const errorText =
+                        await response.text();
+
 
                     throw new Error(
                         "Assessment submission failed. Status " +
                         response.status +
-                        (errorText ? ": " + errorText : "")
+                        (
+                            errorText
+                                ? ": " + errorText
+                                : ""
+                        )
                     );
+
                 }
 
-                const result = await response.json();
+
+                // Get backend result
+
+                const result =
+                    await response.json();
+
+
+                console.log(
+                    "Assessment Result:",
+                    result
+                );
+
+
+                // Save result
 
                 localStorage.setItem(
                     "assessmentResult",
-                    JSON.stringify(result)
+                    JSON.stringify(
+                        result
+                    )
                 );
 
-                document.getElementById("message").textContent =
+
+                // Show result
+
+                displayResult(
+                    result
+                );
+
+
+                message.className = "";
+
+                message.textContent =
                     "Assessment submitted successfully.";
 
-                window.location.href =
-                    "CourseRecommendation.html";
+
+                /*
+                 * Redirect after a short delay.
+                 *
+                 * Remove this redirect if you want
+                 * the result to stay on this page.
+                 */
+
+                setTimeout(
+                    () => {
+
+                        window.location.href =
+                            "CourseRecommendation.html";
+
+                    },
+                    1500
+                );
+
 
             } catch (error) {
-                document.getElementById("message").className = "error";
-                document.getElementById("message").textContent =
+
+                console.error(error);
+
+
+                message.className =
+                    "error";
+
+
+                message.textContent =
                     error.message;
+
             }
+
         }
+
+
+        // =========================
+        // DISPLAY RESULT
+        // =========================
+
+        function displayResult(
+            result
+        ) {
+
+            const resultBox =
+                document.getElementById(
+                    "result"
+                );
+
+
+            const topCategory =
+                document.getElementById(
+                    "topCategory"
+                );
+
+
+            const topScore =
+                document.getElementById(
+                    "topScore"
+                );
+
+
+            const categoryScores =
+                document.getElementById(
+                    "categoryScores"
+                );
+
+
+            topCategory.textContent =
+                result.topCategory ||
+                "General";
+
+
+            topScore.textContent =
+                result.topScore ?? 0;
+
+
+            categoryScores.innerHTML =
+                "";
+
+
+            const scores =
+                result.scores || {};
+
+
+            Object.entries(
+                scores
+            ).forEach(
+                ([category, score]) => {
+
+                    const p =
+                        document.createElement(
+                            "p"
+                        );
+
+
+                    p.textContent =
+                        category +
+                        " : " +
+                        score;
+
+
+                    categoryScores.appendChild(
+                        p
+                    );
+
+                }
+            );
+
+
+            resultBox.style.display =
+                "block";
+
+        }
+
+
+        // =========================
+        // HTML ESCAPE
+        // =========================
+
+        function escapeHtml(
+            value
+        ) {
+
+            if (!value) {
+                return "";
+            }
+
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
     </script>
 
 </body>
